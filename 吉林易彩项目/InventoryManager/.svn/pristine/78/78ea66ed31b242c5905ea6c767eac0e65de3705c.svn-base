@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="leadup">
+    <!-- 得到引上段 -->
+    <select id="getLeadup" parameterClass="manage.leadup.pojo.LeadupPojo" resultClass="manage.leadup.pojo.LeadupPojo">
+        select
+			t.id,t.leadupName,t.mantainance,t.length,t.startType,t.startId,
+			t.startName,t.endType,t.endId,t.endName,t.propertyNature,t.propertyComp,
+			t.dataQualitier,t.maintainer,t.deleteflag,t.createTime,t.creater,
+			t.lastUpTime,t.lastUpMan,t.remark,t.resNum,t.maintainLength
+ 		from leadupstage t where t.deleteflag ='0'
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="id"> t.id = #id#</isNotNull>
+            <isNotEmpty prepend=" AND " property="leadupName"><![CDATA[ t.leadupName like #leadupName#]]></isNotEmpty>
+            <isNotEmpty prepend=" AND " property="mantainance"> t.mantainance like '%$mantainance$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="length"> t.length=#length#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="startType"> t.startType=#startType#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="startId"> t.startId = #startId#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="startName"> t.startName like '%$startName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="endType"> t.endType=#endType#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="endId"> t.endId=#endId#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="endName"> t.endName like '%$endName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="propertyNature"> t.propertyNature=#propertyNature#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="propertyComp"> t.propertyComp=#propertyComp#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dataQualitier"> t.dataQualitier=#dataQualitier#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintainer"> t.maintainer=#maintainer#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="createTime"> t.createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="creater"> t.creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="deleteflag"> t.deleteflag=#deleteflag#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="remark"> t.remark like '%$remark$%'</isNotEmpty>
+        </dynamic>
+        <dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+    </select>
+    
+    
+    <!-- 得到引上段信息 -->
+    <select id="getLeadupObj" parameterClass="manage.leadup.pojo.LeadupPojo" resultClass="manage.leadup.pojo.LeadupPojo">
+        select
+			t.id,t.leadupName,t.mantainance,t.length,t.startType,t.startId,
+			t.startName,t.endType,t.endId,t.endName,t.propertyNature,t.propertyComp,
+			t.dataQualitier,t.maintainer,t.deleteflag,t.createTime,t.creater,
+			t.lastUpTime,t.lastUpMan,t.remark,t.resNum,t.maintainLength
+ 		from leadupstage t where t.deleteflag ='0'
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="id"> t.id = #id#</isNotNull>
+        </dynamic>
+    </select>
+    
+    
+    <!-- 引上段数据 -->
+    <select id="getLeadupCount" parameterClass="manage.leadup.pojo.LeadupPojo" resultClass="Integer">
+         select count(*) from leadupstage t where t.deleteflag ='0'
+         <dynamic prepend="">
+            <isNotNull prepend=" AND " property="id"> t.id = #id#</isNotNull>
+            <isNotEmpty prepend=" AND " property="leadupName"> t.leadupName like '%$leadupName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="mantainance"> t.mantainance like '%$mantainance$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="length"> t.length=#length#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="startType"> t.startType=#startType#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="startId"> t.startId = #startId#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="startName"> t.startName like '%$startName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="endType"> t.endType=#endType#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="endId"> t.endId=#endId#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="endName"> t.endName like '%$endName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="propertyNature"> t.propertyNature=#propertyNature#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="propertyComp"> t.propertyComp=#propertyComp#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dataQualitier"> t.dataQualitier=#dataQualitier#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintainer"> t.maintainer=#maintainer#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="createTime"> t.createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="creater"> t.creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="deleteflag"> t.deleteflag=#deleteflag#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="remark"> t.remark like '%$remark$%'</isNotEmpty>
+        </dynamic>
+    </select>
+    
+    <!-- 修改引上段 -->
+    <update id="upLeadup" parameterClass="manage.leadup.pojo.LeadupPojo">
+        update leadupstage t set lastUpTime =now(),resMotion=null
+        <dynamic prepend=" , ">
+            <isNotEmpty prepend=" , " property="leadupName"> t.leadupName = #leadupName#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="mantainance"> t.mantainance = #mantainance#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="length"> t.length=#length#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="startType"> t.startType=#startType#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="startId"> t.startId = #startId#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="startName"> t.startName = #startName#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="endType"> t.endType=#endType#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="endId"> t.endId=#endId#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="endName"> t.endName = #endName#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="propertyNature"> t.propertyNature=#propertyNature#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="propertyComp"> t.propertyComp=#propertyComp#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="dataQualitier"> t.dataQualitier=#dataQualitier#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="maintainer"> t.maintainer=#maintainer#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="createTime"> t.createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="creater"> t.creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="deleteflag"> t.deleteflag=#deleteflag#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="remark"> t.remark = #remark#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="maintainLength"> t.maintainLength = #maintainLength#</isNotEmpty>
+        </dynamic>
+         <dynamic prepend=" where ">
+            <isNotEmpty prepend=" AND" property="id">t.id = #id#</isNotEmpty>
+        </dynamic>
+    </update>
+    
+    
+    <!-- 增加引上 -->
+    <insert id="insertLeadup" parameterClass="manage.leadup.pojo.LeadupPojo">
+        insert into leadupstage(
+        	leadupName,mantainance,length,startType,startId,startName,
+        	endType,endId,endName,propertyNature,propertyComp,dataQualitier,
+        	maintainer,deleteflag,createTime,creater,remark,
+        	maintainLength,longitude,latitude,startLon,startLat,endLon,endLat
+        )
+        values
+        (
+        	#leadupName#,#mantainance#,#length#,#startType#,#startId#,#startName#,
+        	#endType#,#endId#,#endName#,#propertyNature#,#propertyComp#,#dataQualitier#,
+        	#maintainer#,0,now(),#creater#,#remark#,
+        	#maintainLength#,#longitude#,#latitude#,#startLon#,#startLat#,#endLon#,#endLat#
+        )
+        <selectKey resultClass="int" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+    </insert>
+    
+    <!-- 批量删除引上段 -->
+    <delete id="delLeadup" parameterClass="java.lang.String">
+        delete from leadupstage where id in ($ids:String$)
+    </delete>
+    
+    
+    <!-- 得到撑点数据 -->
+    <select id="getSupportPoint" parameterClass="manage.leadup.pojo.SupportPointPojo" resultClass="manage.leadup.pojo.SupportPointPojo">
+        select t.id,t.sportName,t.status,t.maintMode,t.purpose,t.maintArea,
+        t.maintDept,t.longitude,t.latitude,t.propertyNature,t.dataQualitier,t.propertyComp,
+        t.maintainer,t.createTime,t.creater,t.deleteflag,t.lastUpTime,t.lastUpMan,t.resNum
+        from job_support_point t where t.deleteflag = 0
+        <dynamic prepend="">
+             <isNotNull prepend=" AND " property="id"> t.id = #id#</isNotNull>
+             <isNotEmpty prepend=" AND " property="sportName"> <![CDATA[ t.sportName like #sportName#]]> </isNotEmpty>
+             <isNotEmpty prepend=" AND " property="status"> t.status=#status#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="maintMode"> t.maintMode=#maintMode#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="purpose"> t.purpose=#purpose#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="maintArea"> t.maintArea like '%$maintArea$%'</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="maintDept"> t.maintDept=#maintDept#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="propertyNature"> t.propertyNature=#propertyNature#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="dataQualitier"> t.dataQualitier=#dataQualitier#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="maintainer"> t.maintainer=#maintainer#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="createTime"> t.createTime=#createTime#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="creater"> t.creater=#creater#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="deleteflag"> t.deleteflag=#deleteflag#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="lastUpTime"> t.lastUpTime=#lastUpTime#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="lastUpMan"> t.lastUpMan=#lastUpMan#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="resNum"> t.resNum=#resNum#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="lats"><![CDATA[ latitude >= #lats# ]]></isNotEmpty>
+			<isNotEmpty prepend=" AND " property="late"><![CDATA[ latitude <= #late# ]]></isNotEmpty>
+			<isNotEmpty prepend=" AND " property="lons"><![CDATA[ longitude >= #lons# ]]></isNotEmpty>
+			<isNotEmpty prepend=" AND " property="lone"><![CDATA[ longitude <= #lone# ]]></isNotEmpty>
+        </dynamic>
+        <dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+    </select>
+    
+    <!-- 根据主键得到数据 -->
+    <select id="getSupportPointObj" parameterClass="Integer" resultClass="manage.leadup.pojo.SupportPointPojo">
+        select t.id,t.sportName,t.status,t.maintMode,t.purpose,t.maintArea,
+        t.maintDept,t.longitude,t.latitude,t.propertyNature,t.dataQualitier,t.propertyComp,
+        t.maintainer,t.createTime,t.creater,t.deleteflag,t.lastUpTime,t.lastUpMan,t.resNum
+        from job_support_point t where t.id = #id#
+    </select>
+    
+     <select id="getSupportPointCount" parameterClass="manage.leadup.pojo.SupportPointPojo" resultClass="Integer">
+        select count(*)
+        from job_support_point t where t.deleteflag = 0
+        <dynamic prepend="">
+             <isNotNull prepend=" AND " property="id"> t.id = #id#</isNotNull>
+             <isNotEmpty prepend=" AND " property="sportName"> t.sportName like '%$sportName$%'</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="status"> t.status=#status#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="maintMode"> t.maintMode=#maintMode#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="purpose"> t.purpose=#purpose#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="maintArea"> t.maintArea=#maintArea#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="maintDept"> t.maintDept=#maintDept#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="propertyNature"> t.propertyNature=#propertyNature#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="dataQualitier"> t.dataQualitier=#dataQualitier#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="maintainer"> t.maintainer=#maintainer#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="createTime"> t.createTime=#createTime#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="creater"> t.creater=#creater#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="deleteflag"> t.deleteflag=#deleteflag#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="lastUpTime"> t.lastUpTime=#lastUpTime#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="lastUpMan"> t.lastUpMan=#lastUpMan#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="resNum"> t.resNum=#resNum#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="lats"><![CDATA[ latitude >= #lats# ]]></isNotEmpty>
+			<isNotEmpty prepend=" AND " property="late"><![CDATA[ latitude <= #late# ]]></isNotEmpty>
+			<isNotEmpty prepend=" AND " property="lons"><![CDATA[ longitude >= #lons# ]]></isNotEmpty>
+			<isNotEmpty prepend=" AND " property="lone"><![CDATA[ longitude <= #lone# ]]></isNotEmpty>
+        </dynamic>
+    </select>
+    
+     
+     <!-- 修改撑点 -->
+     <update id="upSupportPoint" parameterClass="manage.leadup.pojo.SupportPointPojo" >
+        update job_support_point t set t.lastUpTime=now(),resMotion = null
+        <dynamic prepend=",">
+             <isNotEmpty prepend=" , " property="sportName">t.sportName=#sportName#</isNotEmpty>
+             <isNotEmpty prepend=" , " property="status">t.status=#status#</isNotEmpty>
+             <isNotEmpty prepend=" , " property="maintMode">t.maintMode=#maintMode#</isNotEmpty>
+             <isNotEmpty prepend=" , " property="purpose">t.purpose=#purpose#</isNotEmpty>
+             <isNotEmpty prepend=" , " property="maintArea">t.maintArea=#maintArea#</isNotEmpty>
+             <isNotEmpty prepend=" , " property="maintDept">t.maintDept=#maintDept#</isNotEmpty>
+             <isNotEmpty prepend=" , " property="longitude">t.longitude=#longitude#</isNotEmpty>
+             <isNotEmpty prepend=" , " property="latitude">t.latitude=#latitude#</isNotEmpty>
+             <isNotEmpty prepend=" , " property="propertyNature">t.propertyNature=#propertyNature#</isNotEmpty>
+             <isNotEmpty prepend=" , " property="dataQualitier">t.dataQualitier=#dataQualitier#</isNotEmpty>
+             <isNotEmpty prepend=" , " property="maintainer">t.maintainer=#maintainer#</isNotEmpty>
+             <isNotEmpty prepend=" , " property="creater">t.creater=#creater#</isNotEmpty>
+             <isNotEmpty prepend=" , " property="deleteflag">t.deleteflag=#deleteflag#</isNotEmpty>
+             <isNotEmpty prepend=" , " property="lastUpMan">t.lastUpMan=#lastUpMan#</isNotEmpty>
+        </dynamic>
+       <dynamic prepend=" where ">
+            <isNotEmpty prepend=" AND" property="id">t.id=#id#</isNotEmpty>
+        </dynamic>
+    </update>
+    
+     <!-- 增加撑点 -->
+     <insert id="insertSupportPoint" parameterClass="manage.leadup.pojo.SupportPointPojo">
+        insert into job_support_point(
+        	sportName,status,maintMode,purpose,maintArea,
+        	propertyComp,maintDept,longitude,latitude,propertyNature,dataQualitier,
+        	maintainer,createTime,creater,deleteflag,lastUpTime,lastUpMan
+        )
+        values
+        (
+        	#sportName#,#status#,#maintMode#,#purpose#,#maintArea#,
+        	#propertyComp#,#maintDept#,#longitude#,#latitude#,#propertyNature#,#dataQualitier#,
+        	#maintainer#,now(),#creater#,0,#lastUpTime#,#lastUpMan#
+        )
+        <selectKey resultClass="int" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+    </insert>
+    
+     
+     <!-- 得到挂墙 -->
+      <select id="getHangWall" parameterClass="manage.leadup.pojo.HangWallPojo" resultClass="manage.leadup.pojo.HangWallPojo">
+        select
+			t.id,t.hangWallName,t.maintMode,t.maintArea,t.direction,t.purpose,t.username,
+			t.systemLevel,t.hangLength,t.maintLength,t.startDeviceId,t.startDeviceName,
+			t.endDeviceId,t.endDeviceName,t.propertyNature,t.propertyComp,
+			t.dataQualitier,t.maintainer,t.deleteflag,t.createTime,t.creater,
+			t.lastUpTime,t.resNum,t.maintainLength
+ 		from hang_wall t where t.deleteflag ='0'
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="id"> t.id = #id#</isNotNull>
+            <isNotEmpty prepend=" AND " property="hangWallName"> <![CDATA[ t.hangWallName like #hangWallName#]]></isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintMode"> t.maintMode=#maintMode#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintArea"> t.maintArea like '%$maintArea$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="direction"> t.direction=#direction#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="purpose"> t.purpose = #purpose#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="username"> t.username like '%$username$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="systemLevel"> t.systemLevel=#systemLevel#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="hangLength"> t.hangLength=#hangLength#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintLength"> t.maintLength=#maintLength#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="startDeviceId"> t.startDeviceId=#startDeviceId#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="startDeviceName"> t.startDeviceName=#startDeviceName#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="endDeviceId"> t.endDeviceId=#endDeviceId#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="endDeviceName"> t.endDeviceName=#endDeviceName#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="propertyComp"> t.propertyComp=#propertyComp#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dataQualitier"> t.dataQualitier=#dataQualitier#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintainer"> t.maintainer=#maintainer#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="createTime"> t.createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="creater"> t.creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="deleteflag"> t.deleteflag=#deleteflag#</isNotEmpty>
+        </dynamic>
+        <dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+    </select>
+    
+    <!-- 得到挂墙的数据 -->
+    <select id="getHanlWallCount" parameterClass="manage.leadup.pojo.HangWallPojo" resultClass="Integer">
+        select count(*)
+        from hang_wall t where t.deleteflag = 0
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="id"> t.id = #id#</isNotNull>
+            <isNotEmpty prepend=" AND " property="hangWallName"> t.hangWallName like '%$hangWallName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintMode"> t.maintMode=#maintMode#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintArea"> t.maintArea like '%$maintArea$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="direction"> t.direction=#direction#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="purpose"> t.purpose = #purpose#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="username"> t.username like '%$username$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="systemLevel"> t.systemLevel=#systemLevel#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="hangLength"> t.hangLength=#hangLength#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintLength"> t.maintLength=#maintLength#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="startDeviceId"> t.startDeviceId=#startDeviceId#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="startDeviceName"> t.startDeviceName=#startDeviceName#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="endDeviceId"> t.endDeviceId=#endDeviceId#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="endDeviceName"> t.endDeviceName=#endDeviceName#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="propertyComp"> t.propertyComp=#propertyComp#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dataQualitier"> t.dataQualitier=#dataQualitier#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintainer"> t.maintainer=#maintainer#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="createTime"> t.createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="creater"> t.creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="deleteflag"> t.deleteflag=#deleteflag#</isNotEmpty>
+        </dynamic>
+    </select>
+    
+    <!-- 增加挂墙 -->
+    <insert id="insertHanlWall" parameterClass="manage.leadup.pojo.HangWallPojo">
+        insert into hang_wall(
+        	hangWallName,maintMode,maintArea,direction,purpose,username,
+			systemLevel,hangLength,maintLength,startDeviceId,startDeviceName,
+			endDeviceId,endDeviceName,propertyNature,propertyComp,
+			dataQualitier,maintainer,deleteflag,createTime,creater,maintainLength
+        )
+        values
+        (
+        	#hangWallName#,#maintMode#,#maintArea#,#direction#,#purpose#,#username#,
+			#systemLevel#,#hangLength#,#maintLength#,#startDeviceId#,#startDeviceName#,
+			#endDeviceId#,#endDeviceName#,#propertyNature#,#propertyComp#,
+			#dataQualitier#,#maintainer#,0,now(),#creater#,#maintainLength#
+        )
+        <selectKey resultClass="int" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+    </insert>
+    
+    
+    <!-- 批量删除撑点数据 -->
+    <delete id="delSupportPoint" parameterClass="java.lang.String">
+        delete from job_support_point where id in ($ids:String$)
+    </delete>
+    
+    <!-- 修改挂墙 -->
+    <update id="upHanlWall" parameterClass="manage.leadup.pojo.HangWallPojo" >
+        update hang_wall t set t.lastUpTime=now()
+        <dynamic prepend=",">
+            <isNotEmpty prepend=" , " property="hangWallName"> t.hangWallName =#hangWallName#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="maintMode"> t.maintMode=#maintMode#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="maintArea"> t.maintArea =#maintArea#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="direction"> t.direction=#direction#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="purpose"> t.purpose = #purpose#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="username"> t.username =#username#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="systemLevel"> t.systemLevel=#systemLevel#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="hangLength"> t.hangLength=#hangLength#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="maintLength"> t.maintLength=#maintLength#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="startDeviceId"> t.startDeviceId=#startDeviceId#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="startDeviceName"> t.startDeviceName=#startDeviceName#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="endDeviceId"> t.endDeviceId=#endDeviceId#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="endDeviceName"> t.endDeviceName=#endDeviceName#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="propertyComp"> t.propertyComp=#propertyComp#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="dataQualitier"> t.dataQualitier=#dataQualitier#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="maintainer"> t.maintainer=#maintainer#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="deleteflag"> t.deleteflag=#deleteflag#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="maintainLength"> t.maintainLength=#maintainLength#</isNotEmpty>
+        </dynamic>
+       <dynamic prepend=" where ">
+            <isNotEmpty prepend=" AND" property="id">t.id=#id#</isNotEmpty>
+        </dynamic>
+    </update>
+    
+    <!-- 批量删除撑点数据 -->
+    <delete id="delHangWall" parameterClass="java.lang.String">
+        delete from hang_wall where id in ($ids:String$)
+    </delete>
+</sqlMap>

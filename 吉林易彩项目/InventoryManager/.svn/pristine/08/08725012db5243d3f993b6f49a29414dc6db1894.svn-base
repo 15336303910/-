@@ -1,0 +1,21 @@
+.order-background-green {
+	color: #006000;
+	background-color: #BBFFBB;
+}
+
+.order-background-orange {
+	color: #D94600;
+	background-color: #FFCBB3;
+}
+
+.order-background-red {
+	background-color: #FFD2D2;
+	color: #FF0000;
+}
+.order-background-black {
+	background-color: #FFD2D2;
+	color: #000000;
+}
+.order-sel-textfield-width{
+	width:80px;
+}

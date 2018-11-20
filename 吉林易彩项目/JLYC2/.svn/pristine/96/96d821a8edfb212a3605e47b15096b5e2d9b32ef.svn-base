@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>新增管线信息</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../../../css/mui.min.css">
+		<!--App自定义的css-->
+		<link href="../../../css/mui.picker.css" rel="stylesheet" />
+		<link href="../../../css/mui.poppicker.css" rel="stylesheet" />
+		<script src="../../../js/mui.min.js"></script>
+		<script src="../../../js/jquery-1.12.3.js"></script>
+		<script src="../../../js/mui.picker.js"></script>
+		<script src="../../../js/mui.poppicker.js"></script>
+		<script src="../../../js/city.data.js"></script>
+		<script src="../../../js/city.data-3.js"></script>
+		<script src="js/pipeDetail.js"></script>
+		<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.2&amp;key=f256f09cbe5b5303b39bf4c43bf72c0b"></script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">管道系统</h1>
+		</header>
+		<footer id="foot_btn" class="mui-bar mui-bar-footer" style="position: fixed; bottom: 0; left: 0;right: 0;">
+			<table class="mui-button-row" style="width: 100%;margin-top: 2px;">
+				<th><button id="lineSegBtn" class="btn-primary" onclick="getPipeSeg()">管道段</button></th>
+				<th><button id="poleBtn" class="btn-primary" onclick="getWell()">管&nbsp;&nbsp;井</button></th>
+				<th><button id="submit_btn" class="btn-primary" onclick="submitPipe()">提&nbsp;&nbsp;交</button></th>
+			</table>
+		</footer>
+
+		<form class="mui-content mui-input-group" >
+			<div id="iCenter"></div>
+			<div class="mui-input-row " style="width: 100%; ">
+				<label style="width: 30%; float: left;">系统名称:</label>
+				<input type="text" class="mui-input-clear"  id="lineName" value="" style="width: 60%; float: left;" placeholder="管线系统名称"/>
+				<input type="hidden" id="id"  value="" />
+				<input type="hidden" id="resNum"  value="" />
+				<img style="width: 10%;" src="../../../image/map/current.png"  onclick="getLineName()"/>
+			</div>
+			<div class="mui-input-row">
+				<label>管线类型:</label>
+				<select id="lineType" class="mui-btn-block">
+					<option value="0" >杆路</option>
+					<option value="1">直埋</option>
+					<option value="2" selected="true">管道</option>
+					<option value="3">挂墙</option>
+					<option value="4">光缆</option>
+				</select>
+			</div>
+			<div class="mui-input-row">
+				<label>方位:</label>
+				<select id="direction" class="mui-btn-block">
+					<option value="0">东</option>
+					<option value="1">南</option>
+					<option value="2">西</option>
+					<option value="3">北</option>
+					<option value="4">中</option>
+					<option value="5">绿化带</option>
+				</select>
+			</div>
+			<div class="mui-input-row">
+				<label style="width: 30%; float: left;">地市区县:</label>
+				<input type="text" class="mui-input-clear"  readonly="true" id="lineArea"  value="" style="width: 50%; float: left;" placeholder="维护区县"/>
+				<button id='showCityPicker3' style="width: 20%; float: right;"  type='button'>地市</button>
+			</div>
+			<div class="mui-input-row">
+				<label>产权性质:</label>
+				<select id="propertyNature" class="mui-btn-block">
+					<option value="0">自建</option>
+					<option value="1">合建</option>
+					<option value="2">共建</option>
+					<option value="3">租用</option>
+					<option value="4">购买</option>
+					<option value="5">置换</option>
+					<option value="6">其他</option>
+				</select>
+			</div>
+			<div class="mui-input-row">
+				<label>产权单位:</label>
+				<select id="propertyComp" class="mui-btn-block">
+					<option value="0">中国移动</option>
+					<option value="1">中国联通</option>
+					<option value="2">中国电信</option>
+					<option value="3">中国铁通</option>
+					<option value="4">广电</option>
+					<option value="5">电力</option>
+					<option value="6">业主</option>
+					<option value="7">其他</option>
+				</select>
+			</div>
+			<div class="mui-input-row">
+				<label>计算长度:</label>
+				<input type="text" class="mui-input-clear"  id="countLength" value="" readonly="true" style="width: 70%; float: left;" />
+			</div>
+			<div class="mui-input-row">
+				<label>维护长度:</label>
+				<input type="text" class="mui-input-clear"  id="maintainLength"  value="" readonly="true" style="width: 70%; float: left;" />
+			</div>
+			<div class="mui-input-row">
+				<label style="width: 30%; float: left;">备注:</label>
+				<textarea style="width: 70%; float: left;" id="remark"  rows="3">
+					
+				</textarea>
+			</div>
+		</form>
+		<script>
+			var wellId,mapObj,pipeId;
+			(function($, doc) {
+				$.ready(function() {
+					var _getParam = function(obj, param) {
+						return obj[param] || '';
+					};
+					var cityPicker3 = new $.PopPicker({
+						layer: 3
+					});
+					cityPicker3.setData(cityData3);
+					var showCityPickerButton = doc.getElementById('showCityPicker3');
+					showCityPickerButton.addEventListener('tap', function(event) {
+						var address = "";
+						cityPicker3.show(function(items) {
+							if(_getParam(items[0], 'text') == _getParam(items[1], 'text')){
+								address =_getParam(items[1], 'text') + "_" + _getParam(items[2], 'text')+"_";
+							}else{
+								address =_getParam(items[0], 'text') + "_" + _getParam(items[1], 'text') + "_" + _getParam(items[2], 'text');
+							}
+							document.getElementById("lineArea").value =address;
+						});
+					}, false);
+				});
+			})(mui, document);
+			mui.plusReady(function(){
+				initPipe();
+				mui.preload({
+					url:'pipeDetail.html',
+					id:"pipeDetail.html",
+					styles:{},
+					extras:{}
+				});
+			})
+			
+			
+		</script>
+	</body>
+</html>

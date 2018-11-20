@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="user">	
+
+	<!-- 查询用户 -->
+	<select id="getUserList" parameterClass="manage.user.pojo.UserInfoBean" resultClass="manage.user.pojo.UserInfoBean">
+	   SELECT u.userId userId,u.username username, u.realname realname,u.modulestr modulestr,u.phoneNumber phoneNumber, 
+	   		  u.lastip lastip,u.lasteid lasteid, u.lasttime lasttime,u.areano areano,u.roleId roleId,
+	   		  d.domainName areaName, d.responsibleid responsibleid,r.roleName rolename,u.groupId,u.groupName
+	   FROM sys_user u,sys_domain d,sys_role r WHERE u.areano = d.domainCode and u.roleId=r.roleId
+	   <dynamic prepend="">
+	    	<isNotNull prepend="AND" property="userId"> u.userId=#userId# </isNotNull>
+	    	<isNotEmpty prepend="AND" property="username"> u.username like '%$username$%' </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="realname"> u.realname like '%$realname$%' </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="phoneNumber"> u.phoneNumber like '%$phoneNumber$%' </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="areano"> u.areano = #areano# </isNotEmpty>
+	    	<isNotNull prepend="AND" property="roleId"> u.roleId=#roleId# </isNotNull>
+	    </dynamic>
+	    <dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="sort"> ORDER BY $sort$ </isNotEmpty>
+	    	<isNotEmpty prepend=" " property="dir">  $dir$ </isNotEmpty>
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+	</select>
+	
+	<!-- 返回当前符合条件的用户总数 -->
+	<select id="getUserCount" parameterClass="manage.user.pojo.UserInfoBean" resultClass="Integer">
+	   SELECT COUNT(*) FROM sys_user u,sys_domain d,sys_role r WHERE u.areano = d.domainCode and u.roleId=r.roleId
+	   <dynamic prepend="">
+	    	<isNotNull prepend="AND" property="userId"> u.userId=#userId# </isNotNull>
+	    	<isNotEmpty prepend="AND" property="username"> u.username like '%$username$%' </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="realname"> u.realname like '%$realname$%' </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="phoneNumber"> u.phoneNumber like '%$phoneNumber$%' </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="areano"> u.areano = #areano# </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="groupId"> u.groupId = #groupId# </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="groupName"> u.groupName = #groupName# </isNotEmpty>
+	    </dynamic>
+	</select>
+	<!-- 检查用户是否已存在 -->
+	<select id="verifyUserCount" parameterClass="manage.user.pojo.UserInfoBean" resultClass="Integer">
+		SELECT COUNT(*) FROM sys_user WHERE username = #username#
+	</select>
+	<select id="getPowerstrs" parameterClass="manage.main.pojo.MenuInfoBean" resultClass="manage.main.pojo.MenuInfoBean">
+		SELECT * FROM sys_menu WHERE leaf = '1' 
+		<dynamic prepend="">
+	    	<isNotNull prepend="AND" property="id">  id=#id#  </isNotNull>
+	    	<isNotEmpty prepend="AND" property="code"> code = #code# </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="name"> name = #name#  </isNotEmpty>
+	    </dynamic>
+	</select>
+	<!-- 添加新用户SQL -->
+	<insert id="insertNewUwer" parameterClass="manage.user.pojo.UserInfoBean" >
+		INSERT INTO sys_user (username,password,realname,modulestr,phoneNumber,areano,roleId,groupId,groupName) 
+			VALUES (#username#,#password#,#realname#,#modulestr#,#phoneNumber#,#areano#,#roleId#,#groupId#,#groupName#) 
+			<selectKey resultClass="int" keyProperty="userId" > 
+				SELECT LAST_INSERT_ID() AS userId
+			</selectKey>
+	</insert>
+	<!-- 获取地区节点 -->
+	<select id="getDomainNode" parameterClass="manage.domain.pojo.DomainBean" resultClass="manage.domain.pojo.DomainBean">
+		SELECT domainId,domainCode,domainName,parentId,isParent,responsibleid FROM sys_domain 
+		<dynamic prepend="WHERE">
+	    	<isNotNull prepend="AND" property="domainId">  domainId=#domainId#  </isNotNull>
+	    	<isNotEmpty prepend="AND" property="domainCode"> domainCode = #domainCode# </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="parentId"> parentId = #parentId#  </isNotEmpty>
+	    </dynamic>
+	</select>
+	<!-- 插入用户权限信息 -->
+	<insert id="insertUserPowers" parameterClass="manage.main.pojo.MenuInfoBean">
+		INSERT INTO sys_user_powers (userid,menucode)values(#userId#,#code#)
+	</insert>
+	<select id="getPowers" parameterClass="manage.main.pojo.MenuInfoBean" resultClass="manage.main.pojo.MenuInfoBean">
+		select * from sys_user_powers where userId = #userId# and menucode=#code#
+	</select>
+	<!-- 根据用户ID删除用户 -->
+	<delete id="deleteUser" parameterClass="manage.user.pojo.UserInfoBean"  >
+		DELETE FROM sys_user WHERE userId = #userId#
+	</delete>
+	<!-- 根据用户ID查询用户已有权限信息 -->
+	<select id="getUserPowers" parameterClass="manage.main.pojo.MenuInfoBean" resultClass="String">
+		SELECT menucode FROM sys_user_powers p LEFT JOIN sys_menu m ON(p.menucode = m.code) WHERE m.url != '' AND userid = #userId# 
+	</select>
+	<!-- 修改用户 -->
+	<update id="updateUser" parameterClass="manage.user.pojo.UserInfoBean">
+		UPDATE sys_user SET
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="realname">realname=#realname#</isNotNull>
+			<isNotNull prepend="," property="password">password=#password#</isNotNull>
+			<isNotNull prepend="," property="phoneNumber">phoneNumber=#phoneNumber#</isNotNull>
+			<isNotNull prepend="," property="modulestr">modulestr=#modulestr#</isNotNull>
+			<isNotNull prepend="," property="roleId">roleId=#roleId#</isNotNull>
+			<isNotNull prepend="," property="groupId">groupId=#groupId#</isNotNull>
+			<isNotNull prepend="," property="groupName">groupName=#groupName#</isNotNull>
+		</dynamic>
+		WHERE userId=#userId#
+	</update>
+	<update id="updateUserByRoleId" parameterClass="manage.user.pojo.UserInfoBean">
+		UPDATE sys_user SET modulestr=#modulestr# where roleId=#roleId#
+	</update>
+	<!-- 删除用户权限信息 -->
+	<delete id="deleteUserPowers" parameterClass="manage.main.pojo.MenuInfoBean">
+		DELETE FROM sys_user_powers WHERE userId = #userId#
+		<dynamic prepend="">
+	    	<isNotNull prepend="AND" property="code">  menucode=#code#  </isNotNull>
+	    </dynamic>
+	</delete>
+	<select id="getParentMenu" parameterClass="manage.main.pojo.MenuInfoBean" resultClass="manage.main.pojo.MenuInfoBean" >
+		SELECT * FROM sys_menu WHERE code = (SELECT parentcode FROM sys_menu WHERE code = #code#)
+	</select>
+	
+	<select id="getDomainByUser" parameterClass="manage.user.pojo.UserInfoBean" resultClass="manage.domain.pojo.DomainBean">
+		SELECT * FROM sys_domain d JOIN sys_user u ON (d.domainCode = u.areano) WHERE u.userId = #userId#  
+	</select>
+	<select id="getAllChildrenDomain" parameterClass="manage.domain.pojo.DomainBean" resultClass="manage.domain.pojo.DomainBean">
+		SELECT * FROM sys_domain where parentId = #domainId#
+	</select>
+
+	
+	<select id="getUserck" parameterClass="manage.user.pojo.UserInfoBean" resultClass="manage.user.pojo.UserCkBean">
+		SELECT u.userId userid,k.eid eid, u.areano areano FROM sys_userck k JOIN sys_user u ON (k.userid = u.userId)  WHERE k.userid = #userId#		
+	</select>
+	<!-- 根据用户ID查询用户的设备权限 -->
+	<select id="getUserckList" parameterClass="manage.user.pojo.UserCkBean" resultClass="manage.user.pojo.UserCkBean">
+		SELECT * FROM sys_userck WHERE  1=1	
+		 <dynamic prepend="">
+	    	<isNotNull prepend="AND" property="userid"> userid=#userid# </isNotNull>
+	    	<isNotEmpty prepend="AND" property="eid"> eid = #eid# </isNotEmpty>
+	    </dynamic>
+	</select>
+	<insert id="insertUserck" parameterClass="manage.user.pojo.UserCkBean">
+		INSERT INTO sys_userck (userid,eid) VALUES (#userid#, #eid#) ON DUPLICATE KEY UPDATE userid = #userid#
+	</insert>
+	
+	<delete id="deleteUserck" parameterClass="manage.user.pojo.UserCkBean">
+		DELETE FROM sys_userck WHERE userid = #userid#
+	</delete>
+	<!-- 查询角色 -->
+	<select id="getRoleList" parameterClass="manage.user.pojo.RoleInfoBean" resultClass="manage.user.pojo.RoleInfoBean">
+		SELECT * FROM sys_role WHERE 1=1
+	   <dynamic prepend="">
+	    	<isNotNull prepend="AND" property="roleId"> roleId=#roleId# </isNotNull>
+	    	<isNotEmpty prepend="AND" property="roleName"> roleName like '%$roleName$%' </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="areano"> areano = #areano# </isNotEmpty>
+	    </dynamic>
+	    <dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+	</select>
+	<select id="getRoleCount" parameterClass="manage.user.pojo.RoleInfoBean" resultClass="Integer">
+		SELECT count(*) FROM sys_role WHERE 1=1
+	   <dynamic prepend="">
+	    	<isNotNull prepend="AND" property="roleId"> roleId=#roleId# </isNotNull>
+	    	<isNotEmpty prepend="AND" property="roleName"> roleName like '%$roleName$%' </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="areano"> areano = #areano# </isNotEmpty>
+	    </dynamic>
+	</select>
+	<insert id="insertNewRole" parameterClass="manage.user.pojo.RoleInfoBean">
+		INSERT INTO sys_role (roleName,modulestr,updateDate,areano) 
+			VALUES (#roleName#,#modulestr#,#updateDate#,#areano#) 
+			<selectKey resultClass="int" keyProperty="roleId" > 
+				SELECT LAST_INSERT_ID() AS roleId
+			</selectKey>
+	</insert>
+	<update id="updateRole" parameterClass="manage.user.pojo.RoleInfoBean">
+		UPDATE sys_role SET
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="roleName">roleName=#roleName#</isNotNull>
+			<isNotNull prepend="," property="modulestr">modulestr=#modulestr#</isNotNull>
+			<isNotNull prepend="," property="updateDate">updateDate=#updateDate#</isNotNull>
+		</dynamic>
+		WHERE roleId=#roleId#
+	</update>
+	<delete id="deleteRole" parameterClass="manage.user.pojo.RoleInfoBean"  >
+		DELETE FROM sys_role WHERE roleId = #roleId#
+	</delete>
+	<insert id="insertRolePowers" parameterClass="manage.main.pojo.MenuInfoBean">
+		INSERT INTO sys_role_powers (roleId,menucode)values(#roleId#,#code#)
+	</insert>
+	<select id="getRolePowers" parameterClass="manage.main.pojo.MenuInfoBean" resultClass="String">
+		SELECT menucode FROM sys_role_powers p LEFT JOIN sys_menu m ON(p.menucode = m.code) WHERE m.url != '' AND roleId = #roleId# 
+	</select>
+	<delete id="deleteRolePowers" parameterClass="manage.main.pojo.MenuInfoBean">
+		DELETE FROM sys_role_powers WHERE roleId = #roleId#
+	</delete> 
+	<select id="verifyRoleCount" parameterClass="manage.user.pojo.RoleInfoBean" resultClass="Integer">
+		SELECT COUNT(*) FROM sys_role WHERE roleName = #roleName# and areano=#areano#
+	</select>
+	<select id="getDomain" parameterClass="manage.domain.pojo.DomainBean" resultClass="manage.domain.pojo.DomainBean">
+		select * from sys_domain where domainCode=#domainCode#
+	</select>
+	<update id="updateDomainReid" parameterClass="manage.domain.pojo.DomainBean">
+		update sys_domain set responsibleid=#responsibleid# where domainId=#domainId#
+	</update>
+	<select id="getRolestr" parameterClass="manage.user.pojo.RoleInfoBean" resultClass="manage.user.pojo.RoleInfoBean">
+		select * from sys_role where 1=1
+		<dynamic prepend="">
+	    	<isNotNull prepend="AND" property="roleId">  roleId=#roleId#  </isNotNull>
+	    	<isNotEmpty prepend="AND" property="roleName"> roleName = #roleName# </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="areano"> areano = #areano# </isNotEmpty>
+	    </dynamic>
+	</select>
+	<select id="getRolePowersByRoleId" parameterClass="manage.user.pojo.RoleInfoBean" resultClass="manage.main.pojo.MenuInfoBean">
+		select menucode code,roleId from sys_role_powers WHERE roleId = #roleId#
+	</select>
+	
+	<!-- 所选domain的所有子domain -->
+	<select id="getDomainList" resultClass="manage.domain.pojo.DomainBean" parameterClass="manage.domain.pojo.DomainBean">
+		select * from sys_domain
+			<dynamic prepend=" where ">
+				<isNotEmpty prepend="AND" property="domainName">(domainName like '%$domainName$%')</isNotEmpty>
+			</dynamic>
+	</select>
+	
+	
+	
+    <!-- 进行班组管理 -->
+	<select id="getMaintainGroup" parameterClass="manage.user.pojo.MaintainGroupBean" resultClass="manage.user.pojo.MaintainGroupBean">
+        select id,groupName,compRes,domainId,
+        (select compName from maintaincomp where compRes = t.compRes) as compName,
+		(select domainName from sys_domain where domainCode = t.domainId) as domainName
+        from maintainGroup t where 1=1
+        <dynamic prepend="">
+            <isNotEmpty prepend=" AND " property="compRes"> t.compRes = #compRes#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="domainId"> t.domainId = #domainId#</isNotEmpty>
+            <isNotNull prepend=" AND " property="id"> t.id = #id#</isNotNull>
+            <isNotEmpty prepend=" AND " property="groupName"> t.groupName like '%$groupName$%'</isNotEmpty>
+        </dynamic>
+        <dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+    </select>
+    
+	
+	<!-- 得到班组的条数 -->
+	<select id="getMaintainGroupNum" parameterClass="manage.user.pojo.MaintainGroupBean" resultClass="Integer">
+        select count(*)
+        from maintainGroup t where 1=1
+        <dynamic prepend="">
+            <isNotEmpty prepend=" AND " property="compRes"> t.compRes = #compRes#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="domainId"> t.domainId = #domainId#</isNotEmpty>
+            <isNotNull prepend=" AND " property="id"> t.id = #id#</isNotNull>
+            <isNotEmpty prepend=" AND " property="groupName"> t.groupName like '%$groupName$%'</isNotEmpty>
+        </dynamic>
+    </select>
+    
+	
+	<!-- 增加代维班组 -->
+	<insert id="addMaintainGroup" parameterClass="manage.user.pojo.MaintainGroupBean">
+        INSERT into maintainGroup(
+       		groupName,compRes,domainId
+        )
+        values
+        (
+        	#groupName#,#compRes#,#domainId#
+        )
+        <selectKey resultClass="int" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+    </insert>
+    
+	
+	<!-- 批量删除代维班组数据 -->
+    <delete id="delMainGroup" parameterClass="java.lang.String">
+        delete from maintainGroup where id in ($ids:String$)
+    </delete>
+</sqlMap>

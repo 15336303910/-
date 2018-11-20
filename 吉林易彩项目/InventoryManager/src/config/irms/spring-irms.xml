@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <!-- 站点接口 -->
+	<bean id="irmsStationService" class="interfaces.irmsInterface.interfaces.station.service.IrmsStationService">
+		<property name="jdbcTemplate"><ref bean="jdbcTemplate"></ref></property>
+		<property name="irmsjdbcTemplate"><ref bean="irmsjdbcTemplate"></ref></property>
+	</bean>
+	<!-- 综资的查询接口 -->
+	<bean id="irmsQueryService" class="interfaces.irmsInterface.interfaces.station.service.IrmsQueryService">
+		<property name="jdbcTemplate"><ref bean="jdbcTemplate"></ref></property>
+	</bean>
+	<!-- 外线接口 -->
+	<bean id="irmsOutLineService" class="interfaces.irmsInterface.interfaces.outLine.service.IrmsOutLineService">
+		<property name="jdbcTemplate"><ref bean="jdbcTemplate"></ref></property>
+		<property name="irmsjdbcTemplate"><ref bean="irmsjdbcTemplate"></ref></property>
+	</bean>
+	
+	<!-- 光电接口 -->
+	<bean id="irmsOpticTranService" class="interfaces.irmsInterface.interfaces.opticTran.service.IrmsOpticTranService">
+		<property name="jdbcTemplate"><ref bean="jdbcTemplate"></ref></property>
+		<property name="irmsjdbcTemplate"><ref bean="irmsjdbcTemplate"></ref></property>
+	</bean>
+	<!-- 接口日志记录 -->
+	<bean id="irmsInterService" class="interfaces.irmsInterface.interfaces.service.IrmsInterService">
+		<property name="jdbcTemplate"><ref bean="jdbcTemplate"></ref></property>
+		<property name="irmsjdbcTemplate"><ref bean="irmsjdbcTemplate"></ref></property>
+	</bean>
+	
+	<!-- 同步更新派单的资源数据 -->
+	<bean id="syncSiteDataService" class="interfaces.irmsInterface.interfaces.station.service.SyncSiteDataService">
+		<property name="jdbcTemplate"><ref bean="jdbcTemplate"></ref></property>
+		<property name="irmsjdbcTemplate"><ref bean="irmsjdbcTemplate"></ref></property>
+	</bean>
+</beans>

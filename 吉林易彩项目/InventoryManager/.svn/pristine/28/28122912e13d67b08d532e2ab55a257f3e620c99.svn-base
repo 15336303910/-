@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="resport">
+    <!-- 得到表格目录 -->
+    <select id="getResportGrid" parameterClass="manage.V2.beijing.resource.pojo.ZSLResourcePointInfoBean" resultClass="manage.V2.beijing.resource.pojo.ZSLResourcePointInfoBean">
+        select t.id,t.resName,t.maintainArea,t.site,t.siteId,t.lat,
+         t.lng,t.resAddress,t.resType,t.lifeCycleState,t.dataQualityPrincipal,
+         t.parties,t.deleteFlag,t.createTime,t.updateTime,t.creater,t.remark
+        from resource_point t where t.deleteflag ='0'
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="id">t.id = #id#</isNotNull>
+            <isNotEmpty prepend=" AND " property="resName">t.resName like '%$resName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintainArea"> t.maintainArea like '%$maintainArea$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="site">t.site=#site#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="siteId">t.siteId=#siteId#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="lat">t.lat = #lat#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="lng">t.lng=#lng#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="resAddress">t.resAddress like '%$resAddress$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="resType"> t.resType=#resType#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="lifeCycleState">t.lifeCycleState=#lifeCycleState#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dataQualityPrincipal">t.dataQualityPrincipal=#dataQualityPrincipal#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="parties">t.parties=#parties#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="deleteFlag">t.deleteFlag=#deleteFlag#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="createTime">t.createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="updateTime">t.updateTime=#updateTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="creater">t.creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="remark">t.remark=#remark#</isNotEmpty>
+        </dynamic>
+        <dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+    </select>
+    
+    <!-- 得到总数 -->
+    <select id="getResportCount" parameterClass="manage.V2.beijing.resource.pojo.ZSLResourcePointInfoBean" resultClass="Integer">
+        select count(*) from resource_point t where t.deleteflag ='0'
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="id">t.id = #id#</isNotNull>
+            <isNotEmpty prepend=" AND " property="resName">t.resName like '%$resName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintainArea"> t.maintainArea like '%$maintainArea$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="site">t.site=#site#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="siteId">t.siteId=#siteId#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="lat">t.lat = #lat#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="lng">t.lng=#lng#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="resAddress">t.resAddress like '%$resAddress$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="resType"> t.resType=#resType#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="lifeCycleState">t.lifeCycleState=#lifeCycleState#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dataQualityPrincipal">t.dataQualityPrincipal=#dataQualityPrincipal#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="parties">t.parties=#parties#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="deleteFlag">t.deleteFlag=#deleteFlag#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="createTime">t.createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="updateTime">t.updateTime=#updateTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="creater">t.creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="remark">t.remark=#remark#</isNotEmpty>
+        </dynamic>
+    </select>
+    
+    
+    <!-- 得到资源点 -->
+    <select id="getResPort" parameterClass="manage.V2.beijing.resource.pojo.ZSLResourcePointInfoBean" resultClass="manage.V2.beijing.resource.pojo.ZSLResourcePointInfoBean">
+         select t.id,t.resName,t.maintainArea,t.site,t.siteId,t.lat,
+         t.lng,t.resAddress,t.resType,t.lifeCycleState,t.dataQualityPrincipal,
+         t.parties,t.deleteFlag,t.createTime,t.updateTime,t.creater,t.remark
+        from resource_point t where t.deleteflag ='0'
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="id">t.id = #id#</isNotNull>
+            <isNotEmpty prepend=" AND " property="resName">t.resName like '%$resName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintainArea"> t.maintainArea like '%$maintainArea$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="site">t.site=#site#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="siteId">t.siteId=#siteId#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="lat">t.lat = #lat#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="lng">t.lng=#lng#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="resAddress">t.resAddress like '%$resAddress$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="resType"> t.resType=#resType#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="lifeCycleState">t.lifeCycleState=#lifeCycleState#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dataQualityPrincipal">t.dataQualityPrincipal=#dataQualityPrincipal#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="parties">t.parties=#parties#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="deleteFlag">t.deleteFlag=#deleteFlag#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="createTime">t.createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="updateTime">t.updateTime=#updateTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="creater">t.creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="remark">t.remark=#remark#</isNotEmpty>
+        </dynamic>
+    </select>
+     <!-- 修改更改资源点 -->
+     <update id="updateResPort" parameterClass="manage.V2.beijing.resource.pojo.ZSLResourcePointInfoBean" >
+        update resource_point t set 
+        <dynamic prepend=" ">
+            <isNotEmpty prepend=" , " property="resName">t.resName=#resName#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="maintainArea"> t.maintainArea =#maintainArea#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="site">t.site=#site#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="siteId">t.siteId=#siteId#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="lat">t.lat = #lat#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="lng">t.lng=#lng#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="resAddress">t.resAddress=#resAddress#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="resType"> t.resType=#resType#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="lifeCycleState">t.lifeCycleState=#lifeCycleState#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="dataQualityPrincipal">t.dataQualityPrincipal=#dataQualityPrincipal#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="parties">t.parties=#parties#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="deleteFlag">t.deleteFlag=#deleteFlag#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="createTime">t.createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="updateTime">t.updateTime=#updateTime#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="creater">t.creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="remark">t.remark=#remark#</isNotEmpty>
+        </dynamic>
+        <dynamic prepend=" where ">
+            <isNotEmpty prepend=" AND" property="id">t.id = #id#</isNotEmpty>
+        </dynamic>
+     </update>
+     
+     
+     <!-- 添加资源点-->
+    <insert id="insertResPort" parameterClass="manage.V2.beijing.resource.pojo.ZSLResourcePointInfoBean">
+        INSERT into resource_point(
+       	resName,maintainArea,site,siteId,lat,lng,resAddress,resType,lifeCycleState,
+       	dataQualityPrincipal,parties,deleteFlag,createTime,updateTime,creater,remark
+        )
+        values
+        (
+        #resName#,#maintainArea#,#site#,#siteId#,#lat#,#lng#,#resAddress#,#resType#,#lifeCycleState#,
+        #dataQualityPrincipal#,#parties#,'0',#createTime#,#updateTime#,#creater#,#remark#
+        )
+        <selectKey resultClass="int" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+    </insert>
+    
+    <!-- 批量删除资源点数据 -->
+    <delete id="delResPort" parameterClass="java.lang.String">
+        delete from resource_point where id in ($ids:String$)
+    </delete>
+</sqlMap>

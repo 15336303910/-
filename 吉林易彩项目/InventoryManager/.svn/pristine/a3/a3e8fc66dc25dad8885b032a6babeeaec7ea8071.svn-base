@@ -1,0 +1,786 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="pdapipe">
+	<!-- 获取管道信息 -->
+	<select id="getPipe" parameterClass="manage.pipe.pojo.PipeInfoBean" resultClass="manage.pipe.pojo.PipeInfoBean">
+		select * from pipeinfo where deletedFlag='0'
+	<dynamic prepend=" AND ">
+	    <isNotEmpty prepend="AND" property="pipeId">(pipeId=#pipeId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="pipeName">(pipeName like '%$pipeName$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="alias">(alias like '%$alias$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="maintenanceAreaId">(maintenanceAreaId=#maintenanceAreaId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="pipeLevel">(pipeLevel like '%$pipeLevel$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="maintenanceModeEnumId">(maintenanceModeEnumId=#maintenanceModeEnumId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="maintenanceOrgId">(maintenanceOrgId like '%$maintenanceOrgId$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="maintainerId">(maintainerId like '%$maintainerId$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="creationDate"><![CDATA[ DATE_FORMAT(creationDate,'%Y-%m-%d')=DATE_FORMAT(#creationDate#,'%Y-%m-%d') ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="lastUpdateDate"><![CDATA[ DATE_FORMAT(lastUpdateDate,'%Y-%m-%d')=DATE_FORMAT(#lastUpdateDate#,'%Y-%m-%d') ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="deletionDate"><![CDATA[ DATE_FORMAT(deletionDate,'%Y-%m-%d')=DATE_FORMAT(#deletionDate#,'%Y-%m-%d') ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="cstate">(cstate in ($cstate$))</isNotEmpty>
+		<isNotEmpty prepend="AND" property="areaname">(areaname like '%$areaname$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="maintenanceAreaName">(maintenanceAreaName=#maintenanceAreaName#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="dataQualityPrincipal">(dataQualityPrincipal=#dataQualityPrincipal#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="parties">(parties=#parties#)</isNotEmpty>
+	</dynamic>
+	<dynamic prepend="">
+	    <isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    <isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	</dynamic>
+	</select>
+	
+	
+	<!-- 获取管道段信息   主要为了获得井经纬度 -->
+	<select id="getPipeSegmentDir" parameterClass="manage.pipe.pojo.PipeSegmentInfoBean" resultClass="manage.pipe.pojo.PipeSegmentInfoBean">
+		select 
+		t.pipeSegmentId,t.startDeviceId,t.endDeviceId,t.pipeSegmentName,t.pipeSegmentCode,t.maintenanceAreaId,t.pipeId,t.roadName,t.pipeSegmentLength,t.pipeSegmentType,
+		t.buriedDepth,t.startNestTopElevation,t.startNestBottomElevation,t.startDeviceId,t.startDeviceType,t.endDeviceId,t.endDeviceType,
+		t.endNestTopElevation,t.endNestBottomElevation,t.pipeLineLayingEnumId,t.holeQuantity,t.constructionSharingEnumId,t.constructionSharingOrg,
+		t.sharingTypeEnumId,t.buildAndShareNum,t.occupiedSharingHoleQuantity,t.rentFlag,t.rentStartDate,t.rentEndDate,t.rentOrg,t.rentChargingCode,
+		t.resourceLifePeriodEnumId,t.creationDate,t.lastUpdateDate,t.deletionDate,t.provinceId,
+		t.cuser,t.cstate,t.areaname,t.maintenanceAreaName,t.dataQualityPrincipal,t.parties,
+		(select longitude from wellinfo where deletedFlag = 0 and wellId = t.startDeviceId) as startLon,
+		(select latitude from wellinfo where deletedFlag = 0 and wellId = t.startDeviceId) as startLat,
+		(select longitude from wellinfo where deletedFlag = 0 and wellId = t.endDeviceId) as endLon,
+		(select latitude from wellinfo where deletedFlag = 0 and wellId = t.endDeviceId) as endLat,
+		(select wellName from wellinfo where deletedFlag = 0 and wellId = t.startDeviceId) as startDeviceName,
+		(select wellName from wellinfo where deletedFlag = 0 and wellId = t.endDeviceId) as endDeviceName,resNum,maintainLength
+		from pipesegmentinfo t where t.deletedFlag='0' and t.startDeviceId = #startDeviceId# 
+		union all 
+		select 
+		t.pipeSegmentId,t.startDeviceId,t.endDeviceId,t.pipeSegmentName,t.pipeSegmentCode,t.maintenanceAreaId,t.pipeId,t.roadName,t.pipeSegmentLength,t.pipeSegmentType,
+		t.buriedDepth,t.startNestTopElevation,t.startNestBottomElevation,t.startDeviceId,t.startDeviceType,t.endDeviceId,t.endDeviceType,
+		t.endNestTopElevation,t.endNestBottomElevation,t.pipeLineLayingEnumId,t.holeQuantity,t.constructionSharingEnumId,t.constructionSharingOrg,
+		t.sharingTypeEnumId,t.buildAndShareNum,t.occupiedSharingHoleQuantity,t.rentFlag,t.rentStartDate,t.rentEndDate,t.rentOrg,t.rentChargingCode,
+		t.resourceLifePeriodEnumId,t.creationDate,t.lastUpdateDate,t.deletionDate,t.provinceId,
+		t.cuser,t.cstate,t.areaname,t.maintenanceAreaName,t.dataQualityPrincipal,t.parties,
+		(select longitude from wellinfo where deletedFlag = 0 and wellId = t.startDeviceId) as startLon,
+		(select latitude from wellinfo where deletedFlag = 0 and wellId = t.startDeviceId) as startLat,
+		(select longitude from wellinfo where deletedFlag = 0 and wellId = t.endDeviceId) as endLon,
+		(select latitude from wellinfo where deletedFlag = 0 and wellId = t.endDeviceId) as endLat,
+		(select wellName from wellinfo where deletedFlag = 0 and wellId = t.startDeviceId) as startDeviceName,
+		(select wellName from wellinfo where deletedFlag = 0 and wellId = t.endDeviceId) as endDeviceName,resNum,maintainLength
+		from pipesegmentinfo t where t.deletedFlag='0' and t.endDeviceId = #endDeviceId# 
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	<!-- 获取管道段信息 -->
+	<select id="getPipeSegment" parameterClass="manage.pipe.pojo.PipeSegmentInfoBean" resultClass="manage.pipe.pojo.PipeSegmentInfoBean">
+		select t.maintain_company  maintenanceOrg,t.maintain_manager  maintenanceLeader,t.maintain_manager_phone  leaderPhone,t.remark,
+		t.pipeSegmentId,t.pipeSegmentName,t.pipeSegmentCode,t.maintenanceAreaId,t.pipeId,t.roadName,t.pipeSegmentLength,t.pipeSegmentType,
+		t.buriedDepth,t.startNestTopElevation,t.startNestBottomElevation,t.startDeviceId,t.startDeviceType,t.endDeviceId,t.endDeviceType,
+		t.endNestTopElevation,t.endNestBottomElevation,t.pipeLineLayingEnumId,t.holeQuantity,t.constructionSharingEnumId,t.constructionSharingOrg,
+		t.sharingTypeEnumId,t.buildAndShareNum,t.occupiedSharingHoleQuantity,t.rentFlag,t.rentStartDate,t.rentEndDate,t.rentOrg,t.rentChargingCode,
+		t.resourceLifePeriodEnumId,t.creationDate,t.lastUpdateDate,t.deletionDate,t.provinceId,
+		t.cuser,t.cstate,t.areaname,t.maintenanceAreaName,t.dataQualityPrincipal,t.parties,
+		(select wellName from wellinfo where deletedFlag = 0 and wellId = t.startDeviceId) as startDeviceName,
+		(select wellName from wellinfo where deletedFlag = 0 and wellId = t.endDeviceId) as endDeviceName,resNum,maintainLength
+		from pipesegmentinfo t where t.deletedFlag='0'
+     <dynamic prepend=" AND ">
+	    <isNotEmpty prepend="AND" property="pipeSegmentId">(t.pipeSegmentId=#pipeSegmentId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="pipeSegmentName"><![CDATA[ pipeSegmentName like #pipeSegmentName#]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="pipeSegmentCode">(t.pipeSegmentCode like '%$pipeSegmentCode$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="maintenanceAreaId">(t.maintenanceAreaId=#maintenanceAreaId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="pipeId">(t.pipeId=#pipeId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="roadName">(t.roadName like '%$roadName$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="pipeSegmentLength">(t.pipeSegmentLength like '%$pipeSegmentLength$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="pipeSegmentType">(t.pipeSegmentType like '%$pipeSegmentType$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="buriedDepth">(t.buriedDepth like '%$buriedDepth$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="startNestTopElevation">(t.startNestTopElevation like '%$startNestTopElevation$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="startNestBottomElevation">(t.startNestBottomElevation like '%$startNestBottomElevation$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="startDeviceId">(t.startDeviceId=#startDeviceId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="startDeviceType">(t.startDeviceType like '%$startDeviceType$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="endDeviceId">(t.endDeviceId=#endDeviceId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="endDeviceType">(t.endDeviceType like '%$endDeviceType$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="endNestTopElevation">(t.endNestTopElevation like '%$endNestTopElevation$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="endNestBottomElevation">(t.endNestBottomElevation like '%$endNestBottomElevation$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="pipeLineLayingEnumId">(t.pipeLineLayingEnumId=#pipeLineLayingEnumId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="holeQuantity">(t.holeQuantity=#holeQuantity#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="constructionSharingEnumId">(t.constructionSharingEnumId=#constructionSharingEnumId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="constructionSharingOrg">(t.constructionSharingOrg like '%$constructionSharingOrg$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="sharingTypeEnumId">(t.sharingTypeEnumId=#sharingTypeEnumId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="buildAndShareNum">(t.buildAndShareNum=#buildAndShareNum#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="occupiedSharingHoleQuantity">(t.occupiedSharingHoleQuantity=#occupiedSharingHoleQuantity#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="rentFlag">(t.rentFlag like '%$rentFlag$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="rentStartDate"><![CDATA[ DATE_FORMAT(t.rentStartDate,'%Y-%m-%d')=DATE_FORMAT(#rentStartDate#,'%Y-%m-%d') ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="rentEndDate"><![CDATA[ DATE_FORMAT(t.rentEndDate,'%Y-%m-%d')=DATE_FORMAT(#rentEndDate#,'%Y-%m-%d') ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="rentOrg">(t.rentOrg like '%$rentOrg$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="rentChargingCode">(t.rentChargingCode like '%$rentChargingCode$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="resourceLifePeriodEnumId">(t.resourceLifePeriodEnumId=#resourceLifePeriodEnumId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="creationDate"><![CDATA[ DATE_FORMAT(t.creationDate,'%Y-%m-%d')=DATE_FORMAT(#creationDate#,'%Y-%m-%d') ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="lastUpdateDate"><![CDATA[ DATE_FORMAT(t.lastUpdateDate,'%Y-%m-%d')=DATE_FORMAT(#lastUpdateDate#,'%Y-%m-%d') ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="deletionDate"><![CDATA[ DATE_FORMAT(t.deletionDate,'%Y-%m-%d')=DATE_FORMAT(#deletionDate#,'%Y-%m-%d') ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="provinceId">(t.provinceId like '%$provinceId$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="cuser">(t.cuser=#cuser#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="cstate">(t.cstate in ($cstate$))</isNotEmpty>
+		<isNotEmpty prepend="AND" property="areaname">(t.areaname like '%$areaname$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="maintenanceAreaName">(t.maintenanceAreaName like '%$maintenanceAreaName$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="dataQualityPrincipal">(t.dataQualityPrincipal=#dataQualityPrincipal#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="parties">(t.parties=#parties#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="extendsSql">($extendsSql$)</isNotEmpty>
+	</dynamic>
+	<dynamic prepend="">
+	    <isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    <isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	</dynamic>
+	</select>
+	
+	<!-- 获取井信息 -->
+	<select id="getWell" parameterClass="manage.pipe.pojo.WellInfoBean" resultClass="manage.pipe.pojo.WellInfoBean">
+		select *
+		from wellinfo where deletedFlag='0'
+     <dynamic prepend=" AND ">
+	    <isNotEmpty prepend="AND" property="wellId">(wellId=#wellId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="wellName"><![CDATA[ wellName like #wellName#]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="alias">(alias like '%$alias$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="direction">(direction=#direction#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="wellNo">(wellNo=#wellNo#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="pipeId">(pipeId=#pipeId#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="region"> region like '%$region$%' </isNotEmpty>
+		<isNotEmpty prepend="AND" property="creationDate"><![CDATA[ DATE_FORMAT(creationDate,'%Y-%m-%d')=DATE_FORMAT(#creationDate#,'%Y-%m-%d') ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="lastUpdateDate"><![CDATA[ DATE_FORMAT(lastUpdateDate,'%Y-%m-%d')=DATE_FORMAT(#lastUpdateDate#,'%Y-%m-%d') ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="deletionDate"><![CDATA[ DATE_FORMAT(deletionDate,'%Y-%m-%d')=DATE_FORMAT(#deletionDate#,'%Y-%m-%d') ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="provinceId">(provinceId like '%$provinceId$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="cuser">(cuser=#cuser#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="cstate">(cstate in ($cstate$))</isNotEmpty>
+		<isNotEmpty prepend="AND" property="areaname">(areaname like '%$areaname$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="dataQualityPrincipal">(dataQualityPrincipal=#dataQualityPrincipal#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="parties">(parties=#parties#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="lats"><![CDATA[ latitude >= #lats# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="late"><![CDATA[ latitude <= #late# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="lons"><![CDATA[ longitude >= #lons# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="lone"><![CDATA[ longitude <= #lone# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="resNum">(resNum=#resNum#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="extendsSql">($extendsSql$)</isNotEmpty>
+	</dynamic>
+	<dynamic prepend="">
+	    <isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    <isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	</dynamic>
+	</select>
+	
+	<!-- 得到井实体类 -->
+	<select id="getWellObj" parameterClass="manage.pipe.pojo.WellInfoBean" resultClass="manage.pipe.pojo.WellInfoBean">
+		select *
+		from wellinfo where deletedFlag='0'
+     <dynamic prepend=" AND ">
+	    <isNotEmpty prepend="AND" property="wellId">(wellId=#wellId#)</isNotEmpty>
+	 </dynamic>
+	</select>
+	
+	<!--  -->
+	<select id="getWellByids" parameterClass="java.lang.String" resultClass="manage.pipe.pojo.WellInfoBean">
+		select *
+		from wellinfo where deletedFlag='0' and wellId in ($ids:String$)
+	</select>
+	
+	<!-- 获取光缆路由信息 -->
+	<select id="getTube" parameterClass="manage.pipe.pojo.TubeInfoBean" resultClass="manage.pipe.pojo.TubeInfoBean">
+		select 
+		 tubeId,tubeName,tubeNumber,pipeSegmentId,isfather,subTubeAmount,
+		 creationDate,lastUpdateDate,deletedFlag,cstate,resNum,rentFlag
+		 from tubeinfo where deletedFlag='0'
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend="AND" property="tubeId">(tubeId=#tubeId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="wellId">(wellId=#wellId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="isFather">(isFather=#isFather#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="faceId">(faceId=#faceId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="tubeName">(tubeName like '%$tubeName$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="pipeSegmentId">(pipeSegmentId=#pipeSegmentId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="fatherPoreId">(fatherPoreId=#fatherPoreId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="cuser">(cuser=#cuser#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="cstate">(cstate in ($cstate$))</isNotEmpty>
+			<isNotEmpty prepend="AND" property="rfid">(rfid = #rfid#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="duiwellId">(duiwellId = #duiwellId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="duifaceId">(duifaceId = #duifaceId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="duitubeNumber">(duitubeNumber = #duitubeNumber#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="duirfid">(duirfid = #duirfid#)</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	
+	<!-- 插入设备 -->
+	<insert id="insertTube" parameterClass="manage.pipe.pojo.TubeInfoBean">
+		insert into tubeinfo(
+			tubeName,tubeNumber,pipeSegmentId,isFather,fatherPoreId,subTubeAmount,subTubeArrangeMode,tubeStatusEnumId,
+			tubeDiameter,tubeColor,tubeMaterial,tubeShape,rentFlag,rentOrg,resourceLifePeriodEnumId,
+			bearCableSegmentId,bearCableSegment,redunBearCableSegmentId,redunBearCableSegment,creationDate,lastUpdateDate,deletedFlag,deletionDate,provinceId,
+			maintenanceAreaId,cuser,cstate,wellId,faceId,rfid,constructionSharingEnumId,constructionSharingOrg,sharingTypeEnumId,duitubeNumber,duiwellId,duifaceId,duitubeName,duirfid
+		) values(
+			#tubeName#,#tubeNumber#,#pipeSegmentId#,#isFather#,#fatherPoreId#,#subTubeAmount#,#subTubeArrangeMode#,#tubeStatusEnumId#,
+			#tubeDiameter#,#tubeColor#,#tubeMaterial#,#tubeShape#,#rentFlag#,#rentOrg#,#resourceLifePeriodEnumId#,
+			#bearCableSegmentId#,#bearCableSegment#,#redunBearCableSegmentId#,#redunBearCableSegment#,now(),now(),'0',#deletionDate#,#provinceId#,
+			#maintenanceAreaId#,#cuser#,'2',#wellId#,#faceId#,#rfid#,#constructionSharingEnumId#,#constructionSharingOrg#,#sharingTypeEnumId#,#duitubeNumber#,#duiwellId#,#duifaceId#,#duitubeName#,#duirfid#
+		)
+		<selectKey resultClass="int" keyProperty="tubeId" > 
+			SELECT LAST_INSERT_ID() AS tubeId
+		</selectKey>
+	</insert>
+	<update id="updatePipe" parameterClass="manage.pipe.pojo.PipeInfoBean">
+		update pipeinfo set lastUpdateDate=now(),resMotion = null
+		<dynamic prepend=", ">
+		<isNotNull prepend="," property="pipeName">pipeName=#pipeName#</isNotNull>
+		<isNotNull prepend="," property="alias">alias=#alias#</isNotNull>
+		<isNotNull prepend="," property="maintenanceAreaId">maintenanceAreaId=#maintenanceAreaId#</isNotNull>
+		<isNotNull prepend="," property="pipeLevel">pipeLevel=#pipeLevel#</isNotNull>
+		<isNotNull prepend="," property="maintenanceModeEnumId">maintenanceModeEnumId=#maintenanceModeEnumId#</isNotNull>
+		<isNotNull prepend="," property="maintenanceOrgId">maintenanceOrgId=#maintenanceOrgId#</isNotNull>
+		<isNotNull prepend="," property="maintainerId">maintainerId=#maintainerId#</isNotNull>
+		<isNotNull prepend="," property="deletedFlag">deletedFlag=#deletedFlag#</isNotNull>
+		<isNotNull prepend="," property="cstate">cstate=#cstate#</isNotNull>
+		<isNotNull prepend="," property="areano">areano=#areano#</isNotNull>
+		<isNotNull prepend="," property="areaname">areaname=#areaname#</isNotNull>
+		<isNotNull prepend="," property="maintenanceAreaName">maintenanceAreaName=#maintenanceAreaName#</isNotNull>
+		<isNotNull prepend="," property="dataQualityPrincipal">dataQualityPrincipal=#dataQualityPrincipal#</isNotNull>
+		<isNotNull prepend="," property="parties">parties=#parties#</isNotNull>
+		</dynamic>
+		WHERE pipeId=#pipeId#
+	</update>
+	
+	<!-- 插入管道 -->
+	<insert id="insertPipe" parameterClass="manage.pipe.pojo.PipeInfoBean">
+		insert into pipeinfo(
+			pipeName,alias,maintenanceAreaId,pipeLevel,maintenanceModeEnumId,
+			maintenanceOrgId,maintainerId,
+			creationDate,deletedFlag,cstate,areano,areaname,lastUpdateDate,maintenanceAreaName,dataQualityPrincipal,parties
+		) values (
+			#pipeName#,#alias#,#maintenanceAreaId#,#pipeLevel#,#maintenanceModeEnumId#,
+			#maintenanceOrgId#,#maintainerId#,
+			now(),'0','2',#areano#,#areaname#,now(),#maintenanceAreaName#,#dataQualityPrincipal#,#parties#
+		)
+		<selectKey resultClass="int" keyProperty="pipeId" > 
+			SELECT LAST_INSERT_ID() AS pipeId
+		</selectKey>	
+	</insert>
+	<!-- 更新管道段 -->
+	<update id="updatePipeSegment" parameterClass="manage.pipe.pojo.PipeSegmentInfoBean">
+		update pipesegmentinfo set lastUpdateDate=now(),resMotion=null
+		<dynamic prepend=", ">
+		<isNotNull prepend="," property="pipeSegmentName">pipeSegmentName=#pipeSegmentName#</isNotNull>
+		<isNotNull prepend="," property="pipeSegmentCode">pipeSegmentCode=#pipeSegmentCode#</isNotNull>
+		<isNotNull prepend="," property="maintenanceAreaId">maintenanceAreaId=#maintenanceAreaId#</isNotNull>
+		<isNotNull prepend="," property="roadName">roadName=#roadName#</isNotNull>
+		<isNotNull prepend="," property="pipeSegmentLength">pipeSegmentLength=#pipeSegmentLength#</isNotNull>
+		<isNotNull prepend="," property="pipeSegmentType">pipeSegmentType=#pipeSegmentType#</isNotNull>
+		<isNotNull prepend="," property="buriedDepth">buriedDepth=#buriedDepth#</isNotNull>
+		<isNotNull prepend="," property="startNestTopElevation">startNestTopElevation=#startNestTopElevation#</isNotNull>
+		<isNotNull prepend="," property="startNestBottomElevation">startNestBottomElevation=#startNestBottomElevation#</isNotNull>
+		<isNotNull prepend="," property="startDeviceId">startDeviceId=#startDeviceId#</isNotNull>
+		<isNotNull prepend="," property="startDeviceType">startDeviceType=#startDeviceType#</isNotNull>
+		<isNotNull prepend="," property="startDeviceName">startDeviceName=#startDeviceName#</isNotNull>
+		<isNotNull prepend="," property="endDeviceId">endDeviceId=#endDeviceId#</isNotNull>
+		<isNotNull prepend="," property="endDeviceType">endDeviceType=#endDeviceType#</isNotNull>
+		<isNotNull prepend="," property="endDeviceName">endDeviceName=#endDeviceName#</isNotNull>
+		<isNotNull prepend="," property="endNestTopElevation">endNestTopElevation=#endNestTopElevation#</isNotNull>
+		<isNotNull prepend="," property="endNestBottomElevation">endNestBottomElevation=#endNestBottomElevation#</isNotNull>
+		<isNotNull prepend="," property="pipeLineLayingEnumId">pipeLineLayingEnumId=#pipeLineLayingEnumId#</isNotNull>
+		<isNotNull prepend="," property="holeQuantity">holeQuantity=#holeQuantity#</isNotNull>
+		<isNotNull prepend="," property="constructionSharingEnumId">constructionSharingEnumId=#constructionSharingEnumId#</isNotNull>
+		<isNotNull prepend="," property="constructionSharingOrg">constructionSharingOrg=#constructionSharingOrg#</isNotNull>
+		<isNotNull prepend="," property="sharingTypeEnumId">sharingTypeEnumId=#sharingTypeEnumId#</isNotNull>
+		<isNotNull prepend="," property="buildAndShareNum">buildAndShareNum=#buildAndShareNum#</isNotNull>
+		<isNotNull prepend="," property="occupiedSharingHoleQuantity">occupiedSharingHoleQuantity=#occupiedSharingHoleQuantity#</isNotNull>
+		<isNotNull prepend="," property="rentFlag">rentFlag=#rentFlag#</isNotNull>
+		<isNotNull prepend="," property="rentOrg">rentOrg=#rentOrg#</isNotNull>
+		<isNotNull prepend="," property="rentChargingCode">rentChargingCode=#rentChargingCode#</isNotNull>
+		<isNotNull prepend="," property="resourceLifePeriodEnumId">resourceLifePeriodEnumId=#resourceLifePeriodEnumId#</isNotNull>
+		<isNotNull prepend="," property="deletedFlag">deletedFlag=#deletedFlag#</isNotNull>
+		<isNotNull prepend="," property="cstate">cstate=#cstate#</isNotNull>
+		<isNotNull prepend="," property="startFaceLocation">startFaceLocation=#startFaceLocation#</isNotNull>
+		<isNotNull prepend="," property="endFaceLocation">endFaceLocation=#endFaceLocation#</isNotNull>
+		<isNotNull prepend="," property="maintenanceAreaName">maintenanceAreaName=#maintenanceAreaName#</isNotNull>
+		<isNotNull prepend="," property="dataQualityPrincipal">dataQualityPrincipal=#dataQualityPrincipal#</isNotNull>
+		<isNotNull prepend="," property="parties">parties=#parties#</isNotNull>
+		<isNotNull prepend="," property="maintainLength">maintainLength=#maintainLength#</isNotNull>
+		<isNotNull prepend="," property="maintenanceOrg">maintenanceOrg=#maintenanceOrg#</isNotNull>
+		<isNotNull prepend="," property="maintenanceLeader">maintenanceLeader=#maintenanceLeader#</isNotNull>
+		<isNotNull prepend="," property="leaderPhone">leaderPhone=#leaderPhone#</isNotNull>
+		<isNotNull prepend="," property="remark">remark=#remark#</isNotNull>
+		</dynamic>
+		
+		WHERE pipeSegmentId=#pipeSegmentId#
+	</update>
+	
+	<!-- 插入管道段 -->
+	<insert id="insertPipeSegment" parameterClass="manage.pipe.pojo.PipeSegmentInfoBean">
+		insert into pipesegmentinfo(
+			pipeSegmentName,pipeSegmentCode,maintenanceAreaId,pipeId,roadName,pipeSegmentLength,pipeSegmentType,
+			buriedDepth,startNestTopElevation,startNestBottomElevation,startDeviceId,startDeviceType,endDeviceId,
+			endDeviceType,endNestTopElevation,endNestBottomElevation,pipeLineLayingEnumId,holeQuantity,
+			constructionSharingEnumId,constructionSharingOrg,sharingTypeEnumId,buildAndShareNum,occupiedSharingHoleQuantity,
+			rentFlag,rentStartDate,rentEndDate,rentOrg,rentChargingCode,resourceLifePeriodEnumId,creationDate,
+			deletedFlag,provinceId,cuser,cstate,startDeviceName,endDeviceName,areano,areaname,startFaceLocation,endFaceLocation,maintenanceAreaName,
+			dataQualityPrincipal,parties,maintainLength
+			,maintain_company,maintain_manager,maintain_manager_phone,remark
+		) values (
+			#pipeSegmentName#,#pipeSegmentCode#,#maintenanceAreaId#,#pipeId#,#roadName#,#pipeSegmentLength#,#pipeSegmentType#,
+			#buriedDepth#,#startNestTopElevation#,#startNestBottomElevation#,#startDeviceId#,#startDeviceType#,#endDeviceId#,
+			#endDeviceType#,#endNestTopElevation#,#endNestBottomElevation#,#pipeLineLayingEnumId#,#holeQuantity#,
+			#constructionSharingEnumId#,#constructionSharingOrg#,#sharingTypeEnumId#,#buildAndShareNum#,#occupiedSharingHoleQuantity#,
+			#rentFlag#,#rentStartDate#,#rentEndDate#,#rentOrg#,#rentChargingCode#,#resourceLifePeriodEnumId#,now(),
+			'0',#provinceId#,#cuser#,'2',#startDeviceName#,#endDeviceName#,#areano#,#areaname#,#startFaceLocation#,#endFaceLocation#,
+			#maintenanceAreaName#,#dataQualityPrincipal#,#parties#,#maintainLength#
+			,#maintenanceOrg#,#maintenanceLeader#,#leaderPhone#,#remark#)
+		<selectKey resultClass="int" keyProperty="pipeSegmentId" > 
+				SELECT LAST_INSERT_ID() AS pipeSegmentId
+		</selectKey>
+	</insert>
+	<!-- 更新井 -->
+	<update id="updateWell" parameterClass="manage.pipe.pojo.WellInfoBean">
+		update wellinfo set lastUpdateDate=now(),resMotion = null
+		<dynamic prepend=", ">
+		<isNotNull prepend="," property="wellName">wellName=#wellName#</isNotNull>
+		<isNotNull prepend="," property="alias">alias=#alias#</isNotNull>
+		<isNotNull prepend="," property="direction">direction=#direction#</isNotNull>
+		<isNotNull prepend="," property="wellNo">wellNo=#wellNo#</isNotNull>
+		<isNotNull prepend="," property="pipeId">pipeId=#pipeId#</isNotNull>
+		<isNotNull prepend="," property="longitude">longitude=#longitude#</isNotNull>
+		<isNotNull prepend="," property="latitude">latitude=#latitude#</isNotNull>
+		<isNotNull prepend="," property="deletedFlag">deletedFlag=#deletedFlag#</isNotNull>
+		<isNotNull prepend="," property="provinceId">provinceId=#provinceId#</isNotNull>
+		<isNotNull prepend="," property="wellmap">wellmap=#wellmap#</isNotNull>
+		<isNotNull prepend="," property="faceids">faceids=#faceids#</isNotNull>
+		<isNotNull prepend="," property="areano">areano=#areano#</isNotNull>
+		<isNotNull prepend="," property="areaname">areaname=#areaname#</isNotNull>
+		<isNotNull prepend="," property="cstate">cstate=#cstate#</isNotNull>
+		<isNotNull prepend="," property="region">region=#region#</isNotNull>
+		<isNotNull prepend="," property="manholeShape">manholeShape=#manholeShape#</isNotNull>
+		<isNotNull prepend="," property="constructionSharingEnumId">constructionSharingEnumId=#constructionSharingEnumId#</isNotNull>
+		<isNotNull prepend="," property="constructionSharingOrg">constructionSharingOrg=#constructionSharingOrg#</isNotNull>
+		<isNotNull prepend="," property="sharingTypeEnumId">sharingTypeEnumId=#sharingTypeEnumId#</isNotNull>
+		<isNotNull prepend="," property="rentFlag">rentFlag=#rentFlag#</isNotNull>
+		<isNotNull prepend="," property="dataQualityPrincipal">dataQualityPrincipal=#dataQualityPrincipal#</isNotNull>
+		<isNotNull prepend="," property="parties">parties=#parties#</isNotNull>
+		<isNotNull prepend="," property="branch">branch=#branch#</isNotNull>
+		<isNotNull prepend="," property="texture">texture=#texture#</isNotNull>
+		<isNotNull prepend="," property="redWire">redWire=#redWire#</isNotNull>
+		<isNotNull prepend="," property="remark">remark=#remark#</isNotNull>
+		<isNotNull prepend="," property="wellType">wellType=#wellType#</isNotNull>
+		</dynamic>
+		WHERE wellId=#wellId#
+	</update>
+	
+	<!-- 插入井 -->
+	<insert id="insertWell" parameterClass="manage.pipe.pojo.WellInfoBean">
+		insert into wellinfo(
+			wellName,alias,direction,wellNo,wellSubNo,wellNameSub,longitude,latitude,
+			creationDate,deletedFlag,wellmap,faceids,provinceId,cuser,cstate,
+			areano,areaname,pipeId,region,constructionSharingEnumId,constructionSharingOrg,
+			sharingTypeEnumId,rentFlag,dataQualityPrincipal,parties,branch,branchNum,manholeShape,
+			texture,redWire,remark,wellType
+		) values(
+			#wellName#,#alias#,#direction#,#wellNo#,#wellSubNo#,#wellNameSub#,#longitude#,#latitude#,
+			now(),'0',#wellmap#,#faceids#,#provinceId#,#cuser#,'2',
+			#areano#,#areaname#,#pipeId#,#region#,#constructionSharingEnumId#,#constructionSharingOrg#,
+			#sharingTypeEnumId#,#rentFlag#,#dataQualityPrincipal#,#parties#,#branch#,#branchNum#,#manholeShape#,
+			#texture#,#redWire#,#remark#,#wellType#
+		)
+		<selectKey resultClass="int" keyProperty="wellId" > 
+				SELECT LAST_INSERT_ID() AS wellId
+		</selectKey>
+	</insert>
+	
+	<!-- 修改管孔 -->
+	<update id="updateTube" parameterClass="manage.pipe.pojo.TubeInfoBean">
+		update tubeinfo set lastUpdateDate=now()
+		<dynamic prepend=", ">
+		<isNotNull prepend="," property="tubeName">tubeName=#tubeName#</isNotNull>
+		<isNotNull prepend="," property="tubeNumber">tubeNumber=#tubeNumber#</isNotNull>
+		<isNotNull prepend="," property="pipeSegmentId">pipeSegmentId=#pipeSegmentId#</isNotNull>
+		<isNotNull prepend="," property="faceId">faceId=#faceId#</isNotNull>
+		<isNotNull prepend="," property="isFather">isFather=#isFather#</isNotNull>
+		<isNotNull prepend="," property="fatherPoreId">fatherPoreId=#fatherPoreId#</isNotNull>
+		<isNotNull prepend="," property="subTubeArrangeMode">subTubeArrangeMode=#subTubeArrangeMode#</isNotNull>
+		<isNotNull prepend="," property="subTubeAmount">subTubeAmount=#subTubeAmount#</isNotNull>
+		<isNotNull prepend="," property="tubeStatusEnumId">tubeStatusEnumId=#tubeStatusEnumId#</isNotNull>
+		<isNotNull prepend="," property="tubeDiameter">tubeDiameter=#tubeDiameter#</isNotNull>
+		<isNotNull prepend="," property="tubeColor">tubeColor=#tubeColor#</isNotNull>
+		<isNotNull prepend="," property="tubeMaterial">tubeMaterial=#tubeMaterial#</isNotNull>
+		<isNotNull prepend="," property="tubeShape">tubeShape=#tubeShape#</isNotNull>
+		<isNotNull prepend="," property="rentFlag">rentFlag=#rentFlag#</isNotNull>
+		<isNotNull prepend="," property="rentOrg">rentOrg=#rentOrg#</isNotNull>
+		<isNotNull prepend="," property="resourceLifePeriodEnumId">resourceLifePeriodEnumId=#resourceLifePeriodEnumId#</isNotNull>
+		<isNotNull prepend="," property="bearCableSegmentId">bearCableSegmentId=#bearCableSegmentId#</isNotNull>
+		<isNotNull prepend="," property="bearCableSegment">bearCableSegment=#bearCableSegment#</isNotNull>
+		<isNotNull prepend="," property="redunBearCableSegmentId">redunBearCableSegmentId=#redunBearCableSegmentId#</isNotNull>
+		<isNotNull prepend="," property="redunBearCableSegment">redunBearCableSegment=#redunBearCableSegment#</isNotNull>
+		<isNotNull prepend="," property="deletedFlag">deletedFlag=#deletedFlag#</isNotNull>
+		<isNotNull prepend="," property="provinceId">provinceId=#provinceId#</isNotNull>
+		<isNotNull prepend="," property="maintenanceAreaId">maintenanceAreaId=#maintenanceAreaId#</isNotNull>
+		<isNotNull prepend="," property="wellId">wellId=#wellId#</isNotNull>
+		<isNotNull prepend="," property="cstate">cstate=#cstate#</isNotNull>
+		<isNotNull prepend="," property="rfid">rfid=#rfid#</isNotNull>
+		<isNotNull prepend="," property="constructionSharingEnumId">constructionSharingEnumId=#constructionSharingEnumId#</isNotNull>
+		<isNotNull prepend="," property="constructionSharingOrg">constructionSharingOrg=#constructionSharingOrg#</isNotNull>
+		<isNotNull prepend="," property="sharingTypeEnumId">sharingTypeEnumId=#sharingTypeEnumId#</isNotNull>
+		<isNotNull prepend="," property="duitubeName">duitubeName=#duitubeName#</isNotNull>
+		<isNotNull prepend="," property="duitubeNumber">duitubeNumber=#duitubeNumber#</isNotNull>
+		<isNotNull prepend="," property="duifaceId">duifaceId=#duifaceId#</isNotNull>
+		<isNotNull prepend="," property="duiwellId">duiwellId=#duiwellId#</isNotNull>
+		<isNotNull prepend="," property="duirfid">duirfid=#duirfid#</isNotNull>
+		</dynamic>
+		where tubeId=#tubeId# 
+	</update>
+	
+	<update id="updateFace" parameterClass="manage.pipe.pojo.FaceInfoBean">
+		update faceinfo set 
+		<dynamic prepend="  ">
+			<isNotNull prepend="," property="cols">cols=#cols#</isNotNull>
+			<isNotNull prepend="," property="rows">rows=#rows#</isNotNull>
+			<isNotNull prepend="," property="disableTubes">disableTubes=#disableTubes#</isNotNull>
+			<isNotNull prepend="," property="pipeSegmentId">pipeSegmentId=#pipeSegmentId#</isNotNull>
+			<isNotNull prepend="," property="deletedFlag">deletedFlag=#deletedFlag#</isNotNull>
+			<isNotNull prepend="," property="cstate">cstate=#cstate#</isNotNull>
+			<isNotNull prepend="," property="isVisible">isVisible=#isVisible#</isNotNull>
+		</dynamic>
+		where
+		<dynamic prepend=" ">
+	    	<isNotEmpty prepend="AND" property="locationNo">(locationNo=#locationNo#)</isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="wellId">(wellId=#wellId#)</isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="faceId">(faceId=#faceId#)</isNotEmpty>
+	    </dynamic>
+	</update>
+	
+	<select id="getFace" parameterClass="manage.pipe.pojo.FaceInfoBean" resultClass="manage.pipe.pojo.FaceInfoBean">
+		select * from faceinfo where deletedFlag='0'
+    <dynamic prepend=" AND ">
+	    <isNotEmpty prepend="AND" property="wellId">(wellId=#wellId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="faceId">(faceId=#faceId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="locationNo">(locationNo=#locationNo#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="pipeSegmentId">(pipeSegmentId=#pipeSegmentId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="cuser">(cuser=#cuser#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="cstate">(cstate in ($cstate$))</isNotEmpty>
+	</dynamic>
+	</select>
+	
+	<insert id="insertFace" parameterClass="manage.pipe.pojo.FaceInfoBean">
+		insert into faceinfo(
+			wellId,locationNo,cols,rows,disableTubes,pipeSegmentId,deletedFlag,cuser,cstate,isVisible     
+		) values (
+			#wellId#,#locationNo#,#cols#,#rows#,#disableTubes#,#pipeSegmentId#,'0',#cuser#,'0','1'
+		)
+		<selectKey resultClass="int" keyProperty="faceId" > 
+			SELECT LAST_INSERT_ID() AS faceId
+		</selectKey>
+	</insert>
+	
+	<select id="getFaceRelation" parameterClass="manage.pipe.pojo.FaceInfoBean" resultClass="manage.pipe.pojo.FaceInfoBean">
+		select * from facerelation where faceId1=#faceId# or faceId2=#faceId#
+	</select>
+	
+	<delete id="deleteFaceRelation" parameterClass="manage.pipe.pojo.FaceInfoBean">
+		delete from facerelation where faceId1=#faceId# or faceId1=#oppoFaceId# or faceId2=#faceId# or faceId2=#oppoFaceId#
+	</delete>
+	
+	<insert id="insertFaceRelation" parameterClass="manage.pipe.pojo.FaceInfoBean">
+		insert into facerelation(
+			faceId1,faceId2
+		) values (
+			#faceId#,#oppoFaceId#
+		)
+	</insert>
+	
+	<update id="deleteWell" parameterClass="manage.pipe.pojo.WellInfoBean">
+		update wellinfo set deletedFlag='1',deletionDate=now() where wellId=#wellId#
+	</update>
+	<update id="deletePipe" parameterClass="manage.pipe.pojo.PipeInfoBean">
+		update pipeinfo set deletedFlag='1',deletionDate=now() where pipeId=#pipeId#
+	</update>
+	<update id="deletePipeseg" parameterClass="manage.pipe.pojo.PipeSegmentInfoBean">
+		update pipesegmentinfo set deletedFlag='1',deletionDate=now() where pipeSegmentId=#pipeSegmentId#
+	</update>
+	<update id="deleteFace" parameterClass="manage.pipe.pojo.FaceInfoBean">
+		update faceinfo set deletedFlag='1' where 1=1
+		<dynamic prepend=" AND ">
+		    <isNotEmpty prepend="AND" property="wellId">(wellId=#wellId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="faceId">(faceId=#faceId#)</isNotEmpty>
+		</dynamic>
+	</update>
+	<update id="deleteTube" parameterClass="manage.pipe.pojo.TubeInfoBean">
+		update tubeinfo set deletedFlag='1',deletionDate=now() where tubeId=#tubeId#
+	</update>
+	
+	
+	<select id="checkWellName" parameterClass="manage.pipe.pojo.WellInfoBean" resultClass="manage.pipe.pojo.WellInfoBean">
+		select * from wellinfo where deletedFlag='0' and wellName=#wellName#
+	</select>
+	<select id="checkPipeName" parameterClass="manage.pipe.pojo.PipeInfoBean" resultClass="manage.pipe.pojo.PipeInfoBean">
+		select * from pipeinfo where deletedFlag='0' and pipeName=#pipeName#
+	</select>
+	<select id="checkPipesegName" parameterClass="manage.pipe.pojo.PipeSegmentInfoBean" resultClass="manage.pipe.pojo.PipeSegmentInfoBean">
+		select * from pipesegmentinfo where deletedFlag='0' and pipeSegmentName=#pipeSegmentName#
+	</select>
+	
+	<select id="getLedup" parameterClass="manage.pipe.pojo.LedupInfoBean" resultClass="manage.pipe.pojo.LedupInfoBean">
+		select * from ledupinfo where deletedFlag='0'
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend="AND" property="ledupPointId">(ledupPointId=#ledupPointId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ledupPointName">(ledupPointName like '%$ledupPointName$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ledupPointNameSub">(ledupPointNameSub like '%$ledupPointNameSub$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ledupPointCode">(ledupPointCode=#ledupPointCode#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="wellId">(wellId=#wellId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="poleId">(poleId=#poleId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="dataQualityPrincipal">(dataQualityPrincipal=#dataQualityPrincipal#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="parties">(parties=#parties#)</isNotEmpty>
+		</dynamic>
+	</select>
+	<update id="updateLedup" parameterClass="manage.pipe.pojo.LedupInfoBean">
+		update ledupinfo set lastUpdateDate=now()
+	<dynamic prepend=", ">
+		<isNotNull prepend="," property="ledupPointName">ledupPointName=#ledupPointName#</isNotNull>
+		<isNotNull prepend="," property="ledupPointNameSub">ledupPointNameSub=#ledupPointNameSub#</isNotNull>
+		<isNotNull prepend="," property="ledupPointCode">ledupPointCode=#ledupPointCode#</isNotNull>
+		<isNotNull prepend="," property="tubeQuantity">tubeQuantity=#tubeQuantity#</isNotNull>
+		<isNotNull prepend="," property="occupiedTubeQuantity">occupiedTubeQuantity=#occupiedTubeQuantity#</isNotNull>
+		<isNotNull prepend="," property="reservedTubeQuantity">reservedTubeQuantity=#reservedTubeQuantity#</isNotNull>
+		<isNotNull prepend="," property="deletedFlag">deletedFlag=#deletedFlag#</isNotNull>
+		<isNotNull prepend="," property="wellId">wellId=#wellId#</isNotNull>
+		<isNotNull prepend="," property="poleId">poleId=#poleId#</isNotNull>
+		<isNotNull prepend="," property="region">region=#region#</isNotNull>
+		<isNotNull prepend="," property="LedupType">LedupType=#LedupType#</isNotNull>
+		<isNotNull prepend="," property="longitude">longitude=#longitude#</isNotNull>
+		<isNotNull prepend="," property="latitude">latitude=#latitude#</isNotNull>
+		<isNotNull prepend="," property="walladdr">walladdr=#walladdr#</isNotNull>
+		<isNotNull prepend="," property="isAuthorizationManagement">isAuthorizationManagement=#isAuthorizationManagement#</isNotNull>
+		<isNotNull prepend="," property="authorizationManagementUnit">authorizationManagementUnit=#authorizationManagementUnit#</isNotNull>
+		<isNotNull prepend="," property="designPurposes">designPurposes=#designPurposes#</isNotNull>
+		<isNotNull prepend="," property="note">note=#note#</isNotNull>
+		<isNotNull prepend="," property="dataQualityPrincipal">dataQualityPrincipal=#dataQualityPrincipal#</isNotNull>
+		<isNotNull prepend="," property="parties">parties=#parties#</isNotNull>
+	</dynamic>
+		where ledupPointId=#ledupPointId#
+	</update>
+	
+	<insert id="insertLedup" parameterClass="manage.pipe.pojo.LedupInfoBean">
+		insert into ledupinfo(
+			ledupPointName,ledupPointNameSub,ledupPointCode,wellId,poleId,tubeQuantity,
+			occupiedTubeQuantity,reservedTubeQuantity,creationDate,lastUpdateDate,
+			deletedFlag,deletionDate,region,LedupType,longitude,latitude,walladdr,isAuthorizationManagement,
+			authorizationManagementUnit,designPurposes,note,dataQualityPrincipal,parties
+		) values(
+			#ledupPointName#,#ledupPointNameSub#,#ledupPointCode#,#wellId#,#poleId#,#tubeQuantity#,
+			#occupiedTubeQuantity#,#reservedTubeQuantity#,now(),#lastUpdateDate#,
+			'0',#deletionDate#,#region#,#LedupType#,#longitude#,#latitude#,#walladdr#,#isAuthorizationManagement#,
+			#authorizationManagementUnit#,#designPurposes#,#note#,#dataQualityPrincipal#,#parties#
+		)
+		<selectKey resultClass="int" keyProperty="ledupPointId" > 
+			SELECT LAST_INSERT_ID() AS ledupPointId
+		</selectKey>
+	</insert>
+	<update id="deleteLedup">
+		update ledupinfo set deletedFlag='1',deletionDate=now() where ledupPointId=#ledupPointId#
+	</update>
+	
+	<!-- 得到管道段 -->
+	<select id="getpipeSegBywell" parameterClass="java.lang.String" resultClass="manage.pipe.pojo.PipeSegmentInfoBean">
+	    select distinct pipeSegmentId,pipeSegmentName,pipeId,pipeSegmentLength,
+	    	(select lineName from line_system where id =a.pipeId ) as pipeName,
+			startDeviceId,endDeviceId,creationDate,lastUpdateDate,deletedFlag,
+			maintenanceAreaName,dataQualityPrincipal,parties,resNum
+ 		from (
+		select pipeSegmentId,pipeSegmentName,pipeId,pipeSegmentLength,
+			startDeviceId,endDeviceId,creationDate,lastUpdateDate,deletedFlag,
+			maintenanceAreaName,dataQualityPrincipal,parties,resNum
+ 		from pipesegmentinfo 
+		where startDeviceId in ($ids:String$)
+		union all
+		select pipeSegmentId,pipeSegmentName,pipeId,pipeSegmentLength,
+			startDeviceId,endDeviceId,creationDate,lastUpdateDate,deletedFlag,
+			maintenanceAreaName,dataQualityPrincipal,parties,resNum
+ 		from pipesegmentinfo 
+		where endDeviceId in ($ids:String$)
+		) a
+	</select>
+	
+	<select id="checkWellCustomName" parameterClass="manage.pipe.pojo.WellCustomInfoBean" resultClass="manage.pipe.pojo.WellCustomInfoBean">
+		select * from rms_rsj where stateflag='0' and zh_label=#zh_label#
+	</select>
+	<select id="getWellCustom" parameterClass="manage.pipe.pojo.WellCustomInfoBean" resultClass="manage.pipe.pojo.WellCustomInfoBean">
+		select zh_label,city_id,county_id,well_kind,well_type,ownership,purpose,longitude,latitude,
+		maintain_company,maintain_area,maintain_manager,maintain_manager_phone,remark,transfer_level,
+		change_reason,time_stamp,stateflag,int_id,creator,creat_time,modifier,modify_time
+		from rms_rsj where 1 = 1
+		<dynamic prepend=" AND ">
+		<isNotEmpty prepend=" AND " property="zh_label"> <![CDATA[ zh_label like #zh_label#]]> </isNotEmpty>
+		<isNotEmpty prepend=" AND " property="city_id">(city_id=#city_id#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="county_id">(county_id=#county_id#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="well_kind">(well_kind=#well_kind#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="well_kind">(well_type=#well_type#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="ownership">(ownership=#ownership#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="purpose">(purpose=#purpose#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="longitude">(longitude=#longitude#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="latitude">(latitude=#latitude#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="maintain_company">(maintain_company=#maintain_company#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="maintain_area">(maintain_area=#maintain_area#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="maintain_manager">(maintain_manager=#maintain_manager#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="maintain_manager_phone">(maintain_manager_phone=#maintain_manager_phone#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="remark">(remark=#remark#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="transfer_level">(transfer_level=#transfer_level#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="change_reason"> change_reason like '%$change_reason$%' </isNotEmpty>
+		<isNotEmpty prepend=" AND " property="time_stamp">(time_stamp=#time_stamp#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="stateflag">(stateflag=#stateflag#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="int_id">(int_id=#int_id#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="creator">(creator=#creator#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="creat_time">(creat_time=#creat_time#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="modifier">(modifier=#modifier#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="modify_time">(modify_time=#modify_time#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="extendSql">($extendSql$)</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="sort"> ORDER BY #sort# </isNotEmpty>
+	    	<isNotEmpty prepend=" " property="dir">  #dir# </isNotEmpty>
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+	</select>
+	
+	<insert id="insertWellCustom" parameterClass="manage.pipe.pojo.WellCustomInfoBean">
+		insert into rms_rsj (
+			zh_label,city_id,county_id,well_kind,well_type,
+			ownership,purpose,longitude,latitude,
+			maintain_company,maintain_area,maintain_manager,maintain_manager_phone,
+			remark,transfer_level,change_reason,time_stamp,stateflag,
+			creator,creat_time,modifier,modify_time
+		) values (
+			#zh_label#,#city_id#,#county_id#,#well_kind#,#well_type#,
+			#ownership#,#purpose#,#longitude#,#latitude#,
+			#maintain_company#,#maintain_area#,#maintain_manager#,#maintain_manager_phone#,
+			#remark#,#transfer_level#,#change_reason#,now(),'0',
+			#creator#,now(),#modifier#,#modify_time#
+		)
+		<selectKey resultClass="int" keyProperty="int_id" > 
+			SELECT LAST_INSERT_ID() AS int_id
+		</selectKey>
+	</insert>
+	
+	<update id="updateWellCustom" parameterClass="manage.pipe.pojo.WellCustomInfoBean">
+		update rms_rsj set time_stamp=now(),modify_time=now()
+		<dynamic prepend=" , ">
+			<isNotEmpty prepend=" , " property="zh_label"> zh_label=#zh_label# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="city_id"> city_id=#city_id# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="county_id"> county_id=#county_id# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="well_kind"> well_kind=#well_kind# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="well_type"> well_type=#well_type# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="ownership"> ownership=#ownership# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="purpose"> purpose=#purpose# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="longitude"> longitude=#longitude# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="latitude"> latitude=#latitude# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_company"> maintain_company=#maintain_company# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_area"> maintain_area=#maintain_area# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_manager"> maintain_manager=#maintain_manager# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_manager_phone"> maintain_manager_phone=#maintain_manager_phone# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="remark"> remark=#remark# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="transfer_level"> transfer_level=#transfer_level# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="change_reason"> change_reason=#change_reason# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="stateflag"> stateflag=#stateflag# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="creator"> creator=#creator# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="creat_time"> creat_time=#creat_time# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="modifier"> modifier=#modifier# </isNotEmpty>
+		</dynamic>
+		where int_id=#int_id#
+	</update>
+	<update id="deleteWellCustom" parameterClass="manage.pipe.pojo.WellCustomInfoBean">
+		update rms_rsj set stateflag='1',modify_time=now(),time_stamp=now() where int_id=#int_id#
+	</update>
+	
+	<select id="checkPipesegNameCustom" parameterClass="manage.pipe.pojo.PipeSegCustomInfoBean" resultClass="manage.pipe.pojo.PipeSegCustomInfoBean">
+		select * from rms_pipe_seg where stateflag='0' and zh_label=#zh_label#
+	</select>
+	
+	<insert id="insertPipeSegCustom" parameterClass="manage.pipe.pojo.PipeSegCustomInfoBean">
+		insert into rms_pipe_seg (
+			zh_label,city_id,county_id,dest_point_name,orig_point_name,ownership,length,
+			maintain_company,maintain_area,maintain_manager,maintain_manager_phone,remark,	
+			change_reason,time_stamp,stateflag,creator,creat_time,modifier,modify_time
+		) values (
+			#zh_label#,#city_id#,#county_id#,#dest_point_name#,#orig_point_name#,#ownership#,#length#,
+			#maintain_company#,#maintain_area#,#maintain_manager#,#maintain_manager_phone#,#remark#,	
+			#change_reason#,now(),'0',#creator#,now(),#modifier#,#modify_time#
+		)
+		<selectKey resultClass="int" keyProperty="int_id" > 
+				SELECT LAST_INSERT_ID() AS int_id
+		</selectKey>
+	</insert>
+	
+	<select id="getPipeSegCustom" parameterClass="manage.pipe.pojo.PipeSegCustomInfoBean" resultClass="manage.pipe.pojo.PipeSegCustomInfoBean">
+        select zh_label,city_id,county_id,dest_point_name,orig_point_name,ownership,length,
+		maintain_company,maintain_area,maintain_manager,maintain_manager_phone,
+		remark,change_reason,time_stamp,stateflag,int_id,
+		creator,creat_time,modifier,modify_time
+		from rms_pipe_seg where 1 = 1
+		<dynamic prepend=" AND ">
+		<isNotEmpty prepend=" AND " property="zh_label"> <![CDATA[ zh_label like #zh_label#]]> </isNotEmpty>
+		<isNotEmpty prepend=" AND " property="city_id">city_id=#city_id#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="county_id">county_id=#county_id#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="dest_point_name">dest_point_name=#dest_point_name#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="orig_point_name">orig_point_name=#orig_point_name#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="ownership">ownership=#ownership#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="length">length=#length#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="maintain_company">maintain_company=#maintain_company#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="maintain_area">maintain_area=#maintain_area#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="maintain_manager">maintain_manager=#maintain_manager#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="maintain_manager_phone">maintain_manager_phone=#maintain_manager_phone#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="remark">remark=#remark#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="change_reason"> change_reason like '%$change_reason$%' </isNotEmpty>
+		<isNotEmpty prepend=" AND " property="time_stamp">time_stamp=#time_stamp#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="stateflag">stateflag=#stateflag#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="int_id">int_id=#int_id#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="creator">creator=#creator#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="creat_time">creat_time=#creat_time#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="modifier">modifier=#modifier#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="modify_time">modify_time=#modify_time#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="extendSql">($extendSql$)</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="sort"> ORDER BY #sort# </isNotEmpty>
+	    	<isNotEmpty prepend=" " property="dir">  #dir# </isNotEmpty>
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+    </select>
+    
+    <update id="updatePipeSegCustom" parameterClass="manage.pipe.pojo.PipeSegCustomInfoBean">
+		update rms_pipe_seg set time_stamp=now(),modify_time=now()
+		<dynamic prepend=" , ">
+			<isNotEmpty prepend=" , " property="zh_label"> zh_label=#zh_label# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="city_id"> city_id=#city_id# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="county_id"> county_id=#county_id# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="dest_point_name"> dest_point_name=#dest_point_name# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="orig_point_name"> orig_point_name=#orig_point_name# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="ownership"> ownership=#ownership# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="length"> length=#length# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_company"> maintain_company=#maintain_company# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_area"> maintain_area=#maintain_area# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_manager"> maintain_manager=#maintain_manager# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_manager_phone"> maintain_manager_phone=#maintain_manager_phone# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="remark"> remark=#remark# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="change_reason"> change_reason=#change_reason# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="stateflag"> stateflag=#stateflag# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="creator"> creator=#creator# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="creat_time"> creat_time=#creat_time# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="modifier"> modifier=#modifier# </isNotEmpty>
+		</dynamic>
+		where int_id=#int_id#
+	</update>
+	
+	<update id="deletePipeSegCustom" parameterClass="manage.pipe.pojo.PipeSegCustomInfoBean">
+		update rms_pipe_seg set stateflag='1',modify_time=now(),time_stamp=now() where int_id=#int_id#
+	</update>
+	
+</sqlMap>
+    

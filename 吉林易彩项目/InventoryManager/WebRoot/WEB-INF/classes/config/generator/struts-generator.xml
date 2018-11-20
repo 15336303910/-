@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="generator" extends="json-default,struts-base">
+        <action name="pdaGenerator" class="interfaces.pdainterface.generator.action.PDAGenerator">
+        	<result name="*" type="json">
+	    	    <param name="root">jsonResponse</param>
+	    	</result>
+        </action>
+        <action name="generator" class="manage.generator.web.GeneratorAction">
+        	<result name="getStation" type="json">
+	    	    <param name="root">stationBase</param>
+	    	</result>
+	    	<result name="getGeneratorInfo" type="json">
+	    	    <param name="root">generator</param>
+	    	</result>
+	    	<result name="getHFS" type="json">
+	    	    <param name="root">hfs</param>
+	    	</result>
+	    	<result name="success" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+        </action>
+        <action name="pdaMachineRoom" class="interfaces.pdainterface.generator.action.PDAMachineRoomAction">
+        	<result name="*" type="json">
+	    	    <param name="root">jsonResponse</param>
+	    	</result>
+        </action>
+        <action name="pdaSiteBase" class="interfaces.pdainterface.generator.action.PDASiteBaseAction">
+        	<result name="*" type="json">
+	    	    <param name="root">jsonResponse</param>
+	    	</result>
+        </action>
+        <action name="pdaLoadData" class="interfaces.pdainterface.common.action.PDALoadDataAction">
+        	<result name="*" type="json">
+	    	    <param name="root">jsonResponse</param>
+	    	</result>
+        </action>
+    </package>
+</struts>

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>资源列表</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/jquery-1.12.3.js"></script>
+		<style>
+			.circle {
+                position: fixed;
+                text-align: center;
+                margin-left: calc((20% - 65px)/2);
+                bottom: 18px;
+                width: 65px;
+                height: 65px;
+                border-radius: 50px;
+                background-image: url(../../image/add.png);
+                z-index: 99;
+        	}
+			.tab-center {
+                display: table-cell;
+                overflow: hidden;
+                width: 1%;
+                height: 50px;
+                text-align: center;
+                vertical-align: middle;
+            }
+			
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title mui-badge-primary">资源列表</h1>
+		</header>
+		<div class="mui-input-row mui-search">
+			<input type="search" id="pipeName" class="mui-input-clear" placeholder="" value="搜索">
+		</div>
+		<div class="mui-content">
+			<div class="mui-card">
+				<ul id="pipeUl" class="mui-table-view mui-table-view-striped mui-table-view-condensed">
+				</ul>
+			</div>
+		</div>
+		<div id="addButton" class="tab-center">
+    		<div class="circle" onclick="addPipe()">
+        		<span class="mui-icon-extra mui-icon-extra-sweep"></span>
+    		</div>
+		</div>
+	</body>
+	<script>
+		mui.init({
+			swipeBack:true
+		});
+		var LocString = String(window.document.location.href); 
+		mui.plusReady(function(){
+			pipeInit();
+		})
+		
+		/**
+		 * 初始化管线系统数据
+		 */
+		function pipeInit(pipeName){
+			var UID = plus.storage.getItem("uid");//获取缓存记录
+			var logingUser = plus.storage.getItem("logingUser");//当前登录用户
+			var areaName = plus.storage.getItem("areaName");//得到权限控制地市
+			var url = plus.storage.getItem("url")+"/pdaLineSystem!getLineSystem.interface";
+			mui.ajax(url, {
+					type: 'post',
+					dataType: 'json',
+					timeout: 10000 * 60,
+					data: {
+						jsonRequest: "{}",
+						UID:UID,
+						longiner:logingUser,
+						areaName:areaName
+					},
+					success: function(response) {
+						plus.nativeUI.closeWaiting();
+						var result = JSON.stringify(response);
+						console.log(result);
+						var data = JSON.parse(result);
+						var result = data.result;
+						if(result =='0'){
+							var infos = JSON.parse(data.info);
+							for(var i=0;i<infos.length;i++){
+								var info = infos[i];
+								$("#pipeUl").append("<li class=\"mui-table-view-cell\" onclick=\"getPipeDetail("+info.id+","+info.lineType+");\">" + 
+						            "<div class=\"mui-table\">" + 
+						                "<div class=\"mui-table-cell mui-col-xs-10\">" + 
+						                    "<h5 class=\"mui-ellipsis\">"+info.lineName+"</h5>" + 
+						                    "<h5>所属区域："+info.lineArea+"</h5>" + 
+						                    "<p class=\"mui-h6 mui-ellipsis\"></p>" + 
+						                "</div>" + 
+						                "<div class=\"mui-table-cell mui-col-xs-2 mui-text-right\">" + 
+						                    "<span class=\"mui-h5\"></span>" + 
+						                "</div>" + 
+						            "</div>" + 
+						        "</li>");
+							}
+						}else{
+							mui.alert("获取数据失败！");
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						plus.nativeUI.closeWaiting();
+					}
+
+				});	
+			
+		}
+		
+		//圆角列表开关处理
+//		document.getElementById("M_Toggle").addEventListener('toggle',function (e) {
+//			var isActive = e.detail.isActive;
+//			var table = document.querySelector('.mui-table-view');
+//			var card = document.querySelector('.mui-card');
+//			if (isActive) {
+//				card.appendChild(table);
+//				card.style.display = '';
+//			} else {
+//				var content = document.querySelector('.mui-content');
+//				content.insertBefore(table, card);
+//				card.style.display = 'none';
+//			}
+//		});
+		
+		function addPipe(){
+			mui.openWindow("/pages/pipeLine/addPipeLine.html?");
+		}
+		//跳转到详情页面
+		function getPipeDetail(id,type){
+			//mui.alert(id+"==="+type); type 0 杆路  1  直埋  2 管道
+			mui.openWindow("/pages/pipeLine/pipeLineDetail.html?pipeId='"+id+"'&pipeType='"+type+"'");
+		}
+		//得到参数
+		function getQueryStr(str){
+			var rs = new RegExp("(^|)" + str + "=([^&]*)(&|$)", "gi").exec(LocString), tmp; 
+			if (tmp = rs) { 
+				return tmp[2]; 
+			} 
+			return ""; 
+		}
+	</script>
+</html>

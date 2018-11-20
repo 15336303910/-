@@ -1,0 +1,101 @@
+package interfaces.pdainterface.pipe.service.impl;
+
+import base.database.DataBase;
+import base.exceptions.DataAccessException;
+import base.util.TextUtil;
+import interfaces.pdainterface.pipe.service.PDAPipeCustomService;
+
+import java.util.ArrayList;
+import java.util.List;
+import org.springframework.jdbc.core.JdbcTemplate;
+
+import manage.pipe.pojo.FaceInfoBean;
+import manage.pipe.pojo.WellCustomInfoBean;
+
+public class PDAPipeCustomServiceImpl extends DataBase implements PDAPipeCustomService {
+	private JdbcTemplate jdbcTemplate;
+
+	public JdbcTemplate getJdbcTemplate() {
+		return jdbcTemplate;
+	}
+
+	public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<WellCustomInfoBean> getWellCustom(WellCustomInfoBean well) throws DataAccessException {
+		if (TextUtil.isNotNull(well.getInt_id())) {
+			well.setLone(null);
+			well.setLate(null);
+			well.setLongitude(null);
+			well.setLons(null);
+			well.setLatitude(null);
+			well.setLats(null);
+		}
+
+		if (TextUtil.isNotNull(well.getZh_label())) {
+			String wellName = well.getZh_label();
+			if (wellName.contains(" ")) {
+				wellName = wellName.replaceAll(" +", "%");
+			}
+			well.setZh_label("%" + wellName + "%");
+		}
+		return getObjects("pdapipe.getWellCustom", well);
+	}
+
+	@Override
+	public Integer insertWellCustom(WellCustomInfoBean well) throws DataAccessException {
+		WellCustomInfoBean we = new WellCustomInfoBean();
+		we.setZh_label(well.getZh_label());
+		we = (WellCustomInfoBean) getObject("pdapipe.checkWellCustomName", we);
+		if (we == null) {
+			int wellId = ((Integer) insert("pdapipe.insertWellCustom", well)).intValue();
+			List mian = new ArrayList();
+			mian.add("西北");
+			mian.add("北");
+			mian.add("东北");
+			mian.add("东");
+			mian.add("东南");
+			mian.add("南");
+			mian.add("西南");
+			mian.add("西");
+			int i = 0;
+			while (true) {
+				FaceInfoBean face = new FaceInfoBean();
+				face.setCols(Integer.valueOf(1));
+				face.setRows(Integer.valueOf(1));
+				face.setWellId(Integer.valueOf(wellId));
+				face.setLocationNo(mian.get(i).toString());
+				insert("pdapipe.insertFace", face);
+
+				++i;
+				if (i >= mian.size()) {
+					return Integer.valueOf(wellId);
+				}
+			}
+		} else {
+			return Integer.valueOf(-1);
+		}
+	}
+
+	@Override
+	public Integer updateWellCustom(WellCustomInfoBean well) throws DataAccessException {
+		WellCustomInfoBean we = new WellCustomInfoBean();
+	     we.setZh_label(well.getZh_label());
+	     we = (WellCustomInfoBean)getObject("pdapipe.checkWellCustomName", we);
+	     //代表修改当前井
+	     if(we == null ||  we.getInt_id().equals(well.getInt_id())) {
+	    	 return Integer.valueOf(update("pdapipe.updateWellCustom", well));
+	     }else {
+	    	 //代表存在重复
+	    	 return Integer.valueOf(-1);
+	     }
+	}
+
+	@Override
+	public Integer deleteWellCustom(WellCustomInfoBean well) throws DataAccessException {
+		return Integer.valueOf(update("pdapipe.deleteWellCustom", well));
+	}
+}

@@ -1,0 +1,641 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="pdaroute">	
+	<!-- 获取光缆信息 -->
+	<select id="getRoute" parameterClass="manage.route.pojo.RouteInfoBean" resultClass="manage.route.pojo.RouteInfoBean">
+		select * from job_route where deletedFlag='0'
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend="AND" property="routeid">(routeid=#routeid#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="routename">(routename like '%$routename$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="routelevel">(routelevel like '%$routelevel$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="startsite">(startsite like '%$startsite$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="endsite">(endsite like '%$endsite$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sign">(sign like '%$sign$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="state">(state=#state#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="cuser">(cuser=#cuser#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="cstate">(cstate in ($cstate$))</isNotEmpty>
+			<isNotEmpty prepend="AND" property="opticalCableTopology">(opticalCableTopology like '%$opticalCableTopology$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="managementAuthorizedFlag">(managementAuthorizedFlag like '%$managementAuthorizedFlag$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="authorizedManagementOrgId">(authorizedManagementOrgId like '%$authorizedManagementOrgId$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="designedPurpose">(designedPurpose like '%$designedPurpose$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="areano">(areano like '%$areano$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sectioncount">(sectioncount=#sectioncount#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="fibercount">(fibercount=#fibercount#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="inusecount">(inusecount=#inusecount#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="areaname">(areaname like '%$areaname$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="dataQualityPrincipal">(dataQualityPrincipal=#dataQualityPrincipal#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="parties">(parties=#parties#)</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+	</select>
+	
+	
+	<!-- 获取光缆路由信息 -->
+	<select id="getCableRoute" parameterClass="manage.route.pojo.CableRouteInfoBean" resultClass="manage.route.pojo.CableRouteInfoBean">
+		select * from cablerouteinfo where deletedFlag='0'
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="optCableId">(optCableId=#optCableId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="routeSeqNum">(routeSeqNum=#routeSeqNum#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="tubeId">(tubeId=#tubeId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="idE">(idE=#idE#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="cuser">(cuser=#cuser#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="cstate">(cstate in ($cstate$))</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 修改光缆 -->
+	<update id="updateRoute" parameterClass="manage.route.pojo.RouteInfoBean">
+ 		UPDATE job_route set lastUpdateDate=now()
+ 		<dynamic prepend=", ">
+ 			<isNotNull prepend="," property="routename">routename=#routename#</isNotNull>
+ 			<isNotNull prepend="," property="routelevel">routelevel=#routelevel#</isNotNull>
+ 			<isNotNull prepend="," property="state">state=#state#</isNotNull>
+ 			<isNotNull prepend="," property="startsite">startsite=#startsite#</isNotNull>
+ 			<isNotNull prepend="," property="endsite">endsite=#endsite#</isNotNull>
+ 			<isNotNull prepend="," property="sign">sign=#sign#</isNotNull>
+ 			<isNotNull prepend="," property="cstate">cstate=#cstate#</isNotNull>
+ 			<isNotNull prepend="," property="startsiteareano">startsiteareano=#startsiteareano#</isNotNull>
+ 			<isNotNull prepend="," property="endsiteareano">endsiteareano=#endsiteareano#</isNotNull>
+ 			<isNotNull prepend="," property="opticalCableTopology">opticalCableTopology=#opticalCableTopology#</isNotNull>
+ 			<isNotNull prepend="," property="managementAuthorizedFlag">managementAuthorizedFlag=#managementAuthorizedFlag#</isNotNull>
+ 			<isNotNull prepend="," property="authorizedManagementOrgId">authorizedManagementOrgId=#authorizedManagementOrgId#</isNotNull>
+ 			<isNotNull prepend="," property="designedPurpose">designedPurpose=#designedPurpose#</isNotNull>
+ 			<isNotNull prepend="," property="areano">areano=#areano#</isNotNull>
+ 			<isNotNull prepend="," property="sectioncount">sectioncount=#sectioncount#</isNotNull>
+ 			<isNotNull prepend="," property="fibercount">fibercount=#fibercount#</isNotNull>
+ 			<isNotNull prepend="," property="inusecount">inusecount=#inusecount#</isNotNull> 
+ 			<isNotNull prepend="," property="maintenanceAreaName">maintenanceAreaName=#maintenanceAreaName#</isNotNull> 
+ 			<isNotNull prepend="," property="dataQualityPrincipal">dataQualityPrincipal=#dataQualityPrincipal#</isNotNull>
+			<isNotNull prepend="," property="parties">parties=#parties#</isNotNull>
+ 		</dynamic>
+ 		where routeid=#routeid#;
+ 	</update>
+ 	
+ 	
+ 	<!-- 获取光缆段信息 -->
+	<select id="getCable" parameterClass="manage.route.pojo.CableInfoBean" resultClass="manage.route.pojo.CableInfoBean">
+		select * from job_cable where deletedFlag='0'
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend="AND" property="cableid">(cableid=#cableid#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="routeid">(routeid=#routeid#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="routename">(routename like #routename#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="region">(region like '%$region$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="cablename"><![CDATA[ cablename like #cablename#]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="dataQualityPrincipal">(dataQualityPrincipal=#dataQualityPrincipal#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="parties">(parties=#parties#)</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+	</select>
+	
+	<!-- 得到光缆段实体对象 -->
+	<select id="getCableObj" parameterClass="manage.route.pojo.CableInfoBean" resultClass="manage.route.pojo.CableInfoBean">
+		select * from job_cable where deletedFlag='0'
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend="AND" property="cableid">(cableid=#cableid#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resNum">(resNum=#resNum#)</isNotEmpty>
+		</dynamic>
+	</select>
+	<!-- 插入光缆段 -->
+ 	<insert id="insertCable" parameterClass="manage.route.pojo.CableInfoBean">	
+		insert into job_cable (
+			cablename,routeid,routename,region,type,length,startDeviceId,startDeviceName,
+			startDeviceType,endDeviceId,endDeviceName,endDeviceType,fixedAssetsCode,mode,
+			state,paveWay,fibercount,occupiedFiberNum,brokenFiberNum,reservedFiberNum,cutOveTag,
+			sharetype,shareoperator,sharingType,resourceLifePeriodEnumId,lifecycleTime,isAuthorizationManagement,
+			authorizationManagementUnit,designPurposes,maintenanceMode,maintenanceUnit,charteredMan,
+			otherMaintainUnit,renewalOverTime,maintenanceType,purchasedMaintenanceTime,note,creationDate,deletedFlag,
+			dataQualityPrincipal,parties,maintainLength,fiberType,cableNum
+		) values (
+			#cablename#,#routeid#,#routename#,#region#,#type#,#length#,#startDeviceId#,#startDeviceName#,
+			#startDeviceType#,#endDeviceId#,#endDeviceName#,#endDeviceType#,#fixedAssetsCode#,#mode#,
+			#state#,#paveWay#,#fibercount#,#occupiedFiberNum#,#brokenFiberNum#,#reservedFiberNum#,#cutOveTag#,
+			#sharetype#,#shareoperator#,#sharingType#,#resourceLifePeriodEnumId#,#lifecycleTime#,
+			#isAuthorizationManagement#,#authorizationManagementUnit#,#designPurposes#,#maintenanceMode#,
+			#maintenanceUnit#,#charteredMan#,#otherMaintainUnit#,#renewalOverTime#,#maintenanceType#,#purchasedMaintenanceTime#,
+			#note#,now(),'0',#dataQualityPrincipal#,#parties#,#maintainLength#,#fiberType#,#cableNum#
+		)
+		<selectKey resultClass="int" keyProperty="cableid" > 
+				SELECT LAST_INSERT_ID() AS cableid
+		</selectKey>
+	</insert>
+ 	<!-- 修改光缆段 -->
+ 	<update id="updateCable" parameterClass="manage.route.pojo.CableInfoBean">	
+ 		UPDATE job_cable set  lastUpdateDate=now(),resMotion = null
+ 		<dynamic prepend=", ">
+ 			<isNotNull prepend="," property="cablename">cablename=#cablename#</isNotNull>
+ 			<isNotNull prepend="," property="routeid">routeid=#routeid#</isNotNull>
+ 			<isNotNull prepend="," property="routename">routename=#routename#</isNotNull>
+ 			<isNotNull prepend="," property="region">region=#region#</isNotNull>
+ 			<isNotNull prepend="," property="type">type=#type#</isNotNull>
+ 			<isNotNull prepend="," property="length">length=#length#</isNotNull>
+ 			<isNotNull prepend="," property="startDeviceId">startDeviceId=#startDeviceId#</isNotNull>
+ 			<isNotNull prepend="," property="startDeviceName">startDeviceName=#startDeviceName#</isNotNull>
+ 			<isNotNull prepend="," property="startDeviceType">startDeviceType=#startDeviceType#</isNotNull>
+ 			<isNotNull prepend="," property="endDeviceId">endDeviceId=#endDeviceId#</isNotNull>
+ 			<isNotNull prepend="," property="endDeviceName">endDeviceName=#endDeviceName#</isNotNull>
+ 			<isNotNull prepend="," property="endDeviceType">endDeviceType=#endDeviceType#</isNotNull>
+ 			<isNotNull prepend="," property="fixedAssetsCode">fixedAssetsCode=#fixedAssetsCode#</isNotNull>
+ 			<isNotNull prepend="," property="mode">mode=#mode#</isNotNull>
+ 			<isNotNull prepend="," property="cableNum">cableNum=#cableNum#</isNotNull>
+ 			<isNotNull prepend="," property="state">state=#state#</isNotNull>
+ 			<isNotNull prepend="," property="paveWay">paveWay=#paveWay#</isNotNull>
+ 			<isNotNull prepend="," property="fibercount">fibercount=#fibercount#</isNotNull>
+ 			<isNotNull prepend="," property="occupiedFiberNum">occupiedFiberNum=#occupiedFiberNum#</isNotNull>
+ 			<isNotNull prepend="," property="brokenFiberNum">brokenFiberNum=#brokenFiberNum#</isNotNull>
+ 			<isNotNull prepend="," property="reservedFiberNum">reservedFiberNum=#reservedFiberNum#</isNotNull>
+ 			<isNotNull prepend="," property="cutOveTag">cutOveTag=#cutOveTag#</isNotNull>
+ 			<isNotNull prepend="," property="sharetype">sharetype=#sharetype#</isNotNull>
+ 			<isNotNull prepend="," property="shareoperator">shareoperator=#shareoperator#</isNotNull>
+ 			<isNotNull prepend="," property="sharingType">sharingType=#sharingType#</isNotNull>
+ 			<isNotNull prepend="," property="resourceLifePeriodEnumId">resourceLifePeriodEnumId=#resourceLifePeriodEnumId#</isNotNull>
+ 			<isNotNull prepend="," property="lifecycleTime">lifecycleTime=#lifecycleTime#</isNotNull>
+ 			<isNotNull prepend="," property="isAuthorizationManagement">isAuthorizationManagement=#isAuthorizationManagement#</isNotNull>
+ 			<isNotNull prepend="," property="authorizationManagementUnit">authorizationManagementUnit=#authorizationManagementUnit#</isNotNull>
+ 			<isNotNull prepend="," property="designPurposes">designPurposes=#designPurposes#</isNotNull>
+ 			<isNotNull prepend="," property="maintenanceMode">maintenanceMode=#maintenanceMode#</isNotNull>
+ 			<isNotNull prepend="," property="maintenanceUnit">maintenanceUnit=#maintenanceUnit#</isNotNull>
+ 			<isNotNull prepend="," property="charteredMan">charteredMan=#charteredMan#</isNotNull>
+ 			<isNotNull prepend="," property="otherMaintainUnit">otherMaintainUnit=#otherMaintainUnit#</isNotNull>
+ 			<isNotNull prepend="," property="renewalOverTime">renewalOverTime=#renewalOverTime#</isNotNull>
+ 			<isNotNull prepend="," property="maintenanceType">maintenanceType=#maintenanceType#</isNotNull>
+ 			<isNotNull prepend="," property="purchasedMaintenanceTime">purchasedMaintenanceTime=#purchasedMaintenanceTime#</isNotNull>
+ 			<isNotNull prepend="," property="note">note=#note#</isNotNull>
+ 			<isNotNull prepend="," property="dataQualityPrincipal">dataQualityPrincipal=#dataQualityPrincipal#</isNotNull>
+			<isNotNull prepend="," property="parties">parties=#parties#</isNotNull>
+			<isNotNull prepend="," property="maintainLength">maintainLength=#maintainLength#</isNotNull>
+			<isNotNull prepend="," property="fiberType">fiberType=#fiberType#</isNotNull>
+ 		</dynamic>
+ 		where cableid=#cableid#;
+ 	</update>
+ 	<update id="deleteCable" parameterClass="manage.route.pojo.CableInfoBean">
+ 		UPDATE job_cable set deletedFlag=1,deletionDate=now() where cableid=#cableid#
+ 	</update>
+ 	<!-- 插入光缆 -->
+	<insert id="insertRoute" parameterClass="manage.route.pojo.RouteInfoBean"> 
+		insert into job_route
+		(routename,routelevel,state,startsite,startsiteareano,endsite,endsiteareano,sign,
+		opticalCableTopology,managementAuthorizedFlag,authorizedManagementOrgId,
+		designedPurpose,areano,sectioncount,fibercount,inusecount,cuser,cstate,deletedFlag,
+		maintenanceAreaName,dataQualityPrincipal,parties)
+		values
+		(#routename#,#routelevel#,#state#,#startsite#,#startsiteareano#,#endsite#,#endsiteareano#,#sign#,#opticalCableTopology#,
+		#managementAuthorizedFlag#,#authorizedManagementOrgId#,#designedPurpose#,#areano#,#sectioncount#,#fibercount#,
+		#inusecount#,#cuser#,'2','0',#maintenanceAreaName#,#dataQualityPrincipal#,#parties#)
+		<selectKey resultClass="int" keyProperty="routeid" > 
+				SELECT LAST_INSERT_ID() AS routeid
+		</selectKey>
+	</insert>
+ 	
+	<!-- 插入光缆段路由 -->
+	<insert id="insertCableRoute" parameterClass="manage.route.pojo.CableRouteInfoBean">
+		insert into cablerouteinfo (
+			optCableId,routeSeqNum,tubeId,idE,creationDate,lastUpdateDate,deletedFlag,deletionDate,provinceId,cuser,cstate
+		) values (
+			#optCableId#,#routeSeqNum#,#tubeId#,#idE#,#creationDate#,#lastUpdateDate#,'0',#deletionDate#,#provinceId#,#cuser#,'2'
+		)
+		<selectKey resultClass="int" keyProperty="id" > 
+				SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+	</insert>
+	
+	<update id="updateCableRoute" parameterClass="manage.route.pojo.CableRouteInfoBean">	
+ 		UPDATE cablerouteinfo set   lastUpdateDate=now()
+ 		<dynamic prepend=", ">
+ 			<isNotNull prepend="," property="optCableId">optCableId=#optCableId#</isNotNull>
+ 			<isNotNull prepend="," property="routeSeqNum">routeSeqNum=#routeSeqNum#</isNotNull>
+ 			<isNotNull prepend="," property="tubeId">tubeId=#tubeId#</isNotNull>
+ 			<isNotNull prepend="," property="idE">idE=#idE#</isNotNull>
+ 			<isNotNull prepend="," property="lastUpdateDate">lastUpdateDate=lastUpdateDate</isNotNull>
+ 			<isNotNull prepend="," property="deletedFlag">deletedFlag=#deletedFlag#</isNotNull>
+ 			<isNotNull prepend="," property="deletionDate">deletionDate=#deletionDate#</isNotNull>
+ 			<isNotNull prepend="," property="cstate">cstate=#cstate#</isNotNull>
+ 		</dynamic>
+ 		where id=#id#;
+ 	</update>
+ 	
+ 	<select id="checkRouteName" parameterClass="manage.route.pojo.RouteInfoBean" resultClass="manage.route.pojo.RouteInfoBean">
+ 		select * from job_route where deletedFlag='0' and routename=#routename#
+ 	</select>
+ 	<select id="checkCableName" parameterClass="manage.route.pojo.CableInfoBean" resultClass="manage.route.pojo.CableInfoBean">
+ 		select * from job_cable where deletedFlag='0' and cablename=#cablename#
+ 	</select>
+ 	
+ 	<update id="deleteRoute" parameterClass="manage.route.pojo.RouteInfoBean">
+ 		UPDATE job_route set deletedFlag=1,deletionDate=now() where routeid=#routeid#
+ 	</update>
+ 	
+ 	
+ 	<!-- 获取接头信息 -->
+	<select id="getJoint" parameterClass="manage.route.pojo.JointInfoBean" resultClass="manage.route.pojo.JointInfoBean">
+		select * from job_joint where deletedFlag='0'
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend="AND" property="jointId">(jointId=#jointId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="wellId">(wellId=#wellId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="poleId">(poleId=#poleId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="stoneId">(stoneId=#stoneId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="jointName"><![CDATA[ jointName like #jointName#]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="lats"><![CDATA[ latitude >= #lats# ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="late"><![CDATA[ latitude <= #late# ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="lons"><![CDATA[ longitude >= #lons# ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="lone"><![CDATA[ longitude <= #lone# ]]></isNotEmpty>
+		</dynamic>
+		<dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+	</select>
+	
+	<select id="checkJointName" parameterClass="manage.route.pojo.JointInfoBean" resultClass="manage.route.pojo.JointInfoBean">
+		select * from job_joint where deletedFlag='0'
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend="AND" property="jointNameSub">(jointNameSub=#jointNameSub#)</isNotEmpty>
+		</dynamic>
+	</select>
+	<!-- 插入接头-->
+ 	<insert id="insertJoint" parameterClass="manage.route.pojo.JointInfoBean">	
+		insert into job_joint (
+			jointName,jointType,wellId,poleId,cableId,cableName,addrType,changjia,changshang,propertyBqh,addr,
+			tcfs,whzt,gjbj,resourceLifePeriodEnumId,lifecycleTime,isAuthorizationManagement,
+			authorizationManagementUnit,designPurposes,note,jointggxh,creationDate,deletedFlag,jointNo,jointNameSub,stoneId,
+			dataQualityPrincipal,parties,longitude,latitude
+		) values (
+			#jointName#,#jointType#,#wellId#,#poleId#,#cableId#,#cableName#,#addrType#,#changjia#,#changshang#,#propertyBqh#,#addr#,
+			#tcfs#,#whzt#,#gjbj#,#resourceLifePeriodEnumId#,#lifecycleTime#,#isAuthorizationManagement#,
+			#authorizationManagementUnit#,#designPurposes#,#note#,#jointggxh#,now(),'0',#jointNo#,#jointNameSub#,#stoneId#,
+			#dataQualityPrincipal#,#parties#,#longitude#,#latitude#
+		)
+		<selectKey resultClass="int" keyProperty="jointId" > 
+				SELECT LAST_INSERT_ID() AS jointId
+		</selectKey>
+	</insert>
+ 	<!-- 修改接头 -->
+ 	<update id="updateJoint" parameterClass="manage.route.pojo.JointInfoBean">	
+ 		UPDATE job_joint set  lastUpdateDate=now(),resMotion=null
+ 		<dynamic prepend=", ">
+ 			<isNotNull prepend="," property="jointName">jointName=#jointName#</isNotNull>
+ 			<isNotNull prepend="," property="jointType">jointType=#jointType#</isNotNull>
+ 			<isNotNull prepend="," property="cableId">cableId=#cableId#</isNotNull>
+ 			<isNotNull prepend="," property="cableName">cableName=#cableName#</isNotNull>
+ 			<isNotNull prepend="," property="addrType">addrType=#addrType#</isNotNull>
+ 			<isNotNull prepend="," property="changjia">changjia=#changjia#</isNotNull>
+ 			<isNotNull prepend="," property="changshang">changshang=#changshang#</isNotNull>
+ 			<isNotNull prepend="," property="propertyBqh">propertyBqh=#propertyBqh#</isNotNull>
+ 			<isNotNull prepend="," property="addr">addr=#addr#</isNotNull>
+ 			<isNotNull prepend="," property="wellId">wellId=#wellId#</isNotNull>
+ 			<isNotNull prepend="," property="stoneId">stoneId=#stoneId#</isNotNull>
+ 			<isNotNull prepend="," property="poleId">poleId=#poleId#</isNotNull>
+ 			<isNotNull prepend="," property="tcfs">tcfs=#tcfs#</isNotNull>
+ 			<isNotNull prepend="," property="whzt">whzt=#whzt#</isNotNull>
+ 			<isNotNull prepend="," property="gjbj">gjbj=#gjbj#</isNotNull>
+ 			<isNotNull prepend="," property="resourceLifePeriodEnumId">resourceLifePeriodEnumId=#resourceLifePeriodEnumId#</isNotNull>
+ 			<isNotNull prepend="," property="lifecycleTime">lifecycleTime=#lifecycleTime#</isNotNull>
+ 			<isNotNull prepend="," property="designPurposes">designPurposes=#designPurposes#</isNotNull>
+ 			<isNotNull prepend="," property="note">note=#note#</isNotNull>
+ 			<isNotNull prepend="," property="jointggxh">jointggxh=#jointggxh#</isNotNull>
+ 			<isNotNull prepend="," property="jointNo">jointNo=#jointNo#</isNotNull>
+ 			<isNotNull prepend="," property="jointNameSub">jointNameSub=#jointNameSub#</isNotNull>
+ 			<isNotNull prepend="," property="dataQualityPrincipal">dataQualityPrincipal=#dataQualityPrincipal#</isNotNull>
+			<isNotNull prepend="," property="parties">parties=#parties#</isNotNull>
+			<isNotNull prepend="," property="longitude">longitude=#longitude#</isNotNull>
+			<isNotNull prepend="," property="latitude">latitude=#latitude#</isNotNull>
+ 		</dynamic>
+ 		where jointId=#jointId#;
+ 	</update>
+ 	<update id="deleteJoint" parameterClass="manage.route.pojo.JointInfoBean">
+ 		UPDATE job_joint set deletedFlag=1,deletionDate=now() where jointId=#jointId#
+ 	</update>
+ 	
+ 	
+ 	<!-- 获取分线盒信息 -->
+	<select id="getFiberbox" parameterClass="manage.route.pojo.FiberBoxInfoBean" resultClass="manage.route.pojo.FiberBoxInfoBean">
+		select 
+			id,fiberboxName,usedCapacity,modNum,terminalNum,model,installCapacity,freeCapacity,fiberdpNo,
+			structureType,structureId,structureName,roomId,longitude,latitude,colNum,rowNum,deleteflag,
+			createTime,roomName,maintainArea
+		 from job_fiberbox where deleteflag='0'
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="fiberboxName"><![CDATA[ fiberboxName like #fiberboxName#]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="maintainArea">(maintainArea like '%$maintainArea$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="structureType">(structureType=#structureType#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="structureId">(structureId=#structureId#)</isNotEmpty>
+			 <isNotEmpty prepend=" AND " property="lats"><![CDATA[ latitude >= #lats# ]]></isNotEmpty>
+			<isNotEmpty prepend=" AND " property="late"><![CDATA[ latitude <= #late# ]]></isNotEmpty>
+			<isNotEmpty prepend=" AND " property="lons"><![CDATA[ longitude >= #lons# ]]></isNotEmpty>
+			<isNotEmpty prepend=" AND " property="lone"><![CDATA[ longitude <= #lone# ]]></isNotEmpty>
+		</dynamic>
+		<dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+	</select>
+	<select id="checkFiberboxName" parameterClass="manage.route.pojo.FiberBoxInfoBean" resultClass="manage.route.pojo.FiberBoxInfoBean">
+		select * from job_fiberbox where deleteflag='0' and fiberboxName=#fiberboxName#
+		
+	</select>
+	<!-- 插入分线盒-->
+ 	<insert id="insertFiberbox" parameterClass="manage.route.pojo.FiberBoxInfoBean">	
+		insert into job_fiberbox (
+			fiberboxName,usedCapacity,modNum,terminalNum,model,installCapacity,freeCapacity,fiberdpNo,
+			structureType,structureId,structureName,roomId,longitude,latitude,colNum,rowNum,deleteflag,
+			createTime,roomName,maintainArea
+		) values (
+			#fiberboxName#,#usedCapacity#,#modNum#,#terminalNum#,#model#,#installCapacity#,#freeCapacity#,#fiberdpNo#,
+			#structureType#,#structureId#,#structureName#,#roomId#,#longitude#,#latitude#,#colNum#,#rowNum#,'0',
+			now(),#roomName#,#maintainArea#
+		)
+		<selectKey resultClass="int" keyProperty="id" > 
+				SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+	</insert>
+ 	<!-- 修改分线盒 -->
+ 	<update id="updateFiberbox" parameterClass="manage.route.pojo.FiberBoxInfoBean">	
+ 		UPDATE job_fiberbox set  lastUpTime=now(),resMotion =null
+ 		<dynamic prepend=" , ">
+ 			<isNotNull prepend="," property="fiberboxName">fiberboxName=#fiberboxName#</isNotNull>
+ 			<isNotNull prepend="," property="usedCapacity">usedCapacity=#usedCapacity#</isNotNull>
+ 			<isNotNull prepend="," property="modNum">modNum=#modNum#</isNotNull>
+ 			<isNotNull prepend="," property="terminalNum">terminalNum=#terminalNum#</isNotNull>
+ 			<isNotNull prepend="," property="model">model=#model#</isNotNull>
+ 			<isNotNull prepend="," property="installCapacity">installCapacity=#installCapacity#</isNotNull>
+ 			<isNotNull prepend="," property="freeCapacity">freeCapacity=#freeCapacity#</isNotNull>
+ 			<isNotNull prepend="," property="fiberdpNo">fiberdpNo=#fiberdpNo#</isNotNull>
+ 			<isNotNull prepend="," property="structureType">structureType=#structureType#</isNotNull>
+ 			<isNotNull prepend="," property="structureId">structureId=#structureId#</isNotNull>
+ 			<isNotNull prepend="," property="structureName">structureName=#structureName#</isNotNull>
+ 			<isNotNull prepend="," property="roomId">roomId=#roomId#</isNotNull>
+ 			<isNotNull prepend="," property="roomName">roomName=#roomName#</isNotNull>
+ 			<isNotNull prepend="," property="maintainArea">maintainArea=#maintainArea#</isNotNull>
+ 			<isNotNull prepend="," property="longitude">longitude=#longitude#</isNotNull>
+ 			<isNotNull prepend="," property="latitude">latitude=#latitude#</isNotNull>
+ 			<isNotNull prepend="," property="colNum">colNum=#colNum#</isNotNull>
+ 			<isNotNull prepend="," property="dataQualitier">dataQualitier=#dataQualitier#</isNotNull>
+ 			<isNotNull prepend="," property="maintainer">maintainer=#maintainer#</isNotNull>
+ 			<isNotNull prepend="," property="deleteflag">deleteflag=#deleteflag#</isNotNull>
+ 		</dynamic>
+ 		where id=#id#;
+ 	</update>
+ 	
+ 	<update id="deleteFiberbox" parameterClass="manage.route.pojo.FiberBoxInfoBean">
+ 		UPDATE job_fiberbox set deleteflag=1,lastUpTime=now() where id=#id#
+ 	</update>
+ 	
+ 	<!-- 获取纤芯的数据 -->
+ 	<select id="getFiber" parameterClass="manage.route.pojo.FiberInfoBean" resultClass="manage.route.pojo.FiberInfoBean">
+ 	     select 
+			t.id,t.zhLabel,t.alias,t.status,
+			t.startType,t.startId,t.startName,
+			t.endType,t.endId,t.endName,
+			t.startDeviceType,t.startDeviceId,t.startDeviceName,
+			t.endDeviceType,t.endDeviceId,t.endDeviceName,
+			t.startPortType,t.startPortId,t.startPortName,
+			t.endPortType,t.endPortId,t.endPortName,
+			t.checkSuccess,t.dataQualitier,t.maintainer,
+			t.deleteflag,t.createTime,t.creater,t.lastUpTime,
+			t.lastUpMan,t.resNum,t.cableId
+		from job_fiber t where t.deleteflag='0'
+ 	    <dynamic prepend="">
+ 	         <isNotNull  prepend=" AND " property="id">t.id=#id#</isNotNull>
+ 	         <isNotEmpty prepend=" AND " property="zhLabel">t.zhLabel like '%$zhLabel$%'</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="alias">t.alias=#alias#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="status">t.status=#status#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="startType">t.startType=#startType#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="startId">t.startId=#startId#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="startName">t.startName like '%$startName$%'</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="endType">t.endType=#endType#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="endId">t.endId=#endId#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="endName">t.endName like '%$endName$%'</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="startDeviceType">t.startDeviceType=#startDeviceType#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="startDeviceId">t.startDeviceId=#startDeviceId#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="startDeviceName">t.startDeviceName like '%$startDeviceName$%'</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="endDeviceType">t.endDeviceType=#endDeviceType#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="endDeviceId">t.endDeviceId=#endDeviceId#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="endDeviceName">t.endDeviceName like '%$endDeviceName$%'</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="startPortType">t.startPortType=#startPortType#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="startPortId">t.startPortId=#startPortId#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="startPortName">t.startPortName like '%$startPortName$%'</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="endPortType">t.endPortType=#endPortType#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="endPortId">t.endPortId=#endPortId#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="endPortName">t.endPortName like '%$endPortName$%'</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="checkSuccess">t.checkSuccess=#checkSuccess#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="dataQualitier">t.dataQualitier=#dataQualitier#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="maintainer">t.maintainer=#maintainer#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="deleteflag">t.deleteflag=#deleteflag#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="creater">t.creater=#creater#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="lastUpMan">t.lastUpMan=#lastUpMan#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="createTime">t.createTime like '%$createTime$%'</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="lastUpTime">t.lastUpTime like '%$lastUpTime$%'</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="resNum">t.resNum=#resNum#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="cableName">t.cableName=#cableName#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="cableId">t.cableId =#cableId#</isNotEmpty>
+ 	    </dynamic>
+ 	</select>
+ 	
+ 	<!-- 获取纤芯的数据 -->
+ 	<select id="getFiberGrid" parameterClass="manage.route.pojo.FiberInfoBean" resultClass="manage.route.pojo.FiberInfoBean">
+ 	     select 
+			t.id,t.zhLabel,t.alias,t.status,
+			t.startType,t.startId,t.startName,
+			t.endType,t.endId,t.endName,
+			t.startDeviceType,t.startDeviceId,t.startDeviceName,
+			t.endDeviceType,t.endDeviceId,t.endDeviceName,
+			t.startPortType,t.startPortId,t.startPortName,
+			t.endPortType,t.endPortId,t.endPortName,
+			t.checkSuccess,t.dataQualitier,t.maintainer,
+			t.deleteflag,t.createTime,t.creater,t.lastUpTime,
+			t.lastUpMan,t.resNum
+		from job_fiber t where t.deleteflag='0'
+ 	    <dynamic prepend="">
+ 	         <isNotNull  prepend=" AND " property="id">t.id=#id#</isNotNull>
+ 	         <isNotEmpty prepend=" AND " property="zhLabel">t.zhLabel like '%$zhLabel$%'</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="alias">t.alias=#alias#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="status">t.status=#status#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="startType">t.startType=#startType#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="startId">t.startId=#startId#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="startName">t.startName like '%$startName$%'</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="endType">t.endType=#endType#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="endId">t.endId=#endId#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="endName">t.endName like '%$endName$%'</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="startDeviceType">t.startDeviceType=#startDeviceType#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="startDeviceId">t.startDeviceId=#startDeviceId#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="startDeviceName">t.startDeviceName like '%$startDeviceName$%'</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="endDeviceType">t.endDeviceType=#endDeviceType#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="endDeviceId">t.endDeviceId=#endDeviceId#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="endDeviceName">t.endDeviceName like '%$endDeviceName$%'</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="startPortType">t.startPortType=#startPortType#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="startPortId">t.startPortId=#startPortId#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="startPortName">t.startPortName like '%$startPortName$%'</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="endPortType">t.endPortType=#endPortType#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="endPortId">t.endPortId=#endPortId#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="endPortName">t.endPortName like '%$endPortName$%'</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="checkSuccess">t.checkSuccess=#checkSuccess#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="dataQualitier">t.dataQualitier=#dataQualitier#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="maintainer">t.maintainer=#maintainer#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="deleteflag">t.deleteflag=#deleteflag#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="creater">t.creater=#creater#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="lastUpMan">t.lastUpMan=#lastUpMan#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="createTime">t.createTime like '%$createTime$%'</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="lastUpTime">t.lastUpTime like '%$lastUpTime$%'</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="resNum">t.resNum=#resNum#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="cableName">t.cableName=#cableName#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="cableId">t.cableId =#cableId#</isNotEmpty>
+ 	    </dynamic>    
+ 	    <dynamic prepend="ORDER BY">
+  			t.zhLabel asc 
+  		</dynamic>
+ 	    <dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+	    
+ 	</select>
+ 	
+ 	
+ 	<!-- 得到纤芯数据 -->
+ 	<select id="getFiberCount" parameterClass="manage.route.pojo.FiberInfoBean" resultClass="Integer">
+ 	   select count(1) from job_fiber t where t.deleteflag='0'
+ 	   <dynamic prepend="">
+ 	         <isNotNull  prepend=" AND " property="id">t.id=#id#</isNotNull>
+ 	         <isNotEmpty prepend=" AND " property="zhLabel">t.zhLabel like '%$zhLabel$%'</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="alias">t.alias=#alias#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="status">t.status=#status#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="startType">t.startType=#startType#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="startId">t.startId=#startId#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="startName">t.startName like '%$startName$%'</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="endType">t.endType=#endType#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="endId">t.endId=#endId#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="endName">t.endName like '%$endName$%'</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="startDeviceType">t.startDeviceType=#startDeviceType#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="startDeviceId">t.startDeviceId=#startDeviceId#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="startDeviceName">t.startDeviceName like '%$startDeviceName$%'</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="endDeviceType">t.endDeviceType=#endDeviceType#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="endDeviceId">t.endDeviceId=#endDeviceId#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="endDeviceName">t.endDeviceName like '%$endDeviceName$%'</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="startPortType">t.startPortType=#startPortType#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="startPortId">t.startPortId=#startPortId#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="startPortName">t.startPortName like '%$startPortName$%'</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="endPortType">t.endPortType=#endPortType#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="endPortId">t.endPortId=#endPortId#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="endPortName">t.endPortName like '%$endPortName$%'</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="checkSuccess">t.checkSuccess=#checkSuccess#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="dataQualitier">t.dataQualitier=#dataQualitier#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="maintainer">t.maintainer=#maintainer#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="deleteflag">t.deleteflag=#deleteflag#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="creater">t.creater=#creater#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="lastUpMan">t.lastUpMan=#lastUpMan#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="createTime">t.createTime like '%$createTime$%'</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="lastUpTime">t.lastUpTime like '%$lastUpTime$%'</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="resNum">t.resNum=#resNum#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="cableName">t.cableName=#cableName#</isNotEmpty>
+ 	         <isNotEmpty prepend=" AND " property="cableId">t.cableId =#cableId#</isNotEmpty>
+ 	    </dynamic>  
+ 	</select>
+ 	
+ 	<!-- 修改纤芯数据 -->
+ 	<update id="updateFiber" parameterClass="manage.route.pojo.FiberInfoBean" >
+        update job_fiber t set lastUpTime = now(),resMotion = null 
+        <dynamic prepend=" , ">
+           	 <isNotEmpty prepend=" , " property="zhLabel">t.zhLabel =#zhLabel#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="alias">t.alias=#alias#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="status">t.status=#status#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="startType">t.startType=#startType#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="startId">t.startId=#startId#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="startName">t.startName =#startName#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="endType">t.endType=#endType#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="endId">t.endId=#endId#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="endName">t.endName =#endName#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="startDeviceType">t.startDeviceType=#startDeviceType#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="startDeviceId">t.startDeviceId=#startDeviceId#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="startDeviceName">t.startDeviceName=#startDeviceName#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="endDeviceType">t.endDeviceType=#endDeviceType#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="endDeviceId">t.endDeviceId=#endDeviceId#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="endDeviceName">t.endDeviceName =#endDeviceName#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="startPortType">t.startPortType=#startPortType#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="startPortId">t.startPortId=#startPortId#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="startPortName">t.startPortName =#startPortName#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="endPortType">t.endPortType=#endPortType#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="endPortId">t.endPortId=#endPortId#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="endPortName">t.endPortName =#endPortName#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="checkSuccess">t.checkSuccess=#checkSuccess#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="dataQualitier">t.dataQualitier=#dataQualitier#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="maintainer">t.maintainer=#maintainer#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="deleteflag">t.deleteflag=#deleteflag#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="creater">t.creater=#creater#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="lastUpMan">t.lastUpMan=#lastUpMan#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="createTime">t.createTime =#createTime#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="resNum">t.resNum=#resNum#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="cableName">t.cableName=#cableName#</isNotEmpty>
+ 	         <isNotEmpty prepend=" , " property="cableId">t.cableId =#cableId#</isNotEmpty>
+        </dynamic>
+        <dynamic prepend=" where ">
+            <isNotEmpty prepend=" AND" property="id"> t.id = #id#</isNotEmpty>
+        </dynamic>
+    </update>
+    
+ 	
+ 	<!-- 增加纤芯数据 -->
+ 	<insert id="insertFiber" parameterClass="manage.route.pojo.FiberInfoBean">
+        INSERT into job_fiber(
+       		zhLabel,alias,status,
+			startType,startId,startName,
+			endType,endId,endName,
+			startDeviceType,startDeviceId,startDeviceName,
+			endDeviceType,endDeviceId,endDeviceName,
+			startPortType,startPortId,startPortName,
+			endPortType,endPortId,endPortName,
+			checkSuccess,dataQualitier,maintainer,
+			deleteflag,createTime,creater,lastUpTime,
+			lastUpMan,resNum,cableName,cableId
+        )
+        values
+        (
+        	#zhLabel#,#alias#,#status#,
+			#startType#,#startId#,#startName#,
+			#endType#,#endId#,#endName#,
+			#startDeviceType#,#startDeviceId#,#startDeviceName#,
+			#endDeviceType#,#endDeviceId#,#endDeviceName#,
+			#startPortType#,#startPortId#,#startPortName#,
+			#endPortType#,#endPortId#,#endPortName#,
+			#checkSuccess#,#dataQualitier#,#maintainer#,
+			'0',now(),#creater#,#lastUpTime#,
+			#lastUpMan#,#resNum#,#cableName#,#cableId#
+        )
+        <selectKey resultClass="int" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+    </insert>
+ 	
+ 	<!-- 得到 -->
+ 	<select id="checkFiberName" parameterClass="manage.route.pojo.FiberInfoBean" resultClass="manage.route.pojo.FiberInfoBean">
+		select * from job_fiber where deleteflag='0' and zhLabel=#zhLabel#
+	</select>
+	
+ 	<!-- 得到纤芯列表 -->
+ 	<select id="getFiberList" parameterClass="manage.route.pojo.BatchRackBean" resultClass="manage.route.pojo.FiberInfoBean">
+ 	    select t.id,t.zhLabel,t.alias,t.status,
+			t.startType,t.startId,t.startName,
+			t.endType,t.endId,t.endName,
+			t.startDeviceType,t.startDeviceId,t.startDeviceName,
+			t.endDeviceType,t.endDeviceId,t.endDeviceName,
+			t.startPortType,t.startPortId,t.startPortName,
+			t.endPortType,t.endPortId,t.endPortName,
+			t.checkSuccess,t.dataQualitier,t.maintainer,
+			t.deleteflag,t.createTime,t.creater,t.lastUpTime,
+			t.lastUpMan,t.resNum,t.cableName,t.cableId
+			 from job_fiber t where t.cableId =#cableId#
+		<dynamic prepend="">
+			<isNotEmpty prepend=" AND " property="startFiber"><![CDATA[t.alias+0 >= #startFiber#+0 ]]></isNotEmpty>
+			<isNotEmpty prepend=" AND " property="endFiber"><![CDATA[t.alias+0 <= #endFiber#+0 ]]></isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	
+</sqlMap>

@@ -1,0 +1,316 @@
+<!doctype html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	<link href="../../../css/mui.min.css" rel="stylesheet" />
+	<link href="../../../css/mui.picker.css" rel="stylesheet" />
+	<link href="../../../css/mui.poppicker.css" rel="stylesheet" />
+</head>
+
+<body>
+	<header class="mui-bar mui-bar-nav">
+	    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	    <h1 class="mui-title">基站新增</h1>
+	</header>
+	<footer id="foot_btn" class="mui-bar mui-bar-footer" style="position: fixed; bottom: 0; left: 0;right: 0;">
+		<table class="mui-button-row" style="width: 100%;margin-top: 2px;">
+			<th><button id="save_btn" class="mui-btn mui-btn-primary " onclick="submitSiteBase()">保存</button></th>
+		</table>
+	</footer>
+	<form class="mui-content mui-input-group">
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">eNodeBID:<span style="color:red">*</span></label>
+			<input type="text" class="mui-input-clear" id="e_nodeb_id"  value="" placeholder="请输入数字" />
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">所属站址编码:<span style="color: red;">*</span></label>
+		
+			<input type="text" class="mui-input-clear" id="related_site_addr"  value="" placeholder="请输入" />
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">所属站址名称:<span style="color:red">*</span></label>
+			
+			<input type="text" class="mui-input-clear" id="related_site_addr_id"  value="" placeholder="请输入" />
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">所属铁塔站址编码:</label>
+			<input type="text" class="mui-input-clear" id="tower_site_addr_code"  value="" placeholder="请输入" />
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">所属铁塔站址名称:</label>
+			<input type="text" class="mui-input-clear" id="tower_site_addr_id"  value="" placeholder="请输入" />
+		</div>
+		<div class="mui-input-row">
+			<label style="width: 30%; float: left;">所属省:<span style="color:red">*</span></label>
+			
+			<select id="province" class="mui-btn-block">
+				<option value="0">请选择</option>
+				<option value="1">吉林省</option>
+				
+			</select>
+		</div>
+		
+		<div class="mui-input-row">
+			<label style="width: 30%; float: left;">城市:<span style="color:red">*</span></label>
+			
+			<select id="city_id" class="mui-btn-block" onchange="changeCity(this)">
+				<option value="0">--请选择城市--</option>
+				<option value="431">长春市</option>
+				<option value="432">吉林市</option>
+				<option value="433">延边州</option>
+				<option value="434">四平市</option>
+				<option value="435">通化市</option>
+				<option value="436">白城市</option>
+				<option value="437">辽源市</option>
+				<option value="438">松原市</option>
+				<option value="439">白山市</option>
+			</select>
+		</div>
+			
+		<div class="mui-input-row">
+			<label>市区/县域:<span style="color:red">*</span></label>
+			
+			<select id="county_id" class="mui-btn-block" >
+				<option value="0">--请选择区县--</option>
+			</select>
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">乡镇/街道:</label>
+			<input type="text" class="mui-input-clear" id="countryside"  value="" placeholder="请输入" />
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">划小单元:</label>
+			<input type="text" class="mui-input-clear" id="unit"  value="" placeholder="请输入" />
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">营服中心/营业部:</label>
+			<input type="text" class="mui-input-clear" id="dept_area"  value="" placeholder="请输入" />
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">片区:</label>
+			<input type="text" class="mui-input-clear" id="district"  value="" placeholder="请输入" />
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">簇:</label>
+			<input type="text" class="mui-input-clear" id="clusters"  value="" placeholder="请输入" />
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">网格:</label>
+			<input type="text" class="mui-input-clear" id="reseau"  value="" placeholder="请输入" />
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">基站名称:<span style="color:red">*</span></label>
+			<input type="text" class="mui-input-clear" id="zh_label"  value="" placeholder="请输入" />
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">eNodeB采集名称:<span style="color:red">*</span></label>
+			<input type="text" class="mui-input-clear" id="enodeb_gap_name"  value="" placeholder="请输入" />
+		</div>
+		<div class="mui-input-row">
+			<label>设备厂家:<span style="color:red">*</span></label>
+			<select id="equipment_vendor" class="mui-btn-block">
+				<option value="请选择">请选择</option>
+				<option value="中兴">中兴</option>
+				<option value="华为">华为</option>
+				<option value="爱立信">爱立信</option>
+			</select>
+		</div>
+		<div class="mui-input-row">
+			<label>设备型号:<span style="color:red">*</span></label>
+			<select id="equipment_type" class="mui-btn-block">
+				<option value="DBS3900(华为）">DBS3900(华为）</option>
+				<option value="lampsite（华为）">lampsite（华为）</option>
+				<option value="BTS3202e（华为）">BTS3202e（华为）</option>
+				<option value="B8200(中兴）">B8200(中兴）</option>
+				<option value="R8101（中兴）">R8101（中兴）</option>
+				<option value="R8402（中兴）">R8402（中兴）</option>
+				<option value="RBS660（爱立信）">RBS660（爱立信）</option>
+			</select>
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">IPV4地址:</label>
+			<input type="text" class="mui-input-clear" id="ipv4_addr"  value="" placeholder="请输入" />
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">子网掩码:</label>
+			<input type="text" class="mui-input-clear" id="subnet_mask"  value="" placeholder="请输入" />
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">网关地址:</label>
+			<input type="text" class="mui-input-clear" id="gateway"  value="" placeholder="请输入" />
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">S1配置带宽(Mbps):</label>
+			<input type="text" class="mui-input-clear" id="bandwidth"  value="" placeholder="请输入" />
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">所属MME-1标识:</label>
+			<input type="text" class="mui-input-clear" id="mme1"  value="" placeholder="请输入" />
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">所属MME-2标识:</label>
+			<input type="text" class="mui-input-clear" id="mme2"  value="" placeholder="请输入" />
+		</div>
+		<div class="mui-input-row">
+			<label>eNodeB软件版本:</label>
+			<select id="enodeb_version" class="mui-btn-block">
+				<option value="BTS3900 V1002011c10spc210(华为）">BTS3900 V1002011c10spc210(华为）</option>
+				<option value="FDD-LTE_V3.30.20.30（中兴）">FDD-LTE_V3.30.20.30（中兴）</option>
+			</select>
+		</div>
+		<div class="mui-input-row">
+			<label>双工模式:<span style="color:red">*</span></label>
+			<select id="duplex_mode" class="mui-btn-block">
+				<option value="FDD">FDD</option>
+				<option value="TDD">TDD</option>
+				<option value="F/T混合模式">F/T混合模式</option>				
+			</select>
+		</div>
+		<div class="mui-input-row">
+			<label>小区数量:<span style="color:red">*</span></label>
+			<select id="cell_num" class="mui-btn-block">
+				<option value="1">1</option>
+				<option value="2">2</option>
+				<option value="3">3</option>	
+				<option value="4">4</option>
+				<option value="5">5</option>
+				<option value="6">6</option>
+				<option value="7">7</option>
+				<option value="8">8</option>
+				<option value="9">9</option>
+			</select>
+		</div>
+		<div class="mui-input-row">
+			<label>omc中基站运行状态:</label>
+			<select id="omc_site_status" class="mui-btn-block">
+				<option value="在网运行">在网运行</option>
+				<option value="工程状态">工程状态</option>
+				<option value="长期退服">长期退服</option>	
+			</select>
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">基站电子序列号:</label>
+			<input type="text" class="mui-input-clear" id="site_esn"  value="" placeholder="请输入" />
+		</div>
+		<div class="mui-input-row">
+			<label>基站类型:<span style="color:red">*</span></label>
+			<select id="site_type" class="mui-btn-block">
+				<option value="BBU+RRU">BBU+RRU</option>
+				<option value="微基站">微基站</option>
+				<option value="微微基站">微微基站</option>	
+				<option value="家庭基站">家庭基站</option>	
+			</select>
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">基站等级:<span style="color:red">*</span></label>
+			<input type="text" class="mui-input-clear" id="site_level"  value="" placeholder="请输入" />
+		</div>		
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">基站经纬度:<span style="color:red">*</span></label>
+			<input type="text" class="mui-input-clear" id="site_longitude" name="site_longitude" value="" style="width: 30%; float: left;" />
+			<input type="text" class="mui-input-clear" id="site_latitude" name="site_latitude" value="" style="width: 30%; float: left;" />
+			<img style="width: 10%;" src="../../../image/map/current.png"  onclick="getLonLat()"/>
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">天线方向角（度）:</label>
+			<input type="text" class="mui-input-clear" id="ant_azimuth"  value="" placeholder="请输入" />
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">预置下倾角（度）:</label>
+			<input type="text" class="mui-input-clear" id="an_advanceangle"  value="" placeholder="请输入" />
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">工程编码:</label>
+			<input type="text" class="mui-input-clear" id="project_no"  value="" placeholder="请输入" />
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">是否共享基站:</label>
+			<input type="text" class="mui-input-clear" id="is_site_shared"  value="" placeholder="请输入" />
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">OMCID:</label>
+			<input type="text" class="mui-input-clear" id="omcid"  value="" placeholder="请输入" />
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">入网日期:</label>
+			<input type="text" class="mui-input-clear" id="net_date"  name="net_date" value="" placeholder="请输入" />
+		</div>
+		<!--<div class="data">
+	        <input type="datetime-local" placeholder="点击输入" id="net_date"       class="user-editpage-input" />
+	    </div>-->
+		
+		
+		
+		
+		
+		<div class="mui-input-row">
+			<label style="width: 30%; float: left;">备注:</label>
+			<textarea style="width: 70%; float: left;" id="remark" name="remark" rows="3">
+			</textarea>
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">数据最后更新时间:</label>
+			<input type="text" class="mui-input-clear" id="update_time"name="update_time"  value="" placeholder="请输入" />
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">数据最后更新人:</label>
+			<input type="text" class="mui-input-clear" id="update_person"  value="" placeholder="请输入" />
+		</div>
+		<div class="mui-input-row">
+			<label>维护单位:<span style="color:red">*</span></label>
+			<select id="maintain_company" class="mui-btn-block">
+				<option value="0">请选择</option>
+			</select>
+		</div>
+		<div class="mui-input-row">
+			<label>维护区域:<span style="color:red">*</span></label>
+			<select id="maintain_area" class="mui-btn-block">
+				<option value="0">请选择</option>
+			</select>
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">综合维护区域组长:</label>
+			<input type="text" class="mui-input-clear" id="maintain_manager"  value="" placeholder="请输入" />
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">维护组长电话:</label>
+			<input type="text" class="mui-input-clear" id="maintain_manager_phone"  value="" placeholder="请输入" />
+		</div>
+		<div class="mui-input-row" style="height: auto;">
+			<label style="width: 30%; float: left;">电信自有综合维护区域:</label>
+			<input type="text" class="mui-input-clear" id="maintain_area_zy"  value="" placeholder="请输入" />
+		</div>
+	</form>
+	<script src="../../../js/mui.min.js"></script>
+	<script src="../../../js/mui.picker.js"></script>
+	<script src="../../../js/mui.poppicker.js"></script>
+	<script src="../../../js/city.data.js"></script>
+	<script src="../../../js/city.data-3.js"></script>
+	<script src="../../../js/jquery-1.12.3.js"></script>
+	<script src="js/basestationAdd.js"></script>
+	<script src="../../../js/changeCity.js"></script>
+	<script src="../../../js/loadData.js"></script>
+	<script type="text/javascript">
+		(function($, doc) {
+			$.ready(function() {
+				
+				
+			});
+			
+			mui.plusReady(function() {
+				getMaintainCompanyData();
+				getMaintainAreaData();
+			});
+		})(mui, document);
+	</script>
+		<script>
+			document.addEventListener('siteBaseAdd', function(ee) {
+				setLonLat(ee.detail);
+        	})
+		</script>
+</body>
+
+</html>

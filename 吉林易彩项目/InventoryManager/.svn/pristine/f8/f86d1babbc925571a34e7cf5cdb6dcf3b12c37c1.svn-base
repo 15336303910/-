@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="pdapoleSeg">
+	<!-- 获取杆路段信息 -->
+		<select id="getPoleSegCustom" parameterClass="manage.poleline.pojo.PoleSegCustomInfoBean" resultClass="manage.poleline.pojo.PoleSegCustomInfoBean">
+<!-- 		select  a.zh_label,a.city_id,a.county_id,a.line_length,a.ownership, -->
+<!-- 		a.maintain_company,a.maintain_area,a.maintain_manager,a.maintain_manager_phone,a.remark,	 -->
+<!-- 		a.time_stamp,a.stateflag,a.int_id,a.creator,a.creat_time,a.modifier, -->
+<!-- 		a.modify_time,a.purpose -->
+<!-- 		from rms_pole_seg  a    where 1=1 -->
+
+		<!-- select  a.zh_label,a.city_id,a.county_id,a.line_length,a.ownership,
+		a.maintain_company,a.maintain_area,a.maintain_manager,a.maintain_manager_phone,a.remark,	
+		a.time_stamp,a.stateflag,a.int_id,a.creator,a.creat_time,a.modifier,
+		a.modify_time,a.purpose, a.start_pole_id,a.end_pole_id,b.zh_label,c.zh_label,
+		from rms_pole_seg  a  LEFT JOIN rms_pole  b 
+   ON a.start_pole_id=b.int_id LEFT JOIN rms_pole  c 
+   ON a.end_pole_id=c.int_id   where 1=1 -->
+	select a.zh_label,a.city_id,a.county_id,a.line_length,a.ownership, 
+		a.maintain_company,a.maintain_area,a.maintain_manager,a.maintain_manager_phone,a.remark,	 
+		a.time_stamp,a.stateflag,a.int_id,a.creator,a.creat_time,a.modifier, 
+	  a.modify_time,a.purpose ,a.start_pole_id,a.end_pole_id,b.zh_label  start_polename,c.zh_label  end_polename
+ 		from rms_pole_seg  a LEFT JOIN rms_pole  b 
+   ON a.start_pole_id=b.int_id LEFT JOIN rms_pole  c 
+   ON a.end_pole_id=c.int_id  where 1=1
+
+
+
+
+		<dynamic prepend=" AND ">
+		<isNotEmpty prepend=" AND " property="zh_label"> <![CDATA[ a.zh_label like #zh_label#]]> </isNotEmpty>
+<!-- 		<isNotEmpty prepend=" AND " property="city_id">(city_id=#city_id#)</isNotEmpty> -->
+<!-- 		<isNotEmpty prepend=" AND " property="county_id">(county_id=#county_id#)</isNotEmpty> -->
+<!-- 		<isNotEmpty prepend=" AND " property="line_length">(line_length=#line_length#)</isNotEmpty> -->
+<!-- 		<isNotEmpty prepend=" AND " property="maintain_company">(maintain_company=#maintain_company#)</isNotEmpty> -->
+<!-- 		<isNotEmpty prepend=" AND " property="maintain_area">(maintain_area=#maintain_area#)</isNotEmpty> -->
+<!-- 		<isNotEmpty prepend=" AND " property="maintain_manager">(maintain_manager=#maintain_manager#)</isNotEmpty> -->
+<!-- 		<isNotEmpty prepend=" AND " property="maintain_manager_phone">(maintain_manager_phone=#maintain_manager_phone#)</isNotEmpty> -->
+<!-- 		<isNotEmpty prepend=" AND " property="remark">(remark=#remark#)</isNotEmpty> -->
+<!-- 		<isNotEmpty prepend=" AND " property="time_stamp">(time_stamp=#time_stamp#)</isNotEmpty> -->
+<!-- 		<isNotEmpty prepend=" AND " property="stateflag">(stateflag=#stateflag#)</isNotEmpty> -->
+		<isNotEmpty prepend=" AND " property="int_id">(a.int_id=#int_id#)</isNotEmpty>
+<!-- 		<isNotEmpty prepend=" AND " property="creator">(creator=#creator#)</isNotEmpty> -->
+<!-- 		<isNotEmpty prepend=" AND " property="creat_time">(creat_time=#creat_time#)</isNotEmpty> -->
+<!-- 		<isNotEmpty prepend=" AND " property="modifier">(modifier=#modifier#)</isNotEmpty> -->
+<!-- 		<isNotEmpty prepend=" AND " property="modify_time">(modify_time=#modify_time#)</isNotEmpty> -->
+<!-- 		<isNotEmpty prepend=" AND " property="purpose">(purpose=#purpose#)</isNotEmpty> -->
+<!-- 		<isNotEmpty prepend=" AND " property="ownership">(ownership=#ownership#)</isNotEmpty> -->
+<!-- 		<isNotEmpty prepend=" AND " property="extendSql">($start_pole_name$)</isNotEmpty> -->
+		</dynamic> 
+		
+		<dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+	</select>
+	
+	
+	<select id="checkPoleLineSeg" parameterClass="manage.poleline.pojo.PoleSegCustomInfoBean" resultClass="manage.poleline.pojo.PoleSegCustomInfoBean">
+		select t.maintain_company  maintenanceOrg,t.maintain_manager  maintenanceLeader,t.maintain_manager_phone  leaderPhone,t.remark,
+		 t.poleLineSegmentId,t.poleLineSegmentName,t.poleLineSegmentCode,t.maintenanceAreaId,t.poleLineId,t.poleLineSegmentLength,t.status,
+		 t.startDeviceId,t.endDeviceId,t.constructionSharingEnumId,t.sharingTypeEnumId,t.constructionSharingOrg,t.resourceLifePeriodEnumId,
+		 t.sharingTypeEnumId,t.constructionSharingOrg,t.resourceLifePeriodEnumId,t.creationDate,t.lastUpdateDate,t.deletedFlag,t.deletionDate,
+		 t.provinceId,t.cuser,t.cstate,t.areaname,t.maintenanceAreaName,t.dataQualityPrincipal,t.parties,resNum,t.poleLineId,
+		(select poleName from  poleinfo where deletedFlag =0 and  poleId = t.startDeviceId) as startDeviceName,
+		(select poleName from  poleinfo where deletedFlag =0 and  poleId = t.endDeviceId) as endDeviceName,t.maintainLength
+		 from polelinesegmentinfo t where t.deletedFlag='0'
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend="AND" property="poleLineSegmentId">(t.poleLineSegmentId=#poleLineSegmentId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="poleLineSegmentName">(t.poleLineSegmentName like '%$poleLineSegmentName$%')</isNotEmpty>
+		</dynamic>
+	</select>
+	<!-- 增加杆路段 -->
+	<insert id="insertPoleSegCustom" parameterClass="manage.poleline.pojo.PoleSegCustomInfoBean">
+		insert into rms_pole_seg (
+			zh_label,city_id,county_id,line_length,ownership,start_pole_id,end_pole_id,
+			maintain_company,maintain_area,maintain_manager,maintain_manager_phone,remark,	
+			time_stamp,stateflag,creator,creat_time,modifier,
+			modify_time,purpose
+		) values (
+			#zh_label#,#city_id#,#county_id#,#line_length#,#ownership#,#start_pole_id#,#end_pole_id#,
+			#maintain_company#,#maintain_area#,#maintain_manager#,#maintain_manager_phone#,#remark#,	
+			now(),'0',#creator#,now(),#modifier#,
+			#modify_time#,#purpose#
+		)
+		<selectKey resultClass="int" keyProperty="int_id" > 
+				SELECT LAST_INSERT_ID() AS int_id
+		</selectKey>
+	</insert>
+	<!-- 修改杆路段 -->
+	<update id="updatePoleSegCustom" parameterClass="manage.poleline.pojo.PoleSegCustomInfoBean">
+		update rms_pole_seg set time_stamp=now(),modify_time=now()
+		<dynamic prepend=" , ">
+			<isNotEmpty prepend=" , " property="zh_label"> zh_label=#zh_label# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="city_id"> city_id=#city_id# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="county_id"> county_id=#county_id# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="ownership"> ownership=#ownership# </isNotEmpty>
+<!-- 			<isNotEmpty prepend=" , " property="longitude"> longitude=#longitude# </isNotEmpty> -->
+<!-- 			<isNotEmpty prepend=" , " property="latitude"> latitude=#latitude# </isNotEmpty> -->
+	<isNotEmpty prepend=" , " property="start_pole_id"> start_pole_id=#start_pole_id# </isNotEmpty>
+			    <isNotEmpty prepend=" , " property="end_pole_id"> end_pole_id=#end_pole_id# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_company"> maintain_company=#maintain_company# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_area"> maintain_area=#maintain_area# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_manager"> maintain_manager=#maintain_manager# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_manager_phone"> maintain_manager_phone=#maintain_manager_phone# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="remark"> remark=#remark# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="stateflag"> stateflag=#stateflag# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="creator"> creator=#creator# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="creat_time"> creat_time=#creat_time# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="modifier"> modifier=#modifier# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="purpose"> purpose=#purpose# </isNotEmpty>
+		</dynamic>
+		where int_id=#int_id#
+	</update>
+	<!-- 删除杆路段 -->
+	<update id="deletePoleSegCustom" parameterClass="manage.poleline.pojo.PoleSegCustomInfoBean">
+		update rms_pole_seg set stateflag='1',modify_time=now(),time_stamp=now() where int_id=#int_id#
+	</update>
+	
+</sqlMap>
+    

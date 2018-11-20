@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="domain">	
+	<!-- 模糊查找返回当前符合条件的地区信息 -->
+	<select id="getRootDomain" parameterClass="manage.domain.pojo.DomainBean" resultClass="manage.domain.pojo.DomainBean">
+		SELECT * FROM sys_domain 
+		<dynamic prepend="WHERE">
+	    	<isNotNull prepend="AND" property="domainId"> domainId=#domainId# </isNotNull>
+	    	<isNotEmpty prepend="AND" property="domainCode"> domainCode = #domainCode# </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="domainName"> domainName like '%$domainName$%' </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="parentId" >parentId=#parentId# </isNotEmpty>
+	    </dynamic>
+	
+	</select>
+	<!-- 返回当前下级符合条件的地区信息 -->
+	<select id="getAllChildrenDomain" parameterClass="manage.domain.pojo.DomainBean" resultClass="manage.domain.pojo.DomainBean">
+		SELECT * FROM sys_domain 
+		<dynamic prepend="WHERE">
+	    	<isNotEmpty prepend="AND" property="domainCode">(domainCode != #domainCode# and domainCode like '$domainCode$%' )</isNotEmpty>
+	    </dynamic>
+	
+	</select>
+	<!-- 地区信息 -->
+	<select id="verifyDomain" parameterClass="manage.domain.pojo.DomainBean" resultClass="manage.domain.pojo.DomainBean">
+		SELECT * FROM sys_domain 
+		<dynamic prepend="WHERE">
+	    	<isNotEmpty prepend="AND" property="domainCode"> domainCode = #domainCode# </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="domainName"> domainName = #domainName# </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="parentId" > parentId=#parentId# </isNotEmpty>
+	    </dynamic>
+	</select>
+	<!-- 获取当前地区下的最大的code计算新加地区的code -->
+	<select id="getMaxCode" parameterClass="manage.domain.pojo.DomainBean" resultClass="String">
+		SELECT Max(domainCode) FROM sys_domain WHERE parentId = #parentId#
+	</select>
+	<!-- 获取父地区domainCode -->
+	<select id="getParentDomianCode" parameterClass="manage.domain.pojo.DomainBean" resultClass="String">
+		SELECT domainCode FROM sys_domain WHERE domainId = #parentId#
+	</select>
+	<insert id="insertNewDomain" parameterClass="manage.domain.pojo.DomainBean">
+		INSERT INTO  sys_domain (domainCode,domainName,parentId,isParent,responsibleid) VALUES (#domainCode#,#domainName#,#parentId#,#isParent#,#responsibleid#)
+	</insert>
+	<update id="updateDomain"  parameterClass="manage.domain.pojo.DomainBean">
+		UPDATE sys_domain SET
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="domainCode">domainCode=#domainCode#</isNotNull>
+			<isNotNull prepend="," property="domainName">domainName=#domainName#</isNotNull>
+			<isNotNull prepend="," property="parentId">parentId=#parentId#</isNotNull>
+			<isNotNull prepend="," property="isParent">isParent=#isParent#</isNotNull>
+			<isNotNull prepend="," property="responsibleid">responsibleid=#responsibleid#</isNotNull>
+		</dynamic>
+		WHERE domainId = #domainId#
+	</update>
+	
+	<select id="loadDomian" parameterClass="manage.domain.pojo.DomainBean" resultClass="manage.domain.pojo.DomainBean">
+		SELECT td.domainId domainId, td.domainCode domainCode, td.domainName domainName, td.parentId parentId,pd.domainName parentName, 
+				td.responsibleid,u.realname responsiblename, u.phoneNumber responsiblephone,
+				u.username responsibleusername,u.modulestr responsibleUserType,u.roleId roleId
+ 		FROM sys_domain td 
+		LEFT  JOIN sys_domain pd ON ( td.parentId = pd.domainId ) 
+		LEFT JOIN sys_user u ON ( td.responsibleid = u.userId )
+		WHERE td.domainId = #domainId#
+	</select>
+	
+	<select id="getResponsibles" parameterClass="manage.domain.pojo.DomainBean" resultClass="manage.domain.pojo.DomainBean">
+		SELECT u.userId responsibleid , u.realname responsiblename FROM sys_user u WHERE u.areano = (SELECT d.domainCode domainCode FROM  sys_domain d WHERE d.domainId = #domainId#  )
+	</select>
+	<!-- 删除指定地区 -->
+	<delete id="deleteDomain" parameterClass="manage.domain.pojo.DomainBean">
+		DELETE FROM sys_domain WHERE domainId=#domainId#
+		<dynamic prepend="">
+			<isNotNull prepend="AND" property="domainCode"> domainCode=#domainCode# </isNotNull>
+			<isNotNull prepend="AND" property="domainName"> domainName=#domainName# </isNotNull>
+			<isNotNull prepend="AND" property="isParent"> isParent=#isParent# </isNotNull>
+		</dynamic>
+	</delete>
+	<!-- 删除指定地区下定所有子地区 -->
+	<delete id="deleteSubDomain" parameterClass="manage.domain.pojo.DomainBean">
+		DELETE FROM sys_domain WHERE domainCode like '$domainCode$%'
+	</delete>
+		
+	<!-- 删除指定地区下所有子地区用户 -->
+	<delete id="deleteDomainUser" parameterClass="manage.domain.pojo.DomainBean">
+		DELETE sys_user,sys_user_powers FROM sys_user JOIN sys_user_powers 
+		ON sys_user.userId = sys_user_powers.userid WHERE sys_user.areano LIKE '$domainCode$%'
+	</delete>
+	
+	<select id="selectResponsibleUser" parameterClass="manage.domain.pojo.DomainBean" resultClass="manage.user.pojo.UserInfoBean">
+		SELECT * FROM sys_user WHERE userId = #responsibleid#
+	</select>
+	<!-- 搜索满足条件的地区 -->
+	<select id="getFindDomian" parameterClass="manage.domain.pojo.DomainBean" resultClass="manage.domain.pojo.DomainBean" >
+		select * from sys_domain 
+		<dynamic prepend="WHERE">
+	    	<isNotEmpty prepend="AND" property="domainCode"> domainCode like '$domainCode$%' </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="domainName"> domainName like '%$domainName$%' </isNotEmpty>
+	    </dynamic>
+	</select>
+	
+	
+	
+	<select id="getDomainByCode" parameterClass="manage.domain.pojo.DomainBean" resultClass="manage.domain.pojo.DomainBean" >
+		select * from sys_domain where domainCode=#domainCode#
+	</select>
+	
+	<select id="getRoleBean" parameterClass="manage.user.pojo.RoleInfoBean" resultClass="manage.user.pojo.RoleInfoBean">
+		select * from sys_role where roleId=#roleId#
+	</select>
+</sqlMap>

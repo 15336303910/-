@@ -1,0 +1,131 @@
+﻿@charset "utf-8";
+/* list styles setting */
+body {
+	margin-left: 0px;
+	margin-top: 0px;
+	margin-right: 0px;
+	margin-bottom: 0px;
+    font-family: 宋体; 
+    font-size: 12px;
+}
+td{ font-size: 12px;}
+/*page ctrl*/
+#gotoPage ul {
+	width: 250px;
+	height: 24px;
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+#gotoPage li {
+	/*position:relative; del by sunwei */
+	float:left;
+	margin:0 6px;
+}
+#gotoPage a {
+	text-decoration:none;
+	display:block;
+	width:18px;
+	height:18px;
+	margin-top:5px;
+}
+.WordsH{height: 24px;line-height:24px;}
+a.btnFirst { background: url(../imgs/btn_ifirst.png) no-repeat left top;}
+a.btnFirst:hover { background: url(../imgs/btn_ifirst_hover.png) no-repeat left top;}
+a.btnPrev { background: url(../imgs/btn_iPrev.png) no-repeat left top;}
+a.btnPrev:hover { background: url(../imgs/btn_iPrev_hover.png) no-repeat right top;}
+a.btnNext { background: url(../imgs/btn_iNext.png) no-repeat left top;}
+a.btnNext:hover { background: url(../imgs/btn_iNext_hover.png) no-repeat right top;}
+a.btnEnd { background: url(../imgs/btn_iEnd.png) no-repeat left top;}
+a.btnEnd:hover { background: url(../imgs/btn_iEnd_hover.png) no-repeat right top;}
+
+/*第一种颜色*/
+#table tr.color1{
+ background-color:#FFFFFF;
+}
+/*第二种颜色*/
+#table tr.color2{
+ background-color:#f0f0f0;
+}
+
+/*.txt{background:#E0E0E0 url('../images/anniu/inputbg.gif') no-repeat ; border-style:solid; border-width:0px; width:180px; height:22px; line-height:22px; padding-left:2px; padding-top:5px;}
+*/
+.txt{
+background-image:url(../images/common/text-bg.gif); background-repeat:repeat-x;border:1px solid #838383;padding:0px;  width:150px; height:20px; line-height:20px;
+}
+.txt1{
+background-image:url(../images/common/text-bg.gif); background-repeat:repeat-x;border:1px solid #838383;padding:0px;  width:100px; height:20px; line-height:20px;
+}
+.time{
+	background-image:url(../images/common/text-bg.gif); background-repeat:repeat-x;border:1px solid #838383;padding:0px;  width:50px; height:20px; line-height:20px;
+}
+
+
+.textarea{
+	
+	background-image:url(../images/common/text-bg.gif); background-repeat:repeat-x;border:1px solid #838383;padding:0px;  width:560px; height:80px; line-height:20px;
+	font-size:12px;
+	}
+
+.evpar{cursor:pointer;}
+
+.dif{color:red;}
+.evdes{ display:block; width:120px; height:26px; line-height:26px; overflow:hidden;}
+
+.contentsubstring 
+{ 
+width:150px;
+
+white-space:nowrap; 
+   word-break:keep-all; 
+   overflow:hidden; 
+   text-overflow:ellipsis; 
+   text-align:left;
+   padding-left:5px;
+   display:block;
+}
+
+.contentsubstringot
+{ 
+
+width:150px;
+white-space:nowrap; 
+   word-break:keep-all; 
+   overflow:hidden; 
+   text-overflow:ellipsis; 
+   text-align:left;
+   padding-left:5px;
+   display:block;
+}
+.left{
+	float:left;
+}
+.selectordrt_div{
+	position: absolute;
+	border-style:dotted;
+	border-width:1px;
+	background-color:#FAEBD7;
+	width: 50px;
+	height: 15px;
+	top: 10px;
+	left:10px;
+	display: none;
+	
+	
+}
+.cseaddr{text-align:center;}
+#selectuser{width:300px;}
+
+
+
+.mybutton{
+color :#303030; background-image:url(../images/sbgl/anniubj.png); width:116px; height:23px; border :0px;
+}
+.buttonOnMouseOver{
+color :#303030; background-image:url(../images/sbgl/anniubj1.png); width:116px; height:23px; border :0px;
+}
+
+
+
+
+

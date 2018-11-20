@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="document">	
+	<insert id="insertDocEqut" parameterClass="manage.document.pojo.DocEqutInfoBean">
+		INSERT INTO job_doc_equtinfo 
+			(DID,ESTAT,ECODE,ETYPE,ENAME,LON,LAT,EMODEL,EADDR,NOTE,MTIME,MP,STATION,NOMAP,AREANO,FILENAME)
+		VALUES
+			(#did#,#estat#,#ecode#,#etype#,#ename#,#lon#,#lat#,#emodel#,#eaddr#,#note#,#mtime#,#mp#,#station#,
+				#nomap#,#areano#,#filename#)
+	</insert>
+	<insert id="insertDocPoint" parameterClass="manage.document.pojo.DocPointInfoBean">
+		INSERT INTO job_doc_pointinfo 
+			(pboardno,plineno,prowno,DID,PID,PCODE,PSTAT,SERVNO,SERVTYPE,PSERV,PTYPE,DIRECTION,MTIME,MP,
+				fiberstationname,fibname,ofpno,ofpcode,routename,cablename,ofpname,note,areano,oppo_ecode,
+					oppo_pcode,oppo_ename)
+		VALUES
+			(#pboardno#,#plineno#,#prowno#,#did#,#pid#,#pcode#,#pstat#,#servno#,#servtype#,#pserv#,#ptype#,
+				#direction#,#mtime#,#mp#,#fiberstationname#,#fibname#,#ofpno#,#ofpcode#,#routename#,#cablename#,
+					#ofpname#,#note#,#areano#,#oppo_ecode#,#oppo_pcode#,#oppo_ename#)			
+	</insert>
+	<insert id="insertDocRoute" parameterClass="manage.route.pojo.RouteInfoBean">
+		INSERT INTO job_doc_routeinfo (routename,did,areano)VALUES(#routename#,#did#,#areano#) 
+	</insert>
+	<insert id="insertDocCable" parameterClass="manage.route.pojo.CableInfoBean">
+		INSERT INTO job_doc_cableinfo 
+			(cablename,did,areano,routename)
+		VALUES
+			(#cablename#,#did#,#areano#,#routename#) 
+	</insert>
+	
+	<select id="gatDocEqutGrid" parameterClass="manage.document.pojo.DocEqutInfoBean" resultClass="manage.document.pojo.DocEqutInfoBean">
+		SELECT
+			e.id,e.DID,e.ESTAT,e.ECODE,e.ETYPE,e.ENAME,e.LON,e.LAT,e.EMODEL,e.EADDR,e.NOTE,e.MTIME,e.MP,u.realname mpname,
+			e.station,e.nomap,e.areano,d.domainName areaname,e.filename ,
+			(SELECT COUNT(*) FROM job_doc_pointinfo p WHERE p.DID = e.DID) pcount
+		FROM
+			job_doc_equtinfo e 
+		LEFT JOIN sys_domain d ON (e.areano = d.domainCode) 
+		LEFT JOIN sys_user u ON(e.MP=u.username) 
+	   <dynamic prepend="WHERE">
+	   		<isNotEmpty prepend="AND" property="areano"> e.areano=#areano# </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="mpname"> u.realname=#mpname# </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="filename"> e.filename like '%$filename$%' </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="estat"> e.ESTAT=#estat# </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="etype"> e.ETYPE=#etype# </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="ecode"> e.ECODE like '%$ecode$%' </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="ename"> e.ENAME like '%$ename$%' </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="eaddr"> e.EADDR like '%$eaddr$%' </isNotEmpty>
+	    </dynamic>
+	    <dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="sort"> ORDER BY $sort$ </isNotEmpty>
+	    	<isNotEmpty prepend=" " property="dir">  $dir$ </isNotEmpty>
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+	</select>
+	<select id="gatDocEqutCount" parameterClass="manage.document.pojo.DocEqutInfoBean" resultClass="Integer">
+		SELECT
+			COUNT(e.id)
+		FROM
+			job_doc_equtinfo e 
+		LEFT JOIN sys_domain d ON (e.areano = d.domainCode) 
+		LEFT JOIN sys_user u ON(e.MP=u.username) 
+	   <dynamic prepend="WHERE">
+	   		<isNotEmpty prepend="AND" property="areano"> e.areano=#areano# </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="mpname"> u.realname=#mpname# </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="filename"> e.filename like '%$filename$%' </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="estat"> e.ESTAT=#estat# </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="etype"> e.ETYPE=#etype# </isNotEmpty>
+	    	<isNotEmpty prepend="AND " property="ecode"> (e.ECODE like '%$ecode$%') </isNotEmpty>
+	    	<isNotEmpty prepend="AND " property="ename"> (e.ENAME like '%$ename$%') </isNotEmpty>
+	    	<isNotEmpty prepend="AND " property="eaddr"> (e.EADDR like '%$eaddr$%') </isNotEmpty>
+	    </dynamic>
+	</select>
+	<delete id="delDocequtinfo" parameterClass="manage.document.pojo.DocEqutInfoBean">
+		DELETE job_doc_equtinfo,job_doc_pointinfo from job_doc_equtinfo 
+		LEFT JOIN job_doc_pointinfo ON job_doc_equtinfo.DID=job_doc_pointinfo.DID 
+		WHERE job_doc_equtinfo.DID=#did#
+	</delete>
+	<delete id="delDocequtinfojump" parameterClass="manage.document.pojo.DocEqutInfoBean">
+		DELETE from job_doc_jumpinfo where DID=#did#
+	</delete>
+	
+	<select id="gatDocPointGrid" parameterClass="manage.document.pojo.DocPointInfoBean" resultClass="manage.document.pojo.DocPointInfoBean">
+		SELECT * FROM job_doc_pointinfo WHERE did=#did#
+		<dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="sort"> ORDER BY $sort$ </isNotEmpty>
+	    	<isNotEmpty prepend=" " property="dir">  $dir$ </isNotEmpty>
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+	</select>
+	<select id="gatDocPointCount" parameterClass="manage.document.pojo.DocPointInfoBean" resultClass="Integer">
+		SELECT COUNT(id) FROM job_doc_pointinfo WHERE did=#did#
+	</select>
+	
+	<select id="getHsrCount" parameterClass="manage.route.pojo.RouteInfoBean" resultClass="Integer">
+		SELECT COUNT(*) FROM job_doc_routeinfo WHERE routename=#routename#	
+	</select>
+	
+	
+	
+	<select id="getHscCount" parameterClass="manage.route.pojo.CableInfoBean" resultClass="Integer">
+		SELECT COUNT(*) FROM job_doc_cableinfo WHERE cablename=#cablename#	and routename=#routename#
+	</select>
+	<!-- 获取设备型号的ID根据其名称 -->
+	<select id="getEqutModel" parameterClass="manage.equt.pojo.EqutModelInfoBean" resultClass="manage.equt.pojo.EqutModelInfoBean">
+		SELECT emodelId modelId,emodel modelName FROM job_emodel where emodel=#modelName#
+	</select>
+	<!-- 资管数据jump -->
+	<insert id="insertDocJump"  parameterClass="manage.document.pojo.DocJumpInfoBean">
+		INSERT INTO job_doc_jumpinfo 
+			(ecode1,ename1,pcode1,ecode2,ename2,pcode2,did)
+		VALUES
+			(#ecode1#,#ename1#,#pcode1#,#ecode2#,#ename2#,#pcode2#,#did#)
+	</insert>
+</sqlMap>

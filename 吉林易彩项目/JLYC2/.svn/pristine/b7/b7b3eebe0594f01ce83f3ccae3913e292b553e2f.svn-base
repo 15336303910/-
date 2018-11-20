@@ -1,0 +1,231 @@
+{
+	"index.html": {
+		"refer": [
+			"pages/main/main.html"
+		],
+		"resources": [
+			"css/pagestyle.css",
+			"image/logo.png",
+			"js/mui.min.js",
+			"css/mui.min.css",
+			"js/mui.js"
+		]
+	},
+	"pages/main/main.html": {
+		"resources": [
+			"/image/map/current.png",
+			"image/map/current.png",
+			"js/mui.min.js",
+			"css/mui.min.css"
+		],
+		"refer": [
+			"pages/pipe/pipeList.html",
+			"pages/outLine/outMain.html",
+			"pages/toec/toecMain.html",
+			"pages/outLine/well/wellDetail.html",
+			"pages/outLine/well/wellAdd.html",
+			"pages/outLine/pole/poleAdd.html"
+		]
+	},
+	"pages/pipe/pipeList.html": {
+		"refer": [
+			"pages/pipe/pipeDetail.html",
+			"pages/pipe/addPipe.html"
+		],
+		"resources": []
+	},
+	"pages/outLine/outMain.html": {
+		"refer": [
+			"pages/outLine/stone/stoneList.html",
+			"pages/outLine/buriedSeg/buriedSegList.html",
+			"pages/outLine/buried/buriedList.html",
+			"pages/outLine/pole/poleList.html",
+			"pages/outLine/poleLineSeg/poleLineSegList.html",
+			"pages/outLine/poleLine/poleLineList.html",
+			"pages/outLine/well/wellList.html",
+			"pages/outLine/pipeSeg/pipeSegList.html",
+			"pages/outLine/pipe/pipeList.html"
+		],
+		"resources": []
+	},
+	"pages/toec/toecMain.html": {
+		"refer": [
+			"pages/toec/joint/jointList.html",
+			"pages/toec/equt/equtList.html",
+			"pages/toec/cable/cableList.html"
+		],
+		"resources": []
+	},
+	"pages/outLine/well/wellList.html": {
+		"refer": [
+			"pages/outLine/well/wellDetail.html",
+			"pages/outLine/well/wellAdd.html"
+		],
+		"resources": []
+	},
+	"pages/outLine/well/wellDetail.html": {
+		"refer": [
+			"pages/main/getLatLon.html",
+			"pages/outLine/well/getLatLon.html",
+			"pages/outLine/well/wellDetail.html",
+			"pages/outLine/well/wellAdd.html",
+			"pages/outLine/well/wellList.html"
+		],
+		"resources": []
+	},
+	"pages/outLine/well/wellAdd.html": {
+		"refer": [
+			"pages/outLine/well/wellDetail.html",
+			"pages/main/getLatLon.html",
+			"pages/outLine/well/wellList.html"
+		],
+		"resources": []
+	},
+	"pages/outLine/pole/poleList.html": {
+		"refer": [
+			"pages/outLine/pole/poleAdd.html",
+			"pages/outLine/pole/poleDetail.html"
+		],
+		"resources": []
+	},
+	"pages/outLine/pole/poleAdd.html": {
+		"refer": [
+			"pages/main/getLatLon.html",
+			"pages/outLine/pole/poleList.html"
+		],
+		"resources": []
+	},
+	"pages/outLine/pole/poleDetail.html": {
+		"refer": [
+			"pages/main/getLatLon.html"
+		],
+		"resources": []
+	},
+	"pages/outLine/poleLine/poleLineList.html": {
+		"refer": [
+			"pages/outLine/poleLine/poleLineAdd.html",
+			"pages/outLine/poleLine/poleLineDetail.html"
+		],
+		"resources": []
+	},
+	"pages/outLine/poleLineSeg/poleLineSegList.html": {
+		"refer": [
+			"pages/outLine/poleLineSeg/poleLineSegAdd.html",
+			"pages/outLine/poleLineSeg/poleLineSegDetail.html"
+		],
+		"resources": []
+	},
+	"pages/outLine/poleLineSeg/poleLineSegAdd.html": {
+		"refer": [
+			"pages/outLine/pole/poleCheck.html",
+			"pages/outLine/poleLineSeg/poleLineSegList.html"
+		],
+		"resources": []
+	},
+	"pages/outLine/poleLineSeg/poleLineSegDetail.html": {
+		"refer": [
+			"pages/outLine/pole/poleCheck.html"
+		],
+		"resources": []
+	},
+	"pages/outLine/poleLine/poleLineDetail.html": {
+		"refer": [
+			"pages/outLine/poleLineSeg/poleLineSegList.html",
+			"pages/outLine/pole/poleList.html"
+		],
+		"resources": []
+	},
+	"pages/outLine/pipe/pipeList.html": {
+		"refer": [
+			"pages/outLine/pipe/pipeAdd.html",
+			"pages/outLine/pipe/pipeDetail.html"
+		],
+		"resources": []
+	},
+	"pages/outLine/pipe/pipeDetail.html": {
+		"refer": [
+			"pages/outLine/well/wellList.html",
+			"pages/outLine/poleLineSeg/poleLineSegList.html",
+			"pages/outLine/pipeSeg/pipeSegList.html"
+		],
+		"resources": []
+	},
+	"pages/outLine/pipeSeg/pipeSegList.html": {
+		"refer": [
+			"pages/outLine/pipeSeg/pipeSegAdd.html",
+			"pages/outLine/pipeSeg/pipeSegDetail.html"
+		],
+		"resources": []
+	},
+	"pages/outLine/pipeSeg/pipeSegDetail.html": {
+		"refer": [
+			"pages/outLine/well/wellCheck.html",
+			"pages/outLine/pipeSeg/pipeSegList.html"
+		],
+		"resources": []
+	},
+	"pages/outLine/pipeSeg/pipeSegAdd.html": {
+		"refer": [
+			"pages/outLine/well/wellCheck.html"
+		],
+		"resources": []
+	},
+	"pages/outLine/buriedSeg/buriedSegList.html": {
+		"refer": [
+			"pages/outLine/buriedSeg/buriedSegDetail.html",
+			"pages/outLine/buriedSeg/buriedSegAdd.html"
+		],
+		"resources": []
+	},
+	"pages/outLine/stone/stoneList.html": {
+		"refer": [
+			"pages/outLine/stone/stoneDetail.html",
+			"pages/outLine/stone/stoneAdd.html"
+		],
+		"resources": []
+	},
+	"pages/outLine/buried/buriedList.html": {
+		"refer": [
+			"pages/outLine/buried/buriedAdd.html",
+			"pages/outLine/buried/buriedDetail.html"
+		],
+		"resources": []
+	},
+	"pages/outLine/stone/stoneAdd.html": {
+		"refer": [
+			"pages/main/getLatLon.html"
+		],
+		"resources": []
+	},
+	"pages/outLine/stone/stoneDetail.html": {
+		"refer": [
+			"pages/main/getLatLon.html"
+		],
+		"resources": []
+	},
+	"pages/outLine/buriedSeg/buriedSegDetail.html": {
+		"refer": [
+			"pages/outLine/stone/stoneCheck.html"
+		],
+		"resources": []
+	},
+	"pages/outLine/buriedSeg/buriedSegAdd.html": {
+		"refer": [
+			"pages/outLine/stone/stoneCheck.html"
+		],
+		"resources": []
+	},
+	"pages/outLine/buried/buriedDetail.html": {
+		"refer": [
+			"pages/outLine/stone/stoneList.html",
+			"pages/outLine/buriedSeg/buriedSegList.html"
+		],
+		"resources": []
+	},
+	"myhtml.html": {
+		"resources": [
+			"js/mui.min.js",
+			"css/mui.min.css"
+		]
+	}
+}

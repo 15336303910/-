@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+
+<sqlMap namespace="dataupdate">	
+<!-- 区域名称模糊查询 -->
+	<select id="getDomain" parameterClass="manage.domain.pojo.DomainBean" resultClass="manage.domain.pojo.DomainBean">
+		SELECT * FROM sys_domain 
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="domainId"> domainId=#domainId#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="domainCode"> domainCode=#domainCode#</isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="domainName"> domainName=#domainName# </isNotEmpty>
+	    </dynamic>
+	</select>
+<!-- 获取管道信息 -->
+	<select id="getPipeList" parameterClass="manage.pipe.pojo.PipeInfoBean" resultClass="manage.pipe.pojo.PipeInfoBean">
+		select *
+		from pipeinfo where deletedFlag='0'
+     <dynamic prepend=" AND ">
+	    <isNotEmpty prepend="AND" property="pipeId">(pipeId=#pipeId#)</isNotEmpty>
+	    <isNotEmpty prepend="AND" property="ids">pipeId in ($ids$)</isNotEmpty>
+	 </dynamic>
+	</select>
+<!-- 导入管道 -->
+	<insert id="insertPipe" parameterClass="manage.pipe.pojo.PipeInfoBean">
+		insert into pipeinfo(pipeName,alias,maintenanceAreaId,pipeLevel) 
+		values(#pipeName#,#alias#,#maintenanceAreaId#,#pipeLevel#)
+	</insert>
+<!-- 获取管道段信息 -->
+	<select id="getPipeSegList" parameterClass="manage.pipe.pojo.PipeSegmentInfoBean" resultClass="manage.pipe.pojo.PipeSegmentInfoBean">
+		select * from pipesegmentinfo where deletedFlag='0'
+     <dynamic prepend=" AND ">
+	    <isNotEmpty prepend="AND" property="pipeSegmentId">(pipeSegmentId=#pipeSegmentId#)</isNotEmpty>
+	    <isNotEmpty prepend="AND" property="ids">pipeSegmentId in ($ids$)</isNotEmpty>
+	    <isNotEmpty prepend="AND" property="pipeSegmentName">pipeSegmentName=#pipeSegmentName#</isNotEmpty>
+	</dynamic>
+	</select>
+<!-- 导入管道段 -->
+	<insert id="insertPipeSeg" parameterClass="manage.pipe.pojo.PipeSegmentInfoBean">
+		insert into pipesegmentinfo(pipeSegmentName,pipeSegmentCode,maintenanceAreaId,pipeId,roadName,pipeSegmentLength,
+		pipeSegmentType,buriedDepth,startNestTopElevation,startNestBottomElevation,startDeviceId,startDeviceType,
+		endDeviceId,endDeviceType,endNestTopElevation,endNestBottomElevation,pipeLineLayingEnumId,holeQuantity,
+		constructionSharingEnumId,constructionSharingOrg,sharingTypeEnumId,buildAndShareNum,occupiedSharingHoleQuantity,
+		rentFlag,rentStartDate,rentEndDate,rentOrg,rentChargingCode,resourceLifePeriodEnumId,creationDate,lastUpdateDate,
+		deletedFlag,provinceId,cstate,startDeviceName,endDeviceName,areano,areaname,
+		assetsownership,occupyHoleQuantity,reserveHoleQuantity,fixedAssetsCode,resourceLifePeriodEnumDate,isAuthorizationManagement,
+		authorizationManagementUnit,designPurposes,note) 
+		values(#pipeSegmentName#,#pipeSegmentCode#,#maintenanceAreaId#,#pipeId#,#roadName#,#pipeSegmentLength#,
+		#pipeSegmentType#,#buriedDepth#,#startNestTopElevation#,#startNestBottomElevation#,#startDeviceId#,
+		#startDeviceType#,#endDeviceId#,#endDeviceType#,#endNestTopElevation#,#endNestBottomElevation#,
+		#pipeLineLayingEnumId#,#holeQuantity#,#constructionSharingEnumId#,#constructionSharingOrg#,#sharingTypeEnumId#,
+		#buildAndShareNum#,#occupiedSharingHoleQuantity#,#rentFlag#,#rentStartDate#,#rentEndDate#,#rentOrg#,
+		#rentChargingCode#,#resourceLifePeriodEnumId#,#creationDate#,#lastUpdateDate#,'0',#provinceId#,'0',
+		#startDeviceName#,#endDeviceName#,#areano#,#areaname#,
+		#assetsownership#,#occupyHoleQuantity#,#reserveHoleQuantity#,#fixedAssetsCode#,#resourceLifePeriodEnumDate#,#isAuthorizationManagement#,
+		#authorizationManagementUnit#,#designPurposes#,#note#)
+	</insert>
+	
+<!-- 获取杆路信息 -->
+	<select id="getPolelineList" parameterClass="manage.poleline.pojo.PolelineInfoBean" resultClass="manage.poleline.pojo.PolelineInfoBean">
+		select *
+		from polelineinfo where deletedFlag='0'
+      <dynamic prepend=" AND ">
+	    <isNotEmpty prepend="AND" property="poleLineId">(poleLineId=#poleLineId#)</isNotEmpty>
+	    <isNotEmpty prepend="AND" property="ids">poleLineId in ($ids$)</isNotEmpty>
+	    <isNotEmpty prepend="AND" property="poleLineName"> poleLineName=#poleLineName# </isNotEmpty>
+	 </dynamic>
+	</select>
+<!-- 导入杆路 -->
+	<insert id="insertPoleline" parameterClass="manage.poleline.pojo.PolelineInfoBean">
+		insert into polelineinfo (
+			poleLineName,poleLineCode,maintenanceAreaId,poleLineLevel,poleLineLength,startDeviceName,endDeviceName,
+			maintenanceModeEnumId,maintenanceOrgId,maintainerId,thirdPartyMaintenanceOrg,purchasedMaintenanceTime,
+			projectCode,projectName,projectWarrantyExpireDate,resourceLifePeriodEnumId,creationDate,lastUpdateDate,
+			deletedFlag,provinceId,cuser,cstate,areano,areaname,startDeviceId,endDeviceId,maintenanceTypeEnumId,renewalExpirationDate,maintenanceAreaName,
+			alias,resourceLifePeriodEnumDate,designPurposes,isAuthorizationManagement,authorizationManagementUnit,note
+		) values (
+			#poleLineName#,#poleLineCode#,#maintenanceAreaId#,#poleLineLevel#,#poleLineLength#,#startDeviceName#,
+			#endDeviceName#,#maintenanceModeEnumId#,#maintenanceOrgId#,#maintainerId#,#thirdPartyMaintenanceOrg#,
+			#purchasedMaintenanceTime#,#projectCode#,#projectName#,#projectWarrantyExpireDate#,#resourceLifePeriodEnumId#,
+			#creationDate#,#lastUpdateDate#,'0',#provinceId#,#cuser#,'2',#areano#,#areaname#,#startDeviceId#,#endDeviceId#,#maintenanceTypeEnumId#,#renewalExpirationDate#,#maintenanceAreaName#,
+			#alias#,#resourceLifePeriodEnumDate#,#designPurposes#,#isAuthorizationManagement#,#authorizationManagementUnit#,#note#
+		)
+	</insert>
+	
+<!-- 插入井 -->
+	<insert id="insertWell" parameterClass="manage.pipe.pojo.WellInfoBean">
+		insert into wellinfo(
+			wellName,alias,direction,wellNo,wellSubNo,wellNameSub,longitude,latitude,
+			creationDate,deletedFlag,wellmap,faceids,provinceId,cuser,cstate,
+			areano,areaname,pipeId,region,constructionSharingEnumId,constructionSharingOrg,
+			sharingTypeEnumId,rentFlag,dataQualityPrincipal,parties,branch
+		) values(
+			#wellName#,#alias#,#direction#,#wellNo#,#wellSubNo#,#wellNameSub#,#longitude#,#latitude#,
+			now(),'0',#wellmap#,#faceids#,#provinceId#,#cuser#,'2',
+			#areano#,#areaname#,#pipeId#,#region#,#constructionSharingEnumId#,#constructionSharingOrg#,
+			#sharingTypeEnumId#,#rentFlag#,#dataQualityPrincipal#,#parties#,#branch#
+		)
+	</insert>
+<!-- 查询井-->
+	<select id="getWellList" parameterClass="manage.pipe.pojo.WellInfoBean" resultClass="manage.pipe.pojo.WellInfoBean">
+		select *
+		from wellinfo where deletedFlag='0'
+     <dynamic prepend=" AND ">
+	    <isNotEmpty prepend="AND" property="wellId">(wellId=#wellId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="ids">wellId in ($ids$)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="wellNameSub">(wellNameSub=#wellNameSub#)</isNotEmpty>
+	</dynamic>
+	</select>
+<!-- 插入电杆 -->
+	<insert id="insertPole" parameterClass="manage.poleline.pojo.PoleInfoBean">
+		insert into poleinfo(poleId,poleName,poleNo,poleSubNo,poleNameSub,poleCode,maintenanceAreaId,poleLineId,poleTypeEnumId,poleMaterial,poleLength,buriedDepth,poleRadius,poleAddress,poleLongitude,poleLatitude,maintenanceModeEnumId,maintenanceOrgId,maintainerId,thirdPartyMaintenanceOrg,renewalExpirationDate,maintenanceTypeEnumId,purchasedMaintenanceTime,creationDate,lastUpdateDate,deletedFlag,deletionDate,provinceId,cuser,cstate,areano,areaname,direction,region,maintenanceAreaName,subordinateUnits,poleWireForm,poleStd,status,overhaulRecord,note,poleAlias,assetTagNumber,XCoordinate,YCoordinate,IsAuthorizationManagement,authorizationManagementUnit,designPurposes) 
+		values(#poleId#,#poleName#,#poleNo#,#poleSubNo#,#poleNameSub#,#poleCode#,#maintenanceAreaId#,#poleLineId#,#poleTypeEnumId#,#poleMaterial#,#poleLength#,#buriedDepth#,#poleRadius#,#poleAddress#,#poleLongitude#,#poleLatitude#,#maintenanceModeEnumId#,#maintenanceOrgId#,#maintainerId#,#thirdPartyMaintenanceOrg#,#renewalExpirationDate#,#maintenanceTypeEnumId#,#purchasedMaintenanceTime#,now(),null,0,null,#provinceId#,#cuser#,#cstate#,#areano#,#areaname#,#direction#,#region#,#maintenanceAreaName#,#subordinateUnits#,#poleWireForm#,#poleStd#,#status#,#overhaulRecord#,#note#,#poleAlias#,#assetTagNumber#,#XCoordinate#,#YCoordinate#,#IsAuthorizationManagement#,#authorizationManagementUnit#,#designPurposes#)
+	</insert>
+<!-- 获取电杆信息 -->
+	<select id="getPoleList" parameterClass="manage.poleline.pojo.PoleInfoBean" resultClass="manage.poleline.pojo.PoleInfoBean">
+		select * from poleinfo where deletedFlag='0'
+		<dynamic prepend=" AND ">
+		<isNotEmpty prepend="AND" property="poleId">(poleId=#poleId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="ids">poleId in ($ids$)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="poleNameSub">(poleNameSub=#poleNameSub#)</isNotEmpty>
+		</dynamic>
+	</select>
+	
+<!-- 获取管孔信息 -->
+	<select id="getTubeList" parameterClass="manage.pipe.pojo.TubeInfoBean" resultClass="manage.pipe.pojo.TubeInfoBean">
+		select *
+		from tubeinfo where deletedFlag='0'
+     <dynamic prepend=" AND ">
+	    <isNotEmpty prepend="AND" property="tubeId">(tubeId=#tubeId#)</isNotEmpty>
+	    <isNotEmpty prepend="AND" property="ids">wellId in ($ids$)</isNotEmpty>
+	    <isNotEmpty prepend="AND" property="pipeSegmentId">(pipeSegmentId=#pipeSegmentId#)</isNotEmpty>
+	    <isNotEmpty prepend="AND" property="inPipesegCode">(inPipesegCode=#inPipesegCode#)</isNotEmpty>
+	    <isNotEmpty prepend="AND" property="fatherPoreId">(fatherPoreId=#fatherPoreId#)</isNotEmpty>
+	</dynamic>
+	</select>
+<!-- 导入管孔 -->
+	<insert id="insertTube" parameterClass="manage.pipe.pojo.TubeInfoBean">
+		insert into tubeinfo(
+			tubeName,tubeNumber,pipeSegmentId,isFather,fatherPoreId,subTubeAmount,subTubeArrangeMode,tubeStatusEnumId,
+			tubeDiameter,tubeColor,tubeMaterial,tubeShape,rentFlag,rentOrg,resourceLifePeriodEnumId,
+			bearCableSegmentId,bearCableSegment,redunBearCableSegmentId,redunBearCableSegment,creationDate,lastUpdateDate,deletedFlag,deletionDate,provinceId,
+			maintenanceAreaId,cuser,cstate,wellId,faceId,rfid,constructionSharingEnumId,constructionSharingOrg,sharingTypeEnumId,duitubeNumber,duiwellId,duifaceId,duitubeName,duirfid,
+			inPipesegCode,assetsownership,resourceLifePeriodEnumDate,isAuthorizationManagement,authorizationManagementUnit,designPurposes,note,occupysubTube
+		) values(
+			#tubeName#,#tubeNumber#,#pipeSegmentId#,#isFather#,#fatherPoreId#,#subTubeAmount#,#subTubeArrangeMode#,#tubeStatusEnumId#,
+			#tubeDiameter#,#tubeColor#,#tubeMaterial#,#tubeShape#,#rentFlag#,#rentOrg#,#resourceLifePeriodEnumId#,
+			#bearCableSegmentId#,#bearCableSegment#,#redunBearCableSegmentId#,#redunBearCableSegment#,now(),now(),'0',#deletionDate#,#provinceId#,
+			#maintenanceAreaId#,#cuser#,'2',#wellId#,#faceId#,#rfid#,#constructionSharingEnumId#,#constructionSharingOrg#,#sharingTypeEnumId#,#duitubeNumber#,#duiwellId#,#duifaceId#,#duitubeName#,#duirfid#,
+			#inPipesegCode#,#assetsownership#,#resourceLifePeriodEnumDate#,#isAuthorizationManagement#,#authorizationManagementUnit#,#designPurposes#,#note#,#occupysubTube#
+		)
+	</insert>
+<!-- 插入引上点 -->
+	<insert id="insertLedup" parameterClass="manage.pipe.pojo.LedupInfoBean">
+		insert into ledupinfo(ledupPointId,ledupPointName,ledupPointCode,wellId,poleId,tubeQuantity,
+		occupiedTubeQuantity,reservedTubeQuantity,creationDate,lastUpdateDate,deletedFlag,
+		deletionDate,region,LedupType,longitude,latitude,walladdr,isAuthorizationManagement,
+		authorizationManagementUnit,designPurposes,note,XCoordinate,YCoordinate,maintenanceAreaName,dataQualityPrincipal,parties) 
+		values(#ledupPointId#,#ledupPointName#,#ledupPointCode#,#wellId#,#poleId#,#tubeQuantity#,#occupiedTubeQuantity#,
+		#reservedTubeQuantity#,now(),null,0,null,#region#,#LedupType#,#longitude#,#latitude#,#walladdr#,#isAuthorizationManagement#,
+		#authorizationManagementUnit#,#designPurposes#,#note#,#XCoordinate#,#YCoordinate#,#maintenanceAreaName#,#dataQualityPrincipal#,#parties#)
+	</insert>
+<!-- 获取引上点信息 -->
+	<select id="getLedupList" parameterClass="manage.pipe.pojo.LedupInfoBean" resultClass="manage.pipe.pojo.LedupInfoBean">
+		select *
+		from ledupinfo where deletedFlag='0'
+     <dynamic prepend=" AND ">
+	    <isNotEmpty prepend="AND" property="ledupPointId">(ledupPointId=#ledupPointId#)</isNotEmpty>
+	    <isNotEmpty prepend="AND" property="ids">ledupPointId in ($ids$)</isNotEmpty>
+	    <isNotEmpty prepend="AND" property="dataQualityPrincipal">(dataQualityPrincipal=#dataQualityPrincipal#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="parties">(parties=#parties#)</isNotEmpty>
+	 </dynamic>
+	</select>
+	
+<!-- 插入撑点 -->	 
+    <insert id="insertsupport" parameterClass="manage.poleline.pojo.SupportInfoBean">
+		insert into job_support(supportName,supportBieName,regionId,address,supportType,lat,lon,supportJZ,hight,lifecycle,lifecycleTime,note,creationDate,lastUpdateDate,deletedFlag,deletionDate,planeRightAngleX,planeRightAngleY) 
+		values(#supportName#,#supportBieName#,#regionId#,#address#,#supportType#,#lat#,#lon#,#supportJZ#,#hight#,#lifecycle#,#lifecycleTime#,#note#,#creationDate#,#lastUpdateDate#,'0',#deletionDate#,#planeRightAngleX#,#planeRightAngleY#)
+	</insert>
+	<!-- 获取撑点信息 -->
+	<select id="getsupportList" parameterClass="manage.poleline.pojo.SupportInfoBean" resultClass="manage.poleline.pojo.SupportInfoBean">
+		select *
+		from job_support where deletedFlag='0'
+     <dynamic prepend=" AND ">
+	    <isNotEmpty prepend="AND" property="supportId">(supportId=#supportId#)</isNotEmpty>
+	    <isNotEmpty prepend="AND" property="ids">supportId in ($ids$)</isNotEmpty>
+	    <isNotEmpty prepend="AND" property="supportName"> supportName=#supportName# </isNotEmpty>
+	 </dynamic>
+	</select>
+	<!-- 插入吊线 -->	 
+    <insert id="insertsuspension" parameterClass="manage.poleline.pojo.SuspensionWireInfoBean">
+		insert into job_suspension(suspensionWireName,suspensionWireCode,regionId,poleLineId,length,resourceLifePeriodEnumId,lifecycleTime,isAuthorizationManagement,authorizationManagementUnit,designPurposes,note,creationDate,lastUpdateDate,deletedFlag,deletionDate) 
+		values(#suspensionWireName#,#suspensionWireCode#,#regionId#,#poleLineId#,#length#,#resourceLifePeriodEnumId#,#lifecycleTime#,#isAuthorizationManagement#,#authorizationManagementUnit#,#designPurposes#,#note#,#creationDate#,#lastUpdateDate#,'0',#deletionDate#)
+	</insert>
+	<!-- 获取吊线信息 -->
+	<select id="getsuspensionList" parameterClass="manage.poleline.pojo.SuspensionWireInfoBean" resultClass="manage.poleline.pojo.SuspensionWireInfoBean">
+		select *
+		from job_suspension where deletedFlag='0'
+     <dynamic prepend=" AND ">
+	    <isNotEmpty prepend="AND" property="suspensionWireId">(suspensionWireId=#suspensionWireId#)</isNotEmpty>
+	    <isNotEmpty prepend="AND" property="ids">suspensionWireId in ($ids$)</isNotEmpty>
+	    <isNotEmpty prepend="AND" property="suspensionWireName"> suspensionWireName=#suspensionWireName# </isNotEmpty>
+	 </dynamic>
+	</select>
+	
+	<!-- 插入杆路段 -->
+	<insert id="insertpolelinesegment" parameterClass="manage.poleline.pojo.PolelineSegmentInfoBean">
+		insert into polelinesegmentinfo(poleLineSegmentName,poleLineSegmentCode,maintenanceAreaId,poleLineId,poleLineSegmentLength,status,startDeviceId,endDeviceId,constructionSharingEnumId,constructionSharingOrg,sharingTypeEnumId,resourceLifePeriodEnumId,creationDate,lastUpdateDate,deletedFlag,deletionDate,provinceId,cuser,cstate,areano,maintenanceAreaName,areaname,poleLineSegmentBieName,assetTag,lifecycleTime,note) 
+		values(#poleLineSegmentName#,#poleLineSegmentCode#,#maintenanceAreaId#,#poleLineId#,#poleLineSegmentLength#,#status#,#startDeviceId#,#endDeviceId#,#constructionSharingEnumId#,#constructionSharingOrg#,#sharingTypeEnumId#,#resourceLifePeriodEnumId#,#creationDate#,#lastUpdateDate#,'0',#deletionDate#,#provinceId#,#cuser#,#cstate#,#areano#,#maintenanceAreaName#,#areaname#,#poleLineSegmentBieName#,#assetTag#,#lifecycleTime#,#note#)
+	</insert>
+	<!-- 获取杆路段信息 -->
+	<select id="getpolelinesegmentList" parameterClass="manage.poleline.pojo.PolelineSegmentInfoBean" resultClass="manage.poleline.pojo.PolelineSegmentInfoBean">
+		select *
+		from polelinesegmentinfo where deletedFlag='0'
+     <dynamic prepend=" AND ">
+	    <isNotEmpty prepend="AND" property="poleLineSegmentId">(poleLineSegmentId=#poleLineSegmentId#)</isNotEmpty>
+	    <isNotEmpty prepend="AND" property="ids">poleLineSegmentId in ($ids$)</isNotEmpty>
+	 </dynamic>
+	</select>
+	
+	<!-- 插入吊线段 -->
+	<insert id="insertDXD" parameterClass="manage.poleline.pojo.SuspensionWireSegInfoBean">
+		insert into job_suspensionseg(suspensionWireSegName,suspensionWireSegCode,regionId,suspensionWireId,startId,endId,startType,endType,caizhi,guige,tiaoshu,resourceLifePeriodEnumId,length,lifecycleTime,isAuthorizationManagement,authorizationManagementUnit,designPurposes,note,creationDate,lastUpdateDate,deletedFlag,deletionDate) 
+		values(#suspensionWireSegName#,#suspensionWireSegCode#,#regionId#,#suspensionWireId#,#startId#,#endId#,#startType#,#endType#,#caizhi#,#guige#,#tiaoshu#,#resourceLifePeriodEnumId#,#length#,#lifecycleTime#,#isAuthorizationManagement#,#authorizationManagementUnit#,#designPurposes#,#note#,#creationDate#,#lastUpdateDate#,'0',#deletionDate#)
+	</insert>
+	
+	<!-- 获取吊线段信息 -->
+	<select id="getDXDList" parameterClass="manage.poleline.pojo.SuspensionWireSegInfoBean" resultClass="manage.poleline.pojo.SuspensionWireSegInfoBean">
+		select *
+		from job_suspensionseg where deletedFlag='0'
+     <dynamic prepend=" AND ">
+	     <isNotEmpty prepend="AND" property="suspensionWireSegId">(suspensionWireSegId=#suspensionWireSegId#)</isNotEmpty> 
+	    <isNotEmpty prepend="AND" property="ids">suspensionWireId in ($ids$)</isNotEmpty>
+	 </dynamic>
+	</select>
+</sqlMap>

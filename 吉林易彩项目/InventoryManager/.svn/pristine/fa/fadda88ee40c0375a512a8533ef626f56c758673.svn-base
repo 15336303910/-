@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+	<settings useStatementNamespaces="true" 
+			  cacheModelsEnabled ="true" 
+			  enhancementEnabled ="true" 
+			  lazyLoadingEnabled ="true" 
+			  errorTracingEnabled ="true" 
+			  maxRequests ="100" 
+			  maxSessions ="100" 
+			  maxTransactions ="50" /> 
+
+    <!-- 加载用户管理ibatis配置文件-->
+  <sqlMap resource="config/user/sqlmap-user.xml"/>
+  	<!-- 加载地区管理的ibatis配置文件 -->
+  <sqlMap resource="config/domain/sqlmap-domain.xml"/>
+  <!-- 加载登录 ibatis配置文件-->
+  <sqlMap resource="config/login/sqlmap-login.xml"/>
+  <sqlMap resource="config/main/sqlmap-main.xml"/>
+  	<!-- 加载设备管理 ibatis配置文件-->
+  <sqlMap resource="config/equt/sqlmap-equt.xml"/>
+  <sqlMap resource="config/equt/sqlmap-pdaequt.xml"/>
+  	<!-- 加载端子管理 ibatis配置文件-->
+  <sqlMap resource="config/point/sqlmap-point.xml"/>
+  	<!-- 加载接口端子管理 ibatis配置文件-->
+  <sqlMap resource="config/point/sqlmap-pdapoint.xml"/>
+  <!-- 加载poleline配置文件 -->
+  <sqlMap resource="config/poleline/sqlmap-poleline.xml"/>
+  <sqlMap resource="config/poleline/sqlmap-pdapoleline.xml"/>
+  <!-- 加载pipe配置文件 -->
+  <sqlMap resource="config/pipe/sqlmap-pipe.xml"/>
+  <sqlMap resource="config/pipe/sqlmap-pdapipe.xml"/>
+  <!-- 加载光缆管理 ibatis配置文件-->
+  <sqlMap resource="config/route/sqlmap-route.xml"/>
+  <sqlMap resource="config/route/sqlmap-pdaroute.xml"/>
+  <!-- 加载resourcecheck配置文件 -->
+  <sqlMap resource="config/event/sqlmap-event.xml"/>
+  <sqlMap resource="config/generator/sqlmap-pdagenerator.xml"/>
+  <sqlMap resource="config/property/sqlmap-pdaproperty.xml"/>
+  <sqlMap resource="config/document/sqlmap-document.xml"/>
+  <sqlMap resource="config/generator/sqlmap-generator.xml"/>
+  <sqlMap resource="config/property/sqlmap-property.xml"/>
+  <sqlMap resource="config/statistics/sqlmap-statistics.xml"/>
+  <sqlMap resource="config/dataupdate/sqlmap-data.xml"/>
+  <!-- 加载图片 -->
+  <sqlMap resource="config/images/sqlmap-resourceImage.xml"/>
+  <sqlMap resource="config/version/sqlmap-versionControl.xml"/>
+  <sqlMap resource="config/stone/sqlmap-stone.xml"/>
+  <sqlMap resource="config/opticalTerminal/sqlmap-opticalTerminal.xml"/>
+  <sqlMap resource="config/buried/sqlmap-buried.xml"/>
+  <sqlMap resource="config/buriedPart/sqlmap-buriedPart.xml"/>
+  <sqlMap resource="config/dictionary/sqlmap-dictionary.xml"/>
+  <!-- 引上段 -->
+  <sqlMap resource="config/leadup/sqlmap-leadup.xml"/>
+  <!-- 设备配置文件 -->
+  <sqlMap resource="config/device/sqlmap-device.xml"/>
+  <!-- 北京本地需求 -->
+  <sqlMap resource="config/V2/beijing/resource/sqlmap-resPort.xml"/>
+  <sqlMap resource="config/V2/beijing/resource/sqlmap-resPos.xml"/>
+  <!-- 通用配置 -->
+  <sqlMap resource="config/common/sqlmap-common.xml"/>
+  <!-- 管线 -->
+  <sqlMap resource="config/lineSystem/sqlmap-lineSystem.xml"/>
+  <!-- 核查工单 -->
+  <sqlMap resource="config/gd/checkConfig/sqlmap-checkConfig.xml"/>
+  <sqlMap resource="config/gd/checkConfig/sqlmap-resourceConfig.xml"/>
+  <sqlMap resource="config/gd/gdManage/sqlmap-gdManage.xml"/>
+  <!-- 采集审批工单 -->
+  <sqlMap resource="config/approval/sqlmap-approval.xml"/>
+  <!-- 综资调用记录 -->
+  <sqlMap resource="config/irms/sqlmap-irms.xml"/>
+  <!-- 轨迹 -->
+  <sqlMap resource="config/collectTrack/sqlmap-collectTrack.xml"/>
+  <!-- 资源点 -->
+  <sqlMap resource="config/resPoint/sqlmap-resPoint.xml"/>
+</sqlMapConfig>

@@ -1,0 +1,54 @@
+db.type=mysql
+#db.type=oracle
+
+#For Test 1
+#JDBC.Driver=oracle.jdbc.driver.OracleDriver
+#JDBC.ConnectionURL=jdbc:oracle:thin:@132.194.36.56:1521:cmss1
+#JDBC.Username=cmss_tmp
+#JDBC.Password=cmss_8789
+
+#For Test 2
+jdbc.driver=com.mysql.jdbc.Driver
+#\u8D35\u5DDE
+#jdbc.url=jdbc\:mysql\://10.195.165.72\:9306/im?useUnicode\=true&characterEncoding\=utf-8
+#jdbc.username=oneln
+#jdbc.password=increase
+#My Personal Computer
+jdbc.url=jdbc\:mysql\://127.0.0.1\:3306/test01?useUnicode\=true&characterEncoding\=utf-8
+jdbc.username=root
+jdbc.password=root
+
+#jdbc.url=jdbc\:mysql\://10.195.165.72\:9306/im?useUnicode\=true&characterEncoding\=utf-8
+#jdbc.username=oneln
+#jdbc.password=increase
+
+#jdbc.url=jdbc\:mysql\://10.154.36.108\:3306/hn_yc?useUnicode\=true&characterEncoding\=utf-8
+#jdbc.username=oneln
+#jdbc.password=increase
+
+#jdbc.url=jdbc\:mysql\://10.154.36.108\:3306/hn_yc?useUnicode\=true&characterEncoding\=utf-8
+#jdbc.username=oneln
+#jdbc.password=increase
+
+#Inspur
+#jdbc.url=jdbc\:mysql\://10.110.2.87\:3306/im_zjj?useUnicode\=true&characterEncoding\=utf-8
+#jdbc.username=oneln
+#jdbc.password=increase
+
+#BeiJing
+#jdbc.url=jdbc\:mysql\://10.224.202.92\:3306/im?useUnicode\=true&characterEncoding\=utf-8
+#jdbc.username=oneln
+#jdbc.password=increase
+
+jdbc.miniPoolSize = 1
+jdbc.maxPoolSize = 50
+jdbc.initialPoolSize = 1
+jdbc.maxIdleTime = 25000
+jdbc.acquireIncrement = 1
+
+jdbc.acquireRetryAttempts = 30
+jdbc.acquireRetryDelay = 1000
+jdbc.testConnectionOnCheckin = true
+jdbc.automaticTestTable = c3p0TestTable
+jdbc.idleConnectionTestPeriod = 18000
+jdbc.checkoutTimeout=3000

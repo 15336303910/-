@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="collectTrack" extends="json-default,struts-default">
+     	<action name="pdaCollectTrack" class="interfaces.pdainterface.collectTrack.action.PDACollectTrack">
+        	<result name="*" type="json">
+	        	<param name="root">jsonResponse</param>
+	    	</result>
+     	</action>
+    </package>
+</struts>

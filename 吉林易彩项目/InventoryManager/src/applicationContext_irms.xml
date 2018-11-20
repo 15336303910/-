@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="autodetect">
+    <!-- 数据库连接 -->
+	<bean id="irmsdataSource" class="org.apache.commons.dbcp.BasicDataSource">
+		<property name="driverClassName" value="${ojdbc.driverClassName}" />
+		<property name="url" value="${ojdbc.url}" />
+		<property name="username" value="${ojdbc.username}" />
+		<property name="password" value="${ojdbc.password}" />
+		<property name="maxActive" value="60"/>
+        <property name="maxIdle" value="10"/>
+        <property name="maxWait" value="1000"/>
+        <property name="testWhileIdle" value="true"/>
+        <property name="numTestsPerEvictionRun" value="10"/>
+        <property name="timeBetweenEvictionRunsMillis" value="1200000"/>
+	</bean>
+	
+	
+	<bean id="irmsjdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"> 
+		<property name="dataSource">
+			<ref bean="irmsdataSource"></ref>
+		</property>
+	</bean>
+	
+	<bean id="irmsSqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation">
+            <value>classpath:irmsSqlMapConfig.xml</value>
+        </property>
+          <property name="dataSource" ref="irmsdataSource" />  
+    </bean>
+	
+	<bean id="baseDao2" abstract="true" class="base.database.IrmsDataBase" init-method="initialize">
+		<property name="dataSource">
+			<ref bean="irmsdataSource" />
+		</property>
+		<property name="irmsSqlMapClient">
+			<ref bean="irmsSqlMapClient" />
+		</property>
+	</bean>
+    
+</beans>

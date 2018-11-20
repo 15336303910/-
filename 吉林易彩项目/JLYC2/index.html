@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="css/mui.min.css"/>
+		<link rel="stylesheet" href="css/pagestyle.css" />
+		
+		<style>
+			h5 {
+				margin: 5px 7px;
+			}
+		</style>
+	</head>
+
+	<body class="L-body-bg">
+		<div class="L-body">
+			<div class="logobox">
+				<img src="image/logo.png" />
+			</div>
+			<div class="L-form-line">
+				<i class="uicon ui-1 pa"></i>
+				<input type="text" id="userName" placeholder="请输入账号" style="" value="root" />
+			</div>
+			<div class="L-form-line pr100">
+				<i class="uicon ui-2 pa"></i>
+				<input id="password" type="text" placeholder="请输入验证码" value="sjfwyc" />
+				<button id="btn_code" class="getcodebtn" style="font-size: 12px;">获取验证码</button>
+			</div>
+			<div class="mui-input-row mui-checkbox mui-left L-checkbox">
+				<label>记住用户</label>
+				<input id="cb_remeber" name="checkbox1" value="Item 1" type="checkbox" checked="checked">
+			</div>
+			<button id="btn_login" class="btn-primary L-loginbtn mt20" style="width: 100%;" onclick="login()">登录</button>
+		</div>
+		
+		<script src="js/mui.min.js"></script>
+		
+		<script type="text/javascript">
+			
+		
+//			mui.init({
+//				swipeBack: true //启用右滑关闭功s能
+//			});
+			mui.plusReady(function() {
+//				plus.storage.setItem("url","http://111.8.17.230:7021/InventoryManager");
+//				plus.storage.setItem("url","http://10.18.11.44:8080/InventoryManager");
+//	            plus.storage.setItem("url","http://10.72.123.64:8080/InventoryManager");
+//				plus.storage.setItem("url","http://10.18.11.21:8080/InventoryManager");
+				plus.storage.setItem("url","http://192.168.191.1:8080/InventoryManager");
+				plus.storage.setItem("isSecret","false");	
+				plusReady();
+			})
+
+			//初始化资源参数
+			function plusReady() {
+				
+			}
+
+			function login() {
+				var userName = document.getElementById('userName').value;
+				var userPwd = document.getElementById('password').value;
+				var cb_remeber = document.getElementById("cb_remeber");
+				plus.nativeUI.showWaiting();
+				if("" == userName){
+					mui.alert("请输入用户账号信息");
+					return;
+				}
+				if("" == userPwd){
+					mui.alert("请输入验证码或密码");
+					return ;
+				}
+				if(cb_remeber.checked){
+					plus.storage.setItem("userName",userName);
+				}else{
+					plus.storage.setItem("userName","");
+				}
+				console.log("===="+"{'authCode':'"+userPwd+"','username':'"+userName+"','versionCode':101}");
+				var url = plus.storage.getItem("url")+"/pdaLogin!login.interface";
+				mui.ajax(url, {
+						type: 'post',
+						dataType: 'json',
+						timeout: 10000 * 60,
+						data: {
+							jsonRequest: "{'authCode':'"+userPwd+"','username':'"+userName+"','versionCode':101}",
+						},
+						success: function(response) {
+							plus.nativeUI.closeWaiting();
+							var result = JSON.stringify(response);
+							console.log("返回结果："+result);
+							var data = JSON.parse(result);
+							var result = data.result;
+							if(result =='0'){
+								var info = data.info.split(",");
+								plus.storage.setItem("uid",info[0]);
+								plus.storage.setItem("areaName",info[1]);
+								plus.storage.setItem("logingUser",userName);	
+								mui.openWindow("/pages/main/main.html");
+							}else{
+								mui.alert("账号或验证码错误，登录系统失败！");
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							plus.nativeUI.closeWaiting(); 
+						}
+
+					});
+			}
+		</script>
+	</body>
+
+</html>

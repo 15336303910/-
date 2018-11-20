@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<!-- 补录数据 -->
+	<bean id ="patchData" class="manage.quartz.PatchData">
+		<property name="jdbcTemplate"><ref bean="jdbcTemplate"></ref></property>
+		<property name="pdaEqutInfoService"><ref bean="pdaEqutInfoService"></ref></property>
+		<property name="pdaPipeService"><ref bean="pdaPipeService"></ref></property>
+		<property name="pdaPolelineService"><ref bean="pdaPolelineService"></ref></property>
+		<property name="leadupService"><ref bean="leadupService"></ref></property>
+		<property name="irmsOutLineService"><ref bean="irmsOutLineService"></ref></property>
+		<property name="irmsOpticTranService"><ref bean="irmsOpticTranService"></ref></property>
+	</bean>
+	
+	<!-- 补数据定时任务 -->
+	  <bean id="patchDataClock" class="org.springframework.scheduling.timer.ScheduledTimerTask">
+		<property name="timerTask">
+			<ref bean="patchData"></ref>
+		</property>
+		<property name="period">
+			<value>300000</value>
+		</property>
+		<property name="delay">
+			<value>3000</value>
+		</property>
+	</bean>
+	
+	<bean class="org.springframework.scheduling.timer.TimerFactoryBean">
+		<property name="scheduledTimerTasks">
+			<list>
+				<ref bean="patchDataClock"></ref>
+			</list>
+		</property>
+	</bean>
+	
+</beans>

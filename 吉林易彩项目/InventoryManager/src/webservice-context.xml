@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans >
+	<!-- xfire接口配置 -->
+	<import resource="classpath:org/codehaus/xfire/spring/xfire.xml" />
+
+	<bean id="addressingHandler" class="org.codehaus.xfire.addressing.AddressingInHandler" />
+	
+	
+</beans>

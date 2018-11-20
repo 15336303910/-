@@ -1,0 +1,84 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../../css/pagestyle.css" />
+		<link href="../../../css/mui.min.css" rel="stylesheet" />
+		<style>
+			.circle {
+                position: fixed;
+                text-align: center;
+                margin-left: calc((95% - 65px));
+                bottom: 18px;
+                width: 65px;
+                height: 65px;
+                border-radius: 50px;
+                background-image: url(../../../image/add.png);
+                z-index: 99;
+        	}
+			.tab-center {
+                display: table-cell;
+                overflow: hidden;
+                width: 1%;
+                height: 50px;
+                text-align: center;
+                vertical-align: middle;
+            }
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">人手井资源</h1>
+		</header>
+		<div class="mui-content" style="margin-top: 10px;">
+		    <div class="mui-input-row mui-search" style="width: 100%;">
+				<input type="search" id="wellName" class="mui-input-clear" placeholder="人手井名称" value="" style="width: 70%; float: left; margin: 3px;">
+				<button type="button" class="mui-btn" onclick="searchForWell()" style="width: 25%; float: right; margin: 3px;">搜索</button>
+			</div>
+			<div id="wellUl" class="pl5 pr15 pt15">
+				
+			</div>
+		</div>
+		<div id="addButton" class="tab-center">
+    		<div class="circle" onclick="addWell()">
+        		<span class="mui-icon-extra mui-icon-extra-sweep"></span>
+    		</div>
+		</div>
+		<script src="../../../js/mui.min.js"></script>
+		<script src="../../../js/jquery-1.12.3.js"></script>
+		<script src="js/wellList.js"></script>		
+		<script type="text/javascript">
+			mui.init({
+				swipeBack:true //启用右滑关闭功能
+			});
+			var infos;
+			var mCurrentWebView;
+		    var start = 0;
+			var length = 7; //每页显示的条目个数
+		 	var totalList = new Array();
+			
+			mui.plusReady(function(){
+				 getWellList(start);
+			  mCurrentWebView = plus.webview.currentWebview();
+				//TODO 下拉 刷新
+				mCurrentWebView.setPullToRefresh({
+					support: true,
+					height: '50px',
+					range: '100px',
+					style: 'circle',
+					offset: '1px'
+				}, getWellListMore);
+				
+			});
+			
+		</script>
+	</body>
+
+</html>

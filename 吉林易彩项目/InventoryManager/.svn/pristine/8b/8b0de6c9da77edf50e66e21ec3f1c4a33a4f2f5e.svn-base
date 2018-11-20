@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <package name="point" extends="json-default,struts-base">
+     	<action name="point" class="manage.point.web.PointAction">
+     	    <!-- 文件拦截器 -->
+     		<interceptor-ref name="fileUpload"/>
+     		<interceptor-ref name="matStack"/>
+     		<result name="pointFromEqut" type="json">
+     			<param name="root">resultMap</param>
+     		</result>
+     		<result name="equtSetting" type="json">
+     			<param name="includeProperties">col,map,panelplace</param>
+     		</result>
+     		<result name="pointEvents" type="json">
+     			<param name="root">eventList</param>
+     		</result>
+     		<result name="getPointInfo" type="json">
+     			<param name="root">pointInfoBean</param>
+     		</result>
+     		<result name="pointInfoBean" type="json">
+	    	    <param name="root">pointInfoBean</param>
+	    	</result>
+	    	<result name="subpointInfoBean" type="json">
+	    	    <param name="root">pointInfoBean</param>
+	    	</result>
+	    	<!-- Ajax检查光路编码格式是否正确 -->
+	    	<result name="verifyOfpcode" type="json">
+	    	    <param name="includeProperties">success,verifyMsg</param>
+	    	</result>
+     		<result name="checkOfpNode" type="dispatcher">/pages/ofp/checkofp.jsp</result>
+     		<!-- 查看光路节点加载form表单 -->
+	    	<result name="loadOfpNode" type="json">
+	    	    <param name="includeProperties">success,pointInfoBean.*</param>
+	    	</result>
+	    	<result name="faultOfpNode" type="dispatcher">/pages/ofp/editofp.jsp</result>
+	    	<!-- 查看端子日志详细信息 -->
+	    	<result name="pointInfos" type="json">
+	    	    <param name="includeProperties">success,pointInfoBean.*</param>
+	    	</result>
+	    	<result name="ofptopo">/pages/ofp/ofptopo.jsp</result>
+	    	<result name="getPointList" type="json">
+     			<param name="root">outlist</param>
+     		</result>
+     		<result name="seePoint" type="json">
+     			<param name="root">map</param>
+     		</result>
+		</action>
+	</package>
+    <!-- <package name="pointlog" extends="struts-base">
+     	<action name="pointlog" class="manage.web.PointinfoLogAction">
+            <result name="error">err.jsp</result>
+            <result name="doedit">/pages/document/deletedocequt.jsp</result>
+            <result name="detail">/pages/logs/logview.jsp</result>
+            <result name="list">/pages/logs/loglist.jsp</result>
+            <result name="tolist" type="redirect">pointlog!list.action?direction=${direction}</result>
+            <result name="exportsuccess">/export.jsp?filename=${filepath}</result>
+            <result name="sessionOut">sessionOut.jsp</result>
+     	</action>    	
+    </package> -->
+</struts>

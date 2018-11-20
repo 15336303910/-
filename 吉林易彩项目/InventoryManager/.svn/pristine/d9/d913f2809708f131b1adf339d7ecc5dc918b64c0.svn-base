@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<!-- 载入global变量配置文件，struts.properties -->
+	<constant name="struts.custom.i18n.resources" value="struts" />  
+	<constant name="struts.objectTypeDeterminer" value="notiger" />    
+	<!-- -->
+	<constant name="struts.action.extension" value="do,action,interface"/>
+ 	
+	<constant name="struts.objectFactory" value="spring" />  
+    <constant name="struts.multipart.parser" value="jakarta" />
+	<!-- 上传文件时，保存在临时目录 -->
+	<constant name="struts.multipart.saveDir" value="/tmp" /> 
+
+	<!-- 通过bean名，自适应，无需再在spring配置文件中写注入的方式，只需要在注入类中生成对应的set，get方法即可 -->
+	<constant name="struts.objectFactory.spring.autoWire" value="name" />   
+	<!-- 
+	<include file="struts-default.xml"/>
+	 -->
+	<include file="struts-base.xml"/>
+	<!-- 加载登陆管理struts配置文件 -->
+   <include file="config/login/struts-login.xml"/>
+    <!-- 加载用户管理的struts配置文件-->
+   <include file="config/user/struts-user.xml"/>
+   <!-- 加载地区管理struts配置文件 -->
+   <include file="config/domain/struts-domain.xml"/>
+   <!-- 加载总提管理struts配置文件 -->
+   <include file="config/main/struts-main.xml"/>
+   <include file="config/tree/struts-tree.xml"/>
+   <!-- 加载设备管理struts配置文件 -->
+   <include file="config/equt/struts-equt.xml"/>
+   <!-- 加载poleline配置文件 -->
+   <include file="config/poleline/struts-poleline.xml"/>
+   <!-- 加载pipe配置文件 -->
+   <include file="config/pipe/struts-pipe.xml"/>
+   <!-- 加载光缆管理struts配置文件 -->
+   <include file="config/route/struts-route.xml"/>
+   <!-- 加载端子管理struts配置文件 -->
+   <include file="config/point/struts-point.xml"/>
+   <include file="config/property/struts-property.xml"/>
+   <include file="config/generator/struts-generator.xml"/>
+   <!-- 加载档案管理struts配置文件 -->
+   <include file="config/document/struts-document.xml"/>
+   <include file="config/statistics/struts-statistics.xml"/>
+   <include file="config/resource/struts-resource.xml"/>
+   <include file="config/file/struts-file.xml"/>
+   <include file="config/dataupdate/struts-data.xml"/>
+   <!-- 加载图片配置文件 -->
+   <include file="config/images/struts-resourceImage.xml"></include>
+   <include file="config/version/struts-versionControl.xml"></include>
+   <include file="config/stone/struts-stone.xml"></include>
+   <include file="config/opticalTerminal/struts-opticalTerminal.xml"></include>
+   <include file="config/buried/struts-buried.xml"></include>
+   <include file="config/buriedPart/struts-buriedPart.xml"></include>
+   <include file="config/dictionary/struts-dictionary.xml"></include>
+   <!-- 加载GIS统一配置 -->
+   <include file="config/GIS/struts-gis.xml"></include>
+   <!-- 引上段 -->
+   <include file="config/leadup/struts-leadup.xml"></include>
+   <!-- 设备 -->
+   <include file="config/device/struts-device.xml"></include>
+   <!-- 河北资源交割 -->
+   <include file="config/V2/hebei/mainTask/struts-mainTask.xml"></include>
+   <!-- 北京资源本地需求 -->
+   <include file="config/V2/beijing/resource/struts-resource.xml"></include>
+   <!-- 通用配置 -->
+   <include file="config/common/struts-common.xml"></include>
+   <!-- 管线的 -->
+   <include file="config/lineSystem/struts-lineSystem.xml"></include>
+   
+   <!-- 核查工单 -->
+   <include file="config/gd/checkConfig/struts-checkConfig.xml"></include>
+   <include file="config/gd/gdManage/struts-gdManage.xml"></include>
+   
+   <!-- 报表配置 -->
+   <include file="config/report/struts-report.xml"></include>
+   
+   <!-- 采集审批 -->
+   <include file="config/approval/struts-approval.xml"></include>
+   
+   <!-- 轨迹点 -->
+   <include file="config/collectTrack/struts-collectTrack.xml"></include>
+   <!-- 资源点 -->
+   <include file="config/resPoint/struts-resPoint.xml"></include>
+</struts>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>电杆详情</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../../../css/mui.min.css">
+		<link rel="stylesheet" href="../../../css/media_components.css" />
+		<link rel="stylesheet" href="../../../css/imageviewer.css" />
+		<link href="../../../css/mui.picker.css" rel="stylesheet" />
+		<link href="../../../css/mui.poppicker.css" rel="stylesheet" />
+		
+		<script src="../../../js/mui.min.js"></script>
+		<script src="../../../js/mui.zoom.js"></script>
+		<script src="../../../js/md5.min.js"></script>
+		<script src="../../../js/mui.previewimage.js"></script>
+		<script type="text/javascript" src="../../../js/media_components.js"></script>
+		
+		<script src="../../../js/jquery-1.12.3.js"></script>
+		<script src="../../../js/mui.picker.js"></script>
+		<script src="../../../js/mui.poppicker.js"></script>
+		<script src="../../../js/city.data.js"></script>
+		<script src="../../../js/city.data-3.js"></script>
+		<script src="js/poleDetail.js"></script>
+		<script src="../../../js/changeCity.js"></script>
+		<script src="../../../js/loadData.js"></script>
+		<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.2&amp;key=f256f09cbe5b5303b39bf4c43bf72c0b"></script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">电杆详情</h1>
+		</header>
+		<footer id="foot_btn" class="mui-bar mui-bar-footer" style="position: fixed; bottom: 0; left: 0;right: 0;">
+			<table class="mui-button-row" style="width: 100%;margin-top: 2px;">
+				<th><button id="submit_btn" class="btn-primary" onclick="submitPole()">提交</button></th>
+				<th><button id="delete_btn" class="btn-primary" onclick="deletePole()">删除</button></th>
+			</table>
+		</footer>
+		<div class="mui-content">
+		<form class="mui-content mui-input-group" >
+			<div id="iCenter"></div>
+			<div class="mui-input-row " style="width: 100%; ">
+				<label style="width: 30%; float: left;">电杆名称:</label>
+				<input type="text" class="mui-input-clear"  id="zh_label" name="zh_label" value="" style="width: 70%; float: left;" placeholder="电杆名称"/>
+				<input type="hidden" id="int_id" value=""/>
+			</div>
+			<div class="mui-input-row">
+			<label>所属地市:</label>
+				<select id="city_id" class="mui-btn-block" onchange="changeCity(this)">
+					<option value="0">--请选择城市--</option>
+					<option value="431">长春市</option>
+					<option value="432">吉林市</option>
+					<option value="433">延边州</option>
+					<option value="434">四平市</option>
+					<option value="435">通化市</option>
+					<option value="436">白城市</option>
+					<option value="437">辽源市</option>
+					<option value="438">松原市</option>
+					<option value="439">白山市</option>
+				</select>
+			</div>			
+			<div class="mui-input-row">
+				<label>所属区县:</label>
+				<select id="county_id" class="mui-btn-block" >
+					<option value="0">--请选择区县--</option>
+				</select>
+			</div>			
+			<div class="mui-input-row">
+				<label style="width: 30%; float: left;">电杆高度:</label>
+				<select id="pole_height" class="mui-btn-block">
+					<option value="0">请选择</option>
+					<option value="1">七米杆</option>
+					<option value="2">八米杆</option>
+					<option value="3">九米杆</option>					
+				</select>
+			</div>
+			<div class="mui-input-row">
+				<label style="width: 30%; float: left;">产权:</label>
+				<select id="ownership" class="mui-btn-block">
+					<option value="0">自建</option>
+					<option value="1">合建</option>
+					<option value="2">共建</option>
+					<option value="3">附挂附穿</option>
+					<option value="4">租用</option>
+					<option value="5">购买</option>
+					<option value="6">置换</option>
+				</select>
+			</div>
+			<div class="mui-input-row">
+				<label style="width: 30%; float: left;">经纬度:</label>
+				<input type="text" class="mui-input-clear" id="longitude" name="longitude" value="" style="width: 30%; float: left;" />
+				<input type="text" class="mui-input-clear" id="latitude" name="latitude" value="" style="width: 30%; float: left;" />
+				<img style="width: 10%;" src="../../../image/map/current.png"  onclick="getLonLat()"/>
+			</div>
+			<div class="mui-input-row">
+				<label>维护单位:</label>
+				<select id="maintain_company" class="mui-btn-block">
+					<option value="0">请选择</option>
+				</select>
+			</div>
+			<div class="mui-input-row">
+				<label>维护区域:</label>
+				<select id="maintain_area" class="mui-btn-block">
+					<option value="0">请选择</option>
+				</select>
+			</div>
+			<div class="mui-input-row">
+				<label style="width: 40%; float: left;">维护区域组长:</label>
+				<input type="text" class="mui-input-clear" id="maintain_manager" name="maintain_manager" value="" style="width: 50%; float: left;" placeholder="维护区域组长"/>
+			</div>
+			<div class="mui-input-row">
+				<label style="width: 30%; float: left;">组长电话:</label>
+				<input type="text" class="mui-input-clear" id="maintain_manager_phone" name="maintain_manager_phone" value="" style="width: 70%; float: left;" />
+			</div>
+			<div class="mui-input-row">
+				<label style="width: 30%; float: left;">备注:</label>
+				<textarea style="width: 70%; float: left;" id="remark" name="remark" rows="3">
+				</textarea>
+			</div>
+		</form>
+		<!--<div id="div_photo" ></div>-->
+		</div>
+		<script>
+			var mapObj;
+			//初始化一个隐藏的页面信息
+			function mapInit(){
+				mapObj = new AMap.Map('iCenter');
+				getAddByLonLat('117.1297700852','36.6634662002');
+			}
+			var LocString = String(window.document.location.href); 
+			mui.plusReady(function(){
+				mui('#div_photo').cameraListInit({
+					size: 4
+				});
+				mui.preload({
+					url:'poleDetail.html',
+					id:"poleDetail.html",
+					styles:{},
+					extras:{}
+				});
+				var cv = plus.webview.currentWebview();
+			    document.getElementById("int_id").value= cv.int_id;
+			    poleInit(cv.int_id);
+			})
+		</script>
+		<script>
+			document.addEventListener('poleDetail', function(ee) {
+				setLonLat(ee.detail);
+        	})
+		</script>
+	</body>
+</html>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="imCommon">
+    <!-- 得到所有的综合业务区 -->
+    <select id="getInterGrade" parameterClass="interfaces.pdainterface.common.pojo.IntergradeBean" resultClass="interfaces.pdainterface.common.pojo.IntergradeBean">
+        select t.id,t.coverArea,t.serviceName,t.stateFlag,
+		t.resNum
+ 		from intergrade_service t where t.stateFlag ='0'
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="id">t.id = #id#</isNotNull>
+            <isNotNull prepend=" AND " property="coverArea">t.coverArea like '%$coverArea$%'</isNotNull>
+            <isNotEmpty prepend=" AND " property="serviceName">t.serviceName like '%$serviceName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="stateFlag">t.stateFlag =#stateFlag#</isNotEmpty>
+        </dynamic>
+        <dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+    </select>
+    
+    <!-- 得到一线维护人 -->
+    <select id="getQualitor" parameterClass="interfaces.pdainterface.common.pojo.QualitorBean" resultClass="interfaces.pdainterface.common.pojo.QualitorBean">
+        select t.id,t.name,t.city,t.county,t.dept,t.resNum,t.phoneNumber
+        from job_qualitor t where t.deleteFlag ='0'
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="id">t.id = #id#</isNotNull>
+            <isNotNull prepend=" AND " property="name">t.name like '%$name$%'</isNotNull>
+            <isNotEmpty prepend=" AND " property="city">t.city =#city#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="county">t.county =#county#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dept">t.dept =#dept#</isNotEmpty>
+        </dynamic>
+        <dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+    </select>
+    
+    <!-- 得到工单列表 -->
+    <select id="getCorrect" parameterClass="interfaces.pdainterface.common.pojo.CorrectBean" resultClass="interfaces.pdainterface.common.pojo.CorrectBean">
+        select t.id,t.FlowTitle,t.sendCompany,t.sendCompanyId,t.sendMan,t.sendManId,
+        t.sendTime,t.requireTime,t.CorrigendumProf,t.CorrigendumEnTable,t.resId,t.currentState,
+        t.dealer,t.flowTask,t.flowNo,t.remark
+        from rms_correct t where 1=1
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="id">t.id = #id#</isNotNull>
+            <isNotNull prepend=" AND " property="FlowTitle">t.FlowTitle like '%$FlowTitle$%'</isNotNull>
+            <isNotEmpty prepend=" AND " property="sendCompany">t.sendCompany =#sendCompany#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="sendCompanyId">t.sendCompanyId =#sendCompanyId#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="sendMan">t.sendMan =#sendMan#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="sendManId">t.sendManId =#sendManId#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="CorrigendumProf">t.CorrigendumProf =#CorrigendumProf#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="resId">t.resId like '%$resId$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="currentState">t.currentState =#currentState#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dealer">t.dealer like '%$dealer$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="flowNo">t.flowNo =#flowNo#</isNotEmpty>
+        </dynamic>
+        <dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+    </select>
+    
+    <!-- 新增工单 -->
+    <insert id="insertCorrect" parameterClass="interfaces.pdainterface.common.pojo.CorrectBean">
+        INSERT into rms_correct(
+       		FlowTitle,sendCompany,sendCompanyId,sendMan,sendManId,
+        	sendTime,requireTime,CorrigendumProf,CorrigendumEnTable,resId,currentState,
+        	dealer,flowTask,flowNo,remark
+        )
+        values
+        (
+        	#FlowTitle#,#sendCompany#,#sendCompanyId#,#sendMan#,#sendManId#,
+        	#sendTime#,#requireTime#,#CorrigendumProf#,#CorrigendumEnTable#,#resId#,#currentState#,
+        	#dealer#,#flowTask#,#flowNo#,#remark#
+        )
+    </insert>
+    
+    <!-- 添加资源基础数据 -->
+    <insert id="insertRmsRes" parameterClass="interfaces.pdainterface.common.pojo.CorrectResBean">
+        INSERT into rms_correct_res(
+       		taskId,resNum,resName,resId,resType
+        )
+        values
+        (
+        	#taskId#,#resNum#,#resName#,#resId#,#resType#
+        )
+         <selectKey resultClass="int" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+    </insert>
+    
+    <!-- 工单的资源列表 -->
+    <select id="getCorrectRes" parameterClass="interfaces.pdainterface.common.pojo.CorrectResBean" resultClass="interfaces.pdainterface.common.pojo.CorrectResBean">
+        select t.taskId,t.resNum,t.resName,t.resId,t.resType,t.id
+        from rms_correct_res t where 1=1
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="id">t.id = #id#</isNotNull>
+            <isNotEmpty prepend=" AND " property="taskId">t.taskId =#taskId#</isNotEmpty>
+        </dynamic>
+    </select>
+    
+</sqlMap>

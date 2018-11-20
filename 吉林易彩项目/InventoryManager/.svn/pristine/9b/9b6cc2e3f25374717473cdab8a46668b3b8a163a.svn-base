@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="buriedPart" extends="json-default,struts-default">
+     	<action name="buriedPartAction" class="manage.buriedPart.web.BuriedPartAction"> 
+     	    
+        </action>
+        
+     	
+     	<!-- 直埋段 -->
+     	<action name="pdaBuriedPart" class="interfaces.pdainterface.buriedPart.action.PDABuriedPart">
+        	<result name="*" type="json">
+	        	<param name="root">jsonResponse</param>
+	    	</result>
+     	</action>
+    </package>
+</struts>

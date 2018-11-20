@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="resPoint" extends="struts-default,json-default">
+        
+     	<action name="pdaWirelessPoint" class="interfaces.pdainterface.resPoint.action.PDAWirelessPoint">
+        	<result name="*" type="json">
+	        	<param name="root">jsonResponse</param>
+	    	</result>
+     	</action>
+    </package>
+</struts>

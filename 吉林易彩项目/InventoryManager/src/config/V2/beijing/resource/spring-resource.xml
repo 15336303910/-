@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+    <!-- 资源点 -->
+	<bean id="resPortService" class="manage.V2.beijing.resource.service.ResPortService">
+		<property name="jdbcTemplate"><ref bean="jdbcTemplate"></ref></property>
+	</bean>
+	<!-- 分光器 -->
+	<bean id="resPosService" class="manage.V2.beijing.resource.service.ResPosService">
+		<property name="jdbcTemplate"><ref bean="jdbcTemplate"></ref></property>
+	</bean>
+</beans>

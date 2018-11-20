@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMapConfig PUBLIC "-//ibatis.apache.org//DTD SQL Map Config 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+	<settings useStatementNamespaces="true" 
+			  cacheModelsEnabled ="true" 
+			  enhancementEnabled ="true" 
+			  lazyLoadingEnabled ="true" 
+			  errorTracingEnabled ="true" 
+			  maxRequests ="100" 
+			  maxSessions ="100" 
+			  maxTransactions ="50" /> 
+
+    <!-- 加载用户管理ibatis配置文件-->
+  <sqlMap resource="config/V2/hebei/mainTask/sqlmap-mainTask.xml"/>
+</sqlMapConfig>

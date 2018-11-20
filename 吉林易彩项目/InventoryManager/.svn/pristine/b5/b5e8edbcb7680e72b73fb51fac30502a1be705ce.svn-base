@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="stone">
+    <!-- 得到表格目录 -->
+    <select id="getStoneGrid" parameterClass="manage.stone.pojo.StoneInfoBean" resultClass="manage.stone.pojo.StoneInfoBean">
+        select t.maintenanceOrg,t.maintenanceArea,t.maintenanceLeader,t.leaderPhone,
+        t.stoneId,t.stoneName,t.stonePosition,t.stoneSubName,t.lastUpTime,
+        (select text from dicview where enName='stonePosition' and value= t.stonePosition) as stonePositionStr,
+        t.stoneNum,t.stoneArea,t.longitude,t.latitude,t.buriedId,
+        t.propertyNature,
+        (select text from dicview where enName='propertyNature' and value= t.propertyNature) as propertyNatureStr,
+        t.propertyComp,
+        (select text from dicview where enName='propertyComp' and value= t.propertyComp) as propertyCompStr,
+        t.dataQualitier,t.maintainer,t.deleteflag,t.createTime,t.creater,t.remark,t.resNum
+        from stoneinfo t where t.deleteflag ='0'
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="stoneId"> t.stoneId = #stoneId#</isNotNull>
+            <isNotEmpty prepend=" AND " property="stoneName"> <![CDATA[ stoneName like #stoneName#]]></isNotEmpty>
+            <isNotEmpty prepend=" AND " property="stoneSubName"> t.stoneSubName like '%$stoneSubName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="stonePosition"> t.stonePosition=#stonePosition#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="stoneNum"> t.stoneNum=#stoneNum#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="stoneArea"> t.stoneArea like '%$stoneArea$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedId"> t.buriedId=#buriedId#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="propertyNature"> t.propertyNature=#propertyNature#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="propertyComp"> t.propertyComp=#propertyComp#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dataQualitier"> t.dataQualitier=#dataQualitier#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintainer"> t.maintainer=#maintainer#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="createTime"> t.createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="creater"> t.creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="remark"> t.remark like '%$remark$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="previousStoneID">(previousStoneID=#previousStoneID#)</isNotEmpty>
+			<isNotEmpty prepend=" AND " property="previousStoneName">(previousStoneName=#previousStoneName#)</isNotEmpty>
+			<isNotEmpty prepend=" AND " property="chengzaidian_type">(chengzaidian_type=#chengzaidian_type#)</isNotEmpty>
+			<isNotEmpty prepend=" AND " property="lats"><![CDATA[ latitude >= #lats# ]]></isNotEmpty>
+			<isNotEmpty prepend=" AND " property="late"><![CDATA[ latitude <= #late# ]]></isNotEmpty>
+			<isNotEmpty prepend=" AND " property="lons"><![CDATA[ longitude >= #lons# ]]></isNotEmpty>
+			<isNotEmpty prepend=" AND " property="lone"><![CDATA[ longitude <= #lone# ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="extendsSql">($extendsSql$)</isNotEmpty>
+        </dynamic>
+        <dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+    </select>
+    
+    <!-- 得到总数 -->
+    <select id="getStoneCount" parameterClass="manage.stone.pojo.StoneInfoBean" resultClass="Integer">
+        select count(*) from stoneinfo where deleteflag ='0'
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="stoneId">stoneId = #stoneId#</isNotNull>
+            <isNotEmpty prepend=" AND " property="stoneName"><![CDATA[ stoneName REGEXP #stoneName#]]></isNotEmpty>
+            <isNotEmpty prepend=" AND " property="stonePosition">stonePosition=#stonePosition#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="stoneNum">stoneNum=#stoneNum#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="stoneArea">stoneArea like '%$stoneArea$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="longitude">longitude=#longitude#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="latitude">latitude=#latitude#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedId">buriedId=#buriedId#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="propertyNature">propertyNature=#propertyNature#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="propertyComp">propertyComp=#propertyComp#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dataQualitier">dataQualitier=#dataQualitier#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintainer">maintainer=#maintainer#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="createTime">createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="creater">creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="remark">remark like '%$remark$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="previousStoneID">(previousStoneID=#previousStoneID#)</isNotEmpty>
+			<isNotEmpty prepend=" AND " property="previousStoneName">(previousStoneName=#previousStoneName#)</isNotEmpty>
+			<isNotEmpty prepend=" AND " property="chengzaidian_type">(chengzaidian_type=#chengzaidian_type#)</isNotEmpty>
+        </dynamic>
+    </select>
+    
+    
+    <!-- 得到标石 -->
+    <select id="getStone" parameterClass="manage.stone.pojo.StoneInfoBean" resultClass="manage.stone.pojo.StoneInfoBean">
+         select t.stoneId,t.stoneName,t.stonePosition,t.stoneSubName,t.lastUpTime,
+        (select text from dicview where enName='stonePosition' and value= t.stonePosition) as stonePositionStr,
+        t.stoneNum,t.stoneArea,t.longitude,t.latitude,t.buriedId,
+        t.propertyNature,
+        (select text from dicview where enName='propertyNature' and value= t.propertyNature) as propertyNatureStr,
+        t.propertyComp,
+        (select text from dicview where enName='propertyComp' and value= t.propertyComp) as propertyCompStr,
+        (SELECT jointName  FROM job_joint WHERE stoneId = t.stoneId) AS 'jointName',
+        t.dataQualitier,t.maintainer,t.deleteflag,t.createTime,t.creater,t.remark,t.resNum
+        from stoneinfo t where t.deleteflag ='0'
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="stoneId">t.stoneId = #stoneId#</isNotNull>
+            <isNotEmpty prepend=" AND " property="stoneName"><![CDATA[ stoneName REGEXP #stoneName#]]></isNotEmpty>
+            <isNotEmpty prepend=" AND " property="stoneSubName"> t.stoneSubName like '%$stoneSubName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="stonePosition">t.stonePosition=#stonePosition#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="stoneNum">t.stoneNum=#stoneNum#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="stoneArea">t.stoneArea like '%$stoneArea$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="longitude">t.longitude=#longitude#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="latitude">t.latitude=#latitude#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedId"> t.buriedId=#buriedId#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="propertyNature">t.propertyNature=#propertyNature#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="propertyComp">t.propertyComp=#propertyComp#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dataQualitier">t.dataQualitier=#dataQualitier#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintainer">t.maintainer=#maintainer#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="createTime">t.createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="creater">t.creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="remark">t.remark like '%$remark$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="previousStoneID">(previousStoneID=#previousStoneID#)</isNotEmpty>
+			<isNotEmpty prepend=" AND " property="previousStoneName">(previousStoneName=#previousStoneName#)</isNotEmpty>
+			<isNotEmpty prepend=" AND " property="chengzaidian_type">(chengzaidian_type=#chengzaidian_type#)</isNotEmpty>
+			<isNotEmpty prepend=" AND " property="resNum">t.resNum=#resNum#</isNotEmpty>
+        </dynamic>
+    </select>
+    
+    
+     <!-- 得到标石 -->
+    <select id="getStoneByids" parameterClass="java.lang.String" resultClass="manage.stone.pojo.StoneInfoBean">
+         select t.*
+        from stoneinfo t where t.deleteflag ='0' and stoneId in ($ids:String$)
+    </select>
+     <!-- 修改标石 -->
+     <update id="updateStone" parameterClass="manage.stone.pojo.StoneInfoBean" >
+        update stoneinfo t set lastUpTime = now(),resMotion=null
+        <dynamic prepend=" , ">
+            <isNotEmpty prepend=", " property="stoneName">t.stoneName=#stoneName#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="stoneSubName"> t.stoneSubName =#stoneSubName#</isNotEmpty>
+            <isNotEmpty prepend=", " property="stonePosition">t.stonePosition=#stonePosition#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="stoneNum">t.stoneNum=#stoneNum#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="stoneArea">t.stoneArea = #stoneArea#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="longitude">t.longitude=#longitude#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="latitude">t.latitude=#latitude#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="buriedId"> t.buriedId=#buriedId#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="propertyNature">t.propertyNature=#propertyNature#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="propertyComp">t.propertyComp=#propertyComp#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="deleteflag">t.deleteflag=#deleteflag#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="dataQualitier">t.dataQualitier=#dataQualitier#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="maintainer">t.maintainer=#maintainer#</isNotEmpty>
+            <isNotNull prepend=" , " property="previousStoneID">previousStoneID=#previousStoneID#</isNotNull>
+			<isNotNull prepend=" , " property="previousStoneName">previousStoneName=#previousStoneName#</isNotNull>
+			<isNotNull prepend=" , " property="chengzaidian_type">chengzaidian_type=#chengzaidian_type#</isNotNull>
+			<isNotNull prepend=" , " property="maintenanceOrg">t.maintenanceOrg=#maintenanceOrg#</isNotNull>
+			<isNotNull prepend=" , " property="maintenanceAreaId">t.maintenanceAreaId=#maintenanceAreaId#</isNotNull>
+			<isNotNull prepend=" , " property="maintenanceLeader">t.maintenanceLeader=#maintenanceLeader#</isNotNull>
+			<isNotNull prepend=" , " property="leaderPhone">t.leaderPhone=#leaderPhone#</isNotNull>
+			<isNotNull prepend=" , " property="remark">t.remark=#remark#</isNotNull>
+        </dynamic>
+        <dynamic prepend=" where ">
+            <isNotEmpty prepend=" AND" property="stoneId">t.stoneId = #stoneId#</isNotEmpty>
+        </dynamic>
+     </update>
+     
+     
+     <!-- 添加标石-->
+    <insert id="insertStone" parameterClass="manage.stone.pojo.StoneInfoBean">
+        INSERT into stoneinfo(
+       	stoneName,stonePosition,stoneNum,stoneArea,longitude,latitude,stoneSubName,buriedId,
+        propertyNature,propertyComp,dataQualitier,maintainer,deleteflag,createTime,creater,remark,
+        lastUpTime,lastUpMan,previousStoneID,previousStoneName,chengzaidian_type
+        ,maintenanceOrg,maintenanceArea,maintenanceLeader,leaderPhone
+        )
+        values
+        (
+        #stoneName#,#stonePosition#,#stoneNum#,#stoneArea#,#longitude#,#latitude#,#stoneSubName#,#buriedId#,
+        #propertyNature#,#propertyComp#,#dataQualitier#,#maintainer#,'0',now(),#creater#,#remark#,
+        #lastUpTime#,#lastUpMan#,#previousStoneID#,#previousStoneName#,#chengzaidian_type#
+        ,#maintenanceOrg#,#maintenanceAreaId#,#maintenanceLeader#,#leaderPhone#
+        )
+        <selectKey resultClass="int" keyProperty="stoneId">
+			SELECT LAST_INSERT_ID() AS stoneId
+		</selectKey>
+    </insert>
+    
+    <!-- 批量删除标石数据 -->
+    <delete id="delStones" parameterClass="java.lang.String">
+        delete from stoneinfo where stoneId in ($ids:String$)
+    </delete>
+    
+    <select id="getStoneGridCustom" parameterClass="interfaces.pdainterface.stone.pojo.StoneCustomInfoBean" resultClass="interfaces.pdainterface.stone.pojo.StoneCustomInfoBean">
+		select zh_label,city_id,county_id,longitude,latitude,ownership,
+		maintain_company,maintain_area,maintain_manager,maintain_manager_phone,
+		remark,change_reason,transfer_level,time_stamp,stateflag,int_id,
+		creator,creat_time,modifier,modify_time
+		from rms_landmark where 1 = 1
+		<dynamic prepend=" AND ">
+		<isNotEmpty prepend=" AND " property="zh_label"> <![CDATA[ zh_label like #zh_label#]]> </isNotEmpty>
+		<isNotEmpty prepend=" AND " property="city_id">city_id=#city_id#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="county_id">county_id=#county_id#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="longitude">longitude=#longitude#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="latitude">latitude=#latitude#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="ownership">ownership=#ownership#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="maintain_company">maintain_company=#maintain_company#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="maintain_area">maintain_area=#maintain_area#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="maintain_manager">maintain_manager=#maintain_manager#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="maintain_manager_phone">maintain_manager_phone=#maintain_manager_phone#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="remark">remark=#remark#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="change_reason"> change_reason like '%$change_reason$%' </isNotEmpty>
+		<isNotEmpty prepend=" AND " property="transfer_level">transfer_level=#transfer_level#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="time_stamp">time_stamp=#time_stamp#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="stateflag">stateflag=#stateflag#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="int_id">int_id=#int_id#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="creator">creator=#creator#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="creat_time">creat_time=#creat_time#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="modifier">modifier=#modifier#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="modify_time">modify_time=#modify_time#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="extendSql">($extendSql$)</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="sort"> ORDER BY #sort# </isNotEmpty>
+	    	<isNotEmpty prepend=" " property="dir">  #dir# </isNotEmpty>
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+	</select>
+	
+	<insert id="insertStoneCustom" parameterClass="interfaces.pdainterface.stone.pojo.StoneCustomInfoBean">
+		insert into rms_landmark (
+			zh_label,city_id,county_id,longitude,latitude,ownership,
+			maintain_company,maintain_area,maintain_manager,maintain_manager_phone,
+			remark,change_reason,transfer_level,time_stamp,stateflag,
+			creator,creat_time,modifier,modify_time
+		) values (
+			#zh_label#,#city_id#,#county_id#,#longitude#,#latitude#,#ownership#,
+			#maintain_company#,#maintain_area#,#maintain_manager#,#maintain_manager_phone#,
+			#remark#,#change_reason#,#transfer_level#,now(),'0',
+			#creator#,now(),#modifier#,#modify_time#
+		)
+		<selectKey resultClass="int" keyProperty="int_id" > 
+				SELECT LAST_INSERT_ID() AS int_id
+		</selectKey>
+	</insert>
+	
+	<update id="updateStoneCustom" parameterClass="interfaces.pdainterface.stone.pojo.StoneCustomInfoBean">
+		update rms_landmark set time_stamp=now(),modify_time=now()
+		<dynamic prepend=" , ">
+			<isNotEmpty prepend=" , " property="zh_label"> zh_label=#zh_label# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="city_id"> city_id=#city_id# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="county_id"> county_id=#county_id# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="ownership"> ownership=#ownership# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="longitude"> longitude=#longitude# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="latitude"> latitude=#latitude# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_company"> maintain_company=#maintain_company# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_area"> maintain_area=#maintain_area# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_manager"> maintain_manager=#maintain_manager# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_manager_phone"> maintain_manager_phone=#maintain_manager_phone# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="remark"> remark=#remark# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="change_reason"> change_reason=#change_reason# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="stateflag"> stateflag=#stateflag# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="creator"> creator=#creator# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="creat_time"> creat_time=#creat_time# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="modifier"> modifier=#modifier# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="transfer_level"> transfer_level=#transfer_level# </isNotEmpty>
+		</dynamic>
+		where int_id=#int_id#
+	</update>
+	<update id="deleteStoneCustom" parameterClass="interfaces.pdainterface.stone.pojo.StoneCustomInfoBean">
+		update rms_landmark set stateflag='1',modify_time=now(),time_stamp=now() where int_id=#int_id#
+	</update>
+    
+</sqlMap>

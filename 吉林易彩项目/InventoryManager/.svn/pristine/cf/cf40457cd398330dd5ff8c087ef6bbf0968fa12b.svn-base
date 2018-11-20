@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="property" extends="json-default,struts-base">
+        <action name="pdaProperty" class="interfaces.pdainterface.property.action.PDAProperty">
+        	<result name="*" type="json">
+	    	    <param name="root">jsonResponse</param>
+	    	</result>
+        </action>
+        <action name="property" class="manage.property.web.PropertyAction">
+        	<result name="getPropertyInfo" type="json">
+	    	    <param name="root">property</param>
+	    	</result>
+        </action>
+    </package>
+</struts>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="opticalTerminal" extends="json-default,struts-default">
+     	<action name="opticalTerminalAction" class="manage.opticalTerminal.web.OpticalTerminalAction"> 
+     	    
+        </action>
+        
+     	
+     	
+     	<action name="pdaOpticalTerm" class="interfaces.pdainterface.opticalTerminal.action.PDAOpticalTerminal">
+        	<result name="*" type="json">
+	        	<param name="root">jsonResponse</param>
+	    	</result>
+     	</action>
+    </package>
+</struts>

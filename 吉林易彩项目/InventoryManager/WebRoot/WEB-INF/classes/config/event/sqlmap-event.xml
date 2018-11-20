@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="event">	
+	<select id="getEvent" parameterClass="manage.event.pojo.EventInfoBean" resultClass="manage.event.pojo.EventInfoBean">
+		SELECT * FROM job_event
+		<dynamic prepend=" WHERE ">
+			<isNotEmpty prepend=" AND " property="eventId"> eventId=#eventId# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="seriesNo"> seriesNo=#seriesNo# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="type"> type=#type# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="username"> username=#username# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="ip"> ip=#ip# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="mac"> mac=#mac# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="lon"> lon=#lon# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="lat"> lat=#lat# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="eventDate"> eventDate=#eventDate# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="module"> module=#module# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="method"> method=#method# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="result"> result=#result# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="requestStr"> requestStr=#requestStr# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="responseStr"> responseStr=#responseStr# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="areano"> areano=#areano# </isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<update id="updateEvent" parameterClass="manage.event.pojo.EventInfoBean">
+		UPDATE job_event 
+		<dynamic prepend=" SET ">
+			<isNotNull prepend=" , " property="seriesNo"> seriesNo=#seriesNo# </isNotNull>
+			<isNotNull prepend=" , " property="type"> type=#type# </isNotNull>
+			<isNotNull prepend=" , " property="username"> username=#username# </isNotNull>
+			<isNotNull prepend=" , " property="ip"> ip=#ip# </isNotNull>
+			<isNotNull prepend=" , " property="mac"> mac=#mac# </isNotNull>
+			<isNotNull prepend=" , " property="lon"> lon=#lon# </isNotNull>
+			<isNotNull prepend=" , " property="lat"> lat=#lat# </isNotNull>
+			<isNotNull prepend=" , " property="eventDate"> eventDate=#eventDate# </isNotNull>
+			<isNotNull prepend=" , " property="module"> module=#module# </isNotNull>
+			<isNotNull prepend=" , " property="method"> method=#method# </isNotNull>
+			<isNotNull prepend=" , " property="result"> result=#result# </isNotNull>
+			<isNotNull prepend=" , " property="requestStr"> requestStr=#requestStr# </isNotNull>
+			<isNotNull prepend=" , " property="responseStr"> responseStr=#responseStr# </isNotNull>
+			<isNotNull prepend=" , " property="areano"> areano=#areano# </isNotNull>
+		</dynamic>
+		WHERE eventId=#eventId#
+	</update>
+	
+	<insert id="insertEvent" parameterClass="manage.event.pojo.EventInfoBean">
+		INSERT INTO job_event ( 
+			 seriesNo, type, username, ip, mac, lon, lat, eventDate,
+			 module, method, result, requestStr, areano
+		) VALUES (
+			 #seriesNo#, #type#, #username#, #ip#, #mac#, #lon#, #lat#, now(),
+			 #module#, #method#, #result#, #requestStr#, #areano#
+		)
+		<selectKey resultClass="int" keyProperty="eventId">
+			SELECT LAST_INSERT_ID() AS eventId
+		</selectKey>
+	</insert>
+</sqlMap>
+    

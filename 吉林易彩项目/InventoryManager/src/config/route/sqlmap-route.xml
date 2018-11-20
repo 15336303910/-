@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="route">	
+	<!-- 分页查询光缆 -->
+	<select id="getRouteByPage" parameterClass="manage.route.pojo.RouteInfoBean" resultClass="manage.route.pojo.RouteInfoBean">
+		SELECT * FROM job_route where deletedFlag='0'
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend="AND" property="routeid">(routeid=#routeid#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="routename">(routename like '%$routename$%' )</isNotEmpty>
+			<isNotEmpty prepend="AND" property="routelevel">(routelevel like '%$routelevel$%' )</isNotEmpty>
+			<isNotEmpty prepend="AND" property="startsite">(startsite like '%$startsite$%' )</isNotEmpty>
+			<isNotEmpty prepend="AND" property="endsite">(endsite like '%$endsite$%' )</isNotEmpty>
+			<isNotEmpty prepend="AND" property="state">(state = #state# )</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sign">(sign like '%$sign$%' )</isNotEmpty>
+			<isNotEmpty prepend="AND" property="dataQualityPrincipal">(dataQualityPrincipal=#dataQualityPrincipal#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="parties">(parties=#parties#)</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="sort"> ORDER BY $sort$ </isNotEmpty>
+	    	<isNotEmpty prepend=" " property="dir">  $dir$ </isNotEmpty>
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+	</select>	
+	<!--  返回当前光缆总数 -->
+	<select id="getRoutCount" parameterClass="manage.route.pojo.RouteInfoBean" resultClass="Integer">
+		SELECT COUNT(*) FROM job_route where deletedFlag='0'
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend="AND" property="routeid">(routeid=#routeid#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="routename">(routename=#routename#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="routelevel">(routelevel=#routelevel#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="startsite">(startsite like '%$startsite$%' )</isNotEmpty>
+			<isNotEmpty prepend="AND" property="endsite">(endsite like '%$endsite$%' )</isNotEmpty>
+			<isNotEmpty prepend="AND" property="state">(state = #state# )</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sign">(sign like '%$sign$%' )</isNotEmpty>
+			<isNotEmpty prepend="AND" property="dataQualityPrincipal">(dataQualityPrincipal=#dataQualityPrincipal#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="parties">(parties=#parties#)</isNotEmpty>
+		</dynamic>
+	</select>	
+	
+	<!-- 检查光缆是否存在 -->
+	<select id="getVerifyRoute" parameterClass="manage.route.pojo.RouteInfoBean" resultClass="manage.route.pojo.RouteInfoBean">
+		SELECT * FROM job_route WHERE routename=#routename#
+	</select>	
+	
+	<select id="getCableByRoute" parameterClass="manage.route.pojo.RouteInfoBean" resultClass="manage.route.pojo.CableInfoBean">
+		select * from job_cable WHERE routename=#routename#
+ 	</select>
+	
+	<!-- 分页查光缆段 -->
+	<select id="getCableByPage" parameterClass="manage.route.pojo.CableInfoBean" resultClass="manage.route.pojo.CableInfoBean">
+		SELECT * FROM job_cable	where deletedFlag='0'
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend="AND" property="cableid">(cableid=#cableid#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="cablename">(cablename like '%$cablename$%' )</isNotEmpty>
+			<isNotEmpty prepend="AND" property="routename">(routename=#routename#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sign">(sign like '%$sign$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="state">(state=#state#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="dataQualityPrincipal">(dataQualityPrincipal=#dataQualityPrincipal#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="parties">(parties=#parties#)</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="sort"> ORDER BY $sort$ </isNotEmpty>
+	    	<isNotEmpty prepend=" " property="dir">  $dir$ </isNotEmpty>
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+	</select>	
+	<!--  返回当前光缆段总数 -->
+	<select id="getCableCount" parameterClass="manage.route.pojo.CableInfoBean" resultClass="Integer">
+		SELECT COUNT(*) FROM job_cable	where deletedFlag='0'
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend="AND" property="routeid">(cableid=#cableid#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="cablename">(cablename=#cablename#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="routename">(routename=#routename#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sign">(sign like '%$sign$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="state">(state=#state#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="dataQualityPrincipal">(dataQualityPrincipal=#dataQualityPrincipal#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="parties">(parties=#parties#)</isNotEmpty>
+		</dynamic>
+	</select>	
+	<!-- 保存光缆 -->
+	<insert id="insertRoute" parameterClass="manage.route.pojo.RouteInfoBean">
+		INSERT INTO job_route (routename,routelevel,state,startsite,endsite,
+		sign,deletedFlag,maintenanceAreaName,dataQualityPrincipal,parties) 
+			VALUES(#routename#,#routelevel#,#state#,#startsite#,#endsite#,#sign#,'0',#maintenanceAreaName#,
+			,#dataQualityPrincipal#,#parties#)
+	</insert>
+	<insert id="insertRoutes" parameterClass="manage.route.pojo.RouteInfoBean"> 
+		INSERT INTO job_route (routename,routelevel,state,startsite,endsite,sign,deletedFlag,
+		maintenanceAreaName,dataQualityPrincipal,parties) 
+			VALUES(#routename#,#routelevel#,#state#,#startsite#,#endsite#,#sign#,'0',
+			#maintenanceAreaName#,#dataQualityPrincipal#,#parties#)
+		<selectKey resultClass="int" keyProperty="routeid" > 
+				SELECT LAST_INSERT_ID() AS routeid
+		</selectKey>
+	</insert>
+	<!-- 修改端子光缆信息 -->
+	<update id="updatePointByCable" parameterClass="manage.route.pojo.CableInfoBean">
+		UPDATE job_pointinfo  
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="newRoutename"> routename=#newRoutename# </isNotEmpty>
+			<isNotEmpty prepend="," property="newCablename"> cablename=#newCablename# </isNotEmpty>
+		</dynamic>
+		WHERE cablename = #cablename# AND routename = #routename#
+	</update>
+	<update id="updatePointByRoute" parameterClass="manage.route.pojo.RouteInfoBean">
+		UPDATE job_pointinfo  
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="newRoutename"> routename=#newRoutename# </isNotEmpty>
+		</dynamic>
+		WHERE  routename = #routename#
+	</update>
+	<update id="updateCableByRoute" parameterClass="manage.route.pojo.RouteInfoBean">
+		update job_cable 
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="newRoutename"> routename=#newRoutename# </isNotEmpty>
+		</dynamic>
+		WHERE  routename = #routename#
+	</update>
+	
+	<!-- 更新光缆段信息 -->
+	<update id="updateCable" parameterClass="manage.route.pojo.CableInfoBean">
+		UPDATE job_cable 
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="newRoutename"> routename=#newRoutename# </isNotEmpty>
+			<isNotEmpty prepend="," property="newCablename"> cablename=#newCablename# </isNotEmpty>
+			<isNotEmpty prepend="," property="routeid"> routeid=#routeid# </isNotEmpty>
+			<isNotEmpty prepend="," property="starteid"> starteid=#starteid# </isNotEmpty>
+			<isNotEmpty prepend="," property="startDeviceName"> startDeviceName=#startDeviceName# </isNotEmpty>
+			<isNotEmpty prepend="," property="endeid"> endeid=#endeid# </isNotEmpty>
+			<isNotEmpty prepend="," property="endDeviceName"> endDeviceName=#endDeviceName# </isNotEmpty>
+			<isNotEmpty prepend="," property="type"> type=#type# </isNotEmpty>
+			<isNotEmpty prepend="," property="mode"> mode=#mode# </isNotEmpty>
+			<isNotEmpty prepend="," property="length"> length=#length# </isNotEmpty>
+			<isNotEmpty prepend="," property="paveWay"> paveWay=#paveWay# </isNotEmpty>
+			<isNotEmpty prepend="," property="state"> state=#state# </isNotEmpty>
+			<isNotEmpty prepend="," property="sharetype"> sharetype=#sharetype# </isNotEmpty>
+			<isNotEmpty prepend="," property="shareoperator"> shareoperator=#shareoperator# </isNotEmpty>
+			<isNotEmpty prepend="," property="areanoLink"> areanoLink=#areanoLink# </isNotEmpty>
+			<isNotEmpty prepend="," property="dataQualityPrincipal">dataQualityPrincipal=#dataQualityPrincipal#</isNotEmpty>
+			<isNotEmpty prepend="," property="parties">parties=#parties#</isNotEmpty>
+		</dynamic>
+		WHERE cableid = #cableid# 
+	</update>
+	<!-- 删除光缆 -->
+	<delete id="deleteRoute" parameterClass="manage.route.pojo.RouteInfoBean">
+		DELETE FROM job_route WHERE routeid=#routeid#
+	</delete>
+	<update id="updateRoute" parameterClass="manage.route.pojo.RouteInfoBean">
+		UPDATE job_route  
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="newRoutename"> routename=#newRoutename# </isNotEmpty>
+			<isNotEmpty prepend="," property="routelevel"> routelevel=#routelevel# </isNotEmpty>
+			<isNotEmpty prepend="," property="state"> state=#state# </isNotEmpty>
+			<isNotEmpty prepend="," property="startsite"> startsite=#startsite# </isNotEmpty>
+			<isNotEmpty prepend="," property="endsite"> endsite=#endsite# </isNotEmpty>
+			<isNotEmpty prepend="," property="sign"> sign=#sign# </isNotEmpty>
+			<isNotEmpty prepend="," property="maintenanceAreaName"> maintenanceAreaName=#maintenanceAreaName# </isNotEmpty>
+			<isNotEmpty prepend="," property="dataQualityPrincipal">dataQualityPrincipal=#dataQualityPrincipal#</isNotEmpty>
+			<isNotEmpty prepend="," property="parties">parties=#parties#</isNotEmpty>
+		</dynamic>
+		WHERE routeid = #routeid# 
+	</update>
+	<!-- 保存光缆段 -->
+	<insert id="insertCable" parameterClass="manage.route.pojo.CableInfoBean">
+		insert into job_cable (
+			cablename,routename,type,mode,length,paveWay,state,sharetype,routeid,deletedFlag,
+			shareoperator,starteid,endeid,startDeviceName,endDeviceName,areanoLink,dataQualityPrincipal,parties
+		) values (
+			#cablename#,#routename#,#type#,#mode#,#length#,#paveWay#,#state#,#sharetype#,#routeid#,'0',
+			#shareoperator#,#starteid#,#endeid#,#startDeviceName#,#endDeviceName#,#areanoLink#,#dataQualityPrincipal#,#parties#
+		) 
+	</insert>
+	<!-- 检查光缆段是否存在 -->
+	<select id="getVerifyCable" parameterClass="manage.route.pojo.CableInfoBean" resultClass="manage.route.pojo.CableInfoBean">
+		SELECT * FROM job_cable WHERE cablename = #cablename# <!-- routename = #routename# AND  -->
+	</select>
+	<delete id="deleteCable" parameterClass="manage.route.pojo.CableInfoBean">
+		DELETE FROM job_cable WHERE cableid=#cableid#
+	</delete>
+	<select id="getCable" parameterClass="manage.route.pojo.CableInfoBean" resultClass="manage.route.pojo.CableInfoBean">
+		<!--  SELECT * FROM job_cable WHERE cableid = #cableid#-->
+		SELECT * FROM job_cable
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="cableid">(cableid=#cableid#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="cablename">(cablename like '%$cablename$%' )</isNotEmpty>
+			<isNotEmpty prepend="AND" property="routename">(routename=#routename#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="routeid">(routeid=#routeid#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sign">(sign like '%$sign$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="state">(state=#state#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="dataQualityPrincipal">(dataQualityPrincipal=#dataQualityPrincipal#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="parties">(parties=#parties#)</isNotEmpty>
+		</dynamic>
+	</select>
+	 <update id="updateCableRouteId" parameterClass="manage.route.pojo.CableInfoBean">	
+ 		UPDATE job_cable set routename='',routeid='' where cableid=#cableid#
+ 	</update>
+ 	<select id="getTubeToCable" parameterClass="manage.route.pojo.CableInfoBean" resultClass="manage.route.pojo.CableInfoBean">
+ 		select * from job_cable where deletedFlag='0' 
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend="AND" property="cableid">(cableid=#cableid#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="routeid">(routeid=#routeid#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="routename">(routename=#routename#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="cablename">(cablename=#cablename#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="state">(state=#state#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="dataQualityPrincipal">(dataQualityPrincipal=#dataQualityPrincipal#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="parties">(parties=#parties#)</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	<select id="getJbCable" parameterClass="manage.route.pojo.CableInfoBean" resultClass="manage.route.pojo.CableInfoBean">
+		select * from job_cable where (routename is null or routename='') and deletedFlag='0'
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend="AND" property="cableid">(cableid=#cableid#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="cablename">(cablename like '%$cablename$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="type">(type like '%$type$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="mode">(mode like '%$mode$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="paveWay">(paveWay like '%$paveWay$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="state">(state=#state#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sharetype">(sharetype like '%$sharetype$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="shareoperator">(shareoperator like '%$shareoperator$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="beareqName">(beareqName like '%$beareqName$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="brokenFiberNum">(brokenFiberNum=#brokenFiberNum#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="reservedFiberNum">(reservedFiberNum=#reservedFiberNum#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="fibercount">(fibercount=#fibercount#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="inusecount">(inusecount=#inusecount#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="startDeviceId">(startDeviceId=#startDeviceId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="startDeviceName">(startDeviceName like '%$startDeviceName$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="endDeviceId">(endDeviceId=#endDeviceId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="endDeviceName">(endDeviceName like '%$endDeviceName$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="manufacturerId">(manufacturerId like '%$manufacturerId$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sharingTypeEnumId">(sharingTypeEnumId=#sharingTypeEnumId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceLifePeriodEnumId">(resourceLifePeriodEnumId=#resourceLifePeriodEnumId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="managementAuthorizedFlag">(managementAuthorizedFlag like '%$managementAuthorizedFlag$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="authorizedManagementOrgId">(authorizedManagementOrgId like '%$authorizedManagementOrgId$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="designedPurpose">(designedPurpose like '%$designedPurpose$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="maintenanceModeEnumId">(maintenanceModeEnumId=#maintenanceModeEnumId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="areano">(areano like '%$areano$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="maintenanceOrgId">(maintenanceOrgId like '%$maintenanceOrgId$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="maintainerId">(maintainerId like '%$maintainerId$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="thirdPartyMaintenanceOrg">(thirdPartyMaintenanceOrg like '%$thirdPartyMaintenanceOrg$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="renewalExpirationDate">(renewalExpirationDate=#renewalExpirationDate#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="maintenanceTypeEnumId">(maintenanceTypeEnumId=#maintenanceTypeEnumId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="purchasedMaintenanceTime">(purchasedMaintenanceTime=#purchasedMaintenanceTime#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sign">(sign like '%$sign$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="dataQualityPrincipal">(dataQualityPrincipal=#dataQualityPrincipal#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="parties">(parties=#parties#)</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	<update id="updateJbCable" parameterClass="manage.route.pojo.CableInfoBean" >
+		update job_cable set routename=#routename#,routeid=#routeid# where cableid=#cableid#
+	
+	</update>
+	<!-- 获取全部路由信息 -->
+	<select id="getCableRoute" parameterClass="manage.route.pojo.CableRouteInfoBean" resultClass="manage.route.pojo.CableRouteInfoBean">
+		select * from cablerouteinfo where deletedFlag='0'
+	     <dynamic prepend=" AND ">
+		    <isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="optCableId">(optCableId=#optCableId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="routeSeqNum">(routeSeqNum like '%$routeSeqNum$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="tubeId">(tubeId=#tubeId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="idE">(idE=#idE#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="creationDate"><![CDATA[ DATE_FORMAT(creationDate,'%Y-%m-%d')=DATE_FORMAT(#creationDate#,'%Y-%m-%d') ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="lastUpdateDate"><![CDATA[ DATE_FORMAT(lastUpdateDate,'%Y-%m-%d')=DATE_FORMAT(#lastUpdateDate#,'%Y-%m-%d') ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="deletionDate"><![CDATA[ DATE_FORMAT(deletionDate,'%Y-%m-%d')=DATE_FORMAT(#deletionDate#,'%Y-%m-%d') ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="provinceId">(provinceId like '%$provinceId$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="cuser">(cuser like '%$cuser$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="cstate">(cstate like '%$cstate$%')</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+	</select>
+	<!-- 查询路由总数 -->								
+	<select id="getCableRouteCount" parameterClass="manage.route.pojo.CableRouteInfoBean" resultClass="Integer">
+		select count(*) from cablerouteinfo where deletedFlag='0'
+	     <dynamic prepend=" AND ">
+		    <isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="optCableId">(optCableId=#optCableId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="routeSeqNum">(routeSeqNum like '%$routeSeqNum$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="tubeId">(tubeId=#tubeId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="idE">(idE=#idE#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="creationDate"><![CDATA[ DATE_FORMAT(creationDate,'%Y-%m-%d')=DATE_FORMAT(#creationDate#,'%Y-%m-%d') ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="lastUpdateDate"><![CDATA[ DATE_FORMAT(lastUpdateDate,'%Y-%m-%d')=DATE_FORMAT(#lastUpdateDate#,'%Y-%m-%d') ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="deletionDate"><![CDATA[ DATE_FORMAT(deletionDate,'%Y-%m-%d')=DATE_FORMAT(#deletionDate#,'%Y-%m-%d') ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="provinceId">(provinceId like '%$provinceId$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="cuser">(cuser like '%$cuser$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="cstate">(cstate like '%$cstate$%')</isNotEmpty>
+		</dynamic>
+	</select>
+	<select id="tubeSegment" parameterClass="manage.pipe.pojo.TubeInfoBean" resultClass="manage.pipe.pojo.TubeInfoBean">
+		select * from tubeinfo where deletedFlag='0' and tubeId=#tubeId#
+	</select>
+	<select id="getPipeSeg" parameterClass="manage.pipe.pojo.PipeSegmentInfoBean" resultClass="manage.pipe.pojo.PipeSegmentInfoBean">
+		select * from pipesegmentinfo where deletedFlag='0' and pipeSegmentId = #pipeSegmentId#
+	</select>
+	<select id="polelineSegment" parameterClass="manage.poleline.pojo.PolelineSegmentInfoBean" resultClass="manage.poleline.pojo.PolelineSegmentInfoBean">
+		select * from polelinesegmentinfo where deletedFlag='0' and poleLineSegmentId=#poleLineSegmentId#
+	</select>
+	<select id="getPole" parameterClass="manage.poleline.pojo.PoleInfoBean" resultClass="manage.poleline.pojo.PoleInfoBean">
+		select * from poleinfo where deletedFlag='0' and poleId=#poleId#
+	</select>
+	<select id="getOppoFiber"  parameterClass="manage.route.pojo.OppoFiberInfoBean" resultClass="manage.route.pojo.OppoFiberInfoBean">
+		SELECT p1.routename routename,p1.cablename cablename,e1.EID EID1,e1.ENAME ENAME1,e1.ECODE ECODE1,
+		p1.PID PID1,p1.PCODE PCODE1,p1.PSERV PSERV,p1.ofpcode ofpcode,e2.EID EID2,e2.ENAME ENAME2,e2.ECODE ECODE2,
+		p2.PID PID2,p2.PCODE PCODE2 FROM job_pointinfo p1 
+		LEFT JOIN job_oppo_fiber op ON ((p1.EID = op.EID1 OR p1.EID = op.EID2)AND(p1.PID=op.PID1 OR p1.PID=op.PID2 )) 
+		LEFT JOIN job_equtinfo e1 ON(p1.EID = e1.EID )
+		LEFT JOIN job_pointinfo p2 ON((p2.EID = op.EID1 OR p2.EID = op.EID2)AND(p2.PID=op.PID1 OR p2.PID=op.PID2 )) 
+		LEFT JOIN job_equtinfo e2 ON(p2.EID = e2.EID )
+		WHERE p1.routename=#routename# AND p1.cablename=#cablename#
+	</select>
+	<!-- 查询设备 -->
+	<select id="getEqutBean" parameterClass="manage.equt.pojo.EqutInfoBean" resultClass="manage.equt.pojo.EqutInfoBean">
+	select * from job_equtinfo where del=0 and eid=#eid#
+	</select>
+	<!-- 插入路由 -->
+	<insert id="insertCableRoute" parameterClass="manage.route.pojo.CableRouteInfoBean">
+		insert into cablerouteinfo(optCableId,routeSeqNum,tubeId,idE,creationDate,lastUpdateDate,deletedFlag,cstate) 
+				values(#optCableId#,#routeSeqNum#,#tubeId#,#idE#,#creationDate#,#lastUpdateDate#,'0','0')
+	</insert>
+	<!-- 修改管孔 -->
+	<update id="updateTube" parameterClass="manage.pipe.pojo.TubeInfoBean">
+		update tubeinfo set
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="tubeName">tubeName=#tubeName#</isNotNull>
+			<isNotNull prepend="," property="tubeNumber">tubeNumber=#tubeNumber#</isNotNull>
+			<isNotNull prepend="," property="pipeSegmentId">pipeSegmentId=#pipeSegmentId#</isNotNull>
+			<isNotNull prepend="," property="fatherPoreId">fatherPoreId=#fatherPoreId#</isNotNull>
+			<isNotNull prepend="," property="subTubeArrangeMode">subTubeArrangeMode=#subTubeArrangeMode#</isNotNull>
+			<isNotNull prepend="," property="tubeStatusEnumId">tubeStatusEnumId=#tubeStatusEnumId#</isNotNull>
+			<isNotNull prepend="," property="tubeDiameter">tubeDiameter=#tubeDiameter#</isNotNull>
+			<isNotNull prepend="," property="tubeColor">tubeColor=#tubeColor#</isNotNull>
+			<isNotNull prepend="," property="tubeMaterial">tubeMaterial=#tubeMaterial#</isNotNull>
+			<isNotNull prepend="," property="tubeShape">tubeShape=#tubeShape#</isNotNull>
+			<isNotNull prepend="," property="rentFlag">rentFlag=#rentFlag#</isNotNull>
+			<isNotNull prepend="," property="rentOrg">rentOrg=#rentOrg#</isNotNull>
+			<isNotNull prepend="," property="resourceLifePeriodEnumId">resourceLifePeriodEnumId=#resourceLifePeriodEnumId#</isNotNull>
+			<isNotNull prepend="," property="bearCableSegment">bearCableSegment=#bearCableSegment#</isNotNull>
+			<isNotNull prepend="," property="lastUpdateDate">lastUpdateDate=#lastUpdateDate#</isNotNull>	
+			<isNotNull prepend="," property="deletedFlag">deletedFlag=#deletedFlag#</isNotNull>
+			<isNotNull prepend="," property="provinceId">provinceId=#provinceId#</isNotNull>
+			<isNotNull prepend="," property="maintenanceAreaId">maintenanceAreaId=#maintenanceAreaId#</isNotNull>
+			<isNotNull prepend="," property="bearCableSegmentId">bearCableSegmentId=#bearCableSegmentId#</isNotNull>
+			<isNotNull prepend="," property="redunBearCableSegment">redunBearCableSegment=#redunBearCableSegment#</isNotNull>
+			<isNotNull prepend="," property="redunBearCableSegmentId">redunBearCableSegmentId=#redunBearCableSegmentId#</isNotNull>
+		</dynamic>
+		<dynamic prepend="WHERE">
+	    	<isNotEmpty prepend="AND" property="tubeId">(tubeId=#tubeId#)</isNotEmpty>
+	    </dynamic>
+	</update>
+	<!-- 查询路由 -->
+	<select id="cableRouteByIdStatment" parameterClass="manage.route.pojo.CableRouteInfoBean" resultClass="manage.route.pojo.CableRouteInfoBean">
+		select * from cablerouteinfo where deletedFlag='0'
+	     <dynamic prepend=" AND ">
+		    <isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="optCableId">(optCableId=#optCableId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="routeSeqNum">(routeSeqNum like '%$routeSeqNum$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="tubeId">(tubeId=#tubeId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="idE">(idE=#idE#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="creationDate"><![CDATA[ DATE_FORMAT(creationDate,'%Y-%m-%d')=DATE_FORMAT(#creationDate#,'%Y-%m-%d') ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="lastUpdateDate"><![CDATA[ DATE_FORMAT(lastUpdateDate,'%Y-%m-%d')=DATE_FORMAT(#lastUpdateDate#,'%Y-%m-%d') ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="deletionDate"><![CDATA[ DATE_FORMAT(deletionDate,'%Y-%m-%d')=DATE_FORMAT(#deletionDate#,'%Y-%m-%d') ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="provinceId">(provinceId like '%$provinceId$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="cuser">(cuser like '%$cuser$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="cstate">(cstate like '%$cstate$%')</isNotEmpty>
+		</dynamic>
+	</select>
+	<!-- 修改路由 -->
+	<update id="updateCableRouteStatment" parameterClass="manage.route.pojo.CableRouteInfoBean">
+		update cablerouteinfo set
+		<dynamic prepend=" ">
+			<isNotNull prepend="," property="optCableId">optCableId=#optCableId#</isNotNull>
+			<isNotNull prepend="," property="routeSeqNum">routeSeqNum=#routeSeqNum#</isNotNull>
+			<isNotNull prepend="," property="tubeId">tubeId=#tubeId#</isNotNull>
+			<isNotNull prepend="," property="idE">idE=#idE#</isNotNull>
+			<isNotNull prepend="," property="lastUpdateDate">lastUpdateDate=#lastUpdateDate#</isNotNull>	
+		</dynamic>
+		<dynamic prepend="WHERE">
+	    	<isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+	    </dynamic>
+	</update>
+	<!-- 获取全部管孔信息 -->
+	<select id="getTubeList" parameterClass="manage.pipe.pojo.TubeInfoBean" resultClass="manage.pipe.pojo.TubeInfoBean">
+		select * from tubeinfo where deletedFlag='0'
+	     <dynamic prepend=" AND ">
+		    <isNotEmpty prepend="AND" property="tubeId">(tubeId=#tubeId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="tubeName">(tubeName like '%$tubeName$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="tubeNumber">(tubeNumber like '%$tubeNumber$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="pipeSegmentId">(pipeSegmentId=#pipeSegmentId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="faceId">(faceId=#faceId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="fatherPoreId">(fatherPoreId=#fatherPoreId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="subTubeArrangeMode">(subTubeArrangeMode like '%$subTubeArrangeMode$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="tubeStatusEnumId">(tubeStatusEnumId=#tubeStatusEnumId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="tubeDiameter">(tubeDiameter like '%$tubeDiameter$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="tubeColor">(tubeColor like '%$tubeColor$%'))</isNotEmpty>
+			<isNotEmpty prepend="AND" property="tubeMaterial">(tubeMaterial like '%$tubeMaterial$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="tubeShape">(tubeShape like '%$tubeShape$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="rentFlag">(rentFlag like '%$rentFlag$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="rentOrg">(rentOrg=#rentOrg#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceLifePeriodEnumId">(resourceLifePeriodEnumId=#resourceLifePeriodEnumId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="bearCableSegment">(bearCableSegment like '%$bearCableSegment$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="creationDate"><![CDATA[ DATE_FORMAT(creationDate,'%Y-%m-%d')=DATE_FORMAT(#creationDate#,'%Y-%m-%d') ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="lastUpdateDate"><![CDATA[ DATE_FORMAT(lastUpdateDate,'%Y-%m-%d')=DATE_FORMAT(#lastUpdateDate#,'%Y-%m-%d') ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="deletionDate"><![CDATA[ DATE_FORMAT(deletionDate,'%Y-%m-%d')=DATE_FORMAT(#deletionDate#,'%Y-%m-%d') ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="provinceId">(provinceId like '%$provinceId$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="maintenanceAreaId">(maintenanceAreaId=#maintenanceAreaId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="cuser">(cuser like '%$cuser$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="cstate">(cstate like '%$cstate$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="areano">(areano=#areano#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="areaname">(areaname like '%$areaname$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="bearCableSegmentId">(bearCableSegmentId like '%$bearCableSegmentId$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="bearCableSegment">(bearCableSegment like '%$bearCableSegment$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="redunBearCableSegmentId">(redunBearCableSegmentId like '%$redunBearCableSegmentId$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="redunBearCableSegment">(redunBearCableSegment like '%$redunBearCableSegment$%')</isNotEmpty>
+		</dynamic>
+	</select>
+	<!-- 删除路由 -->
+	<delete id="deleteCableRoute" parameterClass="manage.route.pojo.CableRouteInfoBean">
+		update cablerouteinfo set deletedFlag='1',deletionDate=#deletionDate# where id=#id#
+	</delete>
+	<!-- 管孔数量 -->
+	<select id="getTubeCount" parameterClass="manage.pipe.pojo.TubeInfoBean" resultClass="Integer">
+		select count(*) from tubeinfo where deletedFlag='0'
+	     <dynamic prepend=" AND ">
+		    <isNotEmpty prepend="AND" property="tubeId">(tubeId=#tubeId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="tubeName">(tubeName like '%$tubeName$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="tubeNumber">(tubeNumber like '%$tubeNumber$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="pipeSegmentId">(pipeSegmentId=#pipeSegmentId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="fatherPoreId">(fatherPoreId=#fatherPoreId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="subTubeArrangeMode">(subTubeArrangeMode like '%$subTubeArrangeMode$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="tubeStatusEnumId">(tubeStatusEnumId=#tubeStatusEnumId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="tubeDiameter">(tubeDiameter like '%$tubeDiameter$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="tubeColor">(tubeColor like '%$tubeColor$%'))</isNotEmpty>
+			<isNotEmpty prepend="AND" property="tubeMaterial">(tubeMaterial like '%$tubeMaterial$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="tubeShape">(tubeShape like '%$tubeShape$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="rentFlag">(rentFlag like '%$rentFlag$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="rentOrg">(rentOrg=#rentOrg#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceLifePeriodEnumId">(resourceLifePeriodEnumId=#resourceLifePeriodEnumId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="bearCableSegment">(bearCableSegment like '%$bearCableSegment$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="creationDate"><![CDATA[ DATE_FORMAT(creationDate,'%Y-%m-%d')=DATE_FORMAT(#creationDate#,'%Y-%m-%d') ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="lastUpdateDate"><![CDATA[ DATE_FORMAT(lastUpdateDate,'%Y-%m-%d')=DATE_FORMAT(#lastUpdateDate#,'%Y-%m-%d') ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="deletionDate"><![CDATA[ DATE_FORMAT(deletionDate,'%Y-%m-%d')=DATE_FORMAT(#deletionDate#,'%Y-%m-%d') ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="provinceId">(provinceId like '%$provinceId$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="maintenanceAreaId">(maintenanceAreaId=#maintenanceAreaId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="cuser">(cuser like '%$cuser$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="cstate">(cstate like '%$cstate$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="areano">(areano=#areano#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="areaname">(areaname like '%$areaname$%')</isNotEmpty>
+		</dynamic>
+	</select>
+	<!-- 获取杆路段列表信息 -->
+	<select id="getPolelineSegmentList" parameterClass="manage.poleline.pojo.PolelineSegmentInfoBean" resultClass="manage.poleline.pojo.PolelineSegmentInfoBean">
+		select * from polelinesegmentinfo where deletedFlag='0'
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend="AND" property="poleLineSegmentId">(poleLineSegmentId=#poleLineSegmentId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="poleLineSegmentName">(poleLineSegmentName like '%$poleLineSegmentName$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="poleLineSegmentCode">(poleLineSegmentCode like '%$poleLineSegmentCode$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="maintenanceAreaId">(maintenanceAreaId=#maintenanceAreaId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="poleLineId">(poleLineId=#poleLineId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="poleLineSegmentLength">(poleLineSegmentLength=#poleLineSegmentLength#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="status">(status like '%$status$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="startDeviceId">(startDeviceId like '%$startDeviceId$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="endDeviceId">(endDeviceId like '%$endDeviceId$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="constructionSharingEnumId">(constructionSharingEnumId=#constructionSharingEnumId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sharingTypeEnumId">(sharingTypeEnumId=#sharingTypeEnumId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="constructionSharingOrg">(constructionSharingOrg like '%$constructionSharingOrg$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceLifePeriodEnumId">(resourceLifePeriodEnumId=#resourceLifePeriodEnumId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="creationDate"><![CDATA[ DATE_FORMAT(creationDate,'%Y-%m-%d')=DATE_FORMAT(#creationDate#,'%Y-%m-%d') ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="lastUpdateDate"><![CDATA[ DATE_FORMAT(lastUpdateDate,'%Y-%m-%d')=DATE_FORMAT(#lastUpdateDate#,'%Y-%m-%d') ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="deletedFlag">(deletedFlag=#deletedFlag#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deletionDate">(deletionDate=#deletionDate#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="provinceId">(provinceId=#provinceId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="areano">(areano=#areano#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="areaname">(areaname like '%$areaname$%')</isNotEmpty>
+		</dynamic>
+	</select>
+	<!-- 查看杆路段总数 -->
+	<select id="getPolelineSegmentCount" parameterClass="manage.poleline.pojo.PolelineSegmentInfoBean" resultClass="Integer" >
+		select count(*) from polelinesegmentinfo where deletedFlag='0'
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend="AND" property="poleLineSegmentId">(poleLineSegmentId=#poleLineSegmentId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="poleLineSegmentName">(poleLineSegmentName like '%$poleLineSegmentName$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="poleLineSegmentCode">(poleLineSegmentCode like '%$poleLineSegmentCode$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="maintenanceAreaId">(maintenanceAreaId=#maintenanceAreaId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="poleLineId">(poleLineId=#poleLineId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="poleLineSegmentLength">(poleLineSegmentLength=#poleLineSegmentLength#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="status">(status like '%$status$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="startDeviceId">(startDeviceId like '%$startDeviceId$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="endDeviceId">(endDeviceId like '%$endDeviceId$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="constructionSharingEnumId">(constructionSharingEnumId=#constructionSharingEnumId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="sharingTypeEnumId">(sharingTypeEnumId=#sharingTypeEnumId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="constructionSharingOrg">(constructionSharingOrg like '%$constructionSharingOrg$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="resourceLifePeriodEnumId">(resourceLifePeriodEnumId=#resourceLifePeriodEnumId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="creationDate"><![CDATA[ DATE_FORMAT(creationDate,'%Y-%m-%d')=DATE_FORMAT(#creationDate#,'%Y-%m-%d') ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="lastUpdateDate"><![CDATA[ DATE_FORMAT(lastUpdateDate,'%Y-%m-%d')=DATE_FORMAT(#lastUpdateDate#,'%Y-%m-%d') ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="deletedFlag">(deletedFlag=#deletedFlag#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="deletionDate">(deletionDate=#deletionDate#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="provinceId">(provinceId=#provinceId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="areano">(areano=#areano#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="areaname">(areaname like '%$areaname$%')</isNotEmpty>
+		</dynamic>
+	</select>
+	<select id="getRoute" parameterClass="manage.route.pojo.RouteInfoBean" resultClass="manage.route.pojo.RouteInfoBean">
+		select * from job_route where deletedFlag='0'
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend="AND" property="routeid">(routeid=#routeid#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="routename">(routename=#routename#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="routelevel">(routelevel=#routelevel#)</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	<!-- 去重 -->
+ 	<select id="getTubeRepeatList" parameterClass="manage.pipe.pojo.TubeInfoBean" resultClass="manage.pipe.pojo.TubeInfoBean">
+		select * from tubeinfo where deletedFlag='0' and (bearCableSegmentId is not null and bearCableSegmentId!='' and bearCableSegmentId!='0') 
+		and (redunBearCableSegmentId is not null and redunBearCableSegmentId!='' and redunBearCableSegmentId!='0')
+	</select>
+	<select id="getTubeRepeatCount" parameterClass="manage.pipe.pojo.TubeInfoBean" resultClass="Integer">
+		select count(*) from tubeinfo where deletedFlag='0' and (bearCableSegmentId is not null and bearCableSegmentId!='' and bearCableSegmentId!='0') 
+		and (redunBearCableSegmentId is not null and redunBearCableSegmentId!='' and redunBearCableSegmentId!='0')
+	</select>
+	<!-- 合并光缆时对其缆段的操作 -->
+	<update id="updateCable1" parameterClass="manage.route.pojo.CableInfoBean">
+ 		UPDATE job_cable set routeid=#routeid#,routename=#routename# where cableid=#cableid#;
+ 	</update>
+ 	<!-- 合并光缆时的将原有光缆删除 -->
+ 	<delete id="deleteroute1" parameterClass="manage.route.pojo.RouteInfoBean">
+ 		update job_route set deletedFlag='1' where routeid=#routeid#
+ 	</delete>
+ 	<select id="getCableList" parameterClass="manage.route.pojo.CableInfoBean" resultClass="manage.route.pojo.CableInfoBean">
+		select * from job_cable where deletedFlag='0' and routeid=#routeid#
+ 	</select>
+ 	<delete id="deleteCableStatment" parameterClass="manage.route.pojo.CableInfoBean">
+		update job_cable set deletedFlag='1',deletionDate=#deletionDate# where cableid=#cableid#
+	</delete>
+	<!-- 去重缆段时插入新的缆段 -->
+	<insert id="insertCable1" parameterClass="manage.route.pojo.CableInfoBean">
+		insert into job_cable (
+			cablename,routeid,routename,type,mode,length,paveWay,state,sharetype,shareoperator,beareqName,brokenFiberNum,
+			reservedFiberNum,fibercount,inusecount,starteid,startDeviceName,endeid,endDeviceName,manufacturerId,
+			sharingTypeEnumId,resourceLifePeriodEnumId,managementAuthorizedFlag,authorizedManagementOrgId,designedPurpose,
+			maintenanceModeEnumId,areano,maintenanceOrgId,maintainerId,thirdPartyMaintenanceOrg,renewalExpirationDate,
+			maintenanceTypeEnumId,purchasedMaintenanceTime,deletedFlag,cstate,sign,lastUpdateDate
+		) values (
+			#cablename#,#routeid#,#routename#,#type#,#mode#,#length#,#paveWay#,#state#,#sharetype#,#shareoperator#,#beareqName#,#brokenFiberNum#,
+			#reservedFiberNum#,#fibercount#,#inusecount#,#starteid#,#startDeviceName#,#endeid#,#endDeviceName#,#manufacturerId#,
+			#sharingTypeEnumId#,#resourceLifePeriodEnumId#,#managementAuthorizedFlag#,#authorizedManagementOrgId#,#designedPurpose#,
+			#maintenanceModeEnumId#,#areano#,#maintenanceOrgId#,#maintainerId#,#thirdPartyMaintenanceOrg#,#renewalExpirationDate#,
+			#maintenanceTypeEnumId#,#purchasedMaintenanceTime#,'0','0',#sign#,#lastUpdateDate#
+		)
+		<selectKey resultClass="int" keyProperty="cableid" > 
+				SELECT LAST_INSERT_ID() AS cableid
+		</selectKey>
+	</insert>
+	<select id="getCR" parameterClass="manage.route.pojo.CableRouteInfoBean" resultClass="manage.route.pojo.CableRouteInfoBean">
+		 select * from cablerouteinfo where deletedFlag='0'
+	     <dynamic prepend=" AND ">
+		    <isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="optCableId">(optCableId=#optCableId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="routeSeqNum">(routeSeqNum like '%$routeSeqNum$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="tubeId">(tubeId=#tubeId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="idE">(idE=#idE#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="creationDate"><![CDATA[ DATE_FORMAT(creationDate,'%Y-%m-%d')=DATE_FORMAT(#creationDate#,'%Y-%m-%d') ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="lastUpdateDate"><![CDATA[ DATE_FORMAT(lastUpdateDate,'%Y-%m-%d')=DATE_FORMAT(#lastUpdateDate#,'%Y-%m-%d') ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="deletionDate"><![CDATA[ DATE_FORMAT(deletionDate,'%Y-%m-%d')=DATE_FORMAT(#deletionDate#,'%Y-%m-%d') ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="provinceId">(provinceId like '%$provinceId$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="cuser">(cuser like '%$cuser$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="cstate">(cstate like '%$cstate$%')</isNotEmpty>
+		</dynamic>
+	</select>
+	<!-- 去重时修改路由 -->
+	<update id="updateCableRouteStatment1" parameterClass="manage.route.pojo.CableRouteInfoBean">
+		update cablerouteinfo set optCableId=#optCableId# where id=#id#
+	</update>
+	<select id="getFaceRelation" parameterClass="manage.pipe.pojo.FaceInfoBean" resultClass="manage.pipe.pojo.FaceInfoBean">
+		select * from facerelation where 1=1
+		<dynamic prepend=" AND ">
+	    <isNotEmpty prepend="AND" property="faceId1">(faceId1=#faceId1#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="faceId2">(faceId2=#faceId2#)</isNotEmpty>
+		</dynamic>
+	</select>
+	<select id="getFibertotal" parameterClass="manage.route.pojo.FiberBoxInfoBean" resultClass="Integer">
+		SELECT count(*) FROM job_fiberbox WHERE deleteflag='0'
+	</select>
+	<select id="getFiberlist" parameterClass="manage.route.pojo.FiberBoxInfoBean" resultClass="manage.route.pojo.FiberBoxInfoBean">
+		SELECT * FROM job_fiberbox WHERE deleteflag='0'
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend=" AND " property="id">(id=#id#)</isNotEmpty>
+			<isNotEmpty prepend=" AND " property="fiberBoxName">fiberboxName=#fiberboxName#</isNotEmpty>
+ 			<isNotEmpty prepend=" AND " property="usedCapacity">usedCapacity=#usedCapacity#</isNotEmpty>
+ 			<isNotEmpty prepend=" AND " property="modNum">modNum=#modNum#</isNotEmpty>
+ 			<isNotEmpty prepend=" AND " property="terminalNum">terminalNum=#terminalNum#</isNotEmpty>
+ 			<isNotEmpty prepend=" AND " property="model">model=#model#</isNotEmpty>
+ 			<isNotEmpty prepend=" AND " property="installCapacity">installCapacity=#installCapacity#</isNotEmpty>
+ 			<isNotEmpty prepend=" AND " property="freeCapacity">freeCapacity=#freeCapacity#</isNotEmpty>
+ 			<isNotEmpty prepend=" AND " property="fiberdpNo">fiberdpNo=#fiberdpNo#</isNotEmpty>
+ 			<isNotEmpty prepend=" AND " property="structureType">structureType=#structureType#</isNotEmpty>
+ 			<isNotEmpty prepend=" AND " property="structureId">structureId=#structureId#</isNotEmpty>
+ 			<isNotEmpty prepend=" AND " property="structureName">structureName=#structureName#</isNotEmpty>
+ 			<isNotEmpty prepend=" AND " property="roomId">roomId=#roomId#</isNotEmpty>
+ 			<isNotEmpty prepend=" AND " property="longitude">longitude=#longitude#</isNotEmpty>
+ 			<isNotEmpty prepend=" AND " property="latitude">latitude=#latitude#</isNotEmpty>
+ 			<isNotEmpty prepend=" AND " property="colNum">colNum=#colNum#</isNotEmpty>
+ 			<isNotEmpty prepend=" AND " property="dataQualitier">dataQualitier=#dataQualitier#</isNotEmpty>
+ 			<isNotEmpty prepend=" AND " property="maintainer">maintainer=#maintainer#</isNotEmpty>
+ 			<isNotEmpty prepend=" AND " property="deleteflag">deleteflag=#deleteflag#</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+	</select>
+	<select id="getDomain" parameterClass="manage.domain.pojo.DomainBean" resultClass="manage.domain.pojo.DomainBean">
+		SELECT * FROM sys_domain 
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="domainId"> domainId=#domainId#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="domainCode"> domainCode=#domainCode#</isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="domainName"> domainName like '%$domainName$%' </isNotEmpty>
+	    </dynamic>
+	</select>
+	<select id="getGenerator" parameterClass="manage.generator.pojo.GeneratorInfoBean" resultClass="manage.generator.pojo.GeneratorInfoBean">
+		SELECT * FROM job_generator 
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="generatorId"> generatorId=#generatorId#</isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="generatorName"> generatorName=#generatorName# </isNotEmpty>
+	    </dynamic>
+	</select>
+</sqlMap>

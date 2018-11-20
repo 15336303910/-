@@ -1,0 +1,163 @@
+<!doctype html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title></title>
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<link href="../../../css/mui.min.css" rel="stylesheet" />
+<link href="../../../css/mui.picker.css" rel="stylesheet" />
+<link href="../../../css/mui.poppicker.css" rel="stylesheet" />
+</head>
+
+<body>
+<header class="mui-bar mui-bar-nav">
+	<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+	<h1 class="mui-title">直埋段详情</h1>
+</header>
+<footer id="foot_btn" class="mui-bar mui-bar-footer" style="position: fixed; bottom: 0; left: 0;right: 0;">
+	<table class="mui-button-row" style="width: 100%;margin-top: 2px;">
+		<th><button id="submit_btn" class="mui-btn mui-btn-primary " >提交</button></th>
+	</table>
+</footer>
+
+<form class="mui-content mui-input-group">
+	<div class="mui-input-row" style="height: auto;">
+		<div style="margin-top: 6px;padding-left: 15px;">直埋段名称:</div>
+		<input type="text" class="mui-input-clear" id="basestationPartName" value="" placeholder="直埋段名称" />
+		<input type="hidden" id="id" value="" />
+		<input type="hidden" id="basestationId" value="" />
+	</div>
+	<div class="mui-input-row" style="height: auto;">
+		<div style="margin-top: 6px;padding-left: 15px;">起始设施:</div>
+		<input type="text" class="mui-input-clear" id="basestationPartStart" style="width: 90%; float: left;" value="" placeholder="起始设施" />
+		<input type="hidden" id="basestationPartStartId" value="" />
+		<input type="hidden" id="startLon"  value="" />
+		<input type="hidden" id="startLat"  value="" />
+		<img style="width: 10%; float: left;" src="../../../image/map/current.png"  onclick="checkStone('start')"/>
+		
+	</div>
+	<div class="mui-input-row" style="height: auto;">
+		<div style="margin-top: 6px;padding-left: 15px;">终止设施:</div>
+		<input type="text" class="mui-input-clear" id="basestationPartEnd" style="width: 90%; float: left;" value="" placeholder="终止设施" />
+		<input type="hidden" id="basestationPartEndId" value="" />
+		<input type="hidden" id="endLon"  value="" />
+		<input type="hidden" id="endLat"  value="" />
+		<img style="width: 10%; float: left;" src="../../../image/map/current.png"  onclick="checkStone('end')"/>
+	</div>
+	<div class="mui-input-row" style="height: auto;">
+		<div style="margin-top: 6px;padding-left: 15px;">所属区县:</div>
+		<input type="text" class="mui-input-clear" id="basestationPartArea" style="width: 70%; float: left;" value="" placeholder="所属区县" />
+		<button id='showCityPicker3' style="width: 30%; float: left;"  type='button'>地市</button>
+	</div>
+	<div class="mui-input-row" style="height: auto;">
+		<div style="margin-top: 6px;padding-left: 15px;">直埋段长度(单位：米):</div>
+		<input type="text" class="mui-input-clear" id="basestationPartLength" value="" placeholder="直埋段长度" />
+	</div>
+	<div class="mui-input-row" style="height: auto;">
+		<div style="margin-top: 6px;padding-left: 15px;">维护长度长度(单位：米):</div>
+		<input type="text" class="mui-input-clear" id="maintainLength" value="" placeholder="维护长度长度" />
+	</div>
+	<div class="mui-input-row" style="height: auto;">
+		<div style="margin-top: 6px;padding-left: 15px;">产权性质:</div>
+		<select id="propertyRight" class="mui-btn-block" style="padding-left: 15px;">
+			<option value="0">自建</option>
+			<option value="1">合建</option>
+			<option value="2">共建</option>
+			<option value="3">租用</option>
+			<option value="4">购买</option>
+			<option value="5">置换</option>
+			<option value="6">其他</option>
+		</select>
+	</div>
+	<div class="mui-input-row" style="height: auto;">
+		<div style="margin-top: 6px;padding-left: 15px;">产权单位:</div>
+		<select id="propertyDept" class="mui-btn-block" style="padding-left: 15px;">
+			<option value="0">中国移动</option>
+			<option value="1">中国联通</option>
+			<option value="2">中国电信</option>
+			<option value="3">中国铁通</option>
+			<option value="4">广电</option>
+			<option value="5">电力</option>
+			<option value="6">其他</option>
+			<option value="7">北方基础</option>
+			<option value="8">歌华</option>
+			<option value="9">天童</option>
+			<option value="10">亦庄博大</option>
+			<option value="11">公联</option>
+			<option value="12">路灯</option>
+			<option value="13">污水</option>
+		</select>
+	</div>
+</form>
+<script src="../../../js/mui.min.js"></script>
+<script src="../../../js/mui.picker.js"></script>
+<script src="../../../js/mui.poppicker.js"></script>
+<script src="../../../js/city.data.js"></script>
+<script src="../../../js/city.data-3.js"></script>
+<script src="../../../js/jquery-1.12.3.js"></script>
+<script src="js/basestationSegDetail.js"></script>
+<script type="text/javascript">
+	var EARTH_RADIUS = 6378137.0;
+	var PI = Math.PI; 
+	(function($, doc) {
+		$.ready(function() {
+			var _getParam = function(obj, param) {
+				return obj[param] || '';
+			};
+			var cityPicker3 = new $.PopPicker({
+				layer: 3
+			});
+			cityPicker3.setData(cityData3);
+			var showCityPickerButton = doc.getElementById('showCityPicker3');
+			showCityPickerButton.addEventListener('tap', function(event) {
+				var address = "";
+				cityPicker3.show(function(items) {
+					if(_getParam(items[0], 'text') == _getParam(items[1], 'text')){
+						address =_getParam(items[1], 'text') + "_" + _getParam(items[2], 'text')+"_";
+					}else{
+						address =_getParam(items[0], 'text') + "_" + _getParam(items[1], 'text') + "_" + _getParam(items[2], 'text');
+					}
+					document.getElementById("basestationPartArea").value =address;
+				});
+			}, false);
+		});
+		mui.plusReady(function() {
+			mui.preload({
+				url:'basestationSegDetail.html',
+				id:"basestationSegDetail.html",
+				styles:{},
+				extras:{}
+			});
+			var cv = plus.webview.currentWebview();
+			document.getElementById("id").value= cv.basestationSegId;
+			initBasestationSeg(cv.basestationSegId);
+		});
+
+	})(mui, document);
+</script>
+<script>
+	document.addEventListener('basestationSegDetail', function(ee) {
+		if(ee.detail.operate =='start'){
+			$("#basestationPartStartId").val(ee.detail.stoneId);
+			$("#basestationPartStart").val(ee.detail.stoneName);
+			$("#startLon").val(ee.detail.lon);
+			$("#startLat").val(ee.detail.lat);
+		}
+		if(ee.detail.operate == 'end'){
+			$("#basestationPartEndId").val(ee.detail.stoneId);
+			$("#basestationPartEnd").val(ee.detail.stoneName);
+			$("#endLon").val(ee.detail.lon);
+			$("#endLat").val(ee.detail.lat);
+		}
+		if($("#startLon").val() != null && $("#startLon").val()  != '' && $("#endLon").val() !=null &&  $("#endLon").val() != ''){
+			var length = getFlatternDistance($("#startLat").val(),$("#startLon").val(),$("#endLat").val(),$("#endLon").val());
+			$("#basestationPartLength").val(toDecimal(length));
+			$("#maintainLength").val(toDecimal(length));
+			$("#basestationPartName").val($("#basestationPartStart").val()+"-"+$("#basestationPartEnd").val()+"管道段")
+		}
+	})
+</script>
+</body>
+
+</html>

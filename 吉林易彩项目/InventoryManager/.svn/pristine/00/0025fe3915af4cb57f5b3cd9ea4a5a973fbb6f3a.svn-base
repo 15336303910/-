@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="equt" extends="json-default,struts-base">
+     	<action name="equt" class="manage.equt.web.EqutAction">
+     		<result name="topoView">/pages/equt/topoview.jsp</result>
+     		<result name="reLogin">/login.jsp</result>
+     		<result name="exportsuccess">/export.jsp?filename=${filepath}</result>
+            <result name="equtInfo" type="json">
+     			<param name="root">equtInfoBean</param>
+     		</result>
+     		<result name="equtTree" type="json">
+     			<param name="root">treeList</param>
+     		</result>
+     		<result name="searchEqutInfo" type="json">
+     			<param name="root">treeList</param>
+     		</result>
+     		
+     		<result name="prlUserList" type="json">
+     			<param name="root">user</param>
+     		</result>
+     		<result name="equtState" type="json">
+     			<param name="root">state</param>
+     		</result>
+            <result name="sessionOut">sessionOut.jsp</result>
+            <result name="showTopo">/pages/topo/topoMap.jsp</result>
+            
+            <result name="loadDomainTree" type="json">
+     			<param name="root">treeList</param>
+     		</result>
+        	
+        	<result name="searchDomainTree" type="json">
+	    	    <param name="includeProperties">success,treeList.*</param>
+	    	</result>
+	    	
+	    	<result name="list" type="json">
+	    		<param name="contentType">text/html</param> 
+	    	    <param name="root">success</param> 
+	    	</result>
+	    	
+	    	<result name="updateDomain" type="json">
+	    		<param name="contentType">text/html</param>  
+	    	    <param name="root">success</param>
+	    	</result>
+	    	
+	    	 <result name="sonList" type="json">
+     			<param name="root">resultList</param>
+     		</result>
+     		
+     		<result name="showEqutPoint" type="json">
+     			<param name="root">point</param>
+     		</result>
+     		<result name="exportcode" >/exports.jsp?filename=${filepath}</result>
+     		<result name="applyList" type="json">
+     			<param name="root">applyBean</param>
+     		</result>
+     		<result name="applyDel" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+	    	<result name="getEqutGrid" type="json">
+	    	    <param name="root">equtInfoBean</param>
+	    	</result>
+	    	<result name="seeReport" >/pages/equt/report.jsp</result>
+		</action>
+	    <action name="pdaEqut" class="interfaces.pdainterface.equt.action.PDAEqut">
+	       	<result name="*" type="json">
+	    	    <param name="root">jsonResponse</param>
+	    	</result>
+		</action>
+	</package>
+	<!-- <package name="docequt" extends="struts-base">
+     	<action name="docequt" class="manage.web.DocumentAction">
+            <result name="error">err.jsp</result>
+            <result name="pointlist">/pages/document/docpointlist.jsp</result>
+            <result name="doedit">/pages/document/deletedocequt.jsp</result>
+            <result name="import">/pages/document/docequt.jsp</result>
+            <result name="list">/pages/document/doculist.jsp</result>
+            <result name="relist" type="redirect">docequt!list.action</result>
+            如果没有登录，连接拦截后，直接跳到sessionOut.jsp,每个业务模块都需要加上下面代码 
+            <result name="sessionOut">sessionOut.jsp</result>
+		</action>    	
+    </package> -->
+</struts>

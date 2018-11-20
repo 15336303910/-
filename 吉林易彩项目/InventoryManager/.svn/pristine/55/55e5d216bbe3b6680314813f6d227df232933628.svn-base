@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">    
+<sqlMap namespace="login">	
+	<!--获取登陆用户名称-->
+	<select id="getLogin" parameterClass="manage.user.pojo.UserInfoBean" resultClass="manage.user.pojo.UserInfoBean">
+		select 
+		 	u.userId userId,u.username username,u.realname realname,u.modulestr modulestr,u.phoneNumber phoneNumber, 
+			u.lastip lastip,u.lasteid lasteid, u.lasttime lasttime,u.areano areano,
+			case d.parentId
+				when 1 then d.domainName
+				when 0 then d.domainName
+				else (
+					select domainName from sys_domain where domainId = d.parentId
+				)
+			  	end as areaName,d.responsibleid responsibleid,d.domainId domainId
+	   	 from 
+	   	 	sys_user u,sys_domain d  
+	   	 where u.areano = d.domainCode and username = #username# and password = #password#
+	</select>
+	<!--根据用户名去登录-->
+	<select id="getLoginByName" parameterClass="manage.user.pojo.UserInfoBean" resultClass="manage.user.pojo.UserInfoBean">
+		select 
+			u.userId userId,u.username username,u.realname realname,u.modulestr modulestr,u.phoneNumber phoneNumber,
+			u.lastip lastip,u.lasteid lasteid, u.lasttime lasttime,u.areano areano,
+			case d.parentId
+				when 1 then d.domainName
+				when 0 then d.domainName
+			  	else (
+			  		select domainName from sys_domain where domainId = d.parentId
+			  	) 
+			end as areaName,
+			d.responsibleid responsibleid,
+			d.domainId domainId,u.password,u.groupId,u.groupName,d.maintenArea 
+	   	 from 
+	   	 	sys_user u,sys_domain d 
+	   	 where 
+	   	 	u.areano = d.domainCode AND username = #username# 
+	</select>
+	<update id="updateUserPwd" parameterClass="manage.user.pojo.UserInfoBean">
+		update sys_user set password = #password# where userId = #userId#
+	</update>
+	<update id="updateUserOffLinePwd" parameterClass="manage.user.pojo.UserInfoBean">
+		update sys_user set offLinePwd = #offLinePwd# where userId = #userId#
+	</update>
+	<select id="getUserCk" parameterClass="manage.user.pojo.UserInfoBean" resultClass="manage.user.pojo.UserCkBean">
+		select * from sys_userck where userid = #userId#
+	</select>
+	<update id="updateUserLog" parameterClass="manage.user.pojo.UserInfoBean" >
+		update sys_user SET lastip = #lastip#,lasttime = now() WHERE userId = #userId#
+	</update>
+	<select id="getUserPowers" parameterClass="manage.main.pojo.MenuInfoBean" resultClass="String">
+		select menucode FROM sys_user_powers WHERE 1 = 1
+		<dynamic prepend="">
+		    <isNotNull prepend=" AND " property="userId">userId = #userId#</isNotNull>
+		</dynamic>
+	</select>
+	<select id="getMenus" parameterClass="manage.main.pojo.MenuInfoBean" resultClass="String">
+	    select code as menucode from sys_menu
+	</select>
+	<select id="getPowerUrl" parameterClass="manage.main.pojo.MenuInfoBean" resultClass="manage.main.pojo.MenuInfoBean">
+		select code,url,leaf from sys_menu m,sys_user_powers u where m.code = u.menucode and url is not null and userId = #userId# 
+	</select>
+	<select id="getDomain" parameterClass="manage.domain.pojo.DomainBean" resultClass="manage.domain.pojo.DomainBean">
+		select * from sys_domain where domainCode like '$domainCode$%'
+	</select>
+	<!--插入短信验证码-->
+	<insert id="insertAuthCode" parameterClass="manage.user.pojo.SmsAuthCodeBean">
+        insert into sms_authCode(
+       		userName,applyTime,validTime,validLength,authCode,smsContent,status
+        )values(
+        	#userName#,now(),date_add(now(),interval 30 MINUTE),30,#authCode#,#smsContent#,0
+        )
+        <selectKey resultClass="int" keyProperty="id">
+			select last_insert_id() as id
+		</selectKey>
+    </insert>
+    <!--得到短信验证码-->
+	<select id="getAuthCode" parameterClass="manage.user.pojo.SmsAuthCodeBean" resultClass="manage.user.pojo.SmsAuthCodeBean">
+		select id,userName,applyTime,validTime,validLength,authCode,smsContent,status 
+		from sms_authCode WHERE 1 = 1 
+		<dynamic prepend="">
+		    <isNotNull prepend=" AND " property="userName">userName = #userName#</isNotNull>
+		    <isNotNull prepend=" AND " property="status">status = #status#</isNotNull>
+		</dynamic>
+	</select>
+	<!--更改短信验证码-->
+	<update id="updateAuthCode" parameterClass="manage.user.pojo.SmsAuthCodeBean" >
+        update sms_authCode t set t.status = 1 
+        <dynamic prepend=" where ">
+			<isNotEmpty prepend=" AND" property="userName">t.userName = #userName#</isNotEmpty>
+			<isNotEmpty prepend=" AND" property="status">t.status = #status#</isNotEmpty>
+       	</dynamic>
+    </update>
+</sqlMap>
+    

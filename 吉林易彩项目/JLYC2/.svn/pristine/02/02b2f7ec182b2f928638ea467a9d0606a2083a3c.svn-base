@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../../../css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="../../../css/app.css"/>
+		<link href="../../../css/mui.picker.css" rel="stylesheet" />
+		<link href="../../../css/mui.poppicker.css" rel="stylesheet" />
+		<script src="../../../js/mui.min.js"></script>
+		<script src="../../../js/jquery-1.12.3.js"></script>
+		<script src="../../../js/mui.picker.js"></script>
+		<script src="../../../js/mui.poppicker.js"></script>
+		<script src="../../../js/city.data.js"></script>
+		<script src="../../../js/city.data-3.js"></script>
+		<script src="../../../js/loadData.js"></script>
+		<script src="../../../js/changeCity.js"></script>
+		<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.2&amp;key=f256f09cbe5b5303b39bf4c43bf72c0b"></script>
+		<style>
+			.mui-content {
+				width: 100%;
+				padding-bottom: 150%;
+			}
+		</style>
+	</head>
+	<body  onLoad="mapInit()" >
+	    <header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">光交接箱新增</h1>
+		</header>
+		<footer id="foot_btn" class="mui-bar mui-bar-footer" style="position: fixed; bottom: 0; left: 0;right: 0;">
+			<table class="mui-button-row" style="width: 100%;margin-top: 2px;">
+				<!--<th><button id="okbtn" class="btn-primary">受理</button></th>
+				<th><button id="pass" class="btn-primary">审核通过</button></th>
+				<th><button id="unpass" class="btn-primary">审核不通过</button></th>-->
+				<th><button id="submit_btn" class="btn-primary" onclick="submitEqut()">提交</button></th>
+				<!--<th><button id="cancle_btn" class="btn-default" >返回</button></th>-->
+			</table>
+		</footer>
+
+		<form class="mui-content mui-input-group" >
+			<div id="iCenter"></div>
+			<div class="mui-input-row " style="width: 100%; ">
+				<label style="width: 30%; float: left;">名称:<span style="color:red">*</span></label>
+				<input type="hidden" id="int_id" value="" />
+				<input type="text" class="mui-input-clear"  id="zh_label" name="zh_label" value="" style="width: 60%; float: left;" placeholder="光交接箱名称"/>
+			</div>
+			<div class="mui-input-row " style="width: 100%; ">
+				<label style="width: 30%; float: left;">编号:</label>
+				<input type="text" class="mui-input-clear"  id="fibercab_no" name="fibercab_no" value="" style="width: 60%; float: left;" placeholder="光交接箱编号"/>
+			</div>
+			<!--<div class="mui-input-row">
+				<label style="width: 30%; float: left;">地市区县:</label>
+				<input type="text" class="mui-input-clear"  readonly="true" id="area" name="area" value="" style="width: 40%; float: left;" placeholder="地市区县"/>
+				<input type="hidden" id="city_id" value="" />
+				<input type="hidden" id="county_id" value="" />
+				<button id='showCityPicker3' style="width: 20%; float: right;"  type='button'>地市</button>
+			</div>-->
+			<div class="mui-input-row">
+			<label>所属地市:<span style="color:red">*</span></label>
+				<select id="city_id" class="mui-btn-block" onchange="changeCity(this)">
+					<option value="0">--请选择城市--</option>
+					<option value="431">长春市</option>
+					<option value="432">吉林市</option>
+					<option value="433">延边州</option>
+					<option value="434">四平市</option>
+					<option value="435">通化市</option>
+					<option value="436">白城市</option>
+					<option value="437">辽源市</option>
+					<option value="438">松原市</option>
+					<option value="439">白山市</option>
+				</select>
+			</div>			
+			<div class="mui-input-row">
+				<label>所属区县:<span style="color:red">*</span></label>
+				<select id="county_id" class="mui-btn-block" >
+					<option value="0">--请选择区县--</option>
+				</select>
+			</div>	
+			<div class="mui-input-row">
+				<label style="width: 30%; float: left;">设备状态:</label>
+				<select class="mui-btn-block" id ="states" style="width: 60%; float: left;">
+					<option value="0">工程</option>
+					<option value="1">在网</option>
+				</select>
+			</div>
+			<div class="mui-input-row">
+				<label style="width: 30%; float: left;">设备厂家:</label>
+				<input type="text" class="mui-input-clear"  id="vendor" name="vendor" value="" style="width: 60%; float: left;" placeholder="设备厂家"/>
+				</select>
+			</div>
+			<div class="mui-input-row">
+				<label style="width: 30%; float: left;">经纬度:<span style="color:red">*</span></label>
+				<input type="text" class="mui-input-clear" id="longitude" name="longitude" value="" style="width: 30%; float: left;" />
+				<input type="text" class="mui-input-clear" id="latitude" name="latitude" value="" style="width: 30%; float: left;" />
+				<img style="width: 10%;" src="../../../image/map/current.png"  onclick="getLonLat()"/>
+			</div>
+			<div class="mui-input-row " style="width: 100%; ">
+				<label style="width: 30%; float: left;">具体位置:</label>
+				<input type="text" class="mui-input-clear"  id="location" name="location" value="" style="width: 60%; float: left;" placeholder="具体位置"/>
+			</div>
+			<div class="mui-input-row " style="width: 100%; ">
+				<label style="width: 30%; float: left;">型号:</label>
+				<input type="text" class="mui-input-clear"  id="model" name="model" value="" style="width: 60%; float: left;" placeholder="型号"/>
+			</div>
+			<div class="mui-input-row">
+				<label style="width: 30%; float: left;">产权性质:</label>
+				<select id="ownership" class="mui-btn-block" style="width: 60%; float: left;">
+					<option value="0">自建</option>
+					<option value="1">合建</option>
+					<option value="2">共建</option>
+					<option value="3">租用</option>
+					<option value="4">购买</option>
+					<option value="5">置换</option>
+					<option value="6">其他</option>
+				</select>
+			</div>
+			<div class="mui-input-row">
+				<label style="width: 30%; float: left;">用途:</label>
+				<select id="purpose" class="mui-btn-block" style="width: 60%; float: left;">
+					<option value="0">自用</option>
+					<option value="1">出租</option>
+					<option value="2">共享</option>
+				</select>
+			</div>
+			<div class="mui-input-row " style="width: 100%; ">
+				<label style="width: 30%; float: left;">使用单位:</label>
+				<input type="text" class="mui-input-clear"  id="cab_user" name="cab_user" value="" style="width: 60%; float: left;" placeholder="使用单位"/>
+			</div>
+			<div class="mui-input-row " style="width: 100%; ">
+				<label style="width: 30%; float: left;">所有权人:</label>
+				<input type="text" class="mui-input-clear"  id="res_owner" name="res_owner" value="" style="width: 60%; float: left;" placeholder="所有权人"/>
+			</div>
+			<div class="mui-input-row " style="width: 100%; ">
+				<label style="width: 30%; float: left;">容量:</label>
+				<input type="text" class="mui-input-clear"  id="design_capacity" name="design_capacity" value="" style="width: 60%; float: left;" placeholder="容量"/>
+			</div>
+			<div class="mui-input-row">
+				<label>维护单位:<span style="color:red">*</span></label>
+				<select id="maintain_company" class="mui-btn-block">
+					<option value="0">请选择</option>
+				</select>
+			</div>
+			<div class="mui-input-row">
+				<label>维护区域:<span style="color:red">*</span></label>
+				<select id="maintain_area" class="mui-btn-block">
+					<option value="0">请选择</option>
+				</select>
+			</div>
+			<div class="mui-input-row " style="width: 100%; ">
+				<label style="width: 30%; float: left;">组长:<span style="color:red">*</span></label>
+				<input type="text" class="mui-input-clear"  id="maintain_manager" name="maintain_manager" value="" style="width: 60%; float: left;" placeholder="维护区域组长"/>
+			</div>
+			<div class="mui-input-row " style="width: 100%; ">
+				<label style="width: 30%; float: left;">组长电话:</label>
+				<input type="text" class="mui-input-clear"  id="maintain_manager_phone" name="maintain_manager_phone" value="" style="width: 60%; float: left;" placeholder="组长电话"/>
+			</div>
+			<div class="mui-input-row " style="width: 100%; ">
+				<label style="width: 30%; float: left;">备注:</label>
+				<input type="text" class="mui-input-clear"  id="remark" name="remark" value="" style="width: 60%; float: left;" placeholder="备注"/>
+			</div>
+			<div class="mui-input-row " style="width: 100%; ">
+				<label style="width: 30%; float: left;">变更原因:</label>
+				<input type="text" class="mui-input-clear"  id="change_reason" name="change_reason" value="" style="width: 60%; float: left;" placeholder="变更原因"/>
+			</div>
+		</form>
+		
+		
+		
+		
+		<script>
+		(function($, doc) {
+				$.init();
+				$.ready(function() {
+					var _getParam = function(obj, param) {
+						return obj[param] || '';
+					};
+					var cityPicker3 = new $.PopPicker({
+						layer: 3
+					});
+					cityPicker3.setData(cityData3);
+					var showCityPickerButton = doc.getElementById('showCityPicker3');
+					/*showCityPickerButton.addEventListener('tap', function(event) {
+						var address = "";
+						cityPicker3.show(function(items) {
+							address =_getParam(items[0], 'text') + "_" + _getParam(items[1], 'text') + "_" + _getParam(items[2], 'text');
+							//地市区县名称
+							document.getElementById("area").value =address;
+							//地市id
+							document.getElementById("city_id").value =_getParam(items[1], 'value');
+							//区县id
+							document.getElementById("county_id").value =_getParam(items[2], 'value');
+						});
+					}, false);*/
+				});
+			})(mui, document);
+			
+			var mapObj;
+			//初始化一个隐藏的页面信息
+			function mapInit(){
+				mapObj = new AMap.Map('iCenter');
+//				getAddByLonLat('117.1297700852','36.6634662002');
+			}
+			mui.init({
+				swipeBack:true
+			});
+			var LocString = String(window.document.location.href); 
+			mui.plusReady(function(){
+//				equtInit();
+				getMaintainCompanyData();
+				getMaintainAreaData();
+			})
+			
+			//打开地图获取经纬度后返回的参数
+			window.addEventListener('equtAdd',function(event){
+			  //获得事件参数
+			  var longitude = event.detail.longitude;
+			  var latitude = event.detail.latitude;
+			  document.getElementById("longitude").value=longitude;
+			  document.getElementById("latitude").value=latitude;
+			  getAddByLonLat(longitude,latitude);
+			});
+			
+			/**
+			 * 打开地图获取经纬度数据
+			 */
+			function getLonLat(){
+				mui.openWindow({
+					url: "../../main/getLatLon.html",
+					id: "getLonLat",
+					extras: {
+						resType:"equt",
+						operate:"add"
+					}
+				});
+			}
+
+			//根据当前经纬度获取地址信息
+			function getAddByLonLat(lon,lat) {
+    			var lnglatXY = new AMap.LngLat(lon,lat);
+    			mapObj.plugin(["AMap.Geocoder"], function() {       
+        			MGeocoder = new AMap.Geocoder({
+            			radius: 1000,
+            			extensions: "all"
+        			});
+        		AMap.event.addListener(MGeocoder, "complete", geocoder_CallBack2);
+       			MGeocoder.getAddress(lnglatXY);
+    			});
+			}
+			
+			function geocoder_CallBack2(data){
+				var address;
+    			address = data.regeocode.formattedAddress;
+    			document.getElementById("location").value=address;
+			}
+			
+			//得到传递参数
+			function getQueryStr(str){
+				var rs = new RegExp("(^|)" + str + "=([^&]*)(&|$)", "gi").exec(LocString), tmp; 
+				if (tmp = rs) { 
+					return tmp[2]; 
+				} 
+				return ""; 
+			}
+			
+			/**
+			 * 新增光交接箱数据
+			 */
+			function submitEqut(){
+				var UID = plus.storage.getItem("uid");//获取缓存记录
+				var logingUser = plus.storage.getItem("logingUser");//当前登录用户
+				var areaName = plus.storage.getItem("areaName");//得到权限控制地市
+				var url = plus.storage.getItem("url")+"/pdaEqutJiLin!insertEqut.interface";
+				mui.ajax(url, {
+					type: 'post',
+					dataType: 'json',
+					timeout: 10000 * 60,
+					data: {
+						jsonRequest:"{"
+									+"'zh_label':'"+$("#zh_label").val()+"',"
+									+"'fibercab_no':'"+$("#fibercab_no").val()+"',"
+									+"'city_id':'"+$("#city_id").val()+"',"
+									+"'county_id':'"+$("#county_id").val()+"',"
+									+"'states':'"+$("#states").val()+"',"
+									+"'vendor':'"+$("#vendor").val()+"',"
+									+"'location':'"+$("#location").val()+"',"
+									+"'longitude':'"+$("#longitude").val()+"',"
+									+"'latitude':'"+$("#latitude").val()+"',"
+									+"'model':'"+$("#model").val()+"',"
+									+"'ownership':'"+$("#ownership").val()+"',"
+									+"'purpose':'"+$("#purpose").val()+"',"
+									+"'cab_user':'"+$("#cab_user").val()+"',"
+									+"'res_owner':'"+$("#res_owner").val()+"',"
+									+"'design_capacity':'"+$("#design_capacity").val()+"',"
+									+"'maintain_company':'"+$("#maintain_company").val()+"',"
+									+"'maintain_area':'"+$("#maintain_area").val()+"',"
+									+"'maintain_manager':'"+$("#maintain_manager").val()+"',"
+									+"'maintain_manager_phone':'"+$("#maintain_manager_phone").val()+"',"
+									+"'remark':'"+$("#remark").val()+"',"
+									+"'change_reason':'"+$("#change_reason").val()+"'"
+									+"}",
+						UID:UID,
+						longiner:logingUser,
+						areaName:areaName
+					},
+					success: function(response) {
+						plus.nativeUI.closeWaiting();
+						var result = JSON.stringify(response);
+						var data = JSON.parse(result);
+						var result = data.result;
+						if(result =='0'){
+							var btnArray = ['继续', '返回'];
+							mui.confirm('新增成功，是否返回光交接箱列表?', '成功', btnArray, function(e) {
+								if (e.index == 1) {
+									var infos = JSON.parse(data.info);
+									mui.openWindow("equtList.html");
+								}
+							});
+							
+						}else{
+							mui.alert(data.info);
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						plus.nativeUI.closeWaiting();
+					}
+			
+				});
+			}
+			
+			
+		</script>
+	</body>
+</html>

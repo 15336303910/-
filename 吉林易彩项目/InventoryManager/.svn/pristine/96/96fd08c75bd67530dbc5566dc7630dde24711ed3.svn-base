@@ -1,0 +1,6 @@
+
+
+function detailPoint(){
+	
+	alert("ddd");
+}

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>    
+	<!-- 
+		struts-base文件继承了struts-default,所以struts-base文件就具备了struts-default功能，
+		<default-interceptor-ref name="matStack" />是把自定义的分页拦截器，登陆拦截器变成struts-base的默认拦截器
+		当其他业务模块的struts2文件只需继承struts-base文件，分页拦截器，登陆拦截器的功能就自动加载其模块里了。
+		例：struts-login.xml的<package name="login" extends="struts-base">
+	 -->
+     
+     <package name="struts-base" extends="struts-default">
+		 <interceptors>
+		 	<!-- 分页拦截器 -->
+			<interceptor name="turnPageInter" class="base.interceptor.TurnPageInterceptor" >
+				<param name="logService"></param>
+			</interceptor>
+			<!-- 登陆拦截器
+			<interceptor name="operateLog" class="base.interceptor.LogInterceptor" />-->
+			<interceptor-stack name="matStack">
+				<interceptor-ref name="turnPageInter" />
+				<!-- <interceptor-ref name="operateLog" /> -->
+				<interceptor-ref name="defaultStack" />
+			</interceptor-stack> 
+		</interceptors>
+		<!--  
+			default-interceptor-ref 和 interceptor-ref 节点有几点不同。
+			在第一篇文章中，我们看到在action被调用之前必须通过一系列的拦截器，而这两个节点就是用来配置拦截器组的。
+			default-interceptor-ref 节点为该package提供了默认的拦截器组。当在action节点中提供 interceptor-ref节点时 ，
+			它就会覆盖默认的拦截器(interceptor-ref 节点能够和单独一个拦截器相关联，或者跟一个拦截器组相关联)，
+			在action节点中可以存在多个interceptor-ref节点，处理拦截器组的顺序会和该节点列出的顺序一致。
+		-->
+		<default-interceptor-ref name="matStack" />
+	</package>
+   
+</struts>

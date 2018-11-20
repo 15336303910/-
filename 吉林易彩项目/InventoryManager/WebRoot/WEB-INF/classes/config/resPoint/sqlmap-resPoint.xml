@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="resPoint">
+    
+    <!-- 得到无线网络资源点 -->
+     <select id="getWirelessGrid" parameterClass="manage.resPoint.pojo.WirelessPointPojo" resultClass="manage.resPoint.pojo.WirelessPointPojo">
+         select t.wirelessId,t.wirelessNo,
+         t.wirelessName,t.longitude,t.latitude,t.wirelessArea,t.wirelessCounty,t.propertyNature,
+         t.propertyComp,t.dataQualitier,t.maintainer,t.deleteflag,t.lastUpTime,t.createTime,
+         t.creater,t.remark,t.resNum,t.resMotion,t.synthBusiness,t.building
+         from wireless_respoint t where t.deleteflag ='0'
+         <dynamic prepend="">
+           <isNotEmpty prepend=" AND " property="wirelessName"> <![CDATA[ wirelessName like #wirelessName#]]></isNotEmpty>
+           <isNotEmpty prepend=" AND " property="propertyNature"> t.propertyNature=#propertyNature#</isNotEmpty>
+           <isNotEmpty prepend=" AND " property="propertyComp"> t.propertyComp=#propertyComp#</isNotEmpty>
+           <isNotEmpty prepend=" AND " property="dataQualitier"> t.dataQualitier=#dataQualitier#</isNotEmpty>
+           <isNotEmpty prepend=" AND " property="maintainer"> t.maintainer=#maintainer#</isNotEmpty>
+           <isNotEmpty prepend=" AND " property="createTime"> t.createTime=#createTime#</isNotEmpty>
+           <isNotEmpty prepend=" AND " property="creater"> t.creater=#creater#</isNotEmpty>
+           <isNotEmpty prepend=" AND " property="remark"> t.remark like '%$remark$%'</isNotEmpty>
+           <isNotEmpty prepend=" AND " property="wirelessArea"> t.wirelessArea like '%$wirelessArea$%'</isNotEmpty>
+		   <isNotEmpty prepend=" AND " property="lats"><![CDATA[ latitude >= #lats# ]]></isNotEmpty>
+		   <isNotEmpty prepend=" AND " property="late"><![CDATA[ latitude <= #late# ]]></isNotEmpty>
+		   <isNotEmpty prepend=" AND " property="lons"><![CDATA[ longitude >= #lons# ]]></isNotEmpty>
+		   <isNotEmpty prepend=" AND " property="lone"><![CDATA[ longitude <= #lone# ]]></isNotEmpty>
+        </dynamic>
+     	<dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	 	</dynamic>
+     </select>
+     
+     <!-- 网络资源点列表 -->
+      <select id="getWirelessList" parameterClass="manage.resPoint.pojo.WirelessPointPojo" resultClass="manage.resPoint.pojo.WirelessPointPojo">
+         select t.wirelessId,t.wirelessNo,
+         t.wirelessName,t.longitude,t.latitude,t.wirelessArea,t.wirelessCounty,t.propertyNature,
+         t.propertyComp,t.dataQualitier,t.maintainer,t.deleteflag,t.lastUpTime,t.createTime,
+         t.creater,t.remark,t.resNum,t.resMotion,t.synthBusiness,t.building
+         from wireless_respoint t where t.deleteflag ='0'
+         <dynamic prepend="">
+           <isNotNull prepend=" AND " property="wirelessId"> t.wirelessId = #wirelessId#</isNotNull>
+           <isNotEmpty prepend=" AND " property="wirelessName"> <![CDATA[ wirelessName like #wirelessName#]]></isNotEmpty>
+           <isNotEmpty prepend=" AND " property="propertyNature"> t.propertyNature=#propertyNature#</isNotEmpty>
+           <isNotEmpty prepend=" AND " property="propertyComp"> t.propertyComp=#propertyComp#</isNotEmpty>
+           <isNotEmpty prepend=" AND " property="dataQualitier"> t.dataQualitier=#dataQualitier#</isNotEmpty>
+           <isNotEmpty prepend=" AND " property="maintainer"> t.maintainer=#maintainer#</isNotEmpty>
+           <isNotEmpty prepend=" AND " property="createTime"> t.createTime=#createTime#</isNotEmpty>
+           <isNotEmpty prepend=" AND " property="creater"> t.creater=#creater#</isNotEmpty>
+           <isNotEmpty prepend=" AND " property="wirelessArea"> t.wirelessArea like '%$wirelessArea$%'</isNotEmpty>
+           <isNotEmpty prepend=" AND " property="remark"> t.remark like '%$remark$%'</isNotEmpty>
+		   <isNotEmpty prepend=" AND " property="lats"><![CDATA[ latitude >= #lats# ]]></isNotEmpty>
+		   <isNotEmpty prepend=" AND " property="late"><![CDATA[ latitude <= #late# ]]></isNotEmpty>
+		   <isNotEmpty prepend=" AND " property="lons"><![CDATA[ longitude >= #lons# ]]></isNotEmpty>
+		   <isNotEmpty prepend=" AND " property="lone"><![CDATA[ longitude <= #lone# ]]></isNotEmpty>
+        </dynamic>
+     </select>
+     
+      
+      <!-- 得到资源点实体类 -->
+      <select id="getWirelessObj" parameterClass="manage.resPoint.pojo.WirelessPointPojo" resultClass="manage.resPoint.pojo.WirelessPointPojo">
+         select t.wirelessId,t.wirelessNo,
+         t.wirelessName,t.longitude,t.latitude,t.wirelessArea,t.wirelessCounty,t.propertyNature,
+         t.propertyComp,t.dataQualitier,t.maintainer,t.deleteflag,t.lastUpTime,t.createTime,
+         t.creater,t.remark,t.resNum,t.resMotion,t.synthBusiness,t.building
+         from wireless_respoint t where t.deleteflag ='0'
+         <dynamic prepend="">
+           <isNotNull prepend=" AND " property="wirelessId"> t.wirelessId = #wirelessId#</isNotNull>
+           <isNotEmpty prepend=" AND " property="createTime"> t.resNum=#resNum#</isNotEmpty>
+        </dynamic>
+     </select>
+     
+      
+      <!-- 网络资源点数 -->
+       <select id="getWirelessCount" parameterClass="manage.resPoint.pojo.WirelessPointPojo" resultClass="Integer">
+         select count(1)
+         from wireless_respoint t where t.deleteflag ='0'
+         <dynamic prepend="">
+           <isNotNull prepend=" AND " property="wirelessId"> t.wirelessId = #wirelessId#</isNotNull>
+           <isNotEmpty prepend=" AND " property="wirelessName"> <![CDATA[ wirelessName like #wirelessName#]]></isNotEmpty>
+           <isNotEmpty prepend=" AND " property="propertyNature"> t.propertyNature=#propertyNature#</isNotEmpty>
+           <isNotEmpty prepend=" AND " property="propertyComp"> t.propertyComp=#propertyComp#</isNotEmpty>
+           <isNotEmpty prepend=" AND " property="dataQualitier"> t.dataQualitier=#dataQualitier#</isNotEmpty>
+           <isNotEmpty prepend=" AND " property="maintainer"> t.maintainer=#maintainer#</isNotEmpty>
+           <isNotEmpty prepend=" AND " property="createTime"> t.createTime=#createTime#</isNotEmpty>
+           <isNotEmpty prepend=" AND " property="creater"> t.creater=#creater#</isNotEmpty>
+           <isNotEmpty prepend=" AND " property="remark"> t.remark like '%$remark$%'</isNotEmpty>
+           <isNotEmpty prepend=" AND " property="wirelessArea"> t.wirelessArea like '%$wirelessArea$%'</isNotEmpty>
+		   <isNotEmpty prepend=" AND " property="lats"><![CDATA[ latitude >= #lats# ]]></isNotEmpty>
+		   <isNotEmpty prepend=" AND " property="late"><![CDATA[ latitude <= #late# ]]></isNotEmpty>
+		   <isNotEmpty prepend=" AND " property="lons"><![CDATA[ longitude >= #lons# ]]></isNotEmpty>
+		   <isNotEmpty prepend=" AND " property="lone"><![CDATA[ longitude <= #lone# ]]></isNotEmpty>
+        </dynamic>
+     </select>
+     
+       <!-- 根据IDS得到相应数据 -->
+       <select id="getWirelessByids" parameterClass="java.lang.String" resultClass="manage.resPoint.pojo.WirelessPointPojo">
+         select t.wirelessId,t.wirelessNo,
+         t.wirelessName,t.longitude,t.latitude,t.wirelessArea,t.wirelessCounty,t.propertyNature,
+         t.propertyComp,t.dataQualitier,t.maintainer,t.deleteflag,t.lastUpTime,t.createTime,
+         t.creater,t.remark,t.resNum,t.resMotion,t.synthBusiness,t.building
+        from wireless_respoint t where t.deleteflag ='0' and wirelessId in ($ids:String$)
+    </select>
+     
+       <!-- 修改无线网络资源弄点 -->
+       <update id="updateWireless" parameterClass="manage.resPoint.pojo.WirelessPointPojo" >
+        update wireless_respoint t set lastUpTime = now(),resMotion=null
+        <dynamic prepend=" , ">
+            <isNotEmpty prepend=" , " property="wirelessNo">t.wirelessNo=#wirelessNo#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="wirelessName"> t.wirelessName =#wirelessName#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="wirelessCounty"> t.wirelessCounty =#wirelessCounty#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="wirelessArea">t.wirelessArea = #wirelessArea#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="longitude">t.longitude=#longitude#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="latitude">t.latitude=#latitude#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="propertyNature">t.propertyNature=#propertyNature#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="propertyComp">t.propertyComp=#propertyComp#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="deleteflag">t.deleteflag=#deleteflag#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="dataQualitier">t.dataQualitier=#dataQualitier#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="maintainer">t.maintainer=#maintainer#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="building">t.building=#building#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="synthBusiness">t.synthBusiness=#synthBusiness#</isNotEmpty>
+        </dynamic>
+        <dynamic prepend=" where ">
+            <isNotEmpty prepend=" AND" property="wirelessId">t.wirelessId = #wirelessId#</isNotEmpty>
+        </dynamic>
+     </update>
+     
+       <!-- 增加网络资源点 -->
+       <insert id="addWireless" parameterClass="manage.resPoint.pojo.WirelessPointPojo">
+        INSERT into wireless_respoint(
+       	wirelessNo, wirelessName,longitude,latitude,wirelessArea,wirelessCounty,propertyNature,
+         propertyComp,dataQualitier,maintainer,deleteflag,createTime,synthBusiness,
+         creater,remark,building
+        )
+        values
+        (
+        #wirelessNo#,#wirelessName#,#longitude#,#latitude#,#wirelessArea#,#wirelessCounty#,#propertyNature#,
+         #propertyComp#,#dataQualitier#,#maintainer#,'0',now(),#synthBusiness#,
+         #creater#,#remark#,#building#
+        )
+        <selectKey resultClass="int" keyProperty="wirelessId">
+			SELECT LAST_INSERT_ID() AS wirelessId
+		</selectKey>
+    </insert>
+      
+     
+</sqlMap>

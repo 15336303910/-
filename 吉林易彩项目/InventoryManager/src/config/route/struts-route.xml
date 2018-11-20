@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <package name="route" extends="json-default,struts-base">
+     	<action name="route" class="manage.route.web.RouteAction">
+            <!-- 条件查询,分页显示地区 -->
+	    	<result name="searchRoute" type="json">
+	    	    <param name="root">routeGrid</param>
+	    	</result>
+	    	<result name="searchCable" type="json">
+	    	    <param name="root">cableGrid</param>
+	    	</result>
+	    	<!-- Ajax检查光缆名是否存在 -->
+	    	<result name="verifyRoute" type="json">
+	    	    <param name="includeProperties">success,verifyMsg</param>
+	    	</result>
+	    	<!-- 添加光缆 -->
+	    	<result name="addRoute" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+	    	<!-- 合并光缆 -->
+	    	<result name="mergeRoute" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+	    	<!--  修改光缆 -->
+	    	<result name="updateRoute" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+	    	<!-- 添加光缆段 -->
+	    	<result name="addCable" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+	    	
+	    	<!-- Ajax检查光缆段名是否存在 -->
+	    	<result name="verifyCable" type="json">
+	    	    <param name="includeProperties">success,verifyMsg</param>
+	    	</result>
+	    	<!-- 合并光缆段 -->
+	    	<result name="mergeCable" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+	    	<!--  修改光缆段 -->
+	    	<result name="updateCable" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+	    	<!-- 光缆段纤芯列表界面-->
+	    	<result name="oppoFiberGrid" type="dispatcher">/pages/route/oppoFiberGrid.jsp</result>
+	    	
+	    	<result name="searchOppoFiber" type="json">
+	    	    <param name="root">oppoFiberGrid</param>
+	    	</result>
+	    	<!--  修改光缆段前加载用户信息 -->
+	    	<result name="editcable" type="json">
+	    	    <param name="includeProperties">success,updateCable.*</param>
+	    	</result>
+	    	<result name="vertifyCalToRoute" type="json">
+	    	    <param name="includeProperties">success</param>
+	    	</result>
+	    	<!-- 解绑 -->
+	    	<result name="removeCable" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+	    	<!-- 整合 -->
+	    	<result name="addRouteByCable" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+	    	<result name="jbCableList" type="json">
+	    	    <param name="root">cableGrid</param>
+	    	</result>
+	    	<result name="cableRoutelist" type="json">
+	    	    <param name="root">data</param>
+	    	</result>
+	    	<result name="tubeGrid" type="json">
+	    	    <param name="root">tubeInfoBean</param>
+	    	</result>
+	    	<result name="plsGrid" type="json">
+	    	    <param name="root">polelineSegmentInfoBean</param>
+	    	</result>
+	    	<!-- 添加光缆段路由 -->
+	    	<result name="addCR" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+	    	<result name="modifyCR" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+	    	<result name="loadCR" type="json">
+	    	    <param name="includeProperties">success,cableRouteInfoBean.*</param>
+	    	</result>
+	    	<result name="deleteCR" type="json">
+	    	    <param name="includeProperties">success</param>
+	    	</result>
+	    	<!-- 去重管孔列表 -->
+	    	<result name="cablerepeatlist" type="json">
+	    		<param name="root">tubeInfoBean</param>
+	    	</result>
+	    	<!-- 点击管孔进入去重缆段列表页面 -->
+	    	<result name="cablelist1" type="json">
+	    		<param name="root">newCable</param>
+	    	</result>
+	    	<!-- 管孔承载的缆段是否有所属光缆 -->
+	    	<result name="vetifyTubeRoute" type="json">
+	    	    <param name="includeProperties">success</param>
+	    	</result>
+	    	<!-- 光缆去重页面 -->
+	    	<result name="routecombine" type="json">
+	    	    <param name="includeProperties">success,newRoute.*,updateRoute.*</param>
+	    	</result>
+	    	<!-- 缆段去重页面 -->
+	    	<result name="cablecombine" type="json">
+	    	    <param name="includeProperties">success,cable1.*,cable2.*</param>
+	    	</result>
+	    	<result name="qccable" type="json">
+	    		<param name="root">success</param>
+	    	</result>
+	    	<result name="qcroute" type="json">
+	    		<param name="root">success</param>
+	    	</result>
+	    	<!-- 批量维护 -->
+	    	<result name="butchRoute" type="json">
+	    		<param name="contentType">text/html</param>
+	    	    <param name="includeProperties">success</param>
+	    	</result>
+	    	<result name="exportsuccess">/export.jsp?filename=${filepath}</result>
+	    	<!-- tengxy显示分线盒 -->
+	    	 <result name="fiberGrid" type="json">
+     			<param name="root">fiberGrid</param>
+     		</result>
+     		 <result name="success" type="json">
+     			<param name="root">success</param>
+     		</result>
+        </action>
+        <action name="pdaRoute" class="interfaces.pdainterface.route.action.PDARoute">
+        	<result name="*" type="json">
+	    	    <param name="root">jsonResponse</param>
+	    	</result>
+        </action>
+    </package>
+</struts>

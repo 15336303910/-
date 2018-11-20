@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="resourceImage">
+	<!-- 获取图片信息 -->
+	<select id="getResourceImage" parameterClass="manage.images.pojo.ResourceImage" resultClass="manage.images.pojo.ResourceImage">
+		select * from resource_images where 1=1 
+	<dynamic prepend=" AND ">
+	    <isNotEmpty prepend="AND" property="Id">(Id=#Id#)</isNotEmpty>
+	    <isNotEmpty prepend="AND" property="type">(type=#type#)</isNotEmpty>
+	    <isNotEmpty prepend="AND" property="resourceId">(resourceId=#resourceId#)</isNotEmpty>
+	    <isNotEmpty prepend="AND" property="ImageName">(ImageName like concat('%',#ImageName#,'%'))</isNotEmpty>
+	    <isNotEmpty prepend="AND" property="ImagePath">(ImagePath=#ImagePath#)</isNotEmpty>
+	    <isNotEmpty prepend="AND" property="resNum">(resNum = #resNum#)</isNotEmpty>
+	</dynamic>
+	</select>
+	
+	<!-- 插入图片信息 -->
+	<insert id="insertResImage" parameterClass="manage.images.pojo.ResourceImage">
+	    insert into resource_images(
+	    	type,resourceId,ImageName,ImagePath,resNum,createTime
+	    ) values (
+	    	#type#,#resourceId#,#ImageName#,#ImagePath#,#resNum#,now()
+	    )
+	    <selectKey resultClass="int" keyProperty="Id" > 
+			SELECT LAST_INSERT_ID() AS Id
+		</selectKey>
+	</insert>
+</sqlMap>
+    

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="versionControl">
+    
+    <!-- 得到最新的版本信息 -->
+    <select id="getNewestVersion" parameterClass="manage.version.pojo.VersionControl" resultClass="manage.version.pojo.VersionControl">
+        select * from version_control where id =(
+			select maxId from max_version)
+    </select>
+    
+	<!-- 获取图片信息 -->
+	<select id="getVersion" parameterClass="manage.version.pojo.VersionControl" resultClass="manage.version.pojo.VersionControl">
+		select * from version_control where 1=1 
+	<dynamic prepend=" AND ">
+	    <isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+	    <isNotEmpty prepend="AND" property="version_num">(version_num=#version_num#)</isNotEmpty>
+	    <isNotEmpty prepend="AND" property="update_time">(resourceId=#update_time#)</isNotEmpty>
+	    <isNotEmpty prepend="AND" property="version_name">(version_name=#version_name#)</isNotEmpty>
+	    <isNotEmpty prepend="AND" property="version_path">(version_path=#version_path#)</isNotEmpty>
+	    <isNotEmpty prepend="AND" property="version_comment">(version_comment like concat('%',#version_comment#,'%'))</isNotEmpty>
+	</dynamic>
+	</select>
+	
+	<!-- 插入图片信息 -->
+	<insert id="insertVersion" parameterClass="manage.version.pojo.VersionControl">
+	    insert into version_control(
+	    	version_num,update_time,version_name,version_path,version_comment
+	    ) values (
+	    	#version_num#,#update_time#,#version_name#,#version_path#,#version_comment#
+	    )
+	    <selectKey resultClass="int" keyProperty="id" > 
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+	</insert>
+</sqlMap>
+    

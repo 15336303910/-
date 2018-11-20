@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="respos">
+    <!-- 得到表格目录 -->
+    <select id="getResposGrid" parameterClass="manage.V2.beijing.resource.pojo.ZSLPOSInfoBean" resultClass="manage.V2.beijing.resource.pojo.ZSLPOSInfoBean">
+       	select t.id,t.posName,t.belongType,t.belongName,t.factory,t.factoryName,
+         t.fenGuangBi,t.labelState,t.installPosition,t.dataQualityPrincipal,
+         t.parties,t.deleteFlag,t.createTime,t.updateTime,t.creater,t.remark,t.maintainArea
+        from resource_pos t where t.deleteflag ='0'
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="id">t.id = #id#</isNotNull>
+            <isNotEmpty prepend=" AND " property="posName">t.posName like '%$posName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="belongType"> t.belongType like '%$belongType$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="belongName">t.belongName=#belongName#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="factory">t.factory=#factory#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="factoryName">t.factoryName = #factoryName#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="fenGuangBi">t.fenGuangBi=#fenGuangBi#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="labelState"> t.labelState=#labelState#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="installPosition">t.installPosition=#installPosition#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dataQualityPrincipal">t.dataQualityPrincipal=#dataQualityPrincipal#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="parties">t.parties=#parties#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="deleteFlag">t.deleteFlag=#deleteFlag#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="createTime">t.createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="updateTime">t.updateTime=#updateTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="creater">t.creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintainArea">t.maintainArea=#maintainArea#</isNotEmpty>
+        </dynamic>
+        <dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+    </select>
+    
+    <!-- 得到总数 -->
+    <select id="getResposCount" parameterClass="manage.V2.beijing.resource.pojo.ZSLPOSInfoBean" resultClass="Integer">
+        select count(*) from resource_pos t where t.deleteflag ='0'
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="id">t.id = #id#</isNotNull>
+            <isNotEmpty prepend=" AND " property="posName">t.posName like '%$posName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="belongType"> t.belongType like '%$belongType$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="belongName">t.belongName=#belongName#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="factory">t.factory=#factory#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="factoryName">t.factoryName = #factoryName#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="fenGuangBi">t.fenGuangBi=#fenGuangBi#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="labelState"> t.labelState=#labelState#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="installPosition">t.installPosition=#installPosition#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dataQualityPrincipal">t.dataQualityPrincipal=#dataQualityPrincipal#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="parties">t.parties=#parties#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="deleteFlag">t.deleteFlag=#deleteFlag#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="createTime">t.createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="updateTime">t.updateTime=#updateTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="creater">t.creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintainArea">t.maintainArea=#maintainArea#</isNotEmpty>
+        </dynamic>
+    </select>
+    
+    
+    <!-- 得到分光器 -->
+    <select id="getResPos" parameterClass="manage.V2.beijing.resource.pojo.ZSLPOSInfoBean" resultClass="manage.V2.beijing.resource.pojo.ZSLPOSInfoBean">
+          select t.id,t.posName,t.belongType,t.belongName,t.factory,t.factoryName,
+         t.fenGuangBi,t.labelState,t.installPosition,t.dataQualityPrincipal,
+         t.parties,t.deleteFlag,t.createTime,t.updateTime,t.creater,t.remark,t.maintainArea
+        from resource_pos t where t.deleteflag ='0'
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="id">t.id = #id#</isNotNull>
+            <isNotEmpty prepend=" AND " property="posName">t.posName like '%$posName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="belongType"> t.belongType like '%$belongType$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="belongName">t.belongName=#belongName#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="factory">t.factory=#factory#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="factoryName">t.factoryName = #factoryName#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="fenGuangBi">t.fenGuangBi=#fenGuangBi#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="labelState"> t.labelState=#labelState#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="installPosition">t.installPosition=#installPosition#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dataQualityPrincipal">t.dataQualityPrincipal=#dataQualityPrincipal#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="parties">t.parties=#parties#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="deleteFlag">t.deleteFlag=#deleteFlag#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="createTime">t.createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="updateTime">t.updateTime=#updateTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="creater">t.creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintainArea">t.maintainArea=#maintainArea#</isNotEmpty>
+        </dynamic>
+    </select>
+     <!-- 修改分光器 -->
+     <update id="updateRespos" parameterClass="manage.V2.beijing.resource.pojo.ZSLPOSInfoBean" >
+        update resource_pos t set 
+        <dynamic prepend=" ">
+            <isNotEmpty prepend=" , " property="posName">t.posName=#posName#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="belongType"> t.belongType =#belongType#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="belongName">t.belongName=#belongName#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="factory">t.factory=#factory#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="factoryName">t.factoryName = #factoryName#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="fenGuangBi">t.fenGuangBi=#fenGuangBi#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="labelState">t.labelState=#labelState#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="installPosition"> t.installPosition=#installPosition#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="dataQualityPrincipal">t.dataQualityPrincipal=#dataQualityPrincipal#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="parties">t.parties=#parties#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="deleteFlag">t.deleteFlag=#deleteFlag#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="createTime">t.createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="updateTime">t.updateTime=#updateTime#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="creater">t.creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="remark">t.remark=#remark#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="maintainArea">t.maintainArea=#maintainArea#</isNotEmpty>
+        </dynamic>
+        <dynamic prepend=" where ">
+            <isNotEmpty prepend=" AND" property="id">t.id = #id#</isNotEmpty>
+        </dynamic>
+     </update>
+     
+     
+     <!-- 添加分光器-->
+    <insert id="insertResPos" parameterClass="manage.V2.beijing.resource.pojo.ZSLPOSInfoBean">
+        INSERT into resource_pos(
+       	posName,belongType,belongName,factory,factoryName,fenGuangBi,labelState,installPosition,
+        dataQualityPrincipal,parties,deleteFlag,createTime,updateTime,creater,remark,maintainArea
+        )
+        values
+        (
+        #posName#,#belongType#,#belongName#,#factory#,#factoryName#,#fenGuangBi#,#labelState#,#installPosition#,
+        #dataQualityPrincipal#,#parties#,'0',#createTime#,#updateTime#,#creater#,#remark#,#maintainArea#
+        )
+        <selectKey resultClass="int" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+    </insert>
+    
+    <!-- 批量删除分光器数据 -->
+    <delete id="delResPos" parameterClass="java.lang.String">
+        delete from resource_pos where id in ($ids:String$)
+    </delete>
+</sqlMap>

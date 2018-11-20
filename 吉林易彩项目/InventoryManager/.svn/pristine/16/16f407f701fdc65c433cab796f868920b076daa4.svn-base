@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="buriedPart">
+    <!-- 得到表格目录 -->
+    <select id="getBuriedPartGrid" parameterClass="manage.buriedPart.pojo.BuriedPartObj" resultClass="manage.buriedPart.pojo.BuriedPartObj">
+        select t.id,t.buriedId,
+        (select buriedName from buriedinfo where buriedId = t.buriedId ) as buriedStr,
+        t.buriedPartName,t.buriedPartArea,t.buriedPartLength,t.buriedPartStart,
+        t.buriedPartEnd,t.buriedPartOptical,
+        t.buriedPartOpticalId,t.propertyRight,
+        t.buriedPartStartId,t.buriedPartEndId,t.lastUpTime,
+        (select text from dicview where enName='propertyNature' and value= t.propertyRight) as propertyRightStr,
+        t.propertyDept,
+        (select text from dicview where enName='propertyComp' and value= t.propertyDept) as propertyDeptStr,
+        t.dataQualitier,t.maintainer,t.deleteflag,t.createTime,t.creater,t.remark,t.resNum,t.maintainLength
+        from buriedpartinfo t where t.deleteflag ='0'
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="id">t.id = #id#</isNotNull>
+            <isNotNull prepend=" AND " property="buriedId">t.buriedId = #buriedId#</isNotNull>
+            <isNotEmpty prepend=" AND " property="buriedPartName"><![CDATA[ buriedPartName like #buriedPartName#]]></isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedPartArea">t.buriedPartArea like '%$buriedPartArea$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedPartLength">t.buriedPartLength=#buriedPartLength#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedPartStart">t.buriedPartStart=#buriedPartStart#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedPartStartId">t.buriedPartStartId=#buriedPartStartId#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedPartEndId">t.buriedPartEndId=#buriedPartEndId#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedPartEnd">t.buriedPartEnd=#buriedPartEnd#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedPartOptical">t.buriedPartOptical=#buriedPartOptical#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedPartOpticalId">t.buriedPartOpticalId like '%$buriedPartOpticalId$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="propertyRight">t.propertyRight=#propertyRight#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="propertyDept">t.propertyDept=#propertyDept#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dataQualitier">t.dataQualitier=#dataQualitier#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintainer">t.maintainer=#maintainer#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="createTime">t.createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="creater">t.creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="remark">t.remark like '%$remark$%'</isNotEmpty>
+            <isNotEmpty prepend="AND" property="extendsSql">($extendsSql$)</isNotEmpty>
+        </dynamic>
+        <dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+    </select>
+    
+    <!-- 得到总数 -->
+    <select id="getBuriedPartCount" parameterClass="manage.buriedPart.pojo.BuriedPartObj" resultClass="Integer">
+        select count(*) from buriedpartinfo where deleteflag ='0'
+       <dynamic prepend="">
+            <isNotNull prepend=" AND " property="buriedId">buriedId = #buriedId#</isNotNull>
+            <isNotEmpty prepend=" AND " property="buriedPartName">buriedPartName like '%$buriedPartName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedPartArea">buriedPartArea like '%$buriedPartArea$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedPartLength">buriedPartLength=#buriedPartLength#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedPartStart">buriedPartStart=#buriedPartStart#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedPartEnd">buriedPartEnd=#buriedPartEnd#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedPartStartId">buriedPartStartId=#buriedPartStartId#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedPartEndId">buriedPartEndId=#buriedPartEndId#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedPartOptical">buriedPartOptical=#buriedPartOptical#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedPartOpticalId">buriedPartOpticalId like '%$buriedPartOpticalId$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="propertyRight">propertyRight=#propertyRight#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="propertyDept">propertyDept=#propertyDept#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dataQualitier">dataQualitier=#dataQualitier#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintainer">maintainer=#maintainer#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="createTime">createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="creater">creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="remark">remark like '%$remark$%'</isNotEmpty>
+        </dynamic>
+    </select>
+    
+    <!-- 得到所有的直埋段 -->
+    <select id="getBuriedPart" parameterClass="manage.buriedPart.pojo.BuriedPartObj" resultClass="manage.buriedPart.pojo.BuriedPartObj">
+        select t.maintain_company  maintenanceOrg,t.maintain_manager  maintenanceLeader,t.maintain_manager_phone  leaderPhone,t.maintain_area  maintenanceArea,
+        t.id,t.buriedId,
+        (select buriedName from buriedinfo where buriedId = t.buriedId ) as buriedStr,
+        t.buriedPartName,t.buriedPartArea,t.buriedPartLength,t.buriedPartStart,
+        t.buriedPartEnd,t.buriedPartOptical,
+        t.propertyRight,t.buriedPartOpticalId,
+        t.buriedPartStartId,t.buriedPartEndId,t.lastUpTime,
+        (select text from dicview where enName='propertyNature' and value= t.propertyRight) as propertyRightStr,
+        t.propertyDept,
+        (select text from dicview where enName='propertyComp' and value= t.propertyDept) as propertyDeptStr,
+        t.dataQualitier,t.maintainer,t.deleteflag,t.createTime,t.creater,t.remark,t.resNum,t.maintainLength
+        from buriedpartinfo t where t.deleteflag ='0'
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="id">t.id = #id#</isNotNull>
+            <isNotNull prepend=" AND " property="buriedId">t.buriedId = #buriedId#</isNotNull>
+            <isNotEmpty prepend=" AND " property="buriedPartName">t.buriedPartName like '%$buriedPartName$%'</isNotEmpty>
+        </dynamic>
+    </select>
+    
+    
+    <!-- 更改直埋段 -->
+    <update id="updateBuriedPart" parameterClass="manage.buriedPart.pojo.BuriedPartObj" >
+        update buriedpartinfo t set lastUpTime = now(),resMotion = null
+        <dynamic prepend=" , ">
+            <isNotEmpty prepend=" , " property="buriedId">t.buriedId=#buriedId#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="buriedPartName">t.buriedPartName=#buriedPartName#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="buriedPartArea">t.buriedPartArea =#buriedPartArea#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="buriedPartLength">t.buriedPartLength=#buriedPartLength#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="buriedPartStart">t.buriedPartStart=#buriedPartStart#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="buriedPartEnd">t.buriedPartEnd=#buriedPartEnd#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="buriedPartOptical">t.buriedPartOptical=#buriedPartOptical#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="buriedPartOpticalId">t.buriedPartOpticalId=#buriedPartOpticalId#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="propertyRight">t.propertyRight=#propertyRight#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="buriedPartStartId">t.buriedPartStartId=#buriedPartStartId#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="buriedPartEndId">t.buriedPartEndId=#buriedPartEndId#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="propertyDept">t.propertyDept=#propertyDept#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="dataQualitier">t.dataQualitier=#dataQualitier#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="maintainer">t.maintainer=#maintainer#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="deleteflag">t.deleteflag=#deleteflag#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="createTime">t.createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="creater">t.creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="remark">t.remark=#remark#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="maintainLength">t.maintainLength=#maintainLength#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="maintenanceOrg">t.maintain_company=#maintenanceOrg#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="maintenanceLeader">t.maintain_manager=#maintenanceLeader#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="leaderPhone">t.maintain_manager_phone=#leaderPhone#</isNotEmpty>
+              <isNotEmpty prepend=" , " property="maintenanceArea">t.maintain_area=#maintenanceArea#</isNotEmpty>
+        </dynamic>
+        <dynamic prepend=" where ">
+            <isNotEmpty prepend=" AND" property="id">id = #id#</isNotEmpty>
+        </dynamic>
+    </update>
+    
+    <!-- 添加直埋段 -->
+    <insert id="insertBuriedPart" parameterClass="manage.buriedPart.pojo.BuriedPartObj">
+        INSERT into buriedpartinfo(
+       	buriedId,buriedPartName,buriedPartArea,buriedPartLength,buriedPartStart,buriedPartStartId,buriedPartEndId,
+        buriedPartEnd,buriedPartOptical,propertyRight,propertyDept,buriedPartOpticalId,
+        dataQualitier,maintainer,deleteflag,createTime,creater,remark,lastUpTime,lastUpMan,maintainLength
+        ,maintain_company,maintain_manager,maintain_manager_phone,maintain_area
+        )
+        values
+        (
+         #buriedId#,#buriedPartName#,#buriedPartArea#,#buriedPartLength#,#buriedPartStart#,#buriedPartStartId#,#buriedPartEndId#,
+         #buriedPartEnd#,#buriedPartOptical#,#propertyRight#,#propertyDept#,#buriedPartOpticalId#,
+         #dataQualitier#,#maintainer#,'0',now(),#creater#,#remark#,#lastUpTime#,#lastUpMan#,#maintainLength#
+         ,#maintenanceOrg#,#maintenanceLeader#,#leaderPhone#,#maintenanceArea#
+        )
+        <selectKey resultClass="int" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+    </insert>
+    
+    <!-- 删除直埋段 -->
+    <delete id="delBuriedPart" parameterClass="java.lang.String">
+        delete from buriedpartinfo where id in ($ids:String$)
+    </delete>
+    
+    <!-- 得到直埋段 -->
+    <select id="getBuriedPartBysid" parameterClass="java.lang.String" resultClass="manage.buriedPart.pojo.BuriedPartObj">
+        select distinct id,buriedId,buriedPartName,buriedPartArea,buriedPartLength,
+        	(select lineName from line_system where id =a.buriedId ) as buriedStr,
+			buriedPartStart,buriedPartEnd,dataQualitier,maintainer,deleteflag,
+			createTime,buriedPartStartId,buriedPartEndId,resNum,maintainLength from (
+		select id,buriedId,buriedPartName,buriedPartArea,buriedPartLength,
+			buriedPartStart,buriedPartEnd,dataQualitier,maintainer,deleteflag,
+			createTime,buriedPartStartId,buriedPartEndId,resNum,maintainLength
+ 		from buriedpartinfo  
+		where buriedPartStartId in ($ids:String$)
+		union all
+		select id,buriedId,buriedPartName,buriedPartArea,buriedPartLength,
+			buriedPartStart,buriedPartEnd,dataQualitier,maintainer,deleteflag,
+			createTime,buriedPartStartId,buriedPartEndId,resNum,maintainLength
+ 		from buriedpartinfo  
+		where buriedPartEndId in ($ids:String$)
+		) a 
+    </select>
+    
+    <insert id="insertBuriedPartCustom" parameterClass="interfaces.pdainterface.buriedPart.pojo.BuriedPartInfoBean">
+		insert into rms_buried_seg (
+			zh_label,city_id,county_id,start_ponit_id,end_ponit_id,ownership,line_length,
+			maintain_company,maintain_area,maintain_manager,maintain_manager_phone,remark,	
+			change_reason,time_stamp,stateflag,creator,creat_time,modifier,modify_time
+		) values (
+			#zh_label#,#city_id#,#county_id#,#start_ponit_id#,#end_ponit_id#,#ownership#,#line_length#,
+			#maintain_company#,#maintain_area#,#maintain_manager#,#maintain_manager_phone#,#remark#,	
+			#change_reason#,now(),'0',#creator#,now(),#modifier#,#modify_time#
+		)
+		<selectKey resultClass="int" keyProperty="int_id" > 
+				SELECT LAST_INSERT_ID() AS int_id
+		</selectKey>
+	</insert>
+	
+	<select id="getBuriedPartGridCustom" parameterClass="interfaces.pdainterface.buriedPart.pojo.BuriedPartInfoBean" resultClass="interfaces.pdainterface.buriedPart.pojo.BuriedPartInfoBean">
+        select zh_label,city_id,county_id,start_ponit_id,end_ponit_id,ownership,line_length,
+		maintain_company,maintain_area,maintain_manager,maintain_manager_phone,
+		remark,change_reason,time_stamp,stateflag,int_id,
+		creator,creat_time,modifier,modify_time
+		from rms_buried_seg where 1 = 1
+		<dynamic prepend=" AND ">
+		<isNotEmpty prepend=" AND " property="zh_label"> <![CDATA[ zh_label like #zh_label#]]> </isNotEmpty>
+		<isNotEmpty prepend=" AND " property="city_id">city_id=#city_id#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="county_id">county_id=#county_id#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="start_ponit_id">start_ponit_id=#start_ponit_id#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="end_ponit_id">end_ponit_id=#end_ponit_id#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="ownership">ownership=#ownership#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="line_length">line_length=#line_length#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="maintain_company">maintain_company=#maintain_company#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="maintain_area">maintain_area=#maintain_area#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="maintain_manager">maintain_manager=#maintain_manager#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="maintain_manager_phone">maintain_manager_phone=#maintain_manager_phone#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="remark">remark=#remark#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="change_reason"> change_reason like '%$change_reason$%' </isNotEmpty>
+		<isNotEmpty prepend=" AND " property="time_stamp">time_stamp=#time_stamp#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="stateflag">stateflag=#stateflag#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="int_id">int_id=#int_id#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="creator">creator=#creator#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="creat_time">creat_time=#creat_time#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="modifier">modifier=#modifier#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="modify_time">modify_time=#modify_time#</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="extendSql">($extendSql$)</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="sort"> ORDER BY #sort# </isNotEmpty>
+	    	<isNotEmpty prepend=" " property="dir">  #dir# </isNotEmpty>
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+    </select>
+    
+</sqlMap>

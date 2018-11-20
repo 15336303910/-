@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="equt">	
+
+	<!-- 获取设备信息 -->
+	<select id="getEqut" parameterClass="manage.equt.pojo.EqutInfoBean" resultClass="manage.equt.pojo.EqutInfoBean">
+	select * from job_equtinfo where del=0
+	<dynamic prepend="AND">
+	    <isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="eid">(eid=#eid#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="estat">(estat=#estat#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="ecode">(ecode like '%$ecode$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="etype">(etype=#etype#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="ename">(ename like '%$ename$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="eaddr">(eaddr like '%$eaddr$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="lon"> format(lon,6) = format(#lon#,6) </isNotEmpty>
+		<isNotEmpty prepend="AND" property="lat"> format(lat,6) = format(#lat#,6) </isNotEmpty>
+		<isNotEmpty prepend="AND" property="latl"><![CDATA[ lat >= #latl# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="lath"><![CDATA[ lat <= #lath# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="lonl"><![CDATA[ lon >= #lonl# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="lonh"><![CDATA[ lon <= #lonh# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="note">(note like '%$note$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="areano">(areano=#areano#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="dataQualityPrincipal">(dataQualityPrincipal=#dataQualityPrincipal#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="parties">(parties=#parties#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="changjia">(changjia=#changjia#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="jijialeixing">(jijialeixing=#jijialeixing#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="jijiahanghao">(jijiahanghao=#jijiahanghao#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="jijialiehao">(jijialiehao=#jijialiehao#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="gjxmianshu">(gjxmianshu=#gjxmianshu#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="gjxhangshu">(gjxhangshu=#gjxhangshu#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="gjxlieshu">(gjxlieshu=#gjxlieshu#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="genPartOptical">(genPartOptical=#genPartOptical#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="genPartOpticalId">(genPartOpticalId=#genPartOpticalId#)</isNotEmpty>
+	</dynamic>
+	</select>
+	
+	<select id="getEqutCheck" parameterClass="manage.equt.pojo.EqutInfoBean" resultClass="manage.equt.pojo.EqutInfoBean">
+	select * from job_equtinfo where del=0
+	<dynamic prepend="AND">
+	    <isNotEmpty prepend="AND" property="id">(id = #id#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="eid">(eid = #eid#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="ename">(ename = #ename#)</isNotEmpty>
+	</dynamic>
+	</select>
+	
+	<!-- 获取设备信息 -->
+	<select id="getEqutListAll" parameterClass="manage.equt.pojo.EqutInfoBean" resultClass="manage.equt.pojo.EqutInfoBean">
+	select * from job_equtinfo where del=0
+	<dynamic prepend="AND">
+	    <isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="eid">(eid=#eid#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="estat">(estat=#estat#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="ecode">(ecode like '%$ecode$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="etype">(etype=#etype#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="ename">(ename like '%$ename$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="eaddr">(eaddr like '%$eaddr$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="lon"> format(lon,6) = format(#lon#,6) </isNotEmpty>
+		<isNotEmpty prepend="AND" property="lat"> format(lat,6) = format(#lat#,6) </isNotEmpty>
+		<isNotEmpty prepend="AND" property="latl"><![CDATA[ lat >= #latl# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="lath"><![CDATA[ lat <= #lath# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="lonl"><![CDATA[ lon >= #lonl# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="lonh"><![CDATA[ lon <= #lonh# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="dataQualityPrincipal">(dataQualityPrincipal=#dataQualityPrincipal#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="parties">(parties=#parties#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="changjia">(changjia=#changjia#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="jijialeixing">(jijialeixing=#jijialeixing#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="jijiahanghao">(jijiahanghao=#jijiahanghao#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="jijialiehao">(jijialiehao=#jijialiehao#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="gjxmianshu">(gjxmianshu=#gjxmianshu#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="gjxhangshu">(gjxhangshu=#gjxhangshu#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="gjxlieshu">(gjxlieshu=#gjxlieshu#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="genPartOptical">(genPartOptical=#genPartOptical#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="genPartOpticalId">(genPartOpticalId=#genPartOpticalId#)</isNotEmpty>
+	</dynamic> 
+	</select>
+	
+	<select id="getDownEqutInCable" parameterClass="manage.equt.pojo.EqutInfoBean" resultClass="manage.equt.pojo.EqutInfoBean">
+		select * from job_equtinfo e,job_cable c 
+			where e.eid = c.endeid 
+				and c.starteid = #eid# 
+				and e.del=0
+	</select>
+	
+	<select id="getUpEqutInCable" parameterClass="manage.equt.pojo.EqutInfoBean" resultClass="manage.equt.pojo.EqutInfoBean">
+		select * from job_equtinfo e,job_cable c 
+			where e.eid = c.starteid 
+				and c.endeid = #eid# 
+				and e.del=0
+	</select>
+	
+	<select id="getDomain" parameterClass="manage.domain.pojo.DomainBean" resultClass="manage.domain.pojo.DomainBean">
+		select * from sys_domain
+		<dynamic prepend="WHERE">
+	    	<isNotNull prepend="AND" property="domainId"> domainId=#domainId# </isNotNull>
+	    	<isNotEmpty prepend="AND" property="domainCode"> domainCode = #domainCode# </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="domainName"> domainName like '%$realname$%' </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="parentId" >parentId=#parentId# </isNotEmpty>
+	    </dynamic>
+	</select>
+	
+	<select id="getChildEqut" parameterClass="manage.equt.pojo.EqutInfoBean" resultClass="manage.equt.pojo.EqutInfoBean">
+	select * from job_equtinfo where del = 0 and areano&lt;&gt;"0"
+	<dynamic prepend="and">
+	   <isNotEmpty prepend="AND" property="areano">(areano = #areano#)</isNotEmpty>
+	</dynamic>
+	and del=0
+	ORDER BY ename
+	</select>
+	
+	<select id="countEqutInDomain" parameterClass="manage.domain.pojo.DomainBean" resultClass="Integer">
+	select count(*) from job_equtinfo where del = 0 and areano&lt;&gt;"0"
+	<dynamic prepend="AND ">
+	   <isNotEmpty prepend="AND" property="domainCode">(areano = #domainCode#)</isNotEmpty>
+	</dynamic>
+	</select>
+	
+	<update id="updateEqut" parameterClass="manage.equt.pojo.EqutInfoBean">
+		update job_equtinfo set mtime=now()
+		<dynamic prepend=",">
+		<isNotNull prepend="," property="ecode">ecode=#ecode#</isNotNull>
+		<isNotNull prepend="," property="estat">estat=#estat#</isNotNull>
+		<isNotNull prepend="," property="etype">etype=#etype#</isNotNull>
+		<isNotNull prepend="," property="emodel">emodel=#emodel#</isNotNull>
+		<isNotNull prepend="," property="ename">ename=#ename#</isNotNull>
+		<isNotNull prepend="," property="eaddr">eaddr=#eaddr#</isNotNull>
+		<isNotEmpty prepend="," property="lon">lon=#lon#</isNotEmpty>
+		<isNotEmpty prepend="," property="lat">lat=#lat#</isNotEmpty>
+		<isNotNull prepend="," property="del">del=#del#</isNotNull>
+		<isNotNull prepend="," property="dataQualityPrincipal">dataQualityPrincipal=#dataQualityPrincipal#</isNotNull>
+		<isNotNull prepend="," property="parties">parties=#parties#</isNotNull>
+		<isNotNull prepend="," property="changjia">changjia=#changjia#</isNotNull>
+		<isNotNull prepend="," property="jijialeixing">jijialeixing=#jijialeixing#</isNotNull>
+		<isNotNull prepend="," property="jijiahanghao">jijiahanghao=#jijiahanghao#</isNotNull>
+		<isNotNull prepend="," property="jijialiehao">jijialiehao=#jijialiehao#</isNotNull>
+		<isNotNull prepend="," property="gjxmianshu">gjxmianshu=#gjxmianshu#</isNotNull>
+		<isNotNull prepend="," property="gjxhangshu">gjxhangshu=#gjxhangshu#</isNotNull>
+		<isNotNull prepend="," property="gjxlieshu">gjxlieshu=#gjxlieshu#</isNotNull>
+		<isNotNull prepend="," property="genPartOptical">genPartOptical=#genPartOptical#</isNotNull>
+		<isNotNull prepend="," property="genPartOpticalId">genPartOpticalId=#genPartOpticalId#</isNotNull>
+		</dynamic>
+		<dynamic prepend=" WHERE ">
+	    <isNotEmpty prepend=" AND" property="id">(id=#id#)</isNotEmpty>
+	    <isNotEmpty prepend=" AND" property="eid">(eid=#eid#)</isNotEmpty>
+	    </dynamic>
+	    and del=0
+	</update>
+	
+	
+	<select id="getEqutCK" parameterClass="manage.equt.pojo.EqutInfoBean" resultClass="manage.user.pojo.UserInfoBean">
+		select u.*
+		from sys_userck ck,sys_user u where u.userid=ck.userid and eid=#eid#
+	</select>
+	
+	<update id="saveLastEid" parameterClass="manage.user.pojo.UserInfoBean">
+		update sys_user set lasteid = #lasteid# where userid = #userId#
+	</update>
+	<!-- 插入设备告警信息 -->
+	<insert id="insertPointWebAlarm" parameterClass="manage.point.pojo.PointAlarmInfoBean">
+		INSERT INTO job_pointalarm 
+			(alarmIndex,alarmTime,eid,pid,fibercode,state,userId,realname,isLatest,alarmText,del,areano)
+		VALUES
+			(#alarmIndex#,#alarmTime#,#eid#,#pid#,#fibercode#,#state#,#userId#,realname,#isLatest#,#alarmText#,#del#,#areano#)
+		
+	</insert>
+	<update id="updateIsLatest" parameterClass="manage.point.pojo.PointAlarmInfoBean">
+		UPDATE job_pointalarm SET isLatest = '0' WHERE eid = #eid# AND pid = #pid#
+	</update>
+	
+	
+	<select id="getPrlUserList" parameterClass="manage.equt.pojo.EqutInfoBean" resultClass="manage.user.pojo.UserInfoBean" >
+		select * from sys_user where areano=#areano#
+	</select>
+	
+	<select id="getPointAlarm" parameterClass="manage.point.pojo.PointInfoBean" resultClass="manage.point.pojo.PointAlarmInfoBean" >
+		select * from job_pointalarm where eid=#eid# and pid=#pid# and isLatest='1'
+	</select>
+	
+	
+	<delete id="deleteEqut" parameterClass="manage.equt.pojo.EqutInfoBean">
+		delete from job_equtinfo where eid=#eid#
+	</delete>
+	
+	<delete id="deletePoint" parameterClass="manage.equt.pojo.EqutInfoBean">
+		delete from job_pointinfo where eid=#eid#
+	</delete>
+	
+	<update id="updateLastEid" parameterClass="manage.equt.pojo.EqutInfoBean">
+		update sys_user set lasteid='' where lasteid=#eid#
+	</update>
+	
+	<!-- 根据地区areanoLink获取光缆段 -->
+	<select id="getCableList" parameterClass="manage.route.pojo.CableInfoBean" resultClass="manage.route.pojo.CableInfoBean">
+		SELECT * FROM job_cable where areanoLink like '%$areanoLink$%'
+	
+	</select>
+	
+	<delete id="deleteEvent" parameterClass="manage.equt.pojo.EqutInfoBean">
+		delete from job_pointevent where eid=#eid#
+	</delete>
+	
+	<delete id="deleteAlarm" parameterClass="manage.equt.pojo.EqutInfoBean">
+		delete from job_pointalarm where eid=#eid#
+	</delete>
+	
+	<delete id="deleteAlarmMask" parameterClass="manage.equt.pojo.EqutInfoBean">
+		delete from job_pointalarm_mask where eid=#eid#
+	</delete>
+	
+	<delete id="deleteAlarmByEvent" parameterClass="manage.point.pojo.PointEventInfoBean">
+		delete from job_pointalarm where eid=#eid# and pid = #pid#
+	</delete>
+	
+	<select id="getCableByEid" parameterClass="manage.equt.pojo.EqutInfoBean" resultClass="manage.route.pojo.CableInfoBean">
+		SELECT * FROM job_cable where starteid=#eid# or endeid=#eid#
+	</select>	
+	
+	<update id="updateCable" parameterClass="manage.route.pojo.CableInfoBean">
+		UPDATE job_cable 
+		<dynamic prepend="SET">
+			<isNotNull prepend="," property="starteid"> starteid=#starteid# </isNotNull>
+			<isNotNull prepend="," property="startDeviceName"> startDeviceName=#startDeviceName# </isNotNull>
+			<isNotNull prepend="," property="endeid"> endeid=#endeid# </isNotNull>
+			<isNotNull prepend="," property="endDeviceName"> endDeviceName=#endDeviceName# </isNotNull>
+		</dynamic>
+		WHERE cableid = #cableid# 
+	</update>
+	
+	<update id="updateJumpFiber1" parameterClass="manage.equt.pojo.EqutInfoBean">
+		update job_jumpfiber set eid1='' and pid1 = '' and fiberstate='0' where eid1=#eid#
+	</update>
+	
+	<update id="updateJumpFiber2" parameterClass="manage.equt.pojo.EqutInfoBean">
+		update job_jumpfiber set eid2='' and pid2 = '' and fiberstate='0' where eid2=#eid#
+	</update>
+	
+	<!-- 插入设备 -->
+	<insert id="insertEqut" parameterClass="manage.equt.pojo.EqutInfoBean">
+		insert into job_equtinfo(
+			eid,estat,ecode,etype,lon,lat,ename,eaddr,emodel,mtime,mflag,
+			areano,del
+		) values(
+			#eid#,#estat#,#ecode#,#etype#,#lon#,#lat#,#ename#,#eaddr#,#emodel#,,now(),'1',
+			#areano#,'0'
+		)
+	</insert>
+	
+	 <select id="getCableListByAreano" parameterClass="manage.equt.pojo.EqutInfoBean" resultClass="manage.equt.pojo.EqutInfoBean" >
+		select * from job_equtinfo where areano=#areano#   and lon!=''  and lat!='' and lon is not null and lat is not null
+	</select>	
+	
+	 <select id="getNoLatLonEqut" parameterClass="manage.equt.pojo.EqutInfoBean" resultClass="manage.equt.pojo.EqutInfoBean" >
+		select * from job_equtinfo where areano=#areano#  and (  lon=''  or lat='' or lon is null or lat is null)
+	</select>	
+	
+	 <select id="getCableAlarmCount" parameterClass="manage.equt.pojo.EqutInfoBean" resultClass="Integer" >
+		select count(*) from job_pointalarm where eid=#eid#
+	</select>
+	
+	<update id="updateEqutDomain" parameterClass="manage.equt.pojo.EqutInfoBean" >
+		update job_equtinfo set areano=#areano# where eid=#eid#
+	</update>
+	
+	<update id="updatePointAreano" parameterClass="manage.equt.pojo.EqutInfoBean" >
+		update job_pointinfo set areano=#areano# where eid=#eid#
+	</update>
+	
+	<update id="updateEventAreano" parameterClass="manage.equt.pojo.EqutInfoBean" >
+		update job_pointevent set areano=#areano# where eid=#eid#
+	</update>
+	
+	<update id="updateAlarmAreano" parameterClass="manage.equt.pojo.EqutInfoBean">
+		update job_pointalarm set areano=#areano# where eid=#eid#
+	</update>
+	
+	<update id="updateAlarmMaskAreano" parameterClass="manage.equt.pojo.EqutInfoBean">
+		update  job_pointalarm_mask set areano=#areano# where eid=#eid#
+	</update>
+	
+	<update id="updateCableAreano" parameterClass="manage.route.pojo.CableInfoBean">
+		update  job_cable set areanoLink=#areanoLink# WHERE cableid = #cableid# 
+	</update>
+	
+	
+	<select id="getSonEqut" parameterClass="manage.equt.pojo.EqutInfoBean" resultClass="manage.equt.pojo.EqutInfoBean">
+		select * from job_equtinfo where parenteid=#eid#
+
+	</select>
+	
+	<select id="getSonPoint" parameterClass="manage.equt.pojo.EqutInfoBean" resultClass="manage.point.pojo.PointInfoBean">
+		select * from job_pointinfo where eid=#eid#
+		 <dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+	</select>
+	
+	<select id="getSonPointCount" parameterClass="manage.equt.pojo.EqutInfoBean" resultClass="Integer">
+		select count(*) from job_pointinfo where eid=#eid#
+	</select>
+	
+	<select id="getCodeIndex" parameterClass="manage.equt.pojo.CodeIndexInfoBean" resultClass="manage.equt.pojo.CodeIndexInfoBean">
+		select * from job_code_index 
+	</select>
+	<update id="updateIndex" parameterClass="manage.equt.pojo.CodeIndexInfoBean">
+	 update job_code_index set codenum=#codenum# 
+	</update>
+	<update id="updatePoint" parameterClass="manage.point.pojo.PointInfoBean">
+		update job_pointinfo set del=#del# where eid=#eid# and pid like '$pid$%'
+	</update>
+	
+	<select id="countFibercodeExist" parameterClass="manage.fiber.pojo.JumpFiberInfoBean" resultClass="Integer">
+		select count(*) from job_jumpfiber where fibercode1 like '%$code$%' or fibercode2 like '%$code$%'
+	</select>
+	
+	<!-- 查询申请列表 -->
+	<select id="getApplyList" parameterClass="manage.equt.pojo.ApplyInfoBean" resultClass="manage.equt.pojo.ApplyInfoBean">
+		SELECT * FROM sys_apply
+		<dynamic prepend="WHERE ">
+			<isNotEmpty prepend="AND" property="areano"> areano=#areano# </isNotEmpty>
+			<isNotEmpty prepend="AND" property="eid"> eid=#eid# </isNotEmpty>
+			<isNotEmpty prepend="AND" property="areaname"> areaname like '%$areaname$%' </isNotEmpty>
+			<isNotEmpty prepend="AND" property="applicant"> applicant like '%$applicant$%' </isNotEmpty>
+	    </dynamic>
+	</select>
+	<select id="getApplyCount" parameterClass="manage.equt.pojo.ApplyInfoBean" resultClass="Integer">
+		SELECT count(*) FROM sys_apply
+		<dynamic prepend="WHERE ">
+			<isNotEmpty prepend="AND" property="areano"> areano=#areano# </isNotEmpty>
+			<isNotEmpty prepend="AND" property="eid"> eid=#eid# </isNotEmpty>
+			<isNotEmpty prepend="AND" property="areaname"> areaname like '%$areaname$%' </isNotEmpty>
+			<isNotEmpty prepend="AND" property="applicant"> applicant like '%$applicant$%' </isNotEmpty>
+	    </dynamic>
+	</select>
+	<delete id="delApply" parameterClass="manage.equt.pojo.ApplyInfoBean">
+		delete from sys_apply where eid=#eid# and id=#id#
+	</delete>
+	
+</sqlMap>

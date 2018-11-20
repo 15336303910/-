@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="transmissionEquipment" extends="struts-default,json-default">
+     	<action name="transmissionEquipmentAction" class="manage.transmissionEquipment.web.TransmissionEquipmentAction"> 
+     	 
+        </action>
+        
+     	<action name="pdaTransmissionEquipment" class="interfaces.pdainterface.transmissionEquipment.action.PDATransmissionEquipment">
+        	<result name="*" type="json">
+	        	<param name="root">jsonResponse</param>
+	    	</result>
+     	</action>
+    </package>
+</struts>

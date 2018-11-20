@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <package name="user" extends="json-default,struts-default">
+        <action name="maintainGroupAction" class="manage.user.web.maintainGroupAction"> 
+     	    
+        </action>
+     	<action name="user" class="manage.user.web.UserAction">
+            <!-- 条件查询,分页显示地区 -->
+	    	<result name="searchUser" type="json">
+	    	    <param name="root">user</param>
+	    	</result>
+	    	<!-- Ajax检查用户名是否存在 -->
+	    	<result name="verifyUserInfo" type="json">
+	    	    <param name="includeProperties">success,verifyMsg</param>
+	    	</result>
+	    	<!--  查询所有用户权限 -->
+	    	<result name="searchPowerstr" type="json">
+	    	    <param name="root">powers</param>
+	    	</result>
+	    	<!-- 添加新用户 -->
+	    	<result name="addUser" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+	    	<!--  修改用户前加载用户信息 -->
+	    	<result name="loadUser" type="json">
+	    	    <param name="includeProperties">success,data.*</param>
+	    	</result>
+	    	<!-- 加载用户设备权限树 -->
+	    	<result name="searchDomainAndEquitTree" type="json">
+	    	    <param name="root">domianAndEquitTrees</param>
+	    	</result>
+	    	<result name="deleteUser" type="json">
+	    	     <param name="includeProperties">success,deleteMsg</param>
+	    	</result>
+	    	<result name="findUserCount" type="json">
+	    	     <param name="root">countResult</param>
+	    	</result>
+	    	<result name="updateUser" type="json">
+	    	     <param name="root">success</param>
+	    	</result>
+	    	<!--  用户设备权限树 -->
+	    	<result name="userCkTree" type="json">
+	    	     <param name="root">userCkList</param>
+	    	</result>
+	    	<!--  用户设备权修改 -->
+	    	<result name="editUserCk" type="json">
+	    	     <param name="root">success</param>
+	    	</result>
+	    	<result name="searchRole" type="json">
+	    		<param name="root">roleBean</param>
+	    	</result>
+	    	<result name="addRole" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+	    	<result name="updateRole" type="json">
+	    	     <param name="root">success</param>
+	    	</result>
+	    	<result name="deleteRole" type="json">
+	    	     <param name="includeProperties">success,deleteMsg</param>
+	    	</result>
+	    	<result name="loadRole" type="json">
+	    	    <param name="includeProperties">success,roleBean.*</param>
+	    	</result>
+	    	<result name="verifyRoleInfo" type="json">
+	    	    <param name="includeProperties">success,verifyMsg</param>
+	    	</result>
+	    	<result name="searchRolestr" type="json">
+	    		<param name="root">roles</param>
+	    	</result>
+	    	<result name="searchRolePowerstr" type="json">
+	    		<param name="root">powers</param>
+	    	</result>
+	    	<result name="searchRolestragain" type="json">
+	    		<param name="root">roles</param>
+	    	</result>
+        </action>
+    </package>
+</struts>

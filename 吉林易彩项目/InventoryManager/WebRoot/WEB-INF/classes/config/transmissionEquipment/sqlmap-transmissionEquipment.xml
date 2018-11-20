@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="transmissionEquipment">
+    <select id="getTransmissionEquipmentGrid" parameterClass="manage.transmissionEquipment.pojo.TransmissionEquipmentBean" resultClass="manage.transmissionEquipment.pojo.TransmissionEquipmentBean">
+ <!--      select t.city_id,t.county_id,
+	 t.int_id  equipmentId,t.zh_label ,t.equipment_type equipmentType,t.equipment_model equipmentmodel
+	 ,t.equipment_vendor equipmentFactory,t.related_equiproom relatedEquiproom,t.equipmroot_cate equipmrootCate,t.longitude,t.latitude
+	 ,t.maintain_company maintenanceOrg,t.maintain_area maintenanceAreaId
+	 ,t.maintain_manager maintenanceLeader,t.maintain_manager_phone leaderPhone,t.remark remark
+	 ,t.stateflag,t.time_stamp timeStamp,t.creat_time createTime,t.creator creater,t.modify_time modifyTime,t.modifier modifier
+	 from rms_equipment t where t.stateflag ='0' -->
+       
+      SELECT  t.city_id,t.county_id,t.int_id  equipmentId,t.equipment_type equipmentType,t.equipment_model equipmentmodel
+	 ,t.equipment_vendor equipmentFactory,t.related_equiproom relatedEquiproom,t.equipmroot_cate equipmrootCate,t.longitude,t.latitude
+     ,t.maintain_company maintenanceOrg,t.maintain_area maintenanceAreaId
+	 ,t.maintain_manager maintenanceLeader,t.maintain_manager_phone leaderPhone,t.remark remark
+	 ,t.stateflag,t.time_stamp timeStamp,t.creat_time createTime,t.creator creater,t.modify_time modifyTime,t.modifier modifier,
+CASE zh_label WHEN '0' THEN 'ODF'
+              WHEN '1' THEN 'DDF'
+              WHEN '2' THEN 'OLT'
+              WHEN '3' THEN 'ONU'
+              WHEN '4' THEN 'DWDM'
+              WHEN '5' THEN 'AG'
+              WHEN '6' THEN '交换机'
+              WHEN '7' THEN 'SDH'
+              WHEN '8' THEN 'PDH'
+              ELSE 'MSAP'
+END AS zh_label
+
+FROM rms_equipment t  where t.stateflag ='0' 
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="equipmentId"> t.int_id = #equipmentId#</isNotNull>
+            <isNotEmpty prepend=" AND " property="equipmentLable"> <![CDATA[t. zh_label like #equipmentLable#]]></isNotEmpty>
+       <!--  
+            <isNotEmpty prepend=" AND " property="stonePosition"> t.stonePosition=#stonePosition#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="stoneNum"> t.stoneNum=#stoneNum#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedId"> t.buriedId=#buriedId#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="propertyNature"> t.propertyNature=#propertyNature#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="propertyComp"> t.propertyComp=#propertyComp#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dataQualitier"> t.dataQualitier=#dataQualitier#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintainer"> t.maintainer=#maintainer#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="createTime"> t.createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="creater"> t.creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="remark"> t.remark like '%$remark$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="previousStoneID">(previousStoneID=#previousStoneID#)</isNotEmpty>
+			<isNotEmpty prepend=" AND " property="previousStoneName">(previousStoneName=#previousStoneName#)</isNotEmpty>
+			<isNotEmpty prepend=" AND " property="chengzaidian_type">(chengzaidian_type=#chengzaidian_type#)</isNotEmpty>
+         -->
+			<isNotEmpty prepend="AND" property="extendsSql">($extendsSql$)</isNotEmpty>
+        </dynamic>
+        <dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+    </select>
+    
+    <!-- 得到总数 -->
+    
+   <!--  <select id="getStoneCount" parameterClass="manage.stone.pojo.StoneInfoBean" resultClass="Integer">
+        select count(*) from transmissionEquipmentinfo where stateflag ='0'
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="equipmentId">int_id = #equipmentId#</isNotNull>
+            <isNotEmpty prepend=" AND " property="equipmentName"><![CDATA[ equipmentName REGEXP #equipmentName#]]></isNotEmpty>
+            <isNotEmpty prepend=" AND " property="stonePosition">stonePosition=#stonePosition#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="stoneNum">stoneNum=#stoneNum#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="stoneArea">stoneArea like '%$stoneArea$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="longitude">longitude=#longitude#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="latitude">latitude=#latitude#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedId">buriedId=#buriedId#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="propertyNature">propertyNature=#propertyNature#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="propertyComp">propertyComp=#propertyComp#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dataQualitier">dataQualitier=#dataQualitier#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintainer">maintainer=#maintainer#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="createTime">createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="creater">creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="remark">remark like '%$remark$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="previousStoneID">(previousStoneID=#previousStoneID#)</isNotEmpty>
+			<isNotEmpty prepend=" AND " property="previousStoneName">(previousStoneName=#previousStoneName#)</isNotEmpty>
+			<isNotEmpty prepend=" AND " property="chengzaidian_type">(chengzaidian_type=#chengzaidian_type#)</isNotEmpty> 
+        </dynamic>
+    </select>
+     -->
+    
+    <!-- 得到传输设备-->
+    <select id="getEquipment" parameterClass="manage.transmissionEquipment.pojo.TransmissionEquipmentBean" resultClass="manage.transmissionEquipment.pojo.TransmissionEquipmentBean">
+           
+	   select t.city_id,t.county_id,t.int_id  equipmentId,t.zh_label ,t.equipment_type equipmentType,t.equipment_model equipmentmodel
+	 ,t.equipment_vendor equipmentFactory,t.related_equiproom relatedEquiproom,t.equipmroot_cate equipmrootCate,t.longitude,t.latitude
+     ,t.maintain_company maintenanceOrg,t.maintain_area maintenanceAreaId
+	 ,t.maintain_manager maintenanceLeader,t.maintain_manager_phone leaderPhone,t.remark remark
+	 ,t.stateflag,t.time_stamp timeStamp,t.creat_time createTime,t.creator creater,t.modify_time modifyTime,t.modifier modifier
+	 from rms_equipment t where t.stateflag ='0'
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="equipmentId">t.int_id = #equipmentId#</isNotNull>
+            <isNotEmpty prepend=" AND " property="zh_label"><![CDATA[t. zh_label REGEXP #zh_label#]]></isNotEmpty>
+<!--        <isNotEmpty prepend=" AND " property="stoneSubName"> t.stoneSubName like '%$stoneSubName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="stonePosition">t.stonePosition=#stonePosition#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="stoneNum">t.stoneNum=#stoneNum#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="stoneArea">t.stoneArea like '%$stoneArea$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="longitude">t.longitude=#longitude#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="latitude">t.latitude=#latitude#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedId"> t.buriedId=#buriedId#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="propertyNature">t.propertyNature=#propertyNature#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="propertyComp">t.propertyComp=#propertyComp#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dataQualitier">t.dataQualitier=#dataQualitier#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintainer">t.maintainer=#maintainer#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="createTime">t.createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="creater">t.creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="remark">t.remark like '%$remark$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="previousStoneID">(previousStoneID=#previousStoneID#)</isNotEmpty>
+			<isNotEmpty prepend=" AND " property="previousStoneName">(previousStoneName=#previousStoneName#)</isNotEmpty>
+			<isNotEmpty prepend=" AND " property="chengzaidian_type">(chengzaidian_type=#chengzaidian_type#)</isNotEmpty>
+			<isNotEmpty prepend=" AND " property="resNum">t.resNum=#resNum#</isNotEmpty> -->
+        </dynamic>
+    </select>
+
+
+     <!-- 修改传输设备 -->
+    <update id="updateTrans" parameterClass="manage.transmissionEquipment.pojo.TransmissionEquipmentBean" >
+        update rms_equipment t set modify_time = now()
+        <dynamic prepend=" , ">
+            <isNotEmpty prepend=" , " property="equipmentLable"> t.zh_label =#zh_label#</isNotEmpty>
+            <isNotEmpty prepend=", " property="equipmentType">t.equipment_type=#equipmentType#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="equipmentmodel">t.equipment_model=#equipmentmodel#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="equipmentFactory">t.equipment_vendor=#equipmentFactory#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="longitude">t.longitude=#longitude#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="latitude">t.latitude=#latitude#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="relatedEquiproom"> t.related_equiproom=#relatedEquiproom#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="equipmrootCate">t.equipmroot_cate=#equipmrootCate#</isNotEmpty>
+         
+	       <isNotEmpty prepend=" , " property="city_id">t.city_id=#city_id#</isNotEmpty>
+	       <isNotEmpty prepend=" , " property="county_id">t.county_id=#county_id#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="maintenanceOrg">t.maintain_company=#maintenanceOrg#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="maintenanceAreaId">t.maintain_area=#maintenanceAreaId#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="maintenanceLeader">t.maintain_manager=#maintenanceLeader#</isNotEmpty>
+            <isNotNull prepend=" , " property="leaderPhone">t.maintain_manager_phone=#leaderPhone#</isNotNull>
+			<isNotNull prepend=" , " property="remark">t.remark=#remark#</isNotNull>
+			
+        </dynamic>
+        <dynamic prepend=" where ">
+            <isNotEmpty prepend=" AND" property="equipmentId">t.int_id = #equipmentId#</isNotEmpty>
+        </dynamic> 
+     </update>
+     <!-- 添加传输设备-->
+    <insert id="insertTransmissionEquipment" parameterClass="manage.transmissionEquipment.pojo.TransmissionEquipmentBean">
+        INSERT into rms_equipment(
+       	city_id,county_id,zh_label,equipment_type,equipment_model,equipment_vendor,related_equiproom,equipmroot_cate
+       	,longitude,latitude,
+        maintain_company,maintain_area
+        ,stateflag,creat_time,creator,remark,
+        modify_time,modifier
+       ,maintain_manager,maintain_manager_phone
+        )
+        values
+        (
+        #city_id#,#county_id#,#zh_label#,#equipmentType#,#equipmentmodel#,#equipmentFactory#,#relatedEquiproom#,#equipmrootCate#
+        ,#longitude#,#latitude#,
+        #maintenanceOrg#,#maintenanceAreaId#
+        ,'0',now(),#creator#,#remark#,
+        #modifyTime#,#modifier#
+       ,#maintenanceLeader#,#leaderPhone#
+        )
+        <selectKey resultClass="int" keyProperty="equipmentId">
+			SELECT LAST_INSERT_ID() AS int_id
+		</selectKey>
+    </insert>
+    
+    <!-- 批量删除传输设备 -->
+    <delete id="delStones" parameterClass="java.lang.String">
+        delete from rms_equipment where int_id in ($ids:String$)
+     <!-- 假删除 -->
+    </delete>
+    	<update id="updateDeleteFlag" parameterClass="manage.transmissionEquipment.pojo.TransmissionEquipmentBean">
+		update rms_equipment set stateflag='1',modify_time=now() where int_id=#equipmentId#
+	</update>
+	<!-- 真删除 -->
+	<delete id="deleteSupportingRing" parameterClass="manage.transmissionEquipment.pojo.TransmissionEquipmentBean">
+		delete from rms_equipment where int_id=#equipmentId#
+	</delete>
+</sqlMap>

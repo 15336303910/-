@@ -1,0 +1,49 @@
+.button-group {
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+	font-size: 12px;
+	padding: 10px;
+	-moz-opacity:0.5;
+	opacity: 0.5;
+}
+
+.button-group .button {
+	height: 28px;
+	line-height: 28px;
+	background-color: #0D9BF2;
+	color: #FFF;
+	border: 0;
+	outline: none;
+	padding-left: 5px;
+	padding-right: 5px;
+	border-radius: 30px;
+	margin-bottom: 10px;
+	text-align: center;
+	align-content: center;
+	cursor: pointer;
+	vertical-align: middle;
+}
+.button-group .inputtext {
+	height: 26px;
+	line-height: 26px;
+	border: 1px;
+	outline: none;
+	padding-left: 5px;
+	padding-right: 5px;
+	border-radius: 3px;
+	margin-bottom: 4px;
+	cursor: pointer;
+}
+
+ .amap-marker .marker-route {
+    position: absolute;
+    width: 40px;
+    height: 44px;
+    color: #e90000;
+    background: url(http://webapi.amap.com/theme/v1.3/images/newpc/poi-1.png) no-repeat;
+    cursor: pointer;
+}
+.amap-marker .marker-marker-bus-from {
+    background-position: -334px -180px;
+}

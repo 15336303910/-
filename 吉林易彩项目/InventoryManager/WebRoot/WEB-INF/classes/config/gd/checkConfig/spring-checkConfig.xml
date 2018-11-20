@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="checkItemConfigService" class="manage.gd.checkConfig.service.CheckItemService">
+	    <property name="jdbcTemplate">
+	        <ref bean="jdbcTemplate"></ref>
+	    </property>	    
+	</bean>
+	<bean id="resourceConfigService" class="manage.gd.checkConfig.service.ResourceConfigService">
+	    <property name="jdbcTemplate">
+	        <ref bean="jdbcTemplate"></ref>
+	    </property>	    
+	</bean>
+</beans>
+
+
+

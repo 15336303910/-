@@ -1,0 +1,646 @@
+{
+	"@platforms": [
+		"android",
+		"iPhone",
+		"iPad"
+	],
+	"id": "H58C75929",/*应用的标识，创建应用时自动生成，勿手动修改*/
+	"name": "吉林易采",/*应用名称，程序桌面图标名称*/
+	"version": {
+		"name": "1.0.0",/*应用版本名称*/
+		"code": "83"
+	},
+	"description": "",/*应用描述信息*/
+	"icons": {
+		"72": "icon.png"
+	},
+	"launch_path": "login.html",/*应用的入口页面，默认为根目录下的index.html；支持网络地址，必须以http://或https://开头*/
+	"developer": {
+		"name": "",/*开发者名称*/
+		"email": "",/*开发者邮箱地址*/
+		"url": "http://www.dcloud.io"
+	},
+	"permissions": {
+		"Cache": {
+			"description": "管理应用缓存"
+		},
+		"Console": {
+			"description": "跟踪调试输出日志"
+		},
+		"Contacts": {
+			"description": "访问系统联系人信息"
+		},
+		"Events": {
+			"description": "应用扩展事件"
+		},
+		"Messaging": {
+			"description": "访问通讯能力"
+		},
+		"Maps": {
+			"description": "管理地图插件"
+		},
+		"Speech": {
+			"description": "管理语音识别插件"
+		}
+	},
+	"plus": {
+		"splashscreen": {
+			"autoclose": true,/*是否自动关闭程序启动界面，true表示应用加载应用入口页面后自动关闭；false则需调plus.navigator.closeSplashscreen()关闭*/
+			"waiting": true
+		},
+		"runmode": "liberate",/*应用的首次启动运行模式，可取liberate或normal，liberate模式在第一次启动时将解压应用资源（Android平台File API才可正常访问_www目录）*/
+		"signature": "Sk9JTiBVUyBtYWlsdG86aHIyMDEzQGRjbG91ZC5pbw==",/*可选，保留给应用签名，暂不使用*/
+		"distribute": {
+			"plugins": {
+				"maps": {
+					"amap": {
+						"appkey_ios": "045e60be2ba248e7111946bac3be58e7",
+						"appkey_android": "5ebbb6cba6512187d14928567ade74ff",
+						"description": "高德地图"
+					}
+				}
+			},
+			"apple": {
+				"appid": "",/*iOS应用标识，苹果开发网站申请的appid，如io.dcloud.HelloH5*/
+				"mobileprovision": "",/*iOS应用打包配置文件*/
+				"password": "",/*iOS应用打包个人证书导入密码*/
+				"p12": "",/*iOS应用打包个人证书，打包配置文件关联的个人证书*/
+				"devices": "universal",/*iOS应用支持的设备类型，可取值iphone/ipad/universal*/
+				"frameworks": []
+			},
+			"google": {
+				"packagename": "",/*Android应用包名，如io.dcloud.HelloH5*/
+				"keystore": "",/*Android应用打包使用的密钥库文件*/
+				"password": "",/*Android应用打包使用密钥库中证书的密码*/
+				"aliasname": "",/*Android应用打包使用密钥库中证书的别名*/
+				"permissions": [
+					"<uses-permission android:name=\"android.permission.RECORD_AUDIO\"/>",
+					"<uses-permission android:name=\"android.permission.GET_ACCOUNTS\"/>",
+					"<uses-permission android:name=\"android.permission.CHANGE_NETWORK_STATE\"/>",
+					"<uses-permission android:name=\"com.android.launcher.permission.INSTALL_SHORTCUT\"/>",
+					"<uses-permission android:name=\"android.permission.MODIFY_AUDIO_SETTINGS\"/>",
+					"<uses-permission android:name=\"android.permission.MOUNT_UNMOUNT_FILESYSTEMS\"/>",
+					"<uses-permission android:name=\"android.permission.READ_CONTACTS\"/>",
+					"<uses-permission android:name=\"android.permission.INTERNET\"/>",
+					"<uses-permission android:name=\"android.permission.CHANGE_WIFI_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.READ_PHONE_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.VIBRATE\"/>",
+					"<uses-permission android:name=\"android.permission.READ_LOGS\"/>",
+					"<uses-permission android:name=\"android.permission.WAKE_LOCK\"/>",
+					"<uses-permission android:name=\"android.permission.CALL_PHONE\"/>",
+					"<uses-permission android:name=\"android.permission.FLASHLIGHT\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_WIFI_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_COARSE_LOCATION\"/>",
+					"<uses-feature android:name=\"android.hardware.camera.autofocus\"/>",
+					"<uses-feature android:name=\"android.hardware.camera\"/>",
+					"<uses-permission android:name=\"android.permission.WRITE_CONTACTS\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_FINE_LOCATION\"/>",
+					"<uses-permission android:name=\"android.permission.WRITE_EXTERNAL_STORAGE\"/>",
+					"<uses-permission android:name=\"android.permission.ACCESS_NETWORK_STATE\"/>",
+					"<uses-permission android:name=\"android.permission.WRITE_SETTINGS\"/>",
+					"<uses-permission android:name=\"com.android.launcher.permission.UNINSTALL_SHORTCUT\"/>",
+					"<uses-permission android:name=\"android.permission.CAMERA\"/>"
+				]
+			},
+			"orientation": [
+				"portrait-primary",
+				"portrait-secondary"
+			],/*应用支持的方向，portrait-primary：竖屏正方向；portrait-secondary：竖屏反方向；landscape-primary：横屏正方向；landscape-secondary：横屏反方向*/
+			"icons": {
+				"ios": {
+					"prerendered": true, /*应用图标是否已经高亮处理，在iOS6及以下设备上有效*/
+					"auto": "", /*应用图标，分辨率：512x512，用于自动生成各种尺寸程序图标*/
+					"iphone": {
+						"normal": "",/*iPhone普通屏幕程序图标，分辨率：57x57*/
+						"retina": "",/*iPhone高分屏程序图标，分辨率：114x114*/
+						"retina7": "",/*iPhone iOS7高分屏程序图标，分辨率：120x120*/
+						"spotlight-normal": "", /*iPhone Spotlight搜索程序图标，分辨率：29x29*/
+						"spotlight-retina": "", /*iPhone高分屏Spotlight搜索程序图标，分辨率：58x58*/
+						"spotlight-retina7": "",/*iPhone iOS7高分屏Spotlight搜索程序图标，分辨率：80x80*/
+						"settings-normal": "", /*iPhone设置页面程序图标，分辨率：29x29*/
+						"settings-retina": ""
+					},
+					"ipad": {
+						"normal": "", /*iPad普通屏幕程序图标，分辨率：72x72*/
+						"retina": "", /*iPad高分屏程序图标，分辨率：144x144*/
+						"normal7": "", /*iPad iOS7程序图标，分辨率：76x76*/
+						"retina7": "", /*iPad iOS7高分屏程序图标，分辨率：152x152*/
+						"spotlight-normal": "", /*iPad Spotlight搜索程序图标，分辨率：50x50*/
+						"spotlight-retina": "", /*iPad高分屏Spotlight搜索程序图标，分辨率：100x100*/
+						"spotlight-normal7": "",/*iPad iOS7 Spotlight搜索程序图标，分辨率：40x40*/
+						"spotlight-retina7": "",/*iPad iOS7高分屏Spotlight搜索程序图标，分辨率：80x80*/
+						"settings-normal": "",/*iPad设置页面程序图标，分辨率：29x29*/
+						"settings-retina": ""
+					}
+				},
+				"android": {
+					"mdpi": "", /*普通屏程序图标，分辨率：48x48*/
+					"ldpi": "", /*大屏程序图标，分辨率：48x48*/
+					"hdpi": "", /*高分屏程序图标，分辨率：72x72*/
+					"xhdpi": "",/*720P高分屏程序图标，分辨率：96x96*/
+					"xxhdpi": ""
+				}
+			},
+			"splashscreen": {
+				"ios": {
+					"iphone": {
+						"default": "", /*iPhone3启动图片选，分辨率：320x480*/
+						"retina35": "",/*3.5英寸设备(iPhone4)启动图片，分辨率：640x960*/
+						"retina40": ""
+					},
+					"ipad": {
+						"portrait": "", /*iPad竖屏启动图片，分辨率：768x1004*/
+						"portrait-retina": "",/*iPad高分屏竖屏图片，分辨率：1536x2008*/
+						"landscape": "", /*iPad横屏启动图片，分辨率：1024x748*/
+						"landscape-retina": "", /*iPad高分屏横屏启动图片，分辨率：2048x1496*/
+						"portrait7": "", /*iPad iOS7竖屏启动图片，分辨率：768x1024*/
+						"portrait-retina7": "",/*iPad iOS7高分屏竖屏图片，分辨率：1536x2048*/
+						"landscape7": "", /*iPad iOS7横屏启动图片，分辨率：1024x768*/
+						"landscape-retina7": ""
+					}
+				},
+				"android": {
+					"mdpi": "", /*普通屏启动图片，分辨率：240x282*/
+					"ldpi": "", /*大屏启动图片，分辨率：320x442*/
+					"hdpi": "", /*高分屏启动图片，分辨率：480x762*/
+					"xhdpi": "", /*720P高分屏启动图片，分辨率：720x1242*/
+					"xxhdpi": ""
+				}
+			}
+		},"adid":"127273300207"
+	},
+	"dependencies": {
+		"pages": {
+			"index.html": {
+				"resources": [],
+				"refer": [
+					"pages/main/main.html"
+				],
+				"priority": 0
+			},
+			"pages/main/main.html": {
+				"resources": [],
+				"refer": [
+					"pages/outLine/well/wellAdd.html",
+					"pages/outLine/outMain.html",
+					"pages/outLine/well/wellDetail.html",
+					"pages/outLine/pole/poleAdd.html",
+					"pages/outLine/pole/poleDetail.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/outMain.html": {
+				"resources": [],
+				"refer": [
+					"pages/outLine/stone/stoneList.html",
+					"pages/outLine/pipe/pipeList.html",
+					"pages/outLine/pole/poleList.html",
+					"pages/outLine/well/wellList.html"
+				],
+				"priority": 0
+			},
+			"pages/pipe/pipeList.html": {
+				"resources": [],
+				"refer": [
+					"pages/pipe/pipeDetail.html"
+				],
+				"priority": 0
+			},
+			"login.html": {
+				"resources": [],
+				"refer": [
+					"pages/menu/menu.html"
+				],
+				"priority": 0
+			},
+			"pages/menu/menu.html": {
+				"resources": [],
+				"refer": [
+					"pages/main/main.html",
+					"pages/menu/zyqcMain.html"
+				],
+				"priority": 0
+			},
+			"pages/menu/zyqcMain.html": {
+				"resources": [],
+				"refer": [
+					"pages/toec/equt/equtList.html",
+					"pages/outLine/well/wellList.html",
+					"pages/outLine/supportingRing/supportingRingList.html",
+					"pages/outLine/basestation/basestationList.html",
+					"pages/outLine/poleLineSeg/poleLineSegList.html",
+					"pages/outLine/transmission/transmissionList.html",
+					"pages/outLine/stone/stoneList.html",
+					"pages/outLine/machineRoom/machineRoomList.html",
+					"pages/outLine/pole/poleList.html",
+					"pages/outLine/buriedSeg/buriedSegList.html",
+					"pages/outLine/pipeSeg/pipeSegList.html"
+				],
+				"priority": 0
+			},
+			"pages/toec/equt/equtList.html": {
+				"resources": [],
+				"refer": [
+					"pages/toec/equt/equtAdd.html",
+					"pages/pipe/pipeDetail.html",
+					"pages/toec/equt/equtDetail.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/basestation/basestationList.html": {
+				"resources": [],
+				"refer": [
+					"pages/outLine/basestation/basestationDetail.html",
+					"pages/outLine/basestation/basestationAdd.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/pole/poleList.html": {
+				"resources": [],
+				"refer": [
+					"pages/outLine/pole/poleAdd.html",
+					"pages/outLine/pole/poleDetail.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/pole/poleAdd.html": {
+				"resources": [],
+				"refer": [
+					"pages/main/getLatLon.html",
+					"pages/outLine/pole/poleList.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/well/wellList.html": {
+				"resources": [],
+				"refer": [
+					"pages/outLine/well/wellAdd.html",
+					"pages/outLine/well/wellDetail.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/well/wellAdd.html": {
+				"resources": [],
+				"refer": [
+					"pages/main/getLatLon.html",
+					"pages/outLine/well/wellList.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/buriedSeg/buriedSegList.html": {
+				"resources": [],
+				"refer": [
+					"pages/outLine/buriedSeg/buriedSegAdd.html",
+					"pages/outLine/buriedSeg/buriedSegDetail.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/pipeSeg/pipeSegList.html": {
+				"resources": [],
+				"refer": [
+					"pages/outLine/pipeSeg/pipeSegAdd.html",
+					"pages/outLine/pipeSeg/pipeSegDetail.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/supportingRing/supportingRingList.html": {
+				"resources": [],
+				"refer": [
+					"pages/outLine/supportingRing/supportingRingAdd.html",
+					"pages/outLine/supportingRing/supportingRingDetail.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/supportingRing/supportingRingDetail.html": {
+				"resources": [],
+				"refer": [
+					"pages/outLine/supportingRing/supportingRingAdd.html",
+					"pages/outLine/supportingRing/supportingRingList.html",
+					"pages/main/getLatLon.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/supportingRing/supportingRingAdd.html": {
+				"resources": [],
+				"refer": [
+					"pages/outLine/supportingRing/supportingRingList.html",
+					"pages/main/getLatLon.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/machineRoom/machineRoomList.html": {
+				"resources": [],
+				"refer": [
+					"pages/outLine/machineRoom/machineRoomAdd.html",
+					"pages/outLine/machineRoom/machineRoomDetail.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/machineRoom/machineRoomAdd.html": {
+				"resources": [],
+				"refer": [
+					"pages/main/getLatLon.html",
+					"pages/outLine/machineRoom/machineRoomList.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/machineRoom/machineRoomDetail.html": {
+				"resources": [],
+				"refer": [
+					"pages/outLine/machineRoom/machineRoomList.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/basestation/basestationAdd.html": {
+				"resources": [],
+				"refer": [
+					"pages/main/getLatLon.html",
+					"pages/outLine/basestation/basestationList.html",
+					"pages/outLine/basestation/basestationAdd.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/basestation/basestationDetail.html": {
+				"resources": [],
+				"refer": [
+					"pages/outLine/basestation/basestationList.html",
+					"pages/main/getLatLon.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/pole/poleDetail.html": {
+				"resources": [],
+				"refer": [
+					"pages/outLine/pole/poleList.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/well/wellDetail.html": {
+				"resources": [],
+				"refer": [
+					"pages/outLine/well/wellList.html",
+					"pages/main/getLatLon.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/poleLineSeg/poleLineSegList.html": {
+				"resources": [],
+				"refer": [
+					"pages/outLine/poleLineSeg/poleLineSegAdd.html",
+					"pages/outLine/poleLineSeg/poleLineSegDetail.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/poleLineSeg/poleLineSegAdd.html": {
+				"resources": [],
+				"refer": [
+					"pages/outLine/pole/poleCheck.html",
+					"pages/outLine/poleLineSeg/poleLineSegList.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/poleLineSeg/poleLineSegDetail.html": {
+				"resources": [],
+				"refer": [
+					"pages/outLine/pole/poleCheck.html",
+					"pages/outLine/poleLineSeg/poleLineSegList.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/stone/stoneList.html": {
+				"resources": [],
+				"refer": [
+					"pages/outLine/stone/stoneDetail.html",
+					"pages/outLine/stone/stoneAdd.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/transmission/transmissionList.html": {
+				"resources": [],
+				"refer": [
+					"pages/outLine/transmission/transmissionAdd.html",
+					"pages/outLine/transmission/transmissionDetail.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/transmission/transmissionAdd.html": {
+				"resources": [],
+				"refer": [
+					"pages/outLine/transmission/transmissionList.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/stone/stoneAdd.html": {
+				"resources": [],
+				"refer": [
+					"pages/main/getLatLon.html",
+					"pages/outLine/stone/stoneList.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/stone/stoneDetail.html": {
+				"resources": [],
+				"refer": [
+					"pages/outLine/stone/stoneList.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/pipeSeg/pipeSegAdd.html": {
+				"resources": [],
+				"refer": [
+					"pages/outLine/well/wellCheck.html",
+					"pages/outLine/pipeSeg/pipeSegList.html"
+				],
+				"priority": 0
+			},
+			"pages/toec/equt/equtDetail.html": {
+				"resources": [],
+				"refer": [
+					"pages/toec/equt/equtList.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/buriedSeg/buriedSegDetail.html": {
+				"resources": [],
+				"refer": [
+					"pages/outLine/stone/stoneCheck.html",
+					"pages/outLine/buriedSeg/buriedSegList.html"
+				],
+				"priority": 0
+			},
+			"pages/toec/equt/equtAdd.html": {
+				"resources": [],
+				"refer": [
+					"pages/main/getLatLon.html",
+					"pages/toec/equt/equtList.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/pipeSeg/pipeSegDetail.html": {
+				"resources": [],
+				"refer": [
+					"pages/outLine/well/wellCheck.html",
+					"pages/outLine/pipeSeg/pipeSegList.html"
+				],
+				"priority": 0
+			},
+			"pages/outLine/transmission/transmissionDetail.html": {
+				"resources": [],
+				"refer": [
+					"pages/outLine/transmission/transmissionList.html"
+				],
+				"priority": 0
+			}
+		},
+		"idle": {
+			"resources": [
+				"image/out/buriedSeg.png",
+				"image/map/icon_marka.png",
+				"js/media_components.js",
+				"js/md5.min.js",
+				"pages/outLine/pole/js/poleDetail.js",
+				"image/out/buried.png",
+				"pages/outLine/buriedSeg/js/buriedSegList.js",
+				"image/map/icon_gcoding_pole.png",
+				"image/splash.png",
+				"fonts/mui-icons-extra.ttf",
+				"pages/outLine/poleLine/poleLineList.html",
+				"pages/outLine/basestationSeg/basestationSegAdd.html",
+				"image/map/station.png",
+				"pages/outLine/pipeSeg/js/pipeSegDetail.js",
+				"image/map/well_around.png",
+				"image/map/station_sys.png",
+				"pages/main/header.html",
+				"pages/outLine/basestationSeg/basestationSegList.html",
+				"js/mui.poppicker.js",
+				"image/jizhan.png",
+				"js/mui.previewimage.js",
+				"pages/outLine/basestationSeg/basestationSegDetail.html",
+				"js/mui.js",
+				"pages/outLine/poleLine/js/poleLineDetail.js",
+				"js/city.data.js",
+				"image/map/fiberBox_around.png",
+				"css/pagestyle.css",
+				"css/media_components.css",
+				"image/map/sharp.png",
+				"js/muiMain.js",
+				"pages/outLine/poleLine/poleLineDetail.html",
+				"fonts/mui.ttf",
+				"image/banner2.jpg",
+				"image/uicon.png",
+				"js/city.data-3.js",
+				"image/out/pipeSeg.png",
+				"image/map/well_sys.png",
+				"image/60x60.gif",
+				"pages/toec/joint/jointList.html",
+				"pages/outLine/pipe/js/pipeAdd.js",
+				"pages/outLine/pipe/pipeDetail.html",
+				"image/map/icon_gis_site.png",
+				"js/amapui.js",
+				"image/xjgl.png",
+				"pages/outLine/well/js/wellList.js",
+				"pages/outLine/well/js/wellAdd.js",
+				"pages/outLine/basestation/js/basestationList.js",
+				"image/map/optical_sys.png",
+				"js/area.js",
+				"pages/outLine/poleLineSeg/js/poleLineSegList.js",
+				"pages/outLine/stone/js/stoneCheck.js",
+				"image/map/fiberBox_sys.png",
+				"pages/outLine/buriedSeg/js/buriedSegAdd.js",
+				"js/common/header.js",
+				"image/out/poleLineSeg.png",
+				"css/common.css",
+				"js/mui.min.js",
+				"image/map/optical_around.png",
+				"pages/toec/leadup/leadupList.html",
+				"image/toec/joint.png",
+				"image/add.png",
+				"pages/outLine/basestation/js/basestationAdd.js",
+				"image/out/poleLine.png",
+				"image/logo.png",
+				"image/map/station_around.png",
+				"image/map/support_around.png",
+				"image/jk_examine.png",
+				"image/banner3.jpg",
+				"pages/outLine/well/js/wellCheck.js",
+				"image/ic_launcher.png",
+				"pages/outLine/pole/js/poleAdd.js",
+				"image/sfxt.png",
+				"pages/outLine/buried/buriedDetail.html",
+				"css/mui.min.css",
+				"pages/outLine/pipe/pipeAdd.html",
+				"pages/outLine/basestationSeg/js/basestationSegAdd.js",
+				"image/map/fiberBox.png",
+				"image/map/pole_around.png",
+				"pages/outLine/buried/buriedList.html",
+				"pages/common/geoCoder.html",
+				"pages/outLine/basestationSeg/js/basestationSegDetail.js",
+				"image/map/support_sys.png",
+				"js/jquery-1.12.3.js",
+				"image/map/icon_gis_oto_around.png",
+				"image/out/pole.png",
+				"pages/outLine/stone/js/stoneDetail.js",
+				"image/map/pole.png",
+				"pages/outLine/stone/js/stoneAdd.js",
+				"js/mui.zoom.js",
+				"pages/main/popovers.html",
+				"image/toec/equt.png",
+				"pages/toec/toecMain.html",
+				"image/map.png",
+				"image/toec/leadup.png",
+				"js/mui.picker.js",
+				"css/userStyle.css",
+				"image/out/pipe.png",
+				"pages/outLine/basestationSeg/js/basestationSegList.js",
+				"js/jquery-1.12.3.min.js",
+				"image/map/current.png",
+				"image/toec/cable.png",
+				"pages/main/js/main.js",
+				"pages/outLine/buriedSeg/js/buriedSegDetail.js",
+				"js/include.js",
+				"image/out/stone.png",
+				"js/amapjqery.js",
+				"pages/outLine/pole/js/poleList.js",
+				"pages/outLine/poleLine/js/poleLineAdd.js",
+				"pages/outLine/buried/buriedAdd.html",
+				"image/map/optical.png",
+				"image/map/icon_gis_oto_sys.png",
+				"pages/outLine/stone/js/stoneList.js",
+				"pages/outLine/basestation/js/basestationDetail.js",
+				"pages/outLine/well/js/wellDetail.js",
+				"pages/outLine/pipeSeg/js/pipeSegList.js",
+				"pages/outLine/poleLineSeg/js/poleLineSegDetail.js",
+				"pages/pipe/addPipe.html",
+				"image/xlxj.png",
+				"pages/outLine/poleLine/poleLineAdd.html",
+				"image/map/pole_sys.png",
+				"pages/outLine/poleLineSeg/js/poleLineSegAdd.js",
+				"css/mui.poppicker.css",
+				"image/map/well.png",
+				"js/twbsPagination.min.js",
+				"pages/outLine/buried/js/buriedDetail.js",
+				"pages/outLine/buried/js/buriedList.js",
+				"pages/outLine/pipe/js/pipeDetail.js",
+				"pages/toec/cable/cableList.html",
+				"css/imageviewer.css",
+				"image/map/icon_gis_oto.png",
+				"css/mui.picker.css",
+				"pages/outLine/pipe/js/pipeList.js",
+				"image/map/close2.gif",
+				"pages/outLine/poleLine/js/poleLineList.js",
+				"image/map/stone_sys.png",
+				"image/banner1.jpg",
+				"pages/outLine/buried/js/buriedAdd.js",
+				"image/map/support.png",
+				"js/base64.js",
+				"pages/outLine/pipeSeg/js/pipeSegAdd.js",
+				"image/map/stone.png",
+				"css/app.css",
+				"image/out/well.png",
+				"pages/outLine/pole/js/poleCheck.js",
+				"image/user/user.png",
+				"image/map/stone_around.png"
+			]
+		}
+	}
+}

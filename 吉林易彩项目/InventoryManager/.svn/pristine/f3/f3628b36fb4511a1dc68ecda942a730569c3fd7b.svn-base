@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="bjres" extends="struts-default,json-default">
+	    <!-- 资源点 -->
+     	<action name="resPortAction" class="manage.V2.beijing.resource.web.ResPortAction"> 
+     	    
+        </action>
+        <!-- 分光器 -->
+     	<action name="resPosAction" class="manage.V2.beijing.resource.web.ResPosAction"> 
+     	    
+        </action>
+        
+     	<action name="pdaResource" class="interfaces.pdainterface.V2.beijing.resource.action.PDAResource">
+        	<result name="*" type="json">
+	        	<param name="root">jsonResponse</param>
+	    	</result>
+     	</action>
+    </package>
+</struts>

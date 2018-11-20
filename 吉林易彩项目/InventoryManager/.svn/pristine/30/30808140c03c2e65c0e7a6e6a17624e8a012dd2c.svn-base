@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="pdauser">	
+
+	<!-- 查询用户 -->
+	<select id="getUserExceptSelf" parameterClass="manage.user.pojo.UserInfoBean" resultClass="manage.user.pojo.UserInfoBean">
+	   SELECT u.userId userId,u.username username, u.realname realname,u.phoneNumber phoneNumber,
+	   		  d.domainName areaName
+	   FROM sys_user u,sys_domain d WHERE u.areano = d.domainCode AND u.userId != #userId#
+	   <dynamic prepend="">
+	    	<isNotEmpty prepend="AND" property="username"> "username" like '%$username$%' </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="realname"> realname like '%$realname$%' </isNotEmpty>
+	    	<isNotEmpty prepend="AND" property="phoneNumber"> phoneNumber like '%$phoneNumber$%' </isNotEmpty>
+			<isEqual prepend="AND" property="areaflag" compareValue="0">(u.areano like '$areano$%')</isEqual>
+			<isEqual prepend="AND" property="areaflag" compareValue="1">(u.areano = #areano#)</isEqual>
+	    </dynamic>
+	</select>
+	
+</sqlMap>

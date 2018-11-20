@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<link rel="stylesheet" href="../../css/common.css"/>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/amapjqery.js"></script>
+		<script src="../../js/twbsPagination.min.js"></script>
+		<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.2&amp;key=a2386c5e7c93247ca1bf8de7b0e009a2&callback=init"></script>
+		<script src="../../js/muiMain.js"></script>
+		<script src="js/main.js"></script>
+		
+		<style>
+			html,
+			 div.info-bottom {
+            	height: 0px;
+            	width: 100%;
+            	clear: both;
+            	text-align: center;
+        	}
+        	span.mui-icon {
+				font-size: 14px;
+				color: #007aff;
+				margin-left: -15px;
+				padding-right: 10px;
+			}
+        	
+        	.mui-plus .plus{
+				display: inline;
+			}
+			
+			.plus{
+				display: none;
+			}
+   
+			.mui-bar {
+				padding-left: 0;
+				padding-right: 0;
+			}
+			.title {
+				margin: 35px 15px 10px;
+			}
+			.title.content {
+				margin: 10px 15px 35px;
+				color: #bbb;
+				text-indent: 1em;
+				font-size: 14px;
+				line-height: 24px;
+			}
+			
+			.locateAddPopoverContent{
+				font-family: "微软雅黑";
+				font-size: 20px;
+				margin-top: 20%;
+				padding: 20px;
+			}
+			.locateAddPopoverSelect {
+				margin: 20px;
+			}
+			.locateAddPopoverButton button {
+				width: 40%;
+				background-color: #0D9BF2;
+				color: white;
+			}
+			p {
+				text-indent: 22px;
+			}
+			#locateAddPopover .mui-popover-arrow{
+				display: none;
+			}
+			.amap-info-close {
+				top: 10px;
+			}
+			
+			.header-title {
+				margin-left: 10px;
+				margin-right: 10px; 
+			}
+			.mui-segmented-control {
+				top: 1;
+			}
+			.mui-bar {
+				top: 1
+			}
+			.info {
+            	border: solid 1px silver;
+        	}
+		
+			div.info-top {
+           	 	position: relative;
+            	background: none repeat scroll 0 0 #F9F9F9;
+            	border-bottom: 1px solid #CCC;
+            	border-radius: 5px 5px 0 0;
+        	}
+        	div.info-top div {
+            	display: inline-block;
+            	color: #333333;
+            	font-size: 14px;
+            	font-weight: bold;
+            	line-height: 31px;
+            	padding: 0 10px;
+        	}
+        	div.info-top img {
+            	position: absolute;
+            	top: 10px;
+            	right: 10px;
+            	transition-duration: 0.25s;
+        	}
+        	div.info-top img:hover {
+            	box-shadow: 0px 0px 5px #000;
+        	}
+        	div.info-middle {
+            	font-size: 12px;
+            	padding: 6px;
+            	line-height: 20px;
+        	}
+        	div.info-bottom {
+            	height: 0px;
+            	width: 100%;
+            	clear: both;
+            	text-align: center;
+        	}
+        	div.info-bottom img {
+            	position: relative;
+            	z-index: 104;
+        	}
+        	span {
+            	margin-left: 5px;
+            	font-size: 11px;
+        	}
+        	.info-middle img {
+            	float: left;
+            	margin-right: 6px;
+        	}
+        	span {
+            	margin-left: 5px;
+            	font-size: 11px;
+        	}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<div class="header-title">
+			<a id="menu" class="mui-pull-left" href="#topPopover" style="display: none;">
+				<img src="../../image/user/user.png" />
+			</a>
+			<a class="mui-action-back mui-btn mui-btn-link mui-pull-right">返回</a>
+			<h1 class="mui-title">便利的资源采集体验</h1>
+			</div>
+			<!--
+            	作者：zhuxulus@gmail.com
+            	时间：2018-06-21.........
+            	描述：资源类型选项卡 start
+            -->
+			<div>
+				<!--选项卡标题区-mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted"-->
+				<div class="mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted " style="background-color: white;">
+				  <div class="mui-scroll">
+				  	  <a class="mui-control-item mui-active" typeName="all">全部</a>
+					  <a class="mui-control-item " typeName="site">基站</a>
+					  <a class="mui-control-item" typeName="opticTran">光交接箱</a>
+					  <a class="mui-control-item" typeName="pole">电杆</a>
+					  <a class="mui-control-item" typeName="well">管井</a>
+					  <a class="mui-control-item" typeName="stone">标石</a>
+				  </div>
+				</div>
+			</div>
+			<!--mui-tab-item  mui-control-item
+            	作者：zhuxulus@gmail.com
+            	时间：2018-06-21
+            	描述：资源类型选项卡 end
+            -->
+			
+		</header>
+		<!--<div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
+
+
+		</div> -->
+		
+		 
+		<div class="mui-content" style="position: absolute; height: 100%; width: 100%; background-color:white ;">
+			
+			<div id="offCanvasContentScroll" style="width:auto; height:100%">				
+			</div>
+			<div class=" mui-table-view mui-table-view-radio mui-pull-right" style="position: relative; top: -240px; left: 0px;background: transparent;">
+		 <!--<div class="mui-pull-right mui-table-view mui-table-view-radio" style="position: relative; top: -240px; left: 0px;">-->
+				<div  class="mui-input-row mui-radio mui-left">
+				    <label>500m</label>
+				    <input id="wbm" name="radio" type="radio" value="500" checked>
+				</div>
+				<div  class="mui-input-row mui-radio mui-left">
+				    <label>800m</label>
+				    <input id="bbm" name="radio" type="radio" value='800'>
+				</div>
+				<div class="mui-input-row mui-radio mui-left">
+				    <label>1km</label>
+				    <input id="yqm" name="radio" type="radio" value="1000">
+				</div>
+				<div  class="mui-input-row mui-radio mui-left">
+				    <label>2km</label>
+				    <input id="eqm" name="radio" type="radio" value="2000">
+				</div>
+			</div>
+				
+			<a onclick="setCenter()" class="mui-pull-left" style="position: relative; top: -110px; left: 10px;background: transparent;">
+				<img src="../../image/map/setdw.png" />
+			</a>
+				
+		</div>
+		
+		
+			
+	
+		
+		<!--
+        	作者：zhuxulus@gmail.com
+        	时间：2018-06-21
+        	描述：修改为Android版按钮 start
+        -->
+		<div class="button-group mui-bar mui-bar-footer" style="width:100%;">
+            <input id="pantoBtn"  type="button" style="background: #1296fb; color: white;" onclick="relate()" value="关联"/>
+    		&nbsp;&nbsp;
+    		<input id="locateAdd" type="button" style="background: #1296fb; color: white;" onclick="locateAdd()" value="定位添加"/>
+    		&nbsp;&nbsp;
+    		<!--
+    		<input id="refreshBtn" type="button" class="button" onclick="refreshFun()" value="刷新"/>
+    		&nbsp;&nbsp;
+    		<input id="resourceViewBtn" type="button" class="button" onclick="resourceView()" value="资源查看"/>
+    		&nbsp;&nbsp;
+    		-->
+    		<input id="deleteAllBtn" type="button" style="background: #1296fb; color: white;" onclick="deleteAll()" value="全部删除"/>
+    		&nbsp;&nbsp;
+    		<input id="reverseDeleteBtn" type="button" style="background: #1296fb; color: white;" onclick="reverseDelete()" value="反向删除"/>
+    		<input id="reverseDeleteConfirmBtn" type="button"  style="background-color: red;color: white;display: none;" onclick="reverseDeleteConfirm()" value="确认"/>
+    		<input id="reverseDeleteCancelBtn" type="button"  style="background-color: red;color: white;display: none;" onclick="reverseDeleteCancel()" value="取消"/>
+    		<input id="relateConfirmBtn" type="button"  style="background-color: red;color: white;display: none;" onclick="relateConfirm()" value="确认"/>
+    		<input id="relateCancelBtn" type="button"  style="background-color: red;color: white;display: none;" onclick="relateCancel()" value="取消"/>
+		</div>
+		<!--
+        	作者：zhuxulus@gmail.com
+        	时间：2018-06-21
+        	描述：修改为Android版按钮 end
+        -->
+            
+		<div id="topPopover" class="mui-popover">
+			<div class="mui-popover-arrow"></div>
+			<div class="mui-scroll-wrapper">
+			<div class="mui-scroll">
+			<ul class="mui-table-view">
+				<li class="mui-table-view-cell"><a  href="javascript:void(0)" onclick="sendTask()">工单列表</a>
+				</li>
+				<li class="mui-table-view-cell"><a href="#">用户权限</a>
+				</li>
+				<li class="mui-table-view-cell"><a href="javascript:void(0)" onclick="getOutLine()">外线资源</a>
+				</li>
+				<li class="mui-table-view-cell"><a href="javascript:void(0)" onclick="getPipe()">管线资源</a>
+				</li>
+				<li class="mui-table-view-cell"><a href="javascript:void(0)" onclick="getToec()">光电资源</a>
+				</li>
+				<li class="mui-table-view-cell"><a href="#">内线资源</a>
+				</li>
+			</ul>
+			</div>
+			</div>
+		</div>
+		
+		<!--
+        	作者：zhuxulus@gmail.com
+        	时间：2018-06-21
+        	描述：start
+        -->
+		<div id="locateAddPopover" class="mui-popover">
+			<div class='locateAddPopoverContent'>
+				<div class="locateAddPopoverTitle">请选择添加资源类型</div>
+				<div class="locateAddPopoverSelect">
+					<select id="resourceType" class="mui-btn-block">
+						<option value="well" selected="true">管井</option>
+						<option value="pole">电杆</option>
+						<option value="stone">标石</option>
+						<option value="optical">光交</option>
+					</select>
+				</div>
+				<div class="locateAddPopoverButton">
+					<button id="locateAddSubmitBtn" onclick="locateAddSubmit()">确定</button>
+					<button id="locateAddCancelBtn" onclick="locateAddCancel()">取消</button>
+				</div>
+			</div>
+		</div>
+		<!--
+        	作者：zhuxulus@gmail.com
+        	时间：2018-06-21
+        	描述：end
+        -->
+        
+		<script>
+			var map,locLon,locLat,resType,resData,reverseDeleteStatus;
+			var lineList = new Array();
+			var lineStart = new Array();
+			var lineEnd = new Array();
+			var markList = new Array();
+			var markObjectList = new Array();
+			var deletObjectList = new Array();
+			var reverseDeleteRes = new Array();
+			var title,content=[];
+			var isRelating = false;
+            var relatmarkinfo = new Array();
+            var fw;
+          
+		function init(){
+		mui.plusReady(function(){
+		
+			AMapUI.loadUI(['misc/PositionPicker'], function(PositionPicker) {
+				map = new AMap.Map('offCanvasContentScroll',{
+					resizeEnable: true,
+					zoomEnable:true,
+					doubleClickZoom:true,
+					touchZoom:true,
+					zoom:16
+                });
+				var positionPicker = new PositionPicker({
+            		mode: 'dragMap',
+            		map: map
+        		});
+        	    map.center = [116.397428, 39.90923];
+        		//定位当前位置        		
+	        	plus.geolocation.getCurrentPosition(geoInf, function(e) {
+					plus.nativeUI.closeWaiting();
+					mui.toast("定位失败，请点击定位按钮或切换网络重试" + e.message);
+				}, {
+					geocode: true
+				});
+        		/*map.plugin('AMap.Geolocation', function () {
+            		geolocation = new AMap.Geolocation({
+                		enableHighAccuracy: true,//是否使用高精度定位，默认:true
+                		timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+                		maximumAge: 0,           //定位结果缓存0毫秒，默认：0
+                		convert: true,           //自动偏移坐标，偏移后的坐标为高德坐标，默认：true
+                		showButton: true,        //显示定位按钮，默认：true
+                		buttonPosition: 'LB',    //定位按钮停靠位置，默认：'LB'，左下角
+                		buttonOffset: new AMap.Pixel(10, 80),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+                		showMarker: true,        //定位成功后在定位到的位置显示点标记，默认：true
+                		showCircle: true,        //定位成功后用圆圈表示定位精度范围，默认：true
+                		panToLocation: true,     //定位成功后将定位到的位置作为地图中心点，默认：true
+                		zoomToAccuracy:true      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+            		});
+            		map.addControl(geolocation);
+            		geolocation.getCurrentPosition();
+            		AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
+           			AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+      		    });*/
+				map.plugin(['AMap.ToolBar'], function() {
+        			var toolBar = new AMap.ToolBar({locationMarker: positionPicker});
+        			toolBar.doLocation();
+        			//map.addControl(toolBar);
+    			});
+    			positionPicker.start();
+    			positionPicker.on('success', function(positionResult) {
+        			lon=positionResult.position.lng;
+        			lat =  positionResult.position.lat;
+        			
+        		});
+			});
+					
+			
+			//为导航条增加监听事件
+			var resourceTypeNavList = document.getElementsByClassName('mui-control-item');
+			for (var i = 0; i < resourceTypeNavList.length; i++) {
+			    var resourceTypeNav = resourceTypeNavList[i];
+			    
+			    resourceTypeNav.addEventListener('tap', function(event) {
+			    	
+			    	event.stopPropagation();
+			    	var type = this.attributes['typeName'].value;
+			    	console.log("type======"+type);
+			    	toggleResourcesByType(type);  
+			    	var currentlist = document.getElementsByClassName("mui-control-item mui-active");
+			    	for (var m = 0; m < currentlist.length; m++) {
+			    		var current = currentlist[m];
+			    		current.classList.remove('mui-active')
+			    	}
+			    	
+			    	this.classList.add('mui-active'); 
+				    //切换选项卡高亮
+				 /*   var current = document.getElementsByClassName("mui-control-item mui-active");
+				    if (resourceTypeNav !== current) {
+				        current.classList.remove('mui-active');
+				        
+                    }*/
+			    }, false)
+			}
+			
+			$('input[type=radio][name=radio]').change(function() {
+				console.log("走的这里-----radio---")
+				 fw =this.value;
+				 getGisRes(locLon,locLat,this.value);
+		    });
+	    })
+		}
+		   
+
+		</script>
+	</body>
+
+</html>

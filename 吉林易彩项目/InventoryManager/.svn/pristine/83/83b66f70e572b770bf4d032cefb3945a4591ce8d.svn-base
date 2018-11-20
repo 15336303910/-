@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="itemConfig">
+	<select id="getConfigs" parameterClass="manage.gd.checkConfig.pojo.CheckItem" resultClass="manage.gd.checkConfig.pojo.CheckItem">
+		select 
+			a.id as id,
+			a.item_desc as itemDesc,
+			a.belong_dimension as belongDimension,
+			a.is_using as isUsing,
+			a.last_modify_date as lastModifyDate,
+			a.is_deny_all as isDenyAll,
+			a.is_consider as isConsider,
+			a.consider_column as considerColumn,
+			a.res_consider_column as resConsiderColumn,
+			a.edit_type as editType,
+			b.resource_cn_name as dimensionName 
+		from config_checks a,config_resource_table b  		
+		where a.item_desc != '' and a.belong_dimension = b.resource_en_name
+		<dynamic prepend=" AND ">
+	    	<isNotEmpty prepend="AND" property="id">(a.id=#id#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="itemDesc">(a.item_desc like '%$itemDesc$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="belongDimension">(a.belong_dimension like '%$belongDimension$%')</isNotEmpty>
+	 	</dynamic> 
+	 	order by belongDimension asc 
+	 	<dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+		</dynamic>
+	</select>
+	<select id="getConfigsCount" parameterClass="manage.gd.checkConfig.pojo.CheckItem" resultClass="Integer">
+		select count(*) from config_checks where item_desc != ''
+      	<dynamic prepend=" AND ">
+	    	<isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="itemDesc">(item_desc like '%$itemDesc$%')</isNotEmpty>
+	 	</dynamic>	
+	</select>
+	<update id="updateItem" parameterClass="manage.gd.checkConfig.pojo.CheckItem">
+		update config_checks 
+		set 
+			last_modify_date = now(),
+			item_desc = #itemDesc#,
+			belong_dimension = #belongDimension#,
+			is_using = #isUsing#,
+			is_deny_all = #isDenyAll#,
+			is_consider = #isConsider#,
+			consider_column = #considerColumn#,
+			res_consider_column = #resConsiderColumn#,
+			edit_type = #editType# 
+		where id = #id#
+	</update>
+	<insert id="insertItem" parameterClass="manage.gd.checkConfig.pojo.CheckItem">
+		insert into config_checks(
+			item_desc,belong_dimension,is_using,last_modify_date,is_deny_all,is_consider,consider_column,edit_type,res_consider_column
+		)values(
+			#itemDesc#,#belongDimension#,#isUsing#,now(),#isDenyAll#,#isConsider#,#considerColumn#,#editType#,#resConsiderColumn#
+		)
+		<selectKey resultClass="int" keyProperty="id" >
+			select last_insert_id() as id
+		</selectKey>
+	</insert>
+	<update id="deleteItem" parameterClass="manage.gd.checkConfig.pojo.CheckItem">
+		delete from config_checks where id = #id#
+	</update>
+</sqlMap>
+    

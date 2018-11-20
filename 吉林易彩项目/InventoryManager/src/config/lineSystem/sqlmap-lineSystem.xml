@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="lineSystem">
+    <!-- 管线系统 -->
+     <select id="getLineSystem" parameterClass="interfaces.pdainterface.lineSystem.pojo.LineSystemInfo" resultClass="interfaces.pdainterface.lineSystem.pojo.LineSystemInfo">
+        select
+			t.id,t.lineName,t.lineArea,t.lineModel,t.lineType,t.lineComp,
+			t.serviceLevel,t.maintainLength,t.countLength,t.deleteflag,t.createTime,t.creater,t.remark,
+			t.lastUpTime,t.lastUpMan,t.resNum,t.direction,t.propertyNature,t.propertyComp
+ 		from line_system t where t.deleteflag =0
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="id"> t.id = #id#</isNotNull>
+            <isNotEmpty prepend=" AND " property="lineName"> t.lineName like '%$lineName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="lineArea"> (t.lineArea like '%$lineArea$%' or t.creater =#creater#)</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="lineModel"> t.lineModel=#lineModel#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="lineType"> t.lineType=#lineType#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="lineComp"> t.lineComp = #lineComp#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="serviceLevel"> t.serviceLevel =#serviceLevel#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintainLength"> t.maintainLength=#maintainLength#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="remark"> t.remark like '%$remark$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="extendsSql">($extendsSql$)</isNotEmpty>
+        </dynamic>
+        order by t.id desc 
+        <dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+    </select>
+    
+     <!-- 得到管线的实体类 -->
+     <select id="getLineSysObj" parameterClass="interfaces.pdainterface.lineSystem.pojo.LineSystemInfo" resultClass="interfaces.pdainterface.lineSystem.pojo.LineSystemInfo">
+        select
+			t.id,t.lineName,t.lineArea,t.lineModel,t.lineType,t.lineComp,
+			t.serviceLevel,t.maintainLength,t.countLength,t.deleteflag,t.createTime,t.creater,t.remark,
+			t.lastUpTime,t.lastUpMan,t.resNum,t.direction,t.propertyNature,t.propertyComp
+ 		from line_system t where t.deleteflag =0
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="id"> t.id = #id#</isNotNull>
+            <isNotEmpty prepend=" AND " property="lineName">t.lineName = #lineName#</isNotEmpty>
+        </dynamic>
+    </select>
+    
+     <!-- 得到系统总数 -->
+     <select id="getLineSysCount" parameterClass="interfaces.pdainterface.lineSystem.pojo.LineSystemInfo" resultClass="Integer">
+        select
+			count(*)
+ 		from line_system t where t.deleteflag =0
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="id"> t.id = #id#</isNotNull>
+            <isNotEmpty prepend=" AND " property="lineName"> t.lineName like '%$lineName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="lineArea"> t.lineArea like '%$lineArea$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="lineModel"> t.lineModel=#lineModel#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="lineType"> t.lineType=#lineType#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="lineComp"> t.lineComp = #lineComp#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="serviceLevel"> t.serviceLevel =#serviceLevel#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintainLength"> t.maintainLength=#maintainLength#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="remark"> t.remark like '%$remark$%'</isNotEmpty>
+        </dynamic>
+    </select>
+    
+     <!-- 修改管线系统 -->
+     <update id="upLineSystem" parameterClass="interfaces.pdainterface.lineSystem.pojo.LineSystemInfo">
+        update line_system t set lastUpTime =now()
+        <dynamic prepend=" , ">
+            <isNotEmpty prepend=" , " property="lineName"> t.lineName =#lineName#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="lineArea"> t.lineArea =#lineArea#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="lineModel"> t.lineModel=#lineModel#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="lineType"> t.lineType=#lineType#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="lineComp"> t.lineComp = #lineComp#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="resNum"> t.resNum = #resNum#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="serviceLevel"> t.serviceLevel =#serviceLevel#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="countLength"> t.countLength=#countLength#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="maintainLength"> t.maintainLength=#maintainLength#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="remark"> t.remark =#remark#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="lastUpMan"> t.lastUpMan =#lastUpMan#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="direction"> t.direction =#direction#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="deleteflag"> t.deleteflag =#deleteflag#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="propertyNature"> t.propertyNature=#propertyNature#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="propertyComp"> t.propertyComp=#propertyComp#</isNotEmpty>
+        </dynamic>
+         <dynamic prepend=" where ">
+            <isNotEmpty prepend=" AND" property="id">t.id = #id#</isNotEmpty>
+        </dynamic>
+    </update>
+    
+    <!-- 增加管线系统 -->
+    <insert id="insertLineSys" parameterClass="interfaces.pdainterface.lineSystem.pojo.LineSystemInfo">
+        insert into line_system(
+        	lineName,lineArea,lineModel,lineType,lineComp,serviceLevel,direction,
+        	maintainLength,deleteflag,createTime,creater,remark,countLength,propertyComp,propertyNature
+        )
+        values
+        (
+        	#lineName#,#lineArea#,#lineModel#,#lineType#,#lineComp#,#serviceLevel#,#direction#,
+        	#maintainLength#,0,now(),#creater#,#remark#,#countLength#,#propertyComp#,#propertyNature#
+        )
+        <selectKey resultClass="int" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+    </insert>
+    
+</sqlMap>

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>管线系统详情</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="../../css/app.css"/>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/jquery-1.12.3.js"></script>
+		<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.2&amp;key=f256f09cbe5b5303b39bf4c43bf72c0b&callback=init"></script>
+	</head>
+	<body onLoad="mapInit()">
+		<form class="mui-input-group">
+			<div id="iCenter"></div>
+			<div class="mui-input-row">
+				<label>系统名称:</label>
+				<input type="text" class="mui-input-clear" id="lineName" name="lineName" value="" width="30%" placeholder="管线名称">
+			</div>
+			<div class="mui-input-row">
+				<label>管线类型:</label>
+				<select class="mui-btn-block">
+					<option value="2">管道</option>
+					<option value="0">杆路</option>
+					<option value="1">直埋</option>
+				</select>
+			</div>
+			<div class="mui-input-row">
+				<label>产权性质:</label>
+				<select id="propertyNature" class="mui-btn-block">
+					<option value="0">自建</option>
+					<option value="1">合建</option>
+					<option value="2">共建</option>
+					<option value="3">租用</option>
+					<option value="4">购买</option>
+					<option value="5">置换</option>
+					<option value="6">其他</option>
+				</select>
+			</div>
+			<div class="mui-input-row">
+				<label>产权单位:</label>
+				<select id="propertyComp" class="mui-btn-block">
+					<option value="0">中国移动</option>
+					<option value="1">中国联通</option>
+					<option value="2">中国电信</option>
+					<option value="3">中国铁通</option>
+					<option value="4">广电</option>
+					<option value="5">电力</option>
+					<option value="6">业主</option>
+					<option value="7">其他</option>
+				</select>
+			</div>
+			<div class="mui-input-row">
+				<label>所属区县:</label>
+				<input type="text" id="lineArea" name="lineArea" value="" placeholder="所属区县">
+			</div>
+		</form>
+		<script>
+			var mapObj;
+			//初始化一个隐藏的页面信息
+			function mapInit(){
+				mapObj = new AMap.Map('iCenter');
+				getAddByLonLat('117.1297700852','36.6634662002');
+			}
+			mui.init({
+				swipeBack:true
+			});
+			var LocString = String(window.document.location.href); 
+			mui.plusReady(function(){
+				pipeInit();
+			})
+			
+			
+			//得到详情页面
+			function pipeInit(){
+				var UID = plus.storage.getItem("uid");//获取缓存记录
+				var logingUser = plus.storage.getItem("logingUser");//当前登录用户
+				var areaName = plus.storage.getItem("areaName");//得到权限控制地市
+				var url = plus.storage.getItem("url")+"/pdaLineSystem!getLineSystemObj.interface";
+			}
+			
+			//根据当前经纬度获取地址信息
+			function getAddByLonLat(lon,lat) {
+    			var lnglatXY = new AMap.LngLat(lon,lat);
+    			mapObj.plugin(["AMap.Geocoder"], function() {       
+        			MGeocoder = new AMap.Geocoder({
+            			radius: 1000,
+            			extensions: "all"
+        			});
+        		AMap.event.addListener(MGeocoder, "complete", geocoder_CallBack2);
+       			MGeocoder.getAddress(lnglatXY);
+    			});
+			}
+			function geocoder_CallBack2(data){
+				var address;
+    			address = data.regeocode.formattedAddress;
+			}
+			//得到传递参数
+			function getQueryStr(str){
+				var rs = new RegExp("(^|)" + str + "=([^&]*)(&|$)", "gi").exec(LocString), tmp; 
+				if (tmp = rs) { 
+					return tmp[2]; 
+				} 
+				return ""; 
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>杆路段新增</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../../../css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="../../css/app.css"/>
+		<link href="../../../css/mui.picker.css" rel="stylesheet" />
+		<link href="../../../css/mui.poppicker.css" rel="stylesheet" />
+		<script src="../../../js/mui.min.js"></script>
+		<script src="../../../js/jquery-1.12.3.js"></script>
+		<script src="../../../js/mui.picker.js"></script>
+		<script src="../../../js/mui.poppicker.js"></script>
+		<script src="../../../js/city.data.js"></script>
+		<script src="../../../js/city.data-3.js"></script>
+		<script src="js/poleLineSegDetail.js"></script>
+		<script src="../../../js/changeCity.js"></script>
+		<script src="../../../js/loadData.js"></script>
+		<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.2&amp;key=f256f09cbe5b5303b39bf4c43bf72c0b"></script>
+		<style>
+			.mui-content {
+				width: 100%;
+				padding-bottom: 150%; 
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">杆路段</h1>
+		</header>
+		<footer id="foot_btn" class="mui-bar mui-bar-footer" style="position: fixed; bottom: 0; left: 0;right: 0;">
+			<table class="mui-button-row" style="width: 100%;margin-top: 2px;">
+				<th><button id="submit_btn" class="mui-btn mui-btn-primary" onclick="subPoleLineSeg()">提交</button></th>
+				<th><button id="delete_btn" class="mui-btn mui-btn-primary" onclick="deletePoleLineSeg()">删除</button></th>
+			</table>
+		
+			
+			
+		</footer>
+		<form class="mui-content mui-input-group" >
+			<div id="iCenter"></div>
+			<div class="mui-input-row " style="width: 100%; ">
+				<label style="width: 30%; float: left;">杆路段名称:</label>
+				<input type="hidden" id="int_id"  value="" />
+				<input type="text" class="mui-input-clear"  id="zh_label" value="" style="width: 70%; float: left;" placeholder="杆路段名称"/>
+			</div>
+			<div class="mui-input-row">
+				<label>所属城市:</label>
+				<select id="city_id" class="mui-btn-block" onchange="changeCity(this)">
+					<option value="0">--请选择城市--</option>
+					<option value="431">长春市</option>
+					<option value="432">吉林市</option>
+					<option value="433">延边州</option>
+					<option value="434">四平市</option>
+					<option value="435">通化市</option>
+					<option value="436">白城市</option>
+					<option value="437">辽源市</option>
+					<option value="438">松原市</option>
+					<option value="439">白山市</option>
+				</select>
+			</div>
+			
+			<div class="mui-input-row">
+				<label>所属区县:</label>
+				<select id="county_id" class="mui-btn-block" >
+					<option value="0">--请选择区县--</option>
+				</select>
+			</div>
+			<div class="mui-input-row">
+				<label style="width: 30%; float: left;">起始电杆:</label>
+				<input type="hidden" id="start_pole_id" name="start_pole_id" value="" />
+				<input type="hidden" id="startLon" name="startLon" value="" />
+				<input type="hidden" id="startLat" name="startLat" value="" />
+				<input type="text" class="mui-input-clear" readonly="true" id="startDeviceName" name="startDeviceName" value="" style="width: 60%; float: left;" readonly="true" />
+				<img style="width: 10%;" src="../../../image/map/current.png"  onclick="checkPole('start')"/>
+			</div>
+			<div class="mui-input-row">
+				<label style="width: 30%; float: left;">终止电杆:</label>
+				<input type="hidden" id="end_pole_id" name="end_pole_id" value="" />
+				<input type="hidden" id="endLon" name="endLon" value="" />
+				<input type="hidden" id="endLat" name="endLat" value="" />
+				<input type="text" class="mui-input-clear" readonly="true" id="endDeviceName" name="endDeviceName" value="" style="width: 60%; float: left;" readonly="true" />
+				<img style="width: 10%;" src="../../../image/map/current.png"  onclick="checkPole('end')"/>
+			</div>
+			<div class="mui-input-row">
+				<label style="width: 30%; float: left;">杆路长度:</label>
+				<input type="text" class="mui-input-clear" id="line_length" name="line_length" readonly="true" value="" style="width: 55%; float: left;" />
+				<label style="width: 15%; float: right;">(米)</label>
+			</div>
+	
+			<div class="mui-input-row">
+				<label>产权性质:</label>
+				<select id="ownership" class="mui-btn-block">
+					<option value="0">自建</option>
+					<option value="1">合建</option>
+					<option value="2">共建</option>
+					<option value="3">租用</option>
+					<option value="4">购买</option>
+					<option value="5">置换</option>
+					<option value="6">其他</option>
+				</select>
+			</div>
+			<div class="mui-input-row">
+				<label>用途:</label>
+				<select id="purpose" class="mui-btn-block">
+					<option value="0">自用</option>
+					<option value="1">出租</option>
+					<option value="2">共享</option>
+				</select>
+			</div>
+			<div class="mui-input-row">
+				<label>维护单位:</label>
+				<select id="maintain_company" class="mui-btn-block">
+					<option value="0">请选择</option>
+				</select>
+			</div>
+			<div class="mui-input-row">
+				<label>维护区域:</label>
+				<select id="maintain_area" class="mui-btn-block">
+					<option value="0">请选择</option>
+				</select>
+			</div>
+			<div class="mui-input-row">
+				<label style="width: 30%; float: left;">组长:</label>
+				<input type="text" class="mui-input-clear" id="maintain_manager" name="maintain_manager" value="" style="width: 70%; float: left;" />
+			</div>
+			<div class="mui-input-row">
+				<label style="width: 30%; float: left;">组长电话:</label>
+				<input type="text" class="mui-input-clear" id="maintain_manager_phone" name="maintain_manager_phone" value="" style="width: 70%; float: left;" />
+			</div>
+			<div class="mui-input-row">
+				<label style="width: 30%; float: left;">备注:</label>
+				<textarea style="width: 70%; float: left;" id="remark" name="remark" rows="3">
+				</textarea>
+			</div>
+		</form>
+		<script>
+			var EARTH_RADIUS = 6378137.0;
+			var PI = Math.PI; 
+		/*	var wellId;
+			(function($, doc) {
+				$.ready(function() {
+					var _getParam = function(obj, param) {
+						return obj[param] || '';
+					};
+					var cityPicker3 = new $.PopPicker({
+						layer: 3
+					});
+					cityPicker3.setData(cityData3);
+					var showCityPickerButton = doc.getElementById('showCityPicker3');
+					showCityPickerButton.addEventListener('tap', function(event) {
+						var address = "";
+						cityPicker3.show(function(items) {
+							if(_getParam(items[0], 'text') == _getParam(items[1], 'text')){
+								address =_getParam(items[1], 'text') + "_" + _getParam(items[2], 'text')+"_";
+							}else{
+								address =_getParam(items[0], 'text') + "_" + _getParam(items[1], 'text') + "_" + _getParam(items[2], 'text');
+							}
+							document.getElementById("maintenanceAreaName").value =address;
+						});
+					}, false);
+				});
+			})(mui, document);*/
+			
+			var mapObj;
+			//初始化一个隐藏的页面信息
+			function mapInit(){
+				mapObj = new AMap.Map('iCenter');
+				getAddByLonLat('117.1297700852','36.6634662002');
+			}
+			var LocString = String(window.document.location.href); 
+			mui.plusReady(function(){
+				initLineSeg();
+				mui.preload({
+					url:'poleLineSegDetail.html',
+					id:"poleLineSegDetail.html",
+					styles:{},
+					extras:{}
+				});
+				
+			})
+			
+		</script>
+		<script>
+			document.addEventListener('poleLineSegAdd', function(ee) {
+				if(ee.detail.operate =='start'){
+					$("#start_pole_id").val(ee.detail.int_id);
+					$("#startDeviceName").val(ee.detail.zh_label);
+					$("#startLon").val(ee.detail.lon);
+					$("#startLat").val(ee.detail.lat);
+				}
+				if(ee.detail.operate == 'end'){
+					$("#end_pole_id").val(ee.detail.int_id);
+					$("#endDeviceName").val(ee.detail.zh_label);
+					$("#endLon").val(ee.detail.lon);
+					$("#endLat").val(ee.detail.lat);
+				}
+				if($("#startLon").val() != null && $("#startLon").val()  != '' && $("#endLon").val() !=null &&  $("#endLon").val() != ''){
+					var length = getFlatternDistance($("#startLat").val(),$("#startLon").val(),$("#endLat").val(),$("#endLon").val());
+					$("#line_length").val(toDecimal(length));
+					//$("#maintainLength").val(toDecimal(length));
+					$("#zh_label").val($("#startDeviceName").val()+"-"+$("#endDeviceName").val()+"杆路段")
+				}
+        	})
+		</script>
+	</body>
+</html>

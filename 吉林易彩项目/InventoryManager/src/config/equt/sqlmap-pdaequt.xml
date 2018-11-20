@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="pdaequt">	
+
+	<!-- 获取设备信息 -->
+	<select id="getDocEqut" parameterClass="manage.document.pojo.DocEqutInfoBean" resultClass="manage.document.pojo.DocEqutInfoBean">
+	select * from job_doc_equtinfo 
+	<dynamic prepend="WHERE">
+	    <isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="eid">(eid=#eid#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="estat">(estat=#estat#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="ecode">(ecode like '%$ecode$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="etype">(etype=#etype#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="ename">(ename like '%$ename$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="eaddr">(eaddr like '%$eaddr$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="note">(note like #note#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="lon">(lon = #lon#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="lat">(lat = #lat#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="note">(note like #note#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="mp">(mp=#mp#)</isNotEmpty>
+		<isNotNull prepend="AND" property="areano">(areano = #areano#)</isNotNull>
+	</dynamic>
+	<dynamic prepend="">
+	    <isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    <isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	</dynamic>
+	</select>
+	
+	<!-- 得到所有的机架光交想数据 -->
+	<select id="getAllEqut" parameterClass="manage.equt.pojo.EqutInfoBean" resultClass="manage.equt.pojo.EqutInfoBean">
+	select id,eid,estat,etype,lat,lon,ename,eaddr,gid,posX,posY,mtime,parenteid,
+	jijialeixing,jijiahanghao,jijialiehao,gjxmianshu,gjxhangshu,gjxlieshu,parties,
+	genPartOptical,genPartOpticalId,isPartFiber,partFiberRank,resNum,freeCapacity,dataQualityPrincipal,
+	installCapacity,designCapacity,usedCapacity,changjia,synthBusiness,synthBusinessName,resNum,address,
+	equtLength,equtTall,equtWide,assetsNo,remark,sharingTypeEnumId,constructionSharingOrg,del,resNum
+	 from job_equtinfo where 1=1
+	<dynamic prepend="AND">
+	    <isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="eid">(eid like '%$eid$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="resNum">(resNum=#resNum#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="extendsSql">($extendsSql$)</isNotEmpty>
+	</dynamic>
+	</select>
+	
+	<!-- 获取设备信息 -->
+<!-- 
+	<select id="getEqut" parameterClass="manage.equt.pojo.EqutInfoBean" resultClass="manage.equt.pojo.EqutInfoBean">
+	select id,eid,estat,etype,lat,lon,ename,eaddr,gid,posX,posY,mtime,parenteid,
+	jijialeixing,jijiahanghao,jijialiehao,gjxmianshu,gjxhangshu,gjxlieshu,parties,
+	genPartOptical,genPartOpticalId,isPartFiber,partFiberRank,resNum,freeCapacity,dataQualityPrincipal,
+	installCapacity,designCapacity,usedCapacity,changjia,synthBusiness,synthBusinessName,resNum,address,
+	equtLength,equtTall,equtWide,assetsNo,remark,sharingTypeEnumId,constructionSharingOrg,del,resMotion
+	 from job_equtinfo where del=0
+	  -->
+	  <select id="getEqut" parameterClass="manage.equt.pojo.EqutInfoBean" resultClass="manage.equt.pojo.EqutInfoBean">
+	select id,eid,estat,etype,lat,lon,ename,eaddr,gid,posX,posY,mtime,parenteid,
+	jijialeixing,jijiahanghao,jijialiehao,gjxmianshu,gjxhangshu,gjxlieshu,parties,
+	genPartOptical,genPartOpticalId,isPartFiber,partFiberRank,resNum,freeCapacity,dataQualityPrincipal,
+	installCapacity,designCapacity,usedCapacity,changjia,synthBusiness,synthBusinessName,resNum,address,
+	equtLength,equtTall,equtWide,assetsNo,remark,sharingTypeEnumId,constructionSharingOrg,del,resMotion
+	 from job_equtinfo where del=0
+	  
+	  
+	  
+	<dynamic prepend="AND">
+	    <isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="eid">(eid like '%$eid$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="estat">(estat=#estat#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="ecode">(ecode like '%$ecode$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="etype">(etype=#etype#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="ename"><![CDATA[ ename like #ename#]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="eaddr">(eaddr like '%$eaddr$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="latl"><![CDATA[ lat >= #latl# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="lath"><![CDATA[ lat <= #lath# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="lonl"><![CDATA[ lon >= #lonl# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="lonh"><![CDATA[ lon <= #lonh# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="gid">(gid=#gid#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="dataQualityPrincipal">(dataQualityPrincipal=#dataQualityPrincipal#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="parties">(parties=#parties#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="changjia">(changjia=#changjia#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="jijialeixing">(jijialeixing=#jijialeixing#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="jijiahanghao">(jijiahanghao=#jijiahanghao#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="jijialiehao">(jijialiehao=#jijialiehao#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="gjxmianshu">(gjxmianshu=#gjxmianshu#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="gjxhangshu">(gjxhangshu=#gjxhangshu#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="gjxlieshu">(gjxlieshu=#gjxlieshu#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="genPartOptical">(genPartOptical=#genPartOptical#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="genPartOpticalId">(genPartOpticalId=#genPartOpticalId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="isPartFiber">(isPartFiber=#isPartFiber#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="partFiberRank">(partFiberRank=#partFiberRank#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="freeCapacity">(freeCapacity=#freeCapacity#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="installCapacity">(installCapacity=#installCapacity#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="designCapacity">(designCapacity=#designCapacity#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="usedCapacity">(usedCapacity=#usedCapacity#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="resNum">(resNum=#resNum#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="extendsSql">($extendsSql$)</isNotEmpty>
+	</dynamic>
+	order by ENAME asc
+	<dynamic prepend="">
+	    <isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    <isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	</dynamic>
+	</select>
+	
+	<update id="updateEqut" parameterClass="manage.equt.pojo.EqutInfoBean">
+		update job_equtinfo set lastUpdateDate = now(),resMotion = null
+		<dynamic prepend=" , ">
+		<isNotNull prepend="," property="ecode">ecode=#ecode#</isNotNull>
+		<isNotNull prepend="," property="estat">estat=#estat#</isNotNull>
+		<isNotNull prepend="," property="etype">etype=#etype#</isNotNull>
+		<isNotNull prepend="," property="emodel">emodel=#emodel#</isNotNull>
+		<isNotNull prepend="," property="ename">ename=#ename#</isNotNull>
+		<isNotNull prepend="," property="eaddr">eaddr=#eaddr#</isNotNull>
+		<isNotEmpty prepend="," property="lon">lon=#lon#</isNotEmpty>
+		<isNotEmpty prepend="," property="lat">lat=#lat#</isNotEmpty>
+		<isNotNull prepend="," property="mtime">mtime=#mtime#</isNotNull>		
+		<isNotNull prepend="," property="gid">gid=#gid#</isNotNull>			
+		<isNotNull prepend="," property="posX">posX=#posX#</isNotNull>			
+		<isNotNull prepend="," property="posY">posY=#posY#</isNotNull>		
+		<isNotNull prepend="," property="del">del=#del#</isNotNull>
+		<isNotNull prepend="," property="dataQualityPrincipal">dataQualityPrincipal=#dataQualityPrincipal#</isNotNull>
+		<isNotNull prepend="," property="parties">parties=#parties#</isNotNull>
+		<isNotNull prepend="," property="changjia">changjia=#changjia#</isNotNull>
+		<isNotNull prepend="," property="jijialeixing">jijialeixing=#jijialeixing#</isNotNull>
+		<isNotNull prepend="," property="jijiahanghao">jijiahanghao=#jijiahanghao#</isNotNull>
+		<isNotNull prepend="," property="jijialiehao">jijialiehao=#jijialiehao#</isNotNull>
+		<isNotNull prepend="," property="gjxmianshu">gjxmianshu=#gjxmianshu#</isNotNull>
+		<isNotNull prepend="," property="gjxhangshu">gjxhangshu=#gjxhangshu#</isNotNull>
+		<isNotNull prepend="," property="gjxlieshu">gjxlieshu=#gjxlieshu#</isNotNull>
+		<isNotNull prepend="," property="genPartOptical">genPartOptical=#genPartOptical#</isNotNull>
+		<isNotNull prepend="," property="genPartOpticalId">genPartOpticalId=#genPartOpticalId#</isNotNull>
+		<isNotNull prepend=" , " property="isPartFiber">isPartFiber=#isPartFiber#</isNotNull>
+		<isNotNull prepend=" , " property="partFiberRank">partFiberRank=#partFiberRank#</isNotNull>
+		<isNotNull prepend=" , " property="freeCapacity">freeCapacity=#freeCapacity#</isNotNull>
+		<isNotNull prepend=" , " property="installCapacity">installCapacity=#installCapacity#</isNotNull>
+		<isNotNull prepend=" , " property="designCapacity">designCapacity=#designCapacity#</isNotNull>
+		<isNotNull prepend=" , " property="usedCapacity">usedCapacity=#usedCapacity#</isNotNull>
+		<isNotNull prepend=" , " property="synthBusiness">synthBusiness=#synthBusiness#</isNotNull>
+		<isNotNull prepend=" , " property="synthBusinessName">synthBusinessName=#synthBusinessName#</isNotNull>
+		<isNotNull prepend=" , " property="equtLength">equtLength=#equtLength#</isNotNull>
+		<isNotNull prepend=" , " property="equtTall">equtTall=#equtTall#</isNotNull>
+		<isNotNull prepend=" , " property="equtWide">equtWide=#equtWide#</isNotNull>
+		<isNotNull prepend=" , " property="assetsNo">assetsNo=#assetsNo#</isNotNull>
+		<isNotNull prepend=" , " property="address">address=#address#</isNotNull>
+		<isNotNull prepend=" , " property="remark">remark=#remark#</isNotNull>
+		<isNotNull prepend=" , " property="sharingTypeEnumId">sharingTypeEnumId=#sharingTypeEnumId#</isNotNull>
+		<isNotNull prepend=" , " property="constructionSharingOrg">constructionSharingOrg=#constructionSharingOrg#</isNotNull>
+		</dynamic>
+		<dynamic prepend=" WHERE ">
+	    <isNotEmpty prepend=" AND" property="id">(id=#id#)</isNotEmpty>
+	    <isNotEmpty prepend=" AND" property="eid">(eid=#eid#)</isNotEmpty>
+	    <isNotEmpty prepend=" AND" property="areano">(areano like '$areano$%')</isNotEmpty>
+	    </dynamic>
+	    and del=0
+	</update>
+	
+	<!-- 插入设备 -->
+	<insert id="insertEqut" parameterClass="manage.equt.pojo.EqutInfoBean">
+		insert into job_equtinfo(
+			eid,estat,ecode,etype,lon,lat,ename,eaddr,emodel,note,mtime,mflag,
+			areano,del,hasallow,gid,posX,posY,
+			dataQualityPrincipal,parties,changjia,jijialeixing,jijiahanghao,jijialiehao,gjxmianshu,
+			gjxhangshu,gjxlieshu,genPartOptical,genPartOpticalId,isPartFiber,partFiberRank,freeCapacity,
+			installCapacity,designCapacity,usedCapacity,synthBusiness,synthBusinessName,address,
+			equtLength,equtTall,equtWide,assetsNo,remark,sharingTypeEnumId,constructionSharingOrg
+		) values(
+			#eid#,#estat#,#ecode#,#etype#,#lon#,#lat#,#ename#,#eaddr#,#emodel#,#note#,now(),'1',
+			#areano#,'0','0',#gid#,#posX#,#posY#,
+			#dataQualityPrincipal#,#parties#,#changjia#,#jijialeixing#,#jijiahanghao#,#jijialiehao#,#gjxmianshu#,
+			#gjxhangshu#,#gjxlieshu#,#genPartOptical#,#genPartOpticalId#,#isPartFiber#,#partFiberRank#,#freeCapacity#,
+			#installCapacity#,#designCapacity#,#usedCapacity#,#synthBusiness#,#synthBusinessName#,#address#,
+			#equtLength#,#equtTall#,#equtWide#,#assetsNo#,#remark#,#sharingTypeEnumId#,#constructionSharingOrg#
+		)
+		<selectKey resultClass="int" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+	</insert>
+	
+	<!-- 得到所有的odm -->
+	<select id="getAllODM" parameterClass="manage.equt.pojo.ODMInfoBean" resultClass="manage.equt.pojo.ODMInfoBean">
+		SELECT odmId,odmName,odmCode,terminalRowQuantity,terminalColumnQuantity,
+			eid,creationDate,posX,posY,deleteFlag,resNum,direction,info,aliasName
+			FROM job_odm WHERE 1=1
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend=" AND " property="odmId"> odmId=#odmId# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="eid"> eid=#eid# </isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getODM" parameterClass="manage.equt.pojo.ODMInfoBean" resultClass="manage.equt.pojo.ODMInfoBean">
+		SELECT odmId,odmName,odmCode,terminalRowQuantity,terminalColumnQuantity,
+			eid,creationDate,posX,posY,deleteFlag,resNum,direction,info,aliasName
+			FROM job_odm WHERE deleteFlag='0'
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend=" AND " property="odmId"> odmId=#odmId# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="odmName"> odmName=#odmName# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="odmCode"> odmCode=#odmCode# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="terminalRowQuantity"> terminalRowQuantity=#terminalRowQuantity# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="terminalColumnQuantity"> terminalColumnQuantity=#terminalColumnQuantity# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="deviceId"> deviceId=#deviceId# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="deviceName"> deviceName=#deviceName# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="maintenanceStatusEnumId"> maintenanceStatusEnumId=#maintenanceStatusEnumId# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="cuser"> cuser=#cuser# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="eid"> eid=#eid# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="posX"> posX=#posX# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="posY"> posY=#posY# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="creationDate"> creationDate=#creationDate# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="lastUpdateDate"> lastUpdateDate=#lastUpdateDate# </isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<update id="updateODM" parameterClass="manage.equt.pojo.ODMInfoBean">
+		UPDATE job_odm SET lastUpdateDate=now() 
+		<dynamic prepend=" , ">
+			<isNotNull prepend=" , " property="odmName"> odmName=#odmName# </isNotNull>
+			<isNotNull prepend=" , " property="terminalRowQuantity"> terminalRowQuantity=#terminalRowQuantity# </isNotNull>
+			<isNotNull prepend=" , " property="terminalColumnQuantity"> terminalColumnQuantity=#terminalColumnQuantity# </isNotNull>
+			<isNotNull prepend=" , " property="deviceId"> deviceId=#deviceId# </isNotNull>
+			<isNotNull prepend=" , " property="deviceName"> deviceName=#deviceName# </isNotNull>
+			<isNotNull prepend=" , " property="cuser"> cuser=#cuser# </isNotNull>
+			<isNotNull prepend=" , " property="posX"> posX=#posX# </isNotNull>
+			<isNotNull prepend=" , " property="posY"> posY=#posY# </isNotNull>
+			<isNotNull prepend=" , " property="odmCode"> odmCode=#odmCode# </isNotNull>
+			<isNotNull prepend=" , " property="direction"> direction=#direction#</isNotNull>
+			<isNotNull prepend=" , " property="creationDate"> creationDate=#creationDate# </isNotNull>
+			<isNotNull prepend=" , " property="lastUpdateDate"> lastUpdateDate=#lastUpdateDate# </isNotNull>
+			<isNotNull prepend=" , " property="deleteFlag"> deleteFlag=#deleteFlag# </isNotNull>
+			<isNotNull prepend=" , " property="info"> info=#info# </isNotNull>
+			<isNotNull prepend=" , " property="aliasName"> aliasName=#aliasName# </isNotNull>
+		</dynamic>
+		WHERE odmId=#odmId#
+	</update>
+	
+	<insert id="insertODM" parameterClass="manage.equt.pojo.ODMInfoBean">
+		INSERT INTO job_odm ( 
+			 odmName, odmCode, terminalRowQuantity,
+			 terminalColumnQuantity, deviceId, deviceName, maintenanceStatusEnumId,
+			 cuser, eid, posX, posY,aliasName,
+			 creationDate, deleteFlag,direction,info
+		) VALUES (
+			 #odmName#, #odmCode#, #terminalRowQuantity#,
+			 #terminalColumnQuantity#, #deviceId#, #deviceName#, #maintenanceStatusEnumId#,
+			 #cuser#, #eid#,#posX#, #posY#,#aliasName#,
+			  now(), '0',#direction#,#info#
+		)
+		<selectKey resultClass="int" keyProperty="odmId">
+			SELECT LAST_INSERT_ID() AS odmId
+		</selectKey>
+	</insert>
+	
+	
+	<!-- 获取端子信息 -->
+	<select id="getPoint" parameterClass="manage.point.pojo.PointInfoBean" resultClass="manage.point.pojo.PointInfoBean">
+	select id,eid,pid,odmCode,
+	IFNULL(plineno,right(PID,2)) as plineno,
+	IFNULL(plineno,left(PID,2)) as prowno,
+	pstat,del,pos,odmId,resNum from job_pointinfo 
+	<dynamic prepend="WHERE ">
+		<isNotEmpty prepend="AND " property="id">(id=#id#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="eid">(eid=#eid#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="odmId">(odmId=#odmId#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="odmCode">(odmCode=#odmCode#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="pid">(pid=#pid#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="pstat">(pstat=#pstat#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="ptype">(ptype=#ptype#)</isNotEmpty>
+	</dynamic>
+	and del = 0 
+	order by eid, pid 
+	</select>
+	
+	<update id="updatePoint" parameterClass="manage.point.pojo.PointInfoBean">
+	update job_pointinfo set resMotion = null
+	<dynamic prepend=" , ">
+		<isNotNull prepend="," property="plineno">plineno=#plineno#</isNotNull>
+		<isNotNull prepend="," property="prowno">prowno=#prowno#</isNotNull>
+		<isNotNull prepend="," property="pstat">pstat=#pstat#</isNotNull>
+		<isNotNull prepend="," property="ptype">ptype=#ptype#</isNotNull>
+		<isNotNull prepend="," property="direction">direction=#direction#</isNotNull>
+		<isNotNull prepend="," property="mtime">mtime=#mtime#</isNotNull>
+		<isNotNull prepend="," property="fiberName">fiberName=#fiberName#</isNotNull>
+		<isNotNull prepend="," property="oppsite">oppsite=#oppsite#</isNotNull>
+	</dynamic>
+	<dynamic prepend=" where ">
+         <isNotEmpty prepend=" AND" property="id">id = #id#</isNotEmpty>
+    </dynamic>
+	</update>
+	
+	<insert id="insertPoint" parameterClass="manage.point.pojo.PointInfoBean">
+		insert into job_pointinfo
+			( plineno,prowno,eid,odmCode,pid,pstat,ptype,direction,mflag,
+			  mtime,cablename,del,
+			 odmId,pos)
+		values
+			( #plineno#,#prowno#,#eid#,#odmCode#,#pid#,#pstat#,#ptype#,#direction#,#mflag#,
+			  now(),#cablename#,'0',
+			 #odmId#,#pos#)
+	</insert>
+	<delete id="deletePoint" parameterClass="manage.equt.pojo.ODMInfoBean">
+	    delete from job_pointinfo
+	     where eid =#eid# and odmCode = #odmCode#
+	</delete>
+	
+	<insert id="insertOdmFiber" parameterClass="interfaces.pdainterface.equt.pojo.OdmFiberInfo">
+	    insert into job_odmfiber
+	    (odmId,eid,row,startCol,endCol,cableId,cableName,startFiber,endFiber,deleteFlag)
+	    values
+	    (#odmId#,#eid#,#row#,#startCol#,#endCol#,#cableId#,#cableName#,#startFiber#,#endFiber#,0)
+	    <selectKey resultClass="int" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+	</insert>
+	
+	<delete id="delOdmFiber" parameterClass="interfaces.pdainterface.equt.pojo.OdmFiberInfo">
+	    update job_odmfiber set deleteFlag = 1
+	     where id =#id# 
+	</delete>
+	
+	
+	<select id="getOdmFiber" parameterClass="interfaces.pdainterface.equt.pojo.OdmFiberInfo" resultClass="interfaces.pdainterface.equt.pojo.OdmFiberInfo">
+	select id,odmId,eid,row,startCol,endCol,cableId,cableName,startFiber,endFiber
+	 from job_odmfiber where deleteFlag =0
+	<dynamic prepend=" AND ">
+		<isNotEmpty prepend=" AND " property="id">(id=#id#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="eid">(eid=#eid#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="odmId">(odmId=#odmId#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="cableId">(cableId=#cableId#)</isNotEmpty>
+	</dynamic>
+	</select>
+
+
+	<!-- 吉林易采 -->
+	<!-- 光交接箱列表 -->
+	<select id="getEqutListJiLin" parameterClass="interfaces.pdainterface.equt.pojo.EqutJiLinInfoBean" resultClass="interfaces.pdainterface.equt.pojo.EqutJiLinInfoBean">
+		select int_id, zh_label,maintain_area from rms_optele_case where stateflag=0
+		<dynamic prepend="AND">
+			<isNotEmpty prepend="AND" property="zh_label"> zh_label like '%$zh_label$%' </isNotEmpty>
+			<isNotEmpty prepend="AND" property="extendsSql">($extendsSql$)</isNotEmpty>
+		</dynamic>
+			<dynamic prepend="">
+	    <isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    <isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	</dynamic>
+	
+	</select>
+
+	<!-- 新增光交接箱 -->
+	<insert id="insertEqutJiLin" parameterClass="interfaces.pdainterface.equt.pojo.EqutJiLinInfoBean">
+		insert into rms_optele_case(
+		zh_label,fibercab_no,city_id,county_id,states,vendor,location,longitude,latitude,model,ownership,purpose,
+		cab_user,res_owner,design_capacity,maintain_company,maintain_area,maintain_manager,maintain_manager_phone,
+		remark,change_reason,time_stamp,stateflag,creator,creat_time
+		) values(
+		#zh_label#,#fibercab_no#,#city_id#,#county_id#,#states#,#vendor#,#location#,#longitude#,#latitude#,#model#,
+		#ownership#,#purpose#,#cab_user#,#res_owner#,#design_capacity#,#maintain_company#,#maintain_area#,#maintain_manager#,
+		#maintain_manager_phone#,#remark#,#change_reason#,now(),#stateflag#,#creator#,now()
+		)
+		<selectKey resultClass="int" keyProperty="int_id">
+			SELECT LAST_INSERT_ID() AS int_id
+		</selectKey>
+	</insert>
+
+	<!-- 光交接箱详情 -->
+	<select id="getEqutJiLin" parameterClass="interfaces.pdainterface.equt.pojo.EqutJiLinInfoBean" resultClass="interfaces.pdainterface.equt.pojo.EqutJiLinInfoBean">
+		select * from rms_optele_case where stateflag=0
+		<dynamic prepend="AND">
+			<isNotEmpty prepend="AND" property="int_id">(int_id=#int_id#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="extendsSql">($extendsSql$)</isNotEmpty>
+		</dynamic>
+	</select>
+
+	<!-- 更新光交接箱 -->
+	<update id="updateEqutJiLin" parameterClass="interfaces.pdainterface.equt.pojo.EqutJiLinInfoBean">
+		update rms_optele_case set modify_time=now(),time_stamp=now()
+		<dynamic prepend=" , ">
+			<isNotNull prepend="," property="zh_label">zh_label=#zh_label#</isNotNull>
+			<isNotNull prepend="," property="fibercab_no">fibercab_no=#fibercab_no#</isNotNull>
+			<isNotNull prepend="," property="city_id">city_id=#city_id#</isNotNull>
+			<isNotNull prepend="," property="county_id">county_id=#county_id#</isNotNull>
+			<isNotNull prepend="," property="states">states=#states#</isNotNull>
+			<isNotNull prepend="," property="vendor">vendor=#vendor#</isNotNull>
+			<isNotNull prepend="," property="location">location=#location#</isNotNull>
+			<isNotNull prepend="," property="longitude">longitude=#longitude#</isNotNull>
+			<isNotNull prepend="," property="latitude">latitude=#latitude#</isNotNull>
+			<isNotNull prepend="," property="model">model=#model#</isNotNull>
+			<isNotNull prepend="," property="ownership">ownership=#ownership#</isNotNull>
+			<isNotNull prepend="," property="purpose">purpose=#purpose#</isNotNull>
+			<isNotNull prepend="," property="cab_user">cab_user=#cab_user#</isNotNull>
+			<isNotNull prepend="," property="res_owner">res_owner=#res_owner#</isNotNull>
+			<isNotNull prepend="," property="design_capacity">design_capacity=#design_capacity#</isNotNull>
+			<isNotNull prepend="," property="maintain_company">maintain_company=#maintain_company#</isNotNull>
+			<isNotNull prepend="," property="maintain_area">maintain_area=#maintain_area#</isNotNull>
+			<isNotNull prepend="," property="maintain_manager">maintain_manager=#maintain_manager#</isNotNull>
+			<isNotNull prepend="," property="maintain_manager_phone">maintain_manager_phone=#maintain_manager_phone#</isNotNull>
+			<isNotNull prepend="," property="remark">remark=#remark#</isNotNull>
+			<isNotNull prepend="," property="change_reason">change_reason=#change_reason#</isNotNull>
+		</dynamic>
+		<dynamic prepend=" where ">
+			<isNotEmpty prepend=" AND" property="int_id">int_id = #int_id#</isNotEmpty>
+		</dynamic>
+	</update>
+
+	<delete id="deleteEqutJiLin" parameterClass="interfaces.pdainterface.equt.pojo.EqutJiLinInfoBean">
+	    update rms_optele_case set stateflag = 1,time_stamp=now()
+	     where int_id =#int_id#
+	</delete>
+
+</sqlMap>

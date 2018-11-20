@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>chua传输设备信息</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../../../css/mui.min.css">
+		<!--App自定义的css-->
+		<link rel="stylesheet" type="text/css" href="../../css/app.css"/>
+		<link href="../../../css/mui.picker.css" rel="stylesheet" />
+		<link href="../../../css/mui.poppicker.css" rel="stylesheet" />
+		<script src="../../../js/mui.min.js"></script>
+		<script src="../../../js/jquery-1.12.3.js"></script>
+		<script src="../../../js/mui.picker.js"></script>
+		<script src="../../../js/mui.poppicker.js"></script>
+		<script src="../../../js/city.data.js"></script>
+		<script src="../../../js/city.data-3.js"></script>
+		<script src="js/transmissionDetail.js"></script>
+		<script src="../../../js/changeCity.js"></script>
+		<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.2&amp;key=f256f09cbe5b5303b39bf4c43bf72c0b"></script>
+		<style>
+			.mui-content {
+				width: 100%;
+				padding-bottom: 150%; 
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">传输设备</h1>
+		</header>
+		<footer id="foot_btn" class="mui-bar mui-bar-footer" style="position: fixed; bottom: 0; left: 0;right: 0;">
+			<table class="mui-button-row" style="width: 100%;margin-top: 2px;">
+				<th><button id="submit_btn" class="btn-primary" onclick="updateTrans()">提&nbsp;&nbsp;交</button></th>
+				<th><button id="submit_btn" class="btn-primary" onclick="deleteTrans()">删&nbsp;&nbsp;除</button></th>
+			</table>
+		</footer>
+
+			<form class="mui-content mui-input-group" >
+				<div class="mui-input-row">
+				<label>所属城市:</label>
+				<select id="city_id" class="mui-btn-block" onchange="changeCity(this)">
+					<option value="0">--请选择城市--</option>
+					<option value="431">长春市</option>
+					<option value="432">吉林市</option>
+					<option value="433">延边州</option>
+					<option value="434">四平市</option>
+					<option value="435">通化市</option>
+					<option value="436">白城市</option>
+					<option value="437">辽源市</option>
+					<option value="438">松原市</option>
+					<option value="439">白山市</option>
+				</select>
+			</div>
+			<div class="mui-input-row">
+				<label>所属区县:</label>
+				<select id="county_id" class="mui-btn-block" >
+					<option value="0">--请选择区县--</option>
+				</select>
+			</div>
+				<div id="mui-input-row"></div>
+				<div class="mui-input-row">
+				<label style="width: 30%; float: left;">所属机房:</label>
+				<input type="text" class="mui-input-clear"  readonly="true" id="relatedEquiproom" name="relatedEquiproom" value="" style="width: 50%; float: left;" placeholder="选择所属机房"/>
+				<button id='showCityPicker3' style="width: 20%; float: right;"  type='button'>机房</button>
+			</div>
+
+			<div class="mui-input-row">
+				<label>设备类型:</label>
+				<select id="equipmentLable" class="mui-btn-block">
+					<option value="0" >请选择类型</option>
+					<option value="1">DDF</option>
+					<option value="2">OLT</option>
+					<option value="3">ONU</option>
+					<option value="4">DWDM</option>
+					<option value="5">AG</option>
+					<option value="6">交换机</option>
+					<option value="7">SDH</option>
+					<option value="8">PDH</option>
+					<option value="9">MSAP</option>
+					<option value="10" >ODF</option>
+				</select>
+			</div>
+			<div class="mui-input-row">
+				<label>设备厂家:</label>
+				<select id="equipmentFactory" class="mui-btn-block">
+					<option value="0">请选择厂家</option>
+					<option value="1">朗讯</option>
+					<option value="2">中兴</option>
+					<option value="3">西门子</option>
+					<option value="4">烽火通信</option>
+					<option value="5">诺基亚</option>
+					<option value="6">华为</option>
+					<option value="7">富士通</option>
+					<option value="8">大唐电讯</option>
+					
+				</select>
+			</div>
+			<div class="mui-input-row " style="width: 100%; ">
+				<label style="width: 30%; float: left;">设备型号:</label>
+				<input type="text" class="mui-input-clear" id="equipmentmodel"  value=""  />
+				<input type="hidden" id="equipmentId" value=""/>
+			</div>
+			<div class="mui-input-row " style="width: 100%; ">
+				<label style="width: 30%; float: left;">设备编号（级别）:</label>
+				<input type="text" class="mui-input-clear" id="equipmentType"  value=""  />
+			</div>
+			
+			<div class="mui-input-row">
+				<label>维护单位:</label>
+				<select id="maintenanceOrg" class="mui-btn-block">
+					<option value="0">请选择单位</option>
+					<option value="1">通建</option>
+					<option value="2">国脉</option>
+					<option value="3">二局</option>
+					<option value="4">润建</option>
+					<option value="5">浙邮</option>
+					<option value="6">中兴</option>
+					<option value="7">中邮建</option>
+					<option value="8">京信</option>
+					<option value="9">虹信</option>
+				</select>
+			</div>
+			<div class="mui-input-row">
+				<label>维护区域:</label>
+				<select id="maintenanceAreaId" class="mui-btn-block">
+					<option value="0">请选择区域</option>
+					<option value="1">111</option>
+					<option value="2">222</option>
+					<option value="3">333</option>
+					<option value="4">444</option>
+				</select>
+			</div>
+			<div class="mui-input-row">
+				<label style="width: 30%; float: left;">组长:</label>
+				<input type="text" class="mui-input-clear" id="maintenanceLeader" name="maintenanceLeader" value="" style="width: 70%; float: left;" />
+			</div>
+			<div class="mui-input-row">
+				<label style="width: 30%; float: left;">组长电话:</label>
+				<input type="text" class="mui-input-clear" id="leaderPhone" name="leaderPhone" value="" style="width: 70%; float: left;" />
+			</div>
+			<div class="mui-input-row">
+				<label style="width: 30%; float: left;">备注:</label>
+				<textarea style="width: 70%; float: left;" id="remark" name="remark" rows="3">
+				</textarea>
+			</div>
+		</form>
+		<script>
+			var mapObj,poleLineId;
+			//初始化一个隐藏的页面信息
+			function mapInit(){
+				mapObj = new AMap.Map('iCenter');
+				getAddByLonLat('117.1297700852','36.6634662002');
+			}
+			var LocString = String(window.document.location.href); 
+			
+			mui.plusReady(function(){
+			//	initDetail();
+				mui.preload({
+					url:'transmissionDetail.html',
+					id:"transmissionDetail.html",
+					styles:{},
+					extras:{}
+				});
+			var cv = plus.webview.currentWebview();
+			document.getElementById("equipmentId").value= cv.equipmentId;
+			initDetail(cv.equipmentId);
+			})
+			
+		</script>
+		<script>
+	/*		document.addEventListener('transmissionDetail', function(ee) {
+				setLonLat(ee.detail);
+        	})*/
+		</script>
+	</body>
+</html>

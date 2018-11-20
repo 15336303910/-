@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>Hello MUI</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<link rel="stylesheet" href="../../css/common.css"/>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/amapjqery.js"></script>
+		<script src="../../js/twbsPagination.min.js"></script>
+		<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.2&amp;key=f256f09cbe5b5303b39bf4c43bf72c0b"></script>
+		<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+		<style>
+			html,
+			body {
+				background-color: #efeff4;
+				text-align: center;
+			}
+			.mui-plus .plus{
+				display: inline;
+			}
+			
+			.plus{
+				display: none;
+			}
+			
+			#topPopover {
+				position: fixed;
+				top: 16px;
+				right: 6px;
+			}
+			#topPopover .mui-popover-arrow {
+				left: auto;
+				right: 6px;
+			}
+			p {
+				text-indent: 22px;
+			}
+			span.mui-icon {
+				font-size: 14px;
+				color: #007aff;
+				margin-left: -15px;
+				padding-right: 10px;
+			}
+			.mui-off-canvas-left {
+				color: #fff;
+			}
+			.title {
+				margin: 35px 15px 10px;
+			}
+			.title.content {
+				margin: 10px 15px 35px;
+				color: #bbb;
+				text-indent: 1em;
+				font-size: 14px;
+				line-height: 24px;
+			}
+			input {
+				color: #000;
+			}
+			.mui-popover {
+				height: 300px;
+			}
+			.mui-content {
+				width: 100%;
+				padding-bottom: 160%;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">获取经纬度</h1>
+		</header>
+		<div id="offCanvasContentScroll" class="mui-content mui-scroll-wrapper">
+		</div>
+		<div class="mui-bar-footer button-group mui-bar">
+    		<input id="piexBtn" type="button" class="button" onclick="retLatLon()" value="确定"/>
+		</div>
+		<script>
+			var map,markers,lon,lat,resType,operate;
+			mui.init({
+				swipeBack:true
+			});
+			mui.plusReady(function(){
+				placeInit();
+			})
+			//初始化参数
+			function placeInit(){
+				var cv = plus.webview.currentWebview();
+				resType = cv.resType;
+				operate = cv.operate;
+			}
+			AMapUI.loadUI(['misc/PositionPicker'], function(PositionPicker) {
+				map = new AMap.Map('offCanvasContentScroll',{
+					resizeEnable: true,
+					zoom:16
+				});
+				var positionPicker = new PositionPicker({
+            		mode: 'dragMap',
+            		map: map
+        		});
+        		
+        		
+        		//定位當前位置 
+        		AMap.plugin('AMap.Geolocation', function () {
+            		geolocation = new AMap.Geolocation({
+                		enableHighAccuracy: true,//是否使用高精度定位，默认:true
+                		timeout: 10000,          //超过10秒后停止定位，默认：无穷大
+                		maximumAge: 0,           //定位结果缓存0毫秒，默认：0
+                		convert: true,           //自动偏移坐标，偏移后的坐标为高德坐标，默认：true
+                		showButton: true,        //显示定位按钮，默认：true
+                		buttonPosition: 'LB',    //定位按钮停靠位置，默认：'LB'，左下角
+                		buttonOffset: new AMap.Pixel(10, 20),//定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+                		showMarker: true,        //定位成功后在定位到的位置显示点标记，默认：true
+                		showCircle: true,        //定位成功后用圆圈表示定位精度范围，默认：true
+                		panToLocation: true,     //定位成功后将定位到的位置作为地图中心点，默认：true
+                		zoomToAccuracy:true      //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+            		});
+            		map.addControl(geolocation);
+            		geolocation.getCurrentPosition();
+            		//AMap.event.addListener(geolocation, 'complete', onComplete);//返回定位信息
+           			// AMap.event.addListener(geolocation, 'error', onError);      //返回定位出错信息
+        		});
+				map.plugin(['AMap.ToolBar'], function() {
+        			var toolBar = new AMap.ToolBar({locationMarker: positionPicker});
+        			toolBar.doLocation();
+        			map.addControl(toolBar);
+    			});
+    			positionPicker.start();
+    			positionPicker.on('success', function(positionResult) {
+        			lon=positionResult.position.lng;
+        			lat =  positionResult.position.lat;
+        		});
+			});
+			//得到当前位置的定位信息
+			function retLatLon(){
+				var latlon = plus.webview.currentWebview().opener();
+				if(resType == 'well'){
+					if(operate == 'add'){
+						mui.fire(latlon, "wellAdd", {resType:resType,lon:lon,lat:lat});
+					}else{
+						mui.fire(latlon, "wellDetail", {resType:resType,lon:lon,lat:lat});
+					}
+				}
+				if(resType =='pole'){
+					if(operate =='add'){
+						mui.fire(latlon, "poleAdd", {resType:resType,lon:lon,lat:lat});
+					}
+					if(operate =='detail'){
+						mui.fire(latlon, "poleDetail", {resType:resType,lon:lon,lat:lat});
+					}
+				}
+				if(resType =='stone'){
+					if(operate =='add'){
+						mui.fire(latlon, "stoneAdd", {resType:resType,lon:lon,lat:lat});
+					}
+					if(operate =='detail'){
+						mui.fire(latlon, "stoneDetail", {resType:resType,lon:lon,lat:lat});
+					}
+				}
+				if(resType =='equt'){
+					if(operate =='add'){
+						mui.fire(latlon, "equtAdd", {resType:resType,longitude:lon,latitude:lat});
+					}
+					if(operate =='detail'){
+						mui.fire(latlon, "equtDetail", {resType:resType,longitude:lon,latitude:lat});
+					}
+				}
+				if(resType == 'machineRoom'){
+					if(operate == 'add'){
+						mui.fire(latlon, "machineRoomAdd", {resType:resType,lon:lon,lat:lat});
+					}else{
+						mui.fire(latlon, "machineRoomDetail", {resType:resType,lon:lon,lat:lat});
+					}
+				}
+				if(resType == 'siteBase'){
+					if(operate == 'add'){
+						mui.fire(latlon, "siteBaseAdd", {resType:resType,lon:lon,lat:lat});
+					}else{
+						mui.fire(latlon, "siteBaseDetail", {resType:resType,lon:lon,lat:lat});
+					}
+				}
+				if(resType == 'supportingRing'){
+					if(operate == 'add'){
+						mui.fire(latlon, "ringAdd", {resType:resType,lon:lon,lat:lat});
+					}else{
+						mui.fire(latlon, "ringDetail", {resType:resType,lon:lon,lat:lat});
+					}
+				}
+				mui.back();
+			}
+			//获取参数
+			function getQueryStr(str){
+				var rs = new RegExp("(^|)" + str + "=([^&]*)(&|$)", "gi").exec(LocString), tmp; 
+				if (tmp = rs) { 
+					return tmp[2]; 
+				} 
+				return ""; 
+			}
+		</script>
+	</body>
+
+</html>

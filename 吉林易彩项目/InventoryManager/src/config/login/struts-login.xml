@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="login" extends="json-default,struts-base">
+     	<action name="login" class="manage.login.web.LoginAction">
+           	<result name="login" type="json">
+	    	     <param name="includeProperties">success,result</param>
+	    	</result>
+           	<result name="unlock" type="json">
+	    	     <param name="includeProperties">success,result</param>
+	    	</result>
+            <!-- 如果没有登录，连接拦截后，直接跳到sessionOut.jsp,每个业务模块都需要加上下面代码 -->
+            <result name="sessionOut">sessionOut.jsp</result>
+        </action>
+        
+        <action name="pdaLogin" class="interfaces.pdainterface.login.action.PDALogin">
+        	<result name="*" type="json">
+	    	    <param name="root">jsonResponse</param>
+	    	</result>
+        </action>
+    </package>
+</struts>

@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="pipe" extends="json-default,struts-base">
+     	<action name="pipe" class="manage.pipe.web.PipeAction"> 
+            <result name="pipeSegmentDW">/pages/pipe/dwPipeSegment.jsp</result>
+            <result name="pipeDW">/pages/pipe/dwPipe.jsp</result>
+            <!-- 移植后添加 -->
+            <result name="wellInfoBean" type="json">
+     			<param name="root">wellInfoBean</param>
+     		</result>
+            <!-- 添加井 -->
+	    	<result name="addWell" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+	    	<!--  修改井前加载用户信息 -->
+	    	<result name="loadWell" type="json">
+	    	    <param name="includeProperties">success,wellInfoBean.*</param>
+	    	</result>
+	    	<!--  修改井 -->
+	    	<result name="updateWell" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+	    	<!--  删除井 -->
+	    	<result name="deleteWell" type="json">
+	    	     <param name="includeProperties">success,deleteMsg</param>
+	    	</result>
+	    	<!--  验证井名称 -->
+	    	<result name="vetifyWellName" type="json">
+	    		<param name="includeProperties">success</param>
+	    	</result>
+	    	<!--  删除井时判断是否承载光缆 -->
+	    	<result name="vetifyTubeToWell" type="json">
+	    	    <param name="includeProperties">success</param>
+	    	</result>
+	    	<!-- 管道列表 -->
+            <result name="pipeInfoBean" type="json">
+     			<param name="root">pipeInfoBean</param>
+     		</result>
+            <!-- 添加管道 -->
+	    	<result name="addPipe" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+            <!--  修改管道前加载用户信息 -->
+	    	<result name="loadPipe" type="json">
+	    	    <param name="includeProperties">success,pipeInfoBean.*</param>
+	    	</result>
+	    	<!--  修改管道 -->
+	    	<result name="updatePipe" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+	    	<!--  删除管道 -->
+	    	<result name="deletePipe" type="json">
+	    	     <param name="includeProperties">success,deleteMsg</param>
+	    	</result>
+	    	<!--  验证管道名称 -->
+	    	<result name="vetifyPipeName" type="json">
+	    		<param name="includeProperties">success</param>
+	    	</result>
+            <!-- 管道段列表 -->
+            <result name="pipeSegmentInfoBean" type="json">
+     			<param name="root">pipeSegmentInfoBean</param>
+     		</result>
+     		<!--  验证管道段名称 -->
+	    	<result name="vetifyPipeSegmentName" type="json">
+	    		<param name="includeProperties">success</param>
+	    	</result>
+            <!-- 添加管道段 -->
+	    	<result name="addPipeSegment" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+	    	<!--  修改管道段前加载用户信息 -->
+	    	<result name="loadPipeSegment" type="json">
+	    	    <param name="includeProperties">success,pipeSegmentInfoBean.*,ledupInfoBean.*</param>
+	    	</result>
+	    	<!--  修改管道段 -->
+	    	<result name="updatePipeSegment" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+	    	<!-- 生成管道 -->
+	    	<result name="addPipeAndSegment" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+	    	<!--  删除管道段时判断是否承载光缆 -->
+	    	<result name="vetifyCableToPipeSegment" type="json">
+	    	    <param name="includeProperties">success</param>
+	    	</result>
+	    	<!--  删除管道段 -->
+	    	<result name="deletePipeSegment" type="json">
+	    	     <param name="includeProperties">success,deleteMsg</param>
+	    	</result>
+	    	<!--  管道段时修改井面 -->
+	    	<result name="updateWellMap" type="json">
+	    	     <param name="includeProperties">faceIds</param>
+	    	</result>
+	    	<!--  删除管道段时判断是否承载光缆 -->
+	    	<result name="checkFaceTube" type="json">
+	    	    <param name="includeProperties">success</param>
+	    	</result>
+	    	<!--  删除管道段时判断是否承载光缆 -->
+	    	<result name="TubeNameForFace" type="json">
+	    	    <param name="includeProperties">faceInfo.*</param>
+	    	</result>
+            <!--  加载对立面well信息 -->
+	    	<result name="duiliWell" type="json">
+	    	    <param name="includeProperties">success,wellInfoBean.*</param>
+	    	</result>
+	    	<!--  加载管孔信息 -->
+	    	<result name="loadTube" type="json">
+	    	    <param name="includeProperties">success,tubeInfoBean.*</param>
+	    	</result>
+	    	<!--  判断对端井管孔是否承载缆段信息 -->
+	    	<result name="checktubecable" type="json">
+	    	    <param name="includeProperties">success</param>
+	    	</result>
+	    	<!-- 选择对端井面时涉及到的修改井面 -->
+	    	<result name="updateface" type="json">
+	    		<param name="includeProperties">success</param>
+	    	</result>
+	    	<!--  测试 -->
+            <result name="ceshi" type="json">
+     			<param name="root">eventBean</param>
+     		</result>
+     		<!--  选择对端井面时修改井面关系 -->
+	    	<result name="updatefacerelation" type="json">
+	    		<param name="includeProperties">pipeSegmentId</param>
+	    	</result>
+	    	<!--  修改对端井面面信息不一致时的保存 -->
+	    	<result name="dosaveoppoface" type="json">
+	    	    <param name="includeProperties">faceInfo.*</param>
+	    	</result>
+	    	<!--  保存管孔信息 -->
+	    	<result name="saveTube" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+	    	<!--  选择不可见管孔查找面 -->
+	    	<result name="faceInfo" type="json">
+	    	    <param name="includeProperties">faceInfo.*</param>
+	    	</result>
+	    	<!--  修改面中的不可见管孔 -->
+	    	<result name="updateFaceDisTube" type="json">
+	    		<param name="includeProperties">success</param>
+	    	</result>
+	    	<result name="getFace" type="json">
+	    		<param name="root">faceInfo</param>
+	    	</result>
+	    	<result name="getFacetube" type="json">
+	    		<param name="root">fatherTube</param>
+	    	</result>
+	    	<result name="getLedup" type="json">
+	    		<param name="root">ledupInfoBean</param>
+	    	</result>
+	    	
+	    	<result name="exportsuccess">/export.jsp?filename=${filepath}</result>
+            <!-- 如果没有登录，连接拦截后，直接跳到sessionOut.jsp,每个业务模块都需要加上下面代码 -->
+            <result name="sessionOut">sessionOut.jsp</result>
+        </action>
+        
+        <action name="pdaPipe" class="interfaces.pdainterface.pipe.action.PDAPipe">
+        	<result name="*" type="json">
+	    	    <param name="root">jsonResponse</param>
+	    	</result>
+        </action>
+    </package>
+</struts>

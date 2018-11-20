@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE 
+	sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN" 
+	"http://ibatis.apache.org/dtd/sql-map-2.dtd">    
+<sqlMap namespace="hcgdManage">
+    
+    <!--查询资源类型列表-->
+	<select id="getResourceTypes" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+		select 
+			resource_en_name as resourceCode,resource_cn_name as resourceName 		
+		from config_resource_table	
+	</select>
+	
+	<select id="getTopTypes" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+		select 
+			resource_en_name as resourceCode,resource_cn_name as resourceName 		
+		from 
+			config_resource_table where resource_level = 1
+	</select>
+	
+	<!--查询指定资源类型-->
+	<select id="getResourceTypeObject" parameterClass="java.lang.String" resultClass="java.util.HashMap">
+		select * from config_resource_table where resource_cn_name = #cnName#
+	</select>
+	
+	<!--查询组织结构-->
+	<select id="getCitys" parameterClass="java.util.HashMap" resultClass="java.util.HashMap">
+		select resNum,zhLabel from rms_city 		
+	</select>
+	
+	<select id="getRegionsOfCity" parameterClass="java.lang.Integer" resultClass="java.util.HashMap">
+		select resNum,zhLabel from rms_county where resCity = #cityId# 		
+	</select>
+	
+	<!--分页查询记录-->
+	<select id="getTasks" parameterClass="manage.gd.gdManage.pojo.GdTaskMain" resultClass="manage.gd.gdManage.pojo.GdTaskMain">
+		select 
+			id as id,
+			gd_code as gdCode,
+			resource_type as resourceType,
+			task_subject as taskSubject,
+			task_describe as taskDescribe,
+			task_state as taskState,
+			receive_region_code as receiveRegionCode,
+			receive_region_name as receiveRegionName,
+			current_action_usercode as currentUserCode,
+			current_action_username as currentUserName,
+			task_year as taskYear,
+			task_month as taskMonth,
+			task_date as taskDate,
+			task_order as taskOrder,
+			finish_datetime as finishDate,
+			create_datetime as createDate,
+			create_user_code as createUserCode,
+			create_user_name as createUserName,
+			audit_contents as auditContents	
+		from gd_main 
+		where 1=1 		
+		<dynamic prepend=" AND ">
+	    	<isNotEmpty prepend="AND" property="id">(id = #id#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="taskSubject">(task_subject like '%$taskSubject$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createUserCode">(create_user_code = #createUserCode#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="taskState">(task_state = #taskState#)</isNotEmpty>
+	 	</dynamic>	 	
+	 	<dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!--查询记录总数-->
+	<select id="getTaskCount" parameterClass="manage.gd.gdManage.pojo.GdTaskMain" resultClass="Integer">
+		select count(1) from gd_main where 1=1
+      	<dynamic prepend=" AND ">
+	    	<isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="taskSubject">(task_subject like '%$taskSubject$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="createUserCode">(create_user_code = #createUserCode#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="taskState">(task_state = #taskState#)</isNotEmpty>
+	 	</dynamic>	
+	</select>
+	
+</sqlMap>

@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="gb2312"?>
+<authority>
+   <system>
+      <name>湖南移动权限管理子系统</name>
+      <logo>images/top_right.gif</logo>
+      <copyright-logo>images/copyright.gif</copyright-logo>
+      <copyright>2003-2005 浪潮乐金信息系统有限公司</copyright>
+      <website>http://www.langchao.com</website>
+      <version>3.0</version>
+      <tel>0531-86168730</tel>
+      <author>LCLG NMS WEB Part Authority RDG</author>
+      <debug>true</debug>
+      <!-- 是否向日至系统写日至 2005-7-8-->
+      <log>true</log>
+      <build>#540</build>
+   </system>
+   <licence>
+      <info>仅限于浪潮乐金授权用户使用</info>
+      <customer-name>北京移动</customer-name>
+      <login-logo>images/login_jsyd.gif</login-logo>
+      <login-flash>images/Main.swf</login-flash>
+      <login-background>images/login_l.gif</login-background>
+      <logo>images/top_jsyd_3.0.GIF</logo>
+      <dbms>informix</dbms>
+      <ip>any</ip>
+      <units>unlimited</units>
+      <expiration>2008-01-01 00:00:00</expiration>
+      <key>zHCClaqBLPISe/tJfo8vPBecDtE=0MCwCFCMCc6O2OOEh8</key>
+   </licence>
+   <appserver>
+      <initial_context_factory>weblogic.jndi.WLInitialContextFactory</initial_context_factory>
+
+      <!-- <provider_url>t3://10.18.1.16:7019</provider_url> -->
+      <provider_url>t3://10.154.36.112:7001</provider_url>
+      <datasource>jndi_ora_authdb</datasource>
+
+      <jmsConnectionFactory>qxgl/jndi_cf_logserver</jmsConnectionFactory>
+      <jmsTopic>qxgl/jndi_tpc_logserver</jmsTopic>
+   </appserver>
+   <appclient>
+      <initial_context_factory>weblogic.jndi.WLInitialContextFactory</initial_context_factory>
+      <provider_url>t3://10.154.36.112:7001</provider_url>
+      <datasource>jdbc/oracle_authdbs</datasource>
+   </appclient>
+   <city_table>
+      <name>res.city</name>
+      <idcol>city_id</idcol>
+      <namecol>ch_name</namecol>
+   </city_table>
+   <dao>
+      <dao-name>DatabaseDao</dao-name>
+      <impl-class dbms-name="informix">com.langchao.dao.authority.database.DatabaseDaoIfx</impl-class>
+      <impl-class dbms-name="oracle">com.langchao.dao.authority.database.DatabaseDaoOra</impl-class>
+   </dao>   
+   <dao>
+      <dao-name>FunctionsDao</dao-name>
+      <impl-class dbms-name="informix">com.langchao.dao.authority.function.FunctionsDaoIfx</impl-class>
+      <impl-class dbms-name="oracle">com.langchao.dao.authority.function.FunctionsDaoOra</impl-class>
+   </dao>
+   <dao>
+      <dao-name>FunctypeDao</dao-name>
+      <impl-class dbms-name="informix">com.langchao.dao.authority.functype.FunctypeDaoIfx</impl-class>
+      <impl-class dbms-name="oracle">com.langchao.dao.authority.functype.FunctypeDaoOra</impl-class>
+   </dao>
+   <dao>
+      <dao-name>RolesDao</dao-name>
+      <impl-class dbms-name="informix">com.langchao.dao.authority.role.RolesDaoIfx</impl-class>
+      <impl-class dbms-name="oracle">com.langchao.dao.authority.role.RolesDaoOra</impl-class>
+   </dao>
+   <dao>
+      <dao-name>RolefuncDao</dao-name>
+      <impl-class dbms-name="informix">com.langchao.dao.authority.rolefunc.RolefuncDaoIfx</impl-class>
+      <impl-class dbms-name="oracle">com.langchao.dao.authority.rolefunc.RolefuncDaoOra</impl-class>
+   </dao>
+   <dao>
+      <dao-name>RoleinheritDao</dao-name>
+      <impl-class dbms-name="informix">com.langchao.dao.authority.roleinherit.RoleinheritDaoIfx</impl-class>
+      <impl-class dbms-name="oracle">com.langchao.dao.authority.roleinherit.RoleinheritDaoOra</impl-class>
+   </dao>
+   <dao>
+      <dao-name>UserinfoDao</dao-name>
+      <impl-class dbms-name="informix">com.langchao.dao.authority.userinfo.UserinfoDaoIfx</impl-class>
+      <impl-class dbms-name="oracle">com.langchao.dao.authority.userinfo.UserinfoDaoOra</impl-class>
+   </dao>
+   <dao>
+      <dao-name>UserroleDao</dao-name>
+      <impl-class dbms-name="informix">com.langchao.dao.authority.userrole.UserroleDaoIfx</impl-class>
+      <impl-class dbms-name="oracle">com.langchao.dao.authority.userrole.UserroleDaoOra</impl-class>
+   </dao>
+   <dao>
+      <dao-name>UserfuncDao</dao-name>
+      <impl-class dbms-name="informix">com.langchao.dao.authority.userfunc.UserfuncDaoIfx</impl-class>
+      <impl-class dbms-name="oracle">com.langchao.dao.authority.userfunc.UserfuncDaoOra</impl-class>
+   </dao>
+   <dao>
+      <dao-name>ResourceDao</dao-name>
+      <impl-class dbms-name="informix">com.langchao.dao.authority.resource.ResourceDaoIfx</impl-class>
+      <impl-class dbms-name="oracle">com.langchao.dao.authority.resource.ResourceDaoOra</impl-class>
+   </dao>
+   <dao>
+      <dao-name>ResourceReaderDao</dao-name>
+      <impl-class dbms-name="database">com.langchao.dao.authority.resource.ResourceReaderDaoDataSource</impl-class>
+      <impl-class dbms-name="xml">com.langchao.dao.authority.resource.ResourceReaderDaoXML</impl-class>
+   </dao>
+   <dao>
+      <dao-name>UsergroupDao</dao-name>
+      <impl-class dbms-name="informix">com.langchao.dao.authority.usergroup.UsergroupDaoIfx</impl-class>
+      <impl-class dbms-name="oracle">com.langchao.dao.authority.usergroup.UsergroupDaoOra</impl-class>
+   </dao>
+   <dao>
+      <dao-name>GroupfuncDao</dao-name>
+      <impl-class dbms-name="informix">com.langchao.dao.authority.groupfunc.GroupfuncDaoIfx</impl-class>
+      <impl-class dbms-name="oracle">com.langchao.dao.authority.groupfunc.GroupfuncDaoOra</impl-class>
+   </dao>
+   <dao>
+      <dao-name>GrouproleDao</dao-name>
+      <impl-class dbms-name="informix">com.langchao.dao.authority.grouprole.GrouproleDaoIfx</impl-class>
+      <impl-class dbms-name="oracle">com.langchao.dao.authority.grouprole.GrouproleDaoOra</impl-class>
+   </dao>
+   <dao>
+      <dao-name>GrpmemberDao</dao-name>
+      <impl-class dbms-name="informix">com.langchao.dao.authority.grpmember.GrpmemberDaoIfx</impl-class>
+      <impl-class dbms-name="oracle">com.langchao.dao.authority.grpmember.GrpmemberDaoOra</impl-class>
+   </dao>
+   <dao>
+      <dao-name>EmployeeDao</dao-name>
+      <impl-class dbms-name="informix">com.langchao.dao.authority.employee.EmployeeDaoIfx</impl-class>
+      <impl-class dbms-name="oracle">com.langchao.dao.authority.employee.EmployeeDaoOra</impl-class>
+   </dao>
+   <dao>
+      <dao-name>UnitDao</dao-name>
+      <impl-class dbms-name="informix">com.langchao.dao.authority.unit.UnitDaoIfx</impl-class>
+      <impl-class dbms-name="oracle">com.langchao.dao.authority.unit.UnitDaoOra</impl-class>
+   </dao>
+   <dao>
+      <dao-name>CompanyDao</dao-name>
+      <impl-class dbms-name="informix">com.langchao.dao.authority.company.CompanyDaoIfx</impl-class>
+      <impl-class dbms-name="oracle">com.langchao.dao.authority.company.CompanyDaoOra</impl-class>
+   </dao>
+   <dao>
+      <dao-name>OnlinehelpDao</dao-name>
+      <impl-class dbms-name="informix">com.langchao.dao.authority.onlinehelp.OnlinehelpDaoIfx</impl-class>
+      <impl-class dbms-name="oracle">com.langchao.dao.authority.onlinehelp.OnlinehelpDaoOra</impl-class>
+   </dao>
+   <dao>
+      <dao-name>AuthorityruleDao</dao-name>
+      <impl-class dbms-name="informix">com.langchao.dao.authority.authorityrule.AuthorityruleDaoIfx</impl-class>
+      <impl-class dbms-name="oracle">com.langchao.dao.authority.authorityrule.AuthorityruleDaoOra</impl-class>
+   </dao>
+   <dao>
+      <dao-name>AuthorityoptionDao</dao-name>
+      <impl-class dbms-name="informix">com.langchao.dao.authority.authorityoption.AuthorityoptionDaoIfx</impl-class>
+      <impl-class dbms-name="oracle">com.langchao.dao.authority.authorityoption.AuthorityoptionDaoOra</impl-class>
+   </dao>
+   <dao>
+      <dao-name>NecommandDao</dao-name>
+      <impl-class dbms-name="informix">com.langchao.dao.authority.necommand.NecommandDaoIfx</impl-class>
+      <impl-class dbms-name="oracle">com.langchao.dao.authority.necommand.NecommandDaoOra</impl-class>
+   </dao>
+   <dao>
+      <dao-name>PasswordprotectionDao</dao-name>
+      <impl-class dbms-name="informix">com.langchao.dao.authority.passwordprotection.PasswordprotectionDaoIfx</impl-class>
+      <impl-class dbms-name="oracle">com.langchao.dao.authority.passwordprotection.PasswordprotectionDaoOra</impl-class>
+   </dao>
+   <dao>
+      <dao-name>LdapDao</dao-name>
+      <impl-class dbms-name="oracle">com.langchao.dao.authority.ldap.LdapDaoImp</impl-class>
+   </dao>
+   <dao>
+      <dao-name>LoginlogDao</dao-name>
+      <impl-class dbms-name="informix">com.langchao.authority.log.dao.loginlog.LoginlogIfx</impl-class>
+      <impl-class dbms-name="oracle">com.langchao.authority.log.dao.loginlog.LoginlogOra9i</impl-class>
+   </dao>
+   <dao>
+      <dao-name>OperationlogDao</dao-name>
+      <impl-class dbms-name="informix">com.langchao.authority.log.dao.operationlog.OperationlogIfx</impl-class>
+      <impl-class dbms-name="oracle">com.langchao.authority.log.dao.operationlog.OperationlogOra9i</impl-class>
+   </dao>
+   <ejb>
+      <ejb-name>SenLogEjb</ejb-name>
+      <jndi-name>qxgl/SenLogEjb</jndi-name>
+   </ejb>
+   <ejb>
+      <ejb-name>SenUserEjb</ejb-name>
+      <jndi-name>qxgl/SenUserEjb</jndi-name>
+   </ejb>
+   <ejb>
+      <ejb-name>SenFunctionEjb</ejb-name>
+      <jndi-name>qxgl/SenFunctionEjb</jndi-name>
+   </ejb>
+   <ejb>
+      <ejb-name>SenResourceEjb</ejb-name>
+      <jndi-name>qxgl/SenResourceEjb</jndi-name>
+   </ejb>
+   <ejb>
+      <ejb-name>SenGroupEjb</ejb-name>
+      <jndi-name>qxgl/SenGroupEjb</jndi-name>
+   </ejb>
+   <ejb>
+      <ejb-name>SenBaseitemEjb</ejb-name>
+      <jndi-name>qxgl/SenBaseitemEjb</jndi-name>
+   </ejb>
+   <ejb>
+      <ejb-name>SenRoleEjb</ejb-name>
+      <jndi-name>qxgl/SenRoleEjb</jndi-name>
+   </ejb>
+   <ejb>
+      <ejb-name>SenOnlinehelpEjb</ejb-name>
+      <jndi-name>qxgl/SenOnlinehelpEjb</jndi-name>
+   </ejb>
+   <ejb>
+      <ejb-name>SenAuthorityruleEjb</ejb-name>
+      <jndi-name>qxgl/SenAuthorityruleEjb</jndi-name>
+   </ejb>
+   <ejb>
+      <ejb-name>SenAuthorityoptionEjb</ejb-name>
+      <jndi-name>qxgl/SenAuthorityoptionEjb</jndi-name>
+   </ejb>
+   <ejb>
+      <ejb-name>SenAuthorityruleEjb</ejb-name>
+      <jndi-name>qxgl/SenAuthorityruleEjb</jndi-name>
+   </ejb>   
+   <ejb>
+      <ejb-name>SenNecommandEjb</ejb-name>
+      <jndi-name>qxgl/SenNecommandEjb</jndi-name>
+   </ejb>
+   <ejb>
+      <ejb-name>SenLdapToDatabaseEjb</ejb-name>
+      <jndi-name>qxgl/SenLdapToDatabaseEjb</jndi-name>
+   </ejb>
+   <ejb>
+      <ejb-name>SenLoginlogEjb</ejb-name>
+      <jndi-name>qxgl/SenLoginlogEjb</jndi-name>
+   </ejb>
+   <ejb>
+      <ejb-name>SenOperationlogEjb</ejb-name>
+      <jndi-name>qxgl/SenOperationlogEjb</jndi-name>
+   </ejb>
+   <ejb>
+      <ejb-name>SenWebServiceSyncEjb</ejb-name>
+      <jndi-name>qxgl/SenWebServiceSyncEjb</jndi-name>
+   </ejb>
+   
+</authority>

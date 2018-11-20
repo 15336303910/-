@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="opticalTer">
+    <!-- 得到表格目录 -->
+    <select id="getOpticalTerGrid" parameterClass="manage.opticalTerminal.pojo.OpticalTerminalObj" resultClass="manage.opticalTerminal.pojo.OpticalTerminalObj">
+        select t.id,t.terminalName,t.longitude,t.latitude,t.rowNum,t.colNum,t.attachType,t.attachName,t.attachId,
+        (select text from dicview where enName='attachType' and value= t.attachType) as attachTypeStr,
+        t.terminalAddres,t.dataQualitier,t.maintainer,t.deleteflag,t.createTime,t.creater,t.remark,t.terminalNum
+        from optical_terminal t where t.deleteflag ='0'
+        <dynamic prepend="">
+            <isNotEmpty prepend=" AND " property="terminalName"><![CDATA[ terminalName like #terminalName#]]></isNotEmpty>
+            <isNotEmpty prepend=" AND " property="attachName">t.attachName=#attachName#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="attachId">t.attachId like '%$attachId$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="rowNum">t.rowNum=#rowNum#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="colNum">t.colNum=#colNum#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="attachType">t.attachType=#attachType#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="terminalAddres">t.terminalAddres like '%$terminalAddres$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dataQualitier">t.dataQualitier=#dataQualitier#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintainer">t.maintainer=#maintainer#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="createTime">t.createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="creater">t.creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="remark">t.remark like '%$remark$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="terminalNum">t.terminalNum = #terminalNum#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="lats"><![CDATA[ latitude >= #lats# ]]></isNotEmpty>
+			<isNotEmpty prepend=" AND " property="late"><![CDATA[ latitude <= #late# ]]></isNotEmpty>
+			<isNotEmpty prepend=" AND " property="lons"><![CDATA[ longitude >= #lons# ]]></isNotEmpty>
+			<isNotEmpty prepend=" AND " property="lone"><![CDATA[ longitude <= #lone# ]]></isNotEmpty>
+        </dynamic>
+        <dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+    </select>
+    
+    <!-- 得到总数 -->
+    <select id="getOpticalTerCount" parameterClass="manage.opticalTerminal.pojo.OpticalTerminalObj" resultClass="Integer">
+        select count(*) from optical_terminal where deleteflag ='0'
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="id">id = #id#</isNotNull>
+            <isNotEmpty prepend=" AND " property="terminalName"><![CDATA[ terminalName REGEXP #terminalName#]]></isNotEmpty>
+            <isNotEmpty prepend=" AND " property="longitude">longitude=#longitude#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="latitude">latitude=#latitude#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="attachName">t.attachName=#attachName#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="attachId">t.attachId like '%$attachId$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="rowNum">rowNum=#rowNum#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="colNum">colNum=#colNum#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="attachType">attachType=#attachType#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="terminalAddres">terminalAddres=#terminalAddres#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dataQualitier">dataQualitier=#dataQualitier#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintainer">maintainer=#maintainer#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="createTime">createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="creater">creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="remark">remark like '%$remark$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="terminalNum">t.terminalNum = #terminalNum#</isNotEmpty>
+        </dynamic>
+    </select>
+    
+    <!-- 得到光终端盒 -->
+    <select id="getOpticalTer" parameterClass="manage.opticalTerminal.pojo.OpticalTerminalObj" resultClass="manage.opticalTerminal.pojo.OpticalTerminalObj">
+        select t.id,t.terminalName,t.longitude,t.latitude,t.rowNum,t.colNum,t.attachType,t.attachName,
+        (select text from dicview where enName='attachType' and value= t.attachType) as attachTypeStr,
+        t.terminalAddres,t.dataQualitier,t.maintainer,t.deleteflag,t.createTime,t.creater,t.remark,t.terminalNum,t.resNum
+        from optical_terminal t where  t.deleteflag ='0'
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="id"> t.id= #id#</isNotNull>
+            <isNotEmpty prepend=" AND " property="terminalName">t.terminalName like '%$terminalName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="longitude">t.longitude=#longitude#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="latitude">t.latitude=#latitude#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="attachName">t.attachName=#attachName#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="attachId">t.attachId like '%$attachId$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="rowNum">t.rowNum=#rowNum#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="colNum">t.colNum=#colNum#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="attachType">t.attachType=#attachType#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="terminalAddres">t.terminalAddres=#terminalAddres#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dataQualitier">t.dataQualitier=#dataQualitier#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintainer">t.maintainer=#maintainer#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="createTime">t.createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="creater">t.creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="remark">t.remark like '%$remark$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="terminalNum">t.terminalNum = #terminalNum#</isNotEmpty>
+        </dynamic>
+    </select>
+    
+    
+    <!-- 更改光终端盒 -->
+    <update id="updateOpticalTer" parameterClass="manage.opticalTerminal.pojo.OpticalTerminalObj" >
+        update optical_terminal t set lastUpTime = now(),resMotion = null
+        <dynamic prepend=" , ">
+            <isNotEmpty prepend=" , " property="terminalName">t.terminalName=#terminalName#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="longitude">t.longitude=#longitude#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="latitude">t.latitude=#latitude#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="attachName">t.attachName=#attachName#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="attachId">t.attachId =#attachId#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="rowNum">t.rowNum=#rowNum#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="colNum">t.colNum=#colNum#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="attachType">t.attachType=#attachType#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="terminalAddres">t.terminalAddres=#terminalAddres#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="dataQualitier">t.dataQualitier=#dataQualitier#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="maintainer">t.maintainer=#maintainer#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="deleteflag">t.deleteflag=#deleteflag#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="createTime">t.createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="creater">t.creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="remark">t.remark =#remark#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="terminalNum">t.terminalNum = #terminalNum#</isNotEmpty>
+        </dynamic>
+        <dynamic prepend=" where ">
+            <isNotEmpty prepend=" AND" property="id">t.id = #id#</isNotEmpty>
+        </dynamic>
+    </update>
+    
+    <!-- 添加光终端盒-->
+    <insert id="insertOpticalTer" parameterClass="manage.opticalTerminal.pojo.OpticalTerminalObj">
+        INSERT into optical_terminal(
+       	terminalName,longitude,latitude,rowNum,colNum,attachType,attachName,attachId,
+        terminalAddres,dataQualitier,maintainer,deleteflag,createTime,creater,remark,
+        lastUpTime,lastUpMan,terminalNum
+        )
+        values
+        (
+        #terminalName#,#longitude#,#latitude#,#rowNum#,#colNum#,#attachType#,#attachName#,#attachId#,
+        #terminalAddres#,#dataQualitier#,#maintainer#,'0',now(),#creater#,#remark#,
+        #lastUpTime#,#lastUpMan#,#terminalNum#
+        )
+        <selectKey resultClass="int" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+    </insert>
+    
+    
+    <!-- 删除光终端盒 -->
+    <delete id="delOpticalTer" parameterClass="java.lang.String">
+         delete from optical_terminal where id in ($ids:String$)
+    </delete>
+    
+</sqlMap>

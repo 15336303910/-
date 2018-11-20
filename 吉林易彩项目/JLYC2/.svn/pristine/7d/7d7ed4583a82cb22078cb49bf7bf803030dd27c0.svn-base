@@ -1,0 +1,203 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/userStyle.css" rel="stylesheet" />
+	</head>
+	<body>
+		<div class="mui-content">
+			<div class="mui-slider topbannershadow">
+	            <div class="mui-slider-group mui-slider-loop">
+	                <!--支持循环，需要重复图片节点-->
+	                <div class="mui-slider-item mui-slider-item-duplicate">
+	                    <a href="#"><img src="../../image/banner3.jpg" width="100%" /></a>
+	                </div>
+	                <div class="mui-slider-item">
+	                    <a href="#"><img src="../../image/banner2.jpg" width="100%" /></a>
+	                </div>
+	                <div class="mui-slider-item">
+	                    <a href="#"><img src="../../image/banner1.jpg" width="100%" /></a>
+	                </div>
+	                <div class="mui-slider-item">
+	                    <a href="#"><img src="../../image/banner3.jpg" width="100%" /></a>
+	                </div>
+	                <div class="mui-slider-item">
+	                    <a href="#"><img src="../../image/banner2.jpg" width="100%" /></a>
+	                </div>
+	            </div>
+	        </div>
+	        <ul class="MainMenuList mt30">
+	            <li class="bg1" style="display: none;">
+	                <a id="id_jzxj" href="javascript:void(0);">
+	                    <span class="mui-icon"><img src="../../image/xjgl.png" height="40dp"/></span>
+	                    <div class="mui-media-body">基站配套</div>
+	                    
+	                </a>
+	            </li>
+	            <li class="bg1" >
+	                <a id="id_zyqc" href="Javascript:void(0);">
+	                    <span class="mui-icon"><img src="../../image/zlcx.png" height="40dp"/></span>
+	                    <div class="mui-media-body">资源清查</div>
+	                </a>
+	            </li>
+	             <li class="bg2" >
+	                <a id="id_zyhc" href="Javascript:void(0);">
+	                    <span class="mui-icon"><img src="../../image/dwgd.png" height="40dp"/></span>
+	                    <div class="mui-media-body">资源核查</div>
+	                </a>
+	            </li>
+	            <li class="bg2" style="display: none;">
+            		<a id = "id_xlxj" href="javascript:void(0);">
+		                <span class="mui-icon "><img src="../../image/xlxj.png" height="40dp"/></span>
+		                <div class="mui-media-body">线路巡检</div>
+		            </a>
+	            </li>
+	            <li class="bg3" >
+	            	<a id="id_tj" href="javascript:void(0);">
+	            		<span class="mui-icon"><img src="../../image/jk_examine.png" height="40dp"/></span>
+	                	<div class="mui-media-body">统计</div>
+	            	</a>
+	            </li>
+	            <li class="bg4" >
+            		<a id="id_gisdw" href="javascript:void(0);">
+            			<span class="mui-icon"><img src="../../image/sfxt.png" height="40dp"/></span>
+                		<div class="mui-media-body">GIS定位</div>
+            		</a>
+	            </li>
+	            
+	            <li class="bg5" style="display: none;">
+	            	<a id="id_jfjzxj" href="javascript:void(0);">
+	            		<span class="mui-icon"><img src="../../image/jizhan.png" height="40dp"/></span>
+	                	<div class="mui-media-body">机房/局站巡检</div>
+	            	</a>
+	            </li>
+	            <li class="bg6" style="display: none;">
+	                <a id = "id_dwgd" href="javascript:void(0);">
+						<span class="mui-icon"><img src="../../image/dwgd.png" height="40dp"/></span>
+						<div class="mui-media-body">场景流程</div>
+					</a>
+	            </li>
+	            <li class="bg3" style="display: none;">
+	            	<a id="id_zxkc" href="javascript:void(0);">	
+		                <span class="mui-icon"><img src="../../image/zxks.png" height="40dp"/></span>
+		                <div class="mui-media-body">在线考场</div>
+	                </a>
+	            </li>
+	            <li class="bg7" style="display: none;">
+	                <a id="id_czsc" href="Javascript:void(0);">
+	                    <span class="mui-icon"><img src="../../image/czsc.png" height="40dp"/></span>
+	                    <div class="mui-media-body">操作手册</div>
+	                </a>
+	            </li>
+	           
+	            
+	            <li class="bg8">
+	                <a id="id_lt" href="Javascript:void(0);">
+	                    <span class="mui-icon"><img src="../../image/jichushuju_strong.png" height="40dp"/></span>
+	                    <div class="mui-media-body">论坛</div>
+	                </a>
+	            </li>
+	            <li class="bg5">
+	                <a id="id_gd" href="Javascript:void(0);">
+	                    <span class="mui-icon"><img src="../../image/gonggao1.png" height="40dp"/></span>
+	                    <div class="mui-media-body">更多</div>
+	                </a>
+	            </li>
+	        </ul>
+		</div>
+	</body>
+	<script type="text/javascript" src="../../js/mui.min.js"></script>
+	
+	<script type="text/javascript">
+	window.onload = function() {
+		mui.init({
+			swipeBack: false, //启用右滑关闭功能
+		});
+		mui.back = function() {
+			//首页返回键处理
+		    //处理逻辑：2秒内，连续两次按返回键，则退出应用；
+		    var first = null;
+		    plus.key.addEventListener('backbutton', function(){
+		        //首次按键，提示‘再按一次退出应用’
+		        if(!first){
+		            first = new Date().getTime();
+		            mui.toast('再按一次退出应用');
+		            setTimeout(function(){
+		                first = null;
+		            },2000);
+		        }else{
+		            if(new Date().getTime()-first<2000){
+		            	var parm = "{username:'" + plus.storage.getItem("userid") + "'}";
+						console.log(parm);
+						var usercityUrl = plus.storage.getItem("url")+"/NMMP/controller/logoutnormalios";
+						mui.ajax({
+							url: usercityUrl,
+							type: 'post',
+							dataType: 'json',
+							data: {
+								submitData: parm
+							},
+							success: function(response) {
+								console.log("response:"+response);
+								
+							},
+							error: function(xhr, type, errorThrown) {
+								mui.alert("您的网络不通畅","系统提示");
+							}
+						});
+						plus.runtime.quit();
+		            }
+		        }
+		    }, false);
+		}
+		
+		var zyqc = document.getElementById("id_zyqc");//资源清查
+		var zyhc = document.getElementById("id_zyhc");//资源核查
+		var tj = document.getElementById("id_tj");//统计
+		var gisdw = document.getElementById("id_gisdw");//GIS定位
+		var lt = document.getElementById("id_lt");//统计
+		var gd = document.getElementById("id_gd");//更多
+		
+		
+		if(window.plus) {
+			plusReady();
+		} else {
+			document.addEventListener('plusready', plusReady, false);
+		}
+		function plusReady() {
+			console.log("------main页面启动啦-------");
+			if(plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_NONE) {
+				mui.alert("请检查您是否连接网络", "系统提示");
+			} else {
+				initDocEventListener();
+			}
+		}
+		
+		function initDocEventListener(){
+		
+			zyqc.addEventListener('tap',function(){
+				mui.openWindow("/pages/menu/zyqcMain.html");
+			});
+			gisdw.addEventListener('tap',function(){
+				mui.openWindow("/pages/main/main.html");
+			});
+			zyhc.addEventListener('tap',function(){
+				mui.alert("暂未开启", "系统提示");
+			});
+			tj.addEventListener('tap',function(){
+				mui.alert("暂未开启", "系统提示");
+			});
+			lt.addEventListener('tap',function(){
+				mui.alert("暂未开启", "系统提示");
+			});
+			gd.addEventListener('tap',function(){
+				mui.alert("暂未开启", "系统提示");
+			});
+			
+		}
+	}	
+	</script>
+</html>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="gis" extends="struts-default,json-default">
+	    
+	    <action name="pipeLineAction" class="manage.resInspect.web.PipeLineAction"> 
+     	    
+        </action>
+	    <!-- gis查询统一入口 -->
+     	<action name="pdaGis" class="interfaces.pdainterface.GIS.action.PDAGisAction">
+        	<result name="*" type="json">
+	        	<param name="root">jsonResponse</param>
+	    	</result>
+     	</action>
+    </package>
+</struts>

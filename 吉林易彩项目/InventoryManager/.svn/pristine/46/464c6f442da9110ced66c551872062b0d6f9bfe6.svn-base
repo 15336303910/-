@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="pdaproperty">	
+	<select id="getProperty" parameterClass="manage.property.pojo.PropertyInfoBean" resultClass="manage.property.pojo.PropertyInfoBean">
+		SELECT * FROM job_property WHERE deleteFlag='0'
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend=" AND " property="propertyId"> propertyId=#propertyId# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="rfid_UID"> rfid_UID like '%$rfid_UID$%' </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_zczb"> proper_zczb=#proper_zczb# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_zcbh"> proper_zcbh=#proper_zcbh# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_zcbqh"> proper_zcbqh like '%$proper_zcbqh$%' </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_pdjg"> proper_pdjg=#proper_pdjg# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_zcmc"> proper_zcmc like '%$proper_zcmc$%' </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_sfcf"> proper_sfcf=#proper_sfcf# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_zclb"> proper_zclb=#proper_zclb# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_zclbms"> proper_zclbms=#proper_zclbms# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_zzs"> proper_zzs=#proper_zzs# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_zcxh"> proper_zcxh=#proper_zcxh# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_zcsl"> proper_zcsl=#proper_zcsl# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_jldw"> proper_jldw=#proper_jldw# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_zcgjz"> proper_zcgjz=#proper_zcgjz# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_zcgjzms"> proper_zcgjzms=#proper_zcgjzms# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_zccjrq"> proper_zccjrq=#proper_zccjrq# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_zcqyrq"> proper_zcqyrq=#proper_zcqyrq# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_ablftrq"> proper_ablftrq=#proper_ablftrq# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_synx"> proper_synx=#proper_synx# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_syys"> proper_syys=#proper_syys# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_gdzcyzzh"> proper_gdzcyzzh=#proper_gdzcyzzh# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_gdzcyzzhms"> proper_gdzcyzzhms=#proper_gdzcyzzhms# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_gdzcljzjzh"> proper_gdzcljzjzh=#proper_gdzcljzjzh# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_gdzcljzjzhms"> proper_gdzcljzjzhms=#proper_gdzcljzjzhms# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_zjfyzh"> proper_zjfyzh=#proper_zjfyzh# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_zjfyzhms"> proper_zjfyzhms=#proper_zjfyzhms# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_zccb"> proper_zccb=#proper_zccb# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_zcjz"> proper_zcjz=#proper_zcjz# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_zccz"> proper_zccz=#proper_zccz# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_zcbqzj"> proper_zcbqzj=#proper_zcbqzj# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_zcbnzj"> proper_zcbnzj=#proper_zcbnzj# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_zcljzj"> proper_zcljzj=#proper_zcljzj# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_zcjzzb"> proper_zcjzzb=#proper_zcjzzb# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_ygbh"> proper_ygbh=#proper_ygbh# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_ygxm"> proper_ygxm=#proper_ygxm# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_ssqy"> proper_ssqy=#proper_ssqy# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_ssqyms"> proper_ssqyms=#proper_ssqyms# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_szdd"> proper_szdd=#proper_szdd# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_szddms"> proper_szddms=#proper_szddms# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_syzt"> proper_syzt=#proper_syzt# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_syztms"> proper_syztms=#proper_syztms# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_qczckpbh"> proper_qczckpbh=#proper_qczckpbh# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_cqpzh"> proper_cqpzh=#proper_cqpzh# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_sbbh"> proper_sbbh=#proper_sbbh# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_zysx"> proper_zysx=#proper_zysx# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_zylx"> proper_zylx=#proper_zylx# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_zcly"> proper_zcly=#proper_zcly# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_zcgs"> proper_zcgs=#proper_zcgs# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_krgzxm"> proper_krgzxm=#proper_krgzxm# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_krgzxmms"> proper_krgzxmms=#proper_krgzxmms# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_zjzt"> proper_zjzt=#proper_zjzt# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_pgjz"> proper_pgjz=#proper_pgjz# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_pghsksyyf"> proper_pghsksyyf=#proper_pghsksyyf# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_fjxx1"> proper_fjxx1=#proper_fjxx1# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_fjxx2"> proper_fjxx2=#proper_fjxx2# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_fjxx3"> proper_fjxx3=#proper_fjxx3# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_cscylx"> proper_cscylx=#proper_cscylx# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_fssbjfj"> proper_fssbjfj=#proper_fssbjfj# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_fzsl"> proper_fzsl=#proper_fzsl# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_fzjldw"> proper_fzjldw=#proper_fzjldw# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_xmbh"> proper_xmbh=#proper_xmbh# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_xmbhms"> proper_xmbhms=#proper_xmbhms# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_qcgcxmbh"> proper_qcgcxmbh=#proper_qcgcxmbh# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="proper_zczyglbm"> proper_zczyglbm=#proper_zczyglbm# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="creationDate"> creationDate=#creationDate# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="lastUpdateDate"> lastUpdateDate=#lastUpdateDate# </isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<update id="updateProperty" parameterClass="manage.property.pojo.PropertyInfoBean">
+		UPDATE job_property SET lastUpdateDate=now() 
+		<dynamic prepend=" , ">
+			<isNotNull prepend=" , " property="proper_zczb"> proper_zczb=#proper_zczb# </isNotNull>
+			<isNotNull prepend=" , " property="rfid_UID"> rfid_UID=#rfid_UID# </isNotNull>
+			<isNotNull prepend=" , " property="proper_zcbh"> proper_zcbh=#proper_zcbh# </isNotNull>
+			<isNotNull prepend=" , " property="proper_zcbqh"> proper_zcbqh=#proper_zcbqh# </isNotNull>
+			<isNotNull prepend=" , " property="proper_pdjg"> proper_pdjg=#proper_pdjg# </isNotNull>
+			<isNotNull prepend=" , " property="proper_zcmc"> proper_zcmc=#proper_zcmc# </isNotNull>
+			<isNotNull prepend=" , " property="proper_sfcf"> proper_sfcf=#proper_sfcf# </isNotNull>
+			<isNotNull prepend=" , " property="proper_zclb"> proper_zclb=#proper_zclb# </isNotNull>
+			<isNotNull prepend=" , " property="proper_zclbms"> proper_zclbms=#proper_zclbms# </isNotNull>
+			<isNotNull prepend=" , " property="proper_zzs"> proper_zzs=#proper_zzs# </isNotNull>
+			<isNotNull prepend=" , " property="proper_zcxh"> proper_zcxh=#proper_zcxh# </isNotNull>
+			<isNotNull prepend=" , " property="proper_zcsl"> proper_zcsl=#proper_zcsl# </isNotNull>
+			<isNotNull prepend=" , " property="proper_jldw"> proper_jldw=#proper_jldw# </isNotNull>
+			<isNotNull prepend=" , " property="proper_zcgjz"> proper_zcgjz=#proper_zcgjz# </isNotNull>
+			<isNotNull prepend=" , " property="proper_zcgjzms"> proper_zcgjzms=#proper_zcgjzms# </isNotNull>
+			<isNotNull prepend=" , " property="proper_zccjrq"> proper_zccjrq=#proper_zccjrq# </isNotNull>
+			<isNotNull prepend=" , " property="proper_zcqyrq"> proper_zcqyrq=#proper_zcqyrq# </isNotNull>
+			<isNotNull prepend=" , " property="proper_ablftrq"> proper_ablftrq=#proper_ablftrq# </isNotNull>
+			<isNotNull prepend=" , " property="proper_synx"> proper_synx=#proper_synx# </isNotNull>
+			<isNotNull prepend=" , " property="proper_syys"> proper_syys=#proper_syys# </isNotNull>
+			<isNotNull prepend=" , " property="proper_gdzcyzzh"> proper_gdzcyzzh=#proper_gdzcyzzh# </isNotNull>
+			<isNotNull prepend=" , " property="proper_gdzcyzzhms"> proper_gdzcyzzhms=#proper_gdzcyzzhms# </isNotNull>
+			<isNotNull prepend=" , " property="proper_gdzcljzjzh"> proper_gdzcljzjzh=#proper_gdzcljzjzh# </isNotNull>
+			<isNotNull prepend=" , " property="proper_gdzcljzjzhms"> proper_gdzcljzjzhms=#proper_gdzcljzjzhms# </isNotNull>
+			<isNotNull prepend=" , " property="proper_zjfyzh"> proper_zjfyzh=#proper_zjfyzh# </isNotNull>
+			<isNotNull prepend=" , " property="proper_zjfyzhms"> proper_zjfyzhms=#proper_zjfyzhms# </isNotNull>
+			<isNotNull prepend=" , " property="proper_zccb"> proper_zccb=#proper_zccb# </isNotNull>
+			<isNotNull prepend=" , " property="proper_zcjz"> proper_zcjz=#proper_zcjz# </isNotNull>
+			<isNotNull prepend=" , " property="proper_zccz"> proper_zccz=#proper_zccz# </isNotNull>
+			<isNotNull prepend=" , " property="proper_zcbqzj"> proper_zcbqzj=#proper_zcbqzj# </isNotNull>
+			<isNotNull prepend=" , " property="proper_zcbnzj"> proper_zcbnzj=#proper_zcbnzj# </isNotNull>
+			<isNotNull prepend=" , " property="proper_zcljzj"> proper_zcljzj=#proper_zcljzj# </isNotNull>
+			<isNotNull prepend=" , " property="proper_zcjzzb"> proper_zcjzzb=#proper_zcjzzb# </isNotNull>
+			<isNotNull prepend=" , " property="proper_ygbh"> proper_ygbh=#proper_ygbh# </isNotNull>
+			<isNotNull prepend=" , " property="proper_ygxm"> proper_ygxm=#proper_ygxm# </isNotNull>
+			<isNotNull prepend=" , " property="proper_ssqy"> proper_ssqy=#proper_ssqy# </isNotNull>
+			<isNotNull prepend=" , " property="proper_ssqyms"> proper_ssqyms=#proper_ssqyms# </isNotNull>
+			<isNotNull prepend=" , " property="proper_szdd"> proper_szdd=#proper_szdd# </isNotNull>
+			<isNotNull prepend=" , " property="proper_szddms"> proper_szddms=#proper_szddms# </isNotNull>
+			<isNotNull prepend=" , " property="proper_syzt"> proper_syzt=#proper_syzt# </isNotNull>
+			<isNotNull prepend=" , " property="proper_syztms"> proper_syztms=#proper_syztms# </isNotNull>
+			<isNotNull prepend=" , " property="proper_qczckpbh"> proper_qczckpbh=#proper_qczckpbh# </isNotNull>
+			<isNotNull prepend=" , " property="proper_cqpzh"> proper_cqpzh=#proper_cqpzh# </isNotNull>
+			<isNotNull prepend=" , " property="proper_sbbh"> proper_sbbh=#proper_sbbh# </isNotNull>
+			<isNotNull prepend=" , " property="proper_zysx"> proper_zysx=#proper_zysx# </isNotNull>
+			<isNotNull prepend=" , " property="proper_zylx"> proper_zylx=#proper_zylx# </isNotNull>
+			<isNotNull prepend=" , " property="proper_zcly"> proper_zcly=#proper_zcly# </isNotNull>
+			<isNotNull prepend=" , " property="proper_zcgs"> proper_zcgs=#proper_zcgs# </isNotNull>
+			<isNotNull prepend=" , " property="proper_krgzxm"> proper_krgzxm=#proper_krgzxm# </isNotNull>
+			<isNotNull prepend=" , " property="proper_krgzxmms"> proper_krgzxmms=#proper_krgzxmms# </isNotNull>
+			<isNotNull prepend=" , " property="proper_zjzt"> proper_zjzt=#proper_zjzt# </isNotNull>
+			<isNotNull prepend=" , " property="proper_pgjz"> proper_pgjz=#proper_pgjz# </isNotNull>
+			<isNotNull prepend=" , " property="proper_pghsksyyf"> proper_pghsksyyf=#proper_pghsksyyf# </isNotNull>
+			<isNotNull prepend=" , " property="proper_fjxx1"> proper_fjxx1=#proper_fjxx1# </isNotNull>
+			<isNotNull prepend=" , " property="proper_fjxx2"> proper_fjxx2=#proper_fjxx2# </isNotNull>
+			<isNotNull prepend=" , " property="proper_fjxx3"> proper_fjxx3=#proper_fjxx3# </isNotNull>
+			<isNotNull prepend=" , " property="proper_cscylx"> proper_cscylx=#proper_cscylx# </isNotNull>
+			<isNotNull prepend=" , " property="proper_fssbjfj"> proper_fssbjfj=#proper_fssbjfj# </isNotNull>
+			<isNotNull prepend=" , " property="proper_fzsl"> proper_fzsl=#proper_fzsl# </isNotNull>
+			<isNotNull prepend=" , " property="proper_fzjldw"> proper_fzjldw=#proper_fzjldw# </isNotNull>
+			<isNotNull prepend=" , " property="proper_xmbh"> proper_xmbh=#proper_xmbh# </isNotNull>
+			<isNotNull prepend=" , " property="proper_xmbhms"> proper_xmbhms=#proper_xmbhms# </isNotNull>
+			<isNotNull prepend=" , " property="proper_qcgcxmbh"> proper_qcgcxmbh=#proper_qcgcxmbh# </isNotNull>
+			<isNotNull prepend=" , " property="proper_zczyglbm"> proper_zczyglbm=#proper_zczyglbm# </isNotNull>
+			<isNotNull prepend=" , " property="creationDate"> creationDate=#creationDate# </isNotNull>
+			<isNotNull prepend=" , " property="deleteFlag"> deletedFlag=#deletedFlag# </isNotNull>
+			<isNotNull prepend=" , " property="deletionDate"> deletionDate=#deletionDate# </isNotNull>
+		</dynamic>
+		WHERE propertyId=#propertyId#
+	</update>
+	
+	<insert id="insertProperty" parameterClass="manage.property.pojo.PropertyInfoBean">
+		INSERT INTO job_property ( 
+			 proper_zczb, proper_zcbh, proper_zcbqh, proper_pdjg, proper_zcmc, proper_sfcf, proper_zclb, proper_zclbms,rfid_UID,
+			 proper_zzs, proper_zcxh, proper_zcsl, proper_jldw, proper_zcgjz, proper_zcgjzms, proper_zccjrq, proper_zcqyrq,
+			 proper_ablftrq, proper_synx, proper_syys, proper_gdzcyzzh, proper_gdzcyzzhms, proper_gdzcljzjzh, proper_gdzcljzjzhms, proper_zjfyzh,
+			 proper_zjfyzhms, proper_zccb, proper_zcjz, proper_zccz, proper_zcbqzj, proper_zcbnzj, proper_zcljzj, proper_zcjzzb,
+			 proper_ygbh, proper_ygxm, proper_ssqy, proper_ssqyms, proper_szdd, proper_szddms, proper_syzt, proper_syztms,
+			 proper_qczckpbh, proper_cqpzh, proper_sbbh, proper_zysx, proper_zylx, proper_zcly, proper_zcgs, proper_krgzxm,
+			 proper_krgzxmms, proper_zjzt, proper_pgjz, proper_pghsksyyf, proper_fjxx1, proper_fjxx2, proper_fjxx3, proper_cscylx,
+			 proper_fssbjfj, proper_fzsl, proper_fzjldw, proper_xmbh, proper_xmbhms, proper_qcgcxmbh, proper_zczyglbm, lastUpdateDate, deletionDate, creationDate, deleteFlag
+		) VALUES (
+			 #proper_zczb#, #proper_zcbh#, #proper_zcbqh#, #proper_pdjg#, #proper_zcmc#, #proper_sfcf#, #proper_zclb#, #proper_zclbms#,#rfid_UID#,
+			 #proper_zzs#, #proper_zcxh#, #proper_zcsl#, #proper_jldw#, #proper_zcgjz#, #proper_zcgjzms#, #proper_zccjrq#, #proper_zcqyrq#,
+			 #proper_ablftrq#, #proper_synx#, #proper_syys#, #proper_gdzcyzzh#, #proper_gdzcyzzhms#, #proper_gdzcljzjzh#, #proper_gdzcljzjzhms#, #proper_zjfyzh#,
+			 #proper_zjfyzhms#, #proper_zccb#, #proper_zcjz#, #proper_zccz#, #proper_zcbqzj#, #proper_zcbnzj#, #proper_zcljzj#, #proper_zcjzzb#,
+			 #proper_ygbh#, #proper_ygxm#, #proper_ssqy#, #proper_ssqyms#, #proper_szdd#, #proper_szddms#, #proper_syzt#, #proper_syztms#,
+			 #proper_qczckpbh#, #proper_cqpzh#, #proper_sbbh#, #proper_zysx#, #proper_zylx#, #proper_zcly#, #proper_zcgs#, #proper_krgzxm#,
+			 #proper_krgzxmms#, #proper_zjzt#, #proper_pgjz#, #proper_pghsksyyf#, #proper_fjxx1#, #proper_fjxx2#, #proper_fjxx3#, #proper_cscylx#,
+			 #proper_fssbjfj#, #proper_fzsl#, #proper_fzjldw#, #proper_xmbh#, #proper_xmbhms#, #proper_qcgcxmbh#, #proper_zczyglbm#, #lastUpdateDate#, #deletionDate#, now(), '0'
+		)
+		<selectKey resultClass="int" keyProperty="propertyId">
+			SELECT LAST_INSERT_ID() AS propertyId
+		</selectKey>
+	</insert>
+</sqlMap>
+    

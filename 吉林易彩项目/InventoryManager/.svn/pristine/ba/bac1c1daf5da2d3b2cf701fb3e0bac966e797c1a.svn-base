@@ -1,0 +1,45 @@
+package interfaces.pdainterface.pipe.service;
+
+import base.exceptions.DataAccessException;
+import java.util.List;
+import manage.pipe.pojo.WellCustomInfoBean;
+
+public abstract interface PDAPipeCustomService {
+	
+	/**
+	 * 获取井信息
+	 * 
+	 * @param paramWellInfoBean
+	 * @return
+	 * @throws DataAccessException
+	 */
+	public abstract List<WellCustomInfoBean> getWellCustom(WellCustomInfoBean well)
+		throws DataAccessException;
+
+    /**
+     * 增加井
+     * @param paramWellInfoBean
+     * @return
+     * @throws DataAccessException
+     */
+    public abstract Integer insertWellCustom(WellCustomInfoBean well)
+        throws DataAccessException;
+
+    /**
+     * 更新井
+     * @param paramWellInfoBean
+     * @return
+     * @throws DataAccessException
+     */
+    public abstract Integer updateWellCustom(WellCustomInfoBean well)
+    	throws DataAccessException;
+
+    /**
+     * 删除井
+     * @param paramWellInfoBean
+     * @return
+     * @throws DataAccessException
+     */
+    public abstract Integer deleteWellCustom(WellCustomInfoBean well)
+    	throws DataAccessException;
+}

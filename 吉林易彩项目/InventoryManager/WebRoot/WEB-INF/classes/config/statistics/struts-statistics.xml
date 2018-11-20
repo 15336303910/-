@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <package name="statistics" extends="json-default,struts-base">
+     	<action name="statistics" class="manage.statistics.web.StatisticsAction">
+     		<!-- 菜单树 -->
+	    	<result name="getMyMenu" type="json">
+	    	    <param name="root">menuTree</param>
+	    	</result>
+	    	<result name="cableStat" type="json">
+	    	    <param name="root">cableGrid</param>
+	    	</result>
+	    	<result name="equtStat" type="json">
+	    	    <param name="root">equtGrid</param>
+	    	</result>
+	    	<result name="statistics" type="json">
+     			<param name="root">orderGrid</param>
+     		</result>
+     		<result name="statisticsByUser" type="json">
+     			<param name="root">orderGrid</param>
+     		</result>
+     		<result name="statisticsReasource" type="json">
+     			<param name="root">str</param>
+     		</result>
+     		<!-- 地区树 -->
+	    	<result name="getDomianTree" type="json">
+	    	    <param name="root">domainTree</param>
+	    	</result>
+	    	<result name="exportsuccess" >/export.jsp?filename=${filepath}</result>
+	    	<result name="exportstatis" >/exports.jsp?filename=${filepath}</result>
+			<result name="alarmStat" type="json">
+     			<param name="root">pointEventGrid</param>
+     		</result>
+			
+     	</action>
+    </package>
+</struts>

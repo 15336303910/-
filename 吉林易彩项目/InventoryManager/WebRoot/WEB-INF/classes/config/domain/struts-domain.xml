@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <package name="doamin" extends="json-default,struts-base">
+        <action name="domain" class="manage.domain.web.DomainAction">
+            <!-- 条件查询,分页显示地区 -->
+	    	<result name="loadDomainTree" type="json">
+	    	    <param name="root">domianTrees</param>
+	    	</result>
+	    	<!-- Ajax检查地区是否存在 -->
+	    	<result name="verifyDomain" type="json">
+	    	    <param name="includeProperties">success,verifyMsg</param>
+	    	</result>
+	    	<!-- 添加新地区 -->
+	    	<result name="addDomain" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+	    	
+	    	<result name="loadDomainTree2" type="json">
+	    	    <param name="root">domianTrees</param>
+	    	</result>
+	    	
+	    	<result name="loadDomain" type="json">
+	    	    <param name="includeProperties">success,data.*</param>
+	    	</result>
+	    	
+	    	<result name="deleteDomain" type="json">
+	    	    <param name="includeProperties">success,deleteMsg</param>
+	    	</result>
+	    	
+	    	<result name="responsible" type="json">
+	    	    <param name="root">responsible</param>
+	    	</result>
+	    	<result name="updateDomainBean" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+	    	
+	    	<result name="searchDomainTree" type="json">
+	    	    <param name="includeProperties">success,domianTrees.*</param>
+	    	</result>
+        </action>
+    	
+    	<!-- 
+     	<action name="user"  class="manage.user.web.UserAction" method="searchUser">
+     		
+            <result name="error">/err.jsp</result>
+             如果没有登录，连接拦截后，直接跳到sessionOut.jsp,每个业务模块都需要加上下面代码 
+            <result name="sessionOut">/sessionOut.jsp</result>
+            
+      </action>   
+       --> 	
+    </package>
+</struts>

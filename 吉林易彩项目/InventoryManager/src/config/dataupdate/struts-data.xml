@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="dataupdate" extends="json-default,struts-base">
+     	<action name="dataupdate" class="manage.dataupdate.web.DataAction">
+            <result name="success" type="json">
+     			<param name="includeProperties">success,message</param>
+     			<param name="contentType">text/html</param>
+     		</result>
+     		<result name="exportsuccess">export.jsp?filename=${filepath}</result>
+     		<result name="error">error.jsp</result>
+     		
+            <!-- 如果没有登录，连接拦截后，直接跳到sessionOut.jsp,每个业务模块都需要加上下面代码 -->
+            <result name="sessionOut">sessionOut.jsp</result>
+        </action>
+    </package>
+</struts>

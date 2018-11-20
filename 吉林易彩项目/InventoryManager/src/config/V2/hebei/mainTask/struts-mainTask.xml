@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+    <package name="mainTask" extends="json-default,struts-base">
+     	<action name="mainTask" class="manage.V2.hebei.mainTask.action.MainTaskAction">
+     	    <!-- 文件拦截器 -->
+     		<interceptor-ref name="fileUpload"/>
+     		<interceptor-ref name="matStack"/>
+     		<result name="getRouteInfo" type="json">
+     			<param name="root">routeInfoBean</param>
+     		</result>
+     		<result name="checkOfpNode" type="dispatcher">/pages/ofp/checkofp.jsp</result>
+	    	<result name="ofptopo">/pages/ofp/ofptopo.jsp</result>
+		</action>
+		<action name="pdaMainTask" class="interfaces.pdainterface.V2.hebei.mainTask.action.PDAMaintask">
+        	<result name="*" type="json">
+	        	<param name="root">jsonResponse</param>
+	    	</result>
+     	</action>
+	</package>
+</struts>

@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="docpoint">	
+
+	<!-- 获取端子信息 -->
+	<select id="getDocPoint" parameterClass="service.pojo.DocumentPointInfoBean" resultClass="service.pojo.DocumentPointInfoBean">
+	select * from documentpointinfo 
+	<dynamic prepend="WHERE">
+		<isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="did">(did=#did#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="pid">(pid=#pid#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="pcode">(pcode like '%$pcode$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="pstat">(pstat=#pstat#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="pserv">(pserv like '%$pserv$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="mflag">(mflag=#mflag#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="areano">(areano = #areano#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="oppo_pid">(oppo_pid=#oppo_pid#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="oppo_eid">(oppo_eid=#oppo_eid#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="oppo_pcode">(oppo_pcode=#oppo_pcode#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="mp">(mp=#mp#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="mbtime"><![CDATA[ DATE_FORMAT(mtime,'%Y-%m-%d')>=DATE_FORMAT(#mbtime#,'%Y-%m-%d') ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="metime"><![CDATA[ DATE_FORMAT(mtime,'%Y-%m-%d')<=DATE_FORMAT(#metime#,'%Y-%m-%d') ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="fibname">fibname=#fibname#</isNotEmpty>
+		<isNotEmpty prepend="AND" property="ofpcode">ofpcode=#ofpcode#</isNotEmpty>
+		<isNotEmpty prepend="AND" property="ofpname">ofpname=#ofpname#</isNotEmpty>
+		<isNotEmpty prepend="AND" property="note">note=#note#</isNotEmpty>
+	</dynamic>
+	order by pid 
+	</select>
+	
+	<!-- 获取端子信息列表 -->
+	<select id="getDocPointList" parameterClass="service.pojo.DocumentPointInfoBean" resultClass="service.pojo.DocumentPointInfoBean">
+	select * from documentpointinfo 
+	<dynamic prepend="WHERE">
+		<isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="did">(did=#did#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="pid">(pid=#pid#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="ptype">(ptype=#ptype#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="direction">(direction=#direction#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="pcode">(pcode like '%$pcode$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="pstat">(pstat=#pstat#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="pserv">(pserv like '%$pserv$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="mflag"> (mflag=#mflag#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="areano">(areano = #areano#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="oppo_pid"> (oppo_pid=#oppo_pid#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="oppo_eid"> (oppo_eid=#oppo_eid#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="oppo_pcode"> (oppo_pcode like '%$oppo_pcode$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="oppo_ecode"> (oppo_ecode like '%$oppo_ecode$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="mp"> (mp=#mp#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="mbtime"> <![CDATA[ DATE_FORMAT(mtime,'%Y-%m-%d')>=DATE_FORMAT(#mbtime#,'%Y-%m-%d') ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="metime"> <![CDATA[ DATE_FORMAT(mtime,'%Y-%m-%d')<=DATE_FORMAT(#metime#,'%Y-%m-%d') ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="fibname"> (fibname like '%$fibname$%')</isNotEmpty> 
+		<isNotEmpty prepend="AND" property="ofpcode"> (ofpcode=#ofpcode#)</isNotEmpty> 
+		<isNotEmpty prepend="AND" property="ofpname"> (ofpname like '%$ofpname$%')</isNotEmpty> 
+		<isNotEmpty prepend="AND" property="ofpno"> (ofpno=#ofpno#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="note"> (note=#note#)</isNotEmpty>
+	</dynamic>
+	order by pid 
+ 	</select>
+	
+	<!-- 获取端子信息总数 -->
+	<select id="getCount" parameterClass="service.pojo.DocumentPointInfoBean" resultClass="Integer">
+		select count(*)
+		from documentpointinfo
+	<dynamic prepend="WHERE">
+		<isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="did">(did=#did#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="pid">(pid=#pid#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="ptype">(ptype=#ptype#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="direction">(direction=#direction#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="pcode">(pcode like '%$pcode$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="pstat">(pstat=#pstat#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="pserv">(pserv like '%$pserv$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="mflag"> (mflag=#mflag#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="areano">(areano = #areano#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="oppo_pid"> (oppo_pid=#oppo_pid#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="oppo_eid"> (oppo_eid=#oppo_eid#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="oppo_pcode"> (oppo_pcode like '%$oppo_pcode$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="oppo_ecode"> (oppo_ecode like '%$oppo_ecode$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="mp"> (mp=#mp#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="mbtime"> <![CDATA[ DATE_FORMAT(mtime,'%Y-%m-%d')>=DATE_FORMAT(#mbtime#,'%Y-%m-%d') ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="metime"> <![CDATA[ DATE_FORMAT(mtime,'%Y-%m-%d')<=DATE_FORMAT(#metime#,'%Y-%m-%d') ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="fibname"> (fibname like '%$fibname$%')</isNotEmpty> 
+		<isNotEmpty prepend="AND" property="ofpcode"> (ofpcode=#ofpcode#)</isNotEmpty> 
+		<isNotEmpty prepend="AND" property="ofpname"> (ofpname like '%$ofpname$%')</isNotEmpty> 
+		<isNotEmpty prepend="AND" property="ofpno"> (ofpno=#ofpno#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="note"> (note=#note#)</isNotEmpty>
+	</dynamic>
+	</select>
+	
+	<!-- 插入端子 -->
+	<insert id="insertDocPoint" parameterClass="service.pojo.DocumentPointInfoBean">
+		insert into documentpointinfo
+		(eid,pboardno,plineno,prowno,ecode,ename,pid,areano,servno,servtype,pstat,pcode,ptype,direction,pserv,oppo_pcode,mtime,mp,
+			mflag,did,fiberstationname,fibname,ofpcode,ofpname,note,oppo_ename,oppo_ecode,routename,cablename) 
+		values
+		(#eid#,#pboardno#,#plineno#,#prowno#,#ecode#,#ename#,#pid#,#areano#,#servno#,#servtype#,#pstat#,#pcode#,#ptype#,#direction#,#pserv#,#oppo_pcode#,#mtime#,#mp#,
+		#mflag#,#did#,#fiberstationname#,#fibname#,#ofpcode#,#ofpname#,#note#,#oppo_ename#,#oppo_ecode#,#routename#,#cablename#)
+	</insert>
+	
+	<update id="docupdatePoint" parameterClass="service.pojo.DocumentPointInfoBean">
+		update pointinfo p,documentpointinfo d
+        set p.pcode=d.pcode,p.pserv=d.pserv,p.servtype=d.servtype,p.servno=d.servno,p.ptype=d.ptype,p.pstat=d.pstat,p.oppo_pid=d.oppo_pid,p.oppo_eid=d.oppo_eid,p.oppo_pcode=d.oppo_pcode,
+        	p.fibname=d.fibname,p.ofpcode=d.ofpcode,p.ofpname=d.ofpname,p.note=d.note,p.oppo_ecode=d.oppo_ecode,p.oppo_ename=d.oppo_ename,
+        	p.ofpno=d.ofpno,p.direction=d.direction,p.routename=d.routename,p.cablename=d.cablename,p.mtime=#mtime#,p.mp=#mp#
+        where p.pid=d.pid and p.eid=#eid# and d.did =#did# and d.areano=#areano#;
+	</update>
+
+
+	<!-- 修改端子 -->
+	<update id="updatePoint" parameterClass="service.pojo.DocumentPointInfoBean">
+	update documentpointinfo set
+	<dynamic prepend=" ">
+		<isNotNull prepend="," property="ecode">ecode=#ecode#</isNotNull>
+		<isNotNull prepend="," property="ename">ename=#ename#</isNotNull>
+		<isNotNull prepend="," property="ptype">ptype=#ptype#</isNotNull>
+		<isNotNull prepend="," property="direction">direction=#direction#</isNotNull>
+		<isNotNull prepend="," property="pcode">pcode=#pcode#</isNotNull>
+		<isNotNull prepend="," property="pserv">pserv=#pserv#</isNotNull>
+		<isNotNull prepend="," property="pstat">pstat=#pstat#</isNotNull>
+		<isNotNull prepend="," property="pserv">oppo_pid=#oppo_pid#</isNotNull>
+		<isNotNull prepend="," property="oppo_pcode">oppo_pcode=#oppo_pcode#</isNotNull>
+		<isNotNull prepend="," property="oppo_eid">oppo_eid=#oppo_eid#</isNotNull>
+		<isNotNull prepend="," property="oppo_pid">oppo_pid=#oppo_pid#</isNotNull>
+		<isNotNull prepend="," property="mflag">mflag=#mflag#</isNotNull>
+		<isNotNull prepend="," property="mtime">mtime=#mtime#</isNotNull>
+		<isNotNull prepend="," property="mp">mp=#mp#</isNotNull>
+		<isNotNull prepend="," property="fibname">fibname=#fibname#</isNotNull>
+		<isNotNull prepend="," property="ofpno">ofpno=#ofpno#</isNotNull>
+		<isNotNull prepend="," property="ofpcode">ofpcode=#ofpcode#</isNotNull>
+		<isNotNull prepend="," property="ofpname">ofpname=#ofpname#</isNotNull>
+		<isNotNull prepend="," property="note">note=#note#</isNotNull>
+		</dynamic>
+		where eid=#eid# and pid=#pid# and areano=#areano#
+	</update>
+	<!-- 获得端子状态统计-->
+	<select id="getPointPstat" parameterClass="service.pojo.DocumentPointInfoBean" resultClass="service.pojo.DocumentPointInfoBean">
+	select count(ID) ,pstat from pointinfo 
+	where eid=#eid# and areano=#areano# 
+    GROUP BY pstat
+ 	</select>
+	<!-- 删除端子 -->
+	<delete id="deleteDocPoint" parameterClass="service.pojo.DocumentPointInfoBean">
+		delete from documentpointinfo where did = #did#  and areano=#areano#
+	</delete>
+	
+	<!-- 添加端子修改日志 -->
+	<insert id="insertPointLog" parameterClass="service.pojo.PointInfoBean">
+		insert into pointinfo(eid,pid,areano,pstat,pcode,pserv,oppo_pcode,oppo_pid,oppo_eid,mtime,mp,mflag) values(#eid#,#pid#,#areano#,#pstat#,#pcode#,#pserv#,#oppo_pcode#,#oppo_pid#,#oppo_eid#,#mtime#,#mp#,#mflag#)
+	</insert>
+
+	<delete id="deleteDocRoute" parameterClass="service.pojo.DocumentPointInfoBean">
+		delete from documentrouteinfo where did = #did#  and areano=#areano#
+	</delete>
+	
+	<delete id="deleteDocCable" parameterClass="service.pojo.DocumentPointInfoBean">
+		delete from documentcableinfo where did = #did#  and areano=#areano#
+	</delete>
+	
+	<insert id="insertDocRoute" parameterClass="manage.route.pojo.RouteInfoBean">
+		insert into documentrouteinfo (
+			did,areano,routename
+		) values (
+			#did#,#areano#,#routename#
+		)
+	</insert>
+	
+	<insert id="insertDocCable" parameterClass="manage.route.pojo.CableInfoBean">
+		insert into documentcableinfo (
+			did,areano,routename,cablename
+		) values (
+			#did#,#areano#,#routename#,#cablename#
+		)
+	</insert>
+	
+	<select id="getDocRoute" parameterClass="service.pojo.DocumentPointInfoBean" resultClass="manage.route.pojo.RouteInfoBean">
+		select * from documentrouteinfo
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="routename">(routename=#routename#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="routelevel">(routelevel=#routelevel#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="areano">(areano = #areano#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="did">(did=#did#)</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	
+ 	<select id="getDocCable" parameterClass="service.pojo.DocumentPointInfoBean" resultClass="manage.route.pojo.CableInfoBean">
+		select * from documentcableinfo
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="routename">(routename=#routename#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="cablename">(cablename=#cablename#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="areano">(areano = #areano#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="did">(did=#did#)</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	
+	<select id="getRoute" parameterClass="manage.route.pojo.RouteInfoBean" resultClass="manage.route.pojo.RouteInfoBean">
+		select * from routeinfo
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="routename">(routename=#routename#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="routelevel">(routelevel=#routelevel#)</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	
+ 	<select id="getCable" parameterClass="manage.route.pojo.CableInfoBean" resultClass="manage.route.pojo.CableInfoBean">
+		select * from cableinfo
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="routename">(routename=#routename#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="cablename">(cablename=#cablename#)</isNotEmpty>
+		</dynamic>
+ 	</select>
+ 	
+ 	<insert id="insertRoute" parameterClass="manage.route.pojo.RouteInfoBean">
+		insert into routeinfo (
+			routename
+		) values (
+			#routename#
+		)
+	</insert>
+	
+	<insert id="insertCable" parameterClass="manage.route.pojo.CableInfoBean">
+		insert into cableinfo (
+			routename,cablename
+		) values (
+			#routename#,#cablename#
+		)
+	</insert>
+</sqlMap>

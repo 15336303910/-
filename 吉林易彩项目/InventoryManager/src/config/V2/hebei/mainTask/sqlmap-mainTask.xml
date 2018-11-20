@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="mainTask">	
+	
+	<!-- 获取路由信息 -->
+	<select id="getRouteInfo" parameterClass="manage.V2.hebei.mainTask.pojo.RouteInfoBean" resultClass="manage.V2.hebei.mainTask.pojo.RouteInfoBean">
+		select * from (select a.*,ROWNUM num  from (select id as routeID,name,state as routeState,create_time as deliveryDate,deal_person as dealPerson,DEAL_STATE as deliveryState,MATE_RATE as matchScores,flag from HEBEI_ROUTE where 1 = 1
+		<dynamic prepend="AND ">
+			<isNotEmpty prepend="AND " property="userId">(USER_ID = #userId#)</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="AND ">
+			<isNotEmpty prepend="AND " property="routeID">(ID = #routeID#)</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="AND ">
+			<isNotEmpty prepend="AND " property="name"> name is not null </isNotEmpty>
+		</dynamic>
+		order by create_time desc) a ) where 1=1
+		<dynamic prepend="">
+	    	<isNotEmpty prepend="AND " property="start"><![CDATA[  num <= #start# ]]></isNotEmpty>
+	    	<isNotEmpty prepend="AND " property="limit"><![CDATA[  num > #limit# ]]></isNotEmpty>
+	    </dynamic>
+	</select>
+	<!-- 通过路由ID获取起终点信息 -->
+	<select id="getPointInfo" parameterClass="manage.V2.hebei.mainTask.pojo.PointlikeResourceInfoBean" resultClass="manage.V2.hebei.mainTask.pojo.PointlikeResourceInfoBean">
+		select route_id as routeID,longitude,latitude,resource_id as resourceID,resource_name as resourceName,resource_type as resourceType from HEBEI_POINT where 1 = 1
+		<dynamic prepend="AND ">
+			<isNotEmpty prepend="AND " property="routeID">(ROUTE_ID=#routeID#)</isNotEmpty>
+			<isNotEmpty prepend="AND " property="type">(TYPE=#type#)</isNotEmpty>
+		</dynamic>
+	</select>
+	<!-- 通过路由ID获取轨迹信息 -->
+	<select id="getWayInfo" parameterClass="manage.V2.hebei.mainTask.pojo.LocusPoint" resultClass="manage.V2.hebei.mainTask.pojo.LocusPoint">
+		select ROUTE_ID as routeID,LONGITUDE,LATITUDE from HEBEI_TRAIL where route_id = #routeID#
+	</select>
+	<!-- 通过路由ID获取隐患信息 -->
+	<select id="getErrorInfo" parameterClass="manage.V2.hebei.mainTask.pojo.ErrorInfoBean" resultClass="manage.V2.hebei.mainTask.pojo.ErrorInfoBean">
+		select AREA,DESCRIPTION as errorDescribe,ERROR_OBJ as errorObjectName,LONGITUDE,LATITUDE,LEAVE_PROBLEM as leftProblem,ROUTE_ID as routeID,RESOURCE_ID as resourceID,
+		RESOURCE_TYPE as resourceType,SITUATION,SUGGEST,URGENCY_LEVEL as urgencyLevel from HEBEI_ERROR where route_id = #routeID#
+	</select>
+	
+	<!-- 保存路由ID -->
+	<insert id="getRouteID" parameterClass="manage.V2.hebei.mainTask.pojo.RouteInfoBean">
+		<selectKey resultClass="int" keyProperty="ID">
+			select SEQ_HEBEI_ROUTE.nextval as ID from dual
+		</selectKey>
+		INSERT INTO HEBEI_ROUTE(ID,USER_ID) values (#ID#,#userId#)
+	</insert>
+	
+	<!-- 自定义映射Bean -->
+	<resultMap class="manage.V2.hebei.mainTask.pojo.ResourceRelationBean" id="rrBean">
+		<result property="belongTable" column="belong_table"/>
+		<result property="resourceType" column="resource_type"/>
+	</resultMap>
+	<!-- 获取资源对象映射 -->
+	<select id="getResourceRelation" parameterClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean" resultMap="rrBean">
+		select * from HEBEI_RESOURCE_RALATION where 1 = 1
+		<dynamic prepend="AND ">
+			<isNotEmpty prepend="AND " property="resourceType">(resource_type=#resourceType#)</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 从资源表获取zh_label int_id等信息 -->
+	<select id="getRoomInfo" parameterClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean" resultClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean">
+	<![CDATA[ select int_id,zh_label,longitude,latitude from rms_site where 1=1 and longitude > #xMin# and longitude < #xMax# and latitude > #yMin# and latitude < #yMax# ]]>
+	</select>
+	<select id="getPipeInfo" parameterClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean" resultClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean">
+	<![CDATA[ select int_id,zh_label,longitude,latitude from res_staff_well where 1=1 and longitude > #xMin# and longitude < #xMax# and latitude > #yMin# and latitude < #yMax# ]]>
+	</select>
+	<select id="getPoleInfo" parameterClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean" resultClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean">
+	<![CDATA[ select int_id,zh_label,longitude,latitude from res_pole where 1=1 and longitude > #xMin# and longitude < #xMax# and latitude > #yMin# and latitude < #yMax# ]]>
+	</select>
+	<select id="getStoneInfo" parameterClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean" resultClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean">
+	<![CDATA[ select int_id,zh_label,longitude,latitude from res_markstone where 1=1 and longitude > #xMin# and longitude < #xMax# and latitude > #yMin# and latitude < #yMax# ]]>
+	</select>
+	<!-- 替换为资源点 -->
+	<select id="getLightInfo" parameterClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean" resultClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean">
+	<![CDATA[ select int_id,zh_label,longitude,latitude from rms_resources_point where 1=1 and longitude > #xMin# and longitude < #xMax# and latitude > #yMin# and latitude < #yMax# ]]>
+	</select>
+	<select id="getSupplyInfo" parameterClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean" resultClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean">
+	<![CDATA[ select int_id,zh_label,longitude,latitude from res_supp_point where 1=1 and longitude > #xMin# and longitude < #xMax# and latitude > #yMin# and latitude < #yMax# ]]>
+	</select>
+	
+	<!-- 保存照片信息 -->
+	<insert id="savePhotoInfo" parameterClass="manage.V2.hebei.mainTask.pojo.PhotoInfoBean">
+		<selectKey resultClass="int" keyProperty="ID">
+			select SEQ_HEBEI_DELIVERY_PHOTO.nextval as ID from dual
+		</selectKey>
+		INSERT INTO HEBEI_DELIVERY_PHOTO(ID,RELATED_ID,PHOTO_TYPE,PATH,NAME,CREATE_TIME,ROUTE_ID,RESOURCE_TYPE) 
+		VALUES (#ID#,#relatedID#,#photoType#,#path#,#photoName#,#createTime#,#routeID#,#resourceType#)
+	</insert>
+	
+	<!-- 保存隐患信息 -->
+	<insert id="saveErrorInfo" parameterClass="manage.V2.hebei.mainTask.pojo.ErrorInfoBean">
+		<selectKey resultClass="int" keyProperty="ID">
+			select SEQ_HEBEI_ERROR.nextval as ID from dual
+		</selectKey>
+		INSERT INTO HEBEI_ERROR(ID,ROUTE_ID,CREATE_TIME,LONGITUDE,LATITUDE,DESCRIPTION,AREA,ERROR_OBJ,URGENCY_LEVEL,SITUATION,LEAVE_PROBLEM,SUGGEST,RESOURCE_TYPE,RESOURCE_ID) 
+		VALUES (#ID#,#routeID#,#createTime#,#longitude#,#latitude#,#errorDescribe#,#area#,#errorObjectName#,#urgencyLevel#,#situation#,#leftProblem#,#suggest#,#resourceType#,#resourceID#)
+	</insert>
+	
+	<!-- 保存起终点信息 -->
+	<insert id="savePointInfo" parameterClass="manage.V2.hebei.mainTask.pojo.PointlikeResourceInfoBean">
+		<selectKey resultClass="int" keyProperty="ID">
+			select SEQ_HEBEI_POINT.nextval as ID from dual
+		</selectKey>
+		INSERT INTO HEBEI_POINT(ID,TYPE,LONGITUDE,LATITUDE,CREATE_TIME,RESOURCE_TYPE,RESOURCE_ID,ROUTE_ID,RESOURCE_NAME) 
+		VALUES (#ID#,#type#,#longitude#,#latitude#,#createTime#,#resourceType#,#resourceID#,#routeID#,#resourceName#)
+	</insert>
+	
+	<!-- 保存轨迹信息 -->
+	<insert id="saveWayInfo" parameterClass="manage.V2.hebei.mainTask.pojo.LocusPoint">
+		<selectKey resultClass="int" keyProperty="ID">
+			select SEQ_HEBEI_TRAIL.nextval as ID from dual
+		</selectKey>
+		INSERT INTO HEBEI_TRAIL(ID,CREATE_TIME,LONGITUDE,LATITUDE,DESCRIPTION,AREA,ROUTE_ID) 
+		VALUES (#ID#,#createTime#,#longitude#,#latitude#,#description#,#area#,#routeID#)
+	</insert>
+	
+	<!-- 保存路由信息 -->
+	<update id="updateRouteInfo" parameterClass="manage.V2.hebei.mainTask.pojo.RouteInfoBean">
+		UPDATE HEBEI_ROUTE  
+		<dynamic prepend="SET">
+			<isNotEmpty prepend="," property="name"> name=#name# </isNotEmpty>
+			<isNotEmpty prepend="," property="routeState"> state=#routeState# </isNotEmpty>
+			<isNotEmpty prepend="," property="deliveryDate"> create_time=#deliveryDate# </isNotEmpty>
+			<isNotEmpty prepend="," property="dealPerson"> deal_person=#dealPerson# </isNotEmpty>
+			<isNotEmpty prepend="," property="deliveryState"> deal_state=#deliveryState# </isNotEmpty>
+			<isNotEmpty prepend="," property="matchScores"> mate_rate=#matchScores# </isNotEmpty>
+			<isNotEmpty prepend="," property="flag"> flag=#flag# </isNotEmpty>
+		</dynamic>
+		WHERE ID = #routeID#
+	</update>
+	
+	<!-- 清理垃圾路由数据 -->
+	<delete id="clearRouteInfo" parameterClass="manage.V2.hebei.mainTask.pojo.RouteInfoBean">
+		DELETE FROM HEBEI_ROUTE WHERE ID = #ID#
+	</delete>
+	
+	<!-- 通过A点ID获取该段数据 -->
+	<select id="getDireBurySeg" parameterClass="manage.V2.hebei.mainTask.pojo.SegInfoBean" resultClass="manage.V2.hebei.mainTask.pojo.SegInfoBean">
+		select int_id,zh_label,a_object_id,a_object_type,z_object_id,z_object_type from RES_DIRE_BURY_SEG where 1 = 1
+		<dynamic prepend="AND ">
+			<isNotEmpty prepend="AND " property="a_object_id">(a_object_id = #a_object_id#)</isNotEmpty>
+			<isNotEmpty prepend="AND " property="z_object_id">(z_object_id = #z_object_id#)</isNotEmpty>
+			<isNotEmpty prepend="AND " property="related_branch">(related_branch = #related_branch#)</isNotEmpty>
+		</dynamic>
+	</select>
+	<select id="getPoleRoadSeg" parameterClass="manage.V2.hebei.mainTask.pojo.SegInfoBean" resultClass="manage.V2.hebei.mainTask.pojo.SegInfoBean">
+		select int_id,zh_label,a_object_id,a_object_type,z_object_id,z_object_type from RES_POLE_ROAD_SEG where 1 = 1
+		<dynamic prepend="AND ">
+			<isNotEmpty prepend="AND " property="a_object_id">(a_object_id = #a_object_id#)</isNotEmpty>
+			<isNotEmpty prepend="AND " property="z_object_id">(z_object_id = #z_object_id#)</isNotEmpty>
+			<isNotEmpty prepend="AND " property="related_branch">(related_branch = #related_branch#)</isNotEmpty>
+		</dynamic>
+	</select>
+	<select id="getOnto" parameterClass="manage.V2.hebei.mainTask.pojo.SegInfoBean" resultClass="manage.V2.hebei.mainTask.pojo.SegInfoBean">
+		select int_id,zh_label,a_object_id,a_object_type,z_object_id,z_object_type from RES_ONTO where 1 = 1
+		<dynamic prepend="AND ">
+			<isNotEmpty prepend="AND " property="a_object_id">(a_object_id = #a_object_id#)</isNotEmpty>
+			<isNotEmpty prepend="AND " property="z_object_id">(z_object_id = #z_object_id#)</isNotEmpty>
+			<isNotEmpty prepend="AND " property="related_branch">(related_branch = #related_branch#)</isNotEmpty>
+		</dynamic>
+	</select>
+	<select id="getHangWellSeg" parameterClass="manage.V2.hebei.mainTask.pojo.SegInfoBean" resultClass="manage.V2.hebei.mainTask.pojo.SegInfoBean">
+		select int_id,zh_label,a_object_id,a_object_type,z_object_id,z_object_type from RES_HANG_WALL_SEG where 1 = 1
+		<dynamic prepend="AND ">
+			<isNotEmpty prepend="AND " property="a_object_id">(a_object_id = #a_object_id#)</isNotEmpty>
+			<isNotEmpty prepend="AND " property="z_object_id">(z_object_id = #z_object_id#)</isNotEmpty>
+			<isNotEmpty prepend="AND " property="related_branch">(related_branch = #related_branch#)</isNotEmpty>
+		</dynamic>
+	</select>
+	<select id="getPipeSeg" parameterClass="manage.V2.hebei.mainTask.pojo.SegInfoBean" resultClass="manage.V2.hebei.mainTask.pojo.SegInfoBean">
+		select int_id,zh_label,a_object_id,a_object_type,z_object_id,z_object_type from RES_PIPE_SEG where 1 = 1
+		<dynamic prepend="AND ">
+			<isNotEmpty prepend="AND " property="a_object_id">(a_object_id = #a_object_id#)</isNotEmpty>
+			<isNotEmpty prepend="AND " property="z_object_id">(z_object_id = #z_object_id#)</isNotEmpty>
+			<isNotEmpty prepend="AND " property="related_branch">(related_branch = #related_branch#)</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 通过Z点ID获取对应资源点数据 -->
+	<select id="getPipeByZ" parameterClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean" resultClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean">
+		select int_id,zh_label,longitude,latitude from res_staff_well where int_id = #int_id#
+	</select>
+	<select id="getPoleByZ" parameterClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean" resultClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean">
+		select int_id,zh_label,longitude,latitude from res_pole where int_id = #int_id#
+	</select>
+	<select id="getSupplyByZ" parameterClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean" resultClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean">
+		select int_id,zh_label,longitude,latitude from res_supp_point where int_id = #int_id#
+	</select>
+	<select id="getStoneByZ" parameterClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean" resultClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean">
+		select int_id,zh_label,longitude,latitude from res_markstone where int_id = #int_id#
+	</select>
+	<select id="getSiteByZ" parameterClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean" resultClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean">
+		select int_id,zh_label,longitude,latitude from rms_site where int_id = #int_id#
+	</select>
+	
+	
+	<!-- 通过A或Z点获取段数据 -->
+	<select id="querySegInfoByLocation" parameterClass="manage.V2.hebei.mainTask.pojo.SegInfoBean" resultClass="manage.V2.hebei.mainTask.pojo.SegInfoBean">
+		select id,zh_label,a_object_id,z_object_id,related_branch,type,c_length from wx_daiwei_jiaoge where 1 = 1
+		<dynamic prepend="AND ">
+			<isNotEmpty prepend="AND " property="ids">a_object_id in ($ids$)</isNotEmpty>
+		</dynamic>
+		union all
+		select id,zh_label,a_object_id,z_object_id,related_branch,type,c_length from wx_daiwei_jiaoge where 1 = 1
+		<dynamic prepend="AND ">
+			<isNotEmpty prepend="AND " property="ids">z_object_id in ($ids$)</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	
+	<!-- 通过A或Z点获取段数据 yp-->
+	<select id="querySegInfoByza" parameterClass="manage.V2.hebei.mainTask.pojo.SegInfoBean" resultClass="manage.V2.hebei.mainTask.pojo.SegInfoBeanAZ">
+		select id,zh_label,a_object_id,z_object_id,related_branch,type,c_length, '1' as vflag from wx_daiwei_jiaoge where 1 = 1
+		<dynamic prepend="AND ">
+			<isNotEmpty prepend="AND " property="a_object_id">(a_object_id = #a_object_id#)</isNotEmpty>
+		</dynamic>
+		union
+		select id,zh_label,a_object_id,z_object_id,related_branch,type,c_length,'2' as vflag from wx_daiwei_jiaoge where 1 = 1
+		<dynamic prepend="AND ">
+			<isNotEmpty prepend="AND " property="a_object_id">(z_object_id = #a_object_id#)</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 通过A或Z点获取段数据 pre-->
+	<select id="querySegInfo" parameterClass="manage.V2.hebei.mainTask.pojo.SegInfoBean" resultClass="manage.V2.hebei.mainTask.pojo.SegInfoBean">
+		select id,zh_label,a_object_id,z_object_id,related_branch,type,c_length from wx_daiwei_jiaoge where 1 = 1
+		<dynamic prepend="AND ">
+			<isNotEmpty prepend="AND " property="a_object_id">(a_object_id = #a_object_id#)</isNotEmpty>
+			<isNotEmpty prepend="AND " property="z_object_id">(z_object_id = #z_object_id#)</isNotEmpty>
+			<isNotEmpty prepend="AND " property="related_branch">(related_branch = #related_branch#)</isNotEmpty>
+			<isNotEmpty prepend="AND " property="ids">(a_object_id in ($ids$) or z_object_id in ($ids$))</isNotEmpty>
+			<isNotEmpty prepend="AND " property="type">(type = #type#)</isNotEmpty>
+		</dynamic>
+	</select>
+	<!-- 获取起点和终点之间的段数据 -->
+	<select id="querySegList" parameterClass="manage.V2.hebei.mainTask.pojo.SegInfoBean" resultClass="manage.V2.hebei.mainTask.pojo.SegInfoBean">
+		<![CDATA[ select id,zh_label,a_object_id,z_object_id,related_branch,type from wx_daiwei_jiaoge where id >= #minId# and id <= #maxId# ]]>
+	</select>
+	<!-- 获取对应资源点数据 -->
+	<select id="queryRP" parameterClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean" resultClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean">
+		select int_id,zh_label,longitude,latitude,resource_type as resourceType from RES_RESOURCE_POINT t where 1 = 1
+		<dynamic prepend="AND ">
+			<isNotEmpty prepend="AND " property="int_id">(int_id = #int_id#)</isNotEmpty>
+			<isNotEmpty prepend="AND " property="ids">(int_id in ($ids$))</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="OR ">
+			<isNotEmpty prepend="OR " property="ids2">(int_id in ($ids2$))</isNotEmpty>
+			<isNotEmpty prepend="OR " property="ids3">(int_id in ($ids3$))</isNotEmpty>
+			<isNotEmpty prepend="OR " property="ids4">(int_id in ($ids4$))</isNotEmpty>
+			<isNotEmpty prepend="OR " property="ids5">(int_id in ($ids5$))</isNotEmpty>
+			<isNotEmpty prepend="OR " property="ids6">(int_id in ($ids6$))</isNotEmpty>
+			<isNotEmpty prepend="OR " property="ids7">(int_id in ($ids7$))</isNotEmpty>
+			<isNotEmpty prepend="OR " property="ids8">(int_id in ($ids8$))</isNotEmpty>
+			<isNotEmpty prepend="OR " property="ids9">(int_id in ($ids9$))</isNotEmpty>
+			<isNotEmpty prepend="OR " property="ids10">(int_id in ($ids10$))</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 获取周围路由段信息 -->
+	<select id="queryResInfo" parameterClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean" resultClass="manage.V2.hebei.mainTask.pojo.ResourceInfoBean">
+		<![CDATA[ select int_id as resourceID,zh_label as resourceName,resource_type as resourceType,longitude,latitude, decode(isPass,'',0,'已巡检通过',1,'已巡检未通过',0) isPass from RES_RESOURCE_POINT where longitude > #xMin# and longitude < #xMax# and latitude > #yMin# and latitude < #yMax# ]]>
+	</select>
+	
+	
+	<!-- 获取点信息 -->
+	<select id="queryPointInfo" parameterClass="manage.V2.hebei.mainTask.pojo.ResourceInfoBean" resultClass="manage.V2.hebei.mainTask.pojo.ResourceInfoBean">
+		<![CDATA[ select int_id as resourceID,zh_label as resourceName,resource_type as resourceType,longitude,latitude,isPass from RES_RESOURCE_POINT where int_id=#resourceID#  ]]>
+	</select>
+	
+	<!-- 更新资源点标识 -->
+	<update id="upResrouceSite" parameterClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean">
+		UPDATE RMS_SITE SET IS_CHECKED_PASSED = #isCheckedPassed# WHERE int_id in ($upIds$)
+		<dynamic prepend="OR ">
+			<isNotEmpty prepend="OR " property="upIds_2">(int_id in ($upIds_2$))</isNotEmpty>
+			<isNotEmpty prepend="OR " property="upIds_3">(int_id in ($upIds_3$))</isNotEmpty>
+			<isNotEmpty prepend="OR " property="upIds_4">(int_id in ($upIds_4$))</isNotEmpty>
+			<isNotEmpty prepend="OR " property="upIds_5">(int_id in ($upIds_5$))</isNotEmpty>
+		</dynamic>
+	</update>
+	<update id="upResrouceStone" parameterClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean">
+		UPDATE RES_MARKSTONE SET IS_CHECKED_PASSED = #isCheckedPassed# WHERE int_id in ($upIds2$)
+		<dynamic prepend="OR ">
+			<isNotEmpty prepend="OR " property="upIds2_2">(int_id in ($upIds2_2$))</isNotEmpty>
+			<isNotEmpty prepend="OR " property="upIds2_3">(int_id in ($upIds2_3$))</isNotEmpty>
+			<isNotEmpty prepend="OR " property="upIds2_4">(int_id in ($upIds2_4$))</isNotEmpty>
+			<isNotEmpty prepend="OR " property="upIds2_5">(int_id in ($upIds2_5$))</isNotEmpty>
+		</dynamic>
+	</update>
+	<update id="upResrouceLight" parameterClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean">
+		UPDATE RMS_RESOURCES_POINT SET IS_CHECKED_PASSED = #isCheckedPassed# WHERE int_id in ($upIds3$)
+		<dynamic prepend="OR ">
+			<isNotEmpty prepend="OR " property="upIds3_2">(int_id in ($upIds3_2$))</isNotEmpty>
+			<isNotEmpty prepend="OR " property="upIds3_3">(int_id in ($upIds3_3$))</isNotEmpty>
+			<isNotEmpty prepend="OR " property="upIds3_4">(int_id in ($upIds3_4$))</isNotEmpty>
+			<isNotEmpty prepend="OR " property="upIds3_5">(int_id in ($upIds3_5$))</isNotEmpty>
+		</dynamic>
+	</update>
+	<update id="upResroucePole" parameterClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean">
+		UPDATE RES_POLE SET IS_CHECKED_PASSED = #isCheckedPassed# WHERE int_id in ($upIds4$)
+		<dynamic prepend="OR ">
+			<isNotEmpty prepend="OR " property="upIds4_2">(int_id in ($upIds4_2$))</isNotEmpty>
+			<isNotEmpty prepend="OR " property="upIds4_3">(int_id in ($upIds4_3$))</isNotEmpty>
+			<isNotEmpty prepend="OR " property="upIds4_4">(int_id in ($upIds4_4$))</isNotEmpty>
+			<isNotEmpty prepend="OR " property="upIds4_5">(int_id in ($upIds4_5$))</isNotEmpty>
+		</dynamic>
+	</update>
+	<update id="upResroucePipe" parameterClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean">
+		UPDATE RES_STAFF_WELL SET IS_CHECKED_PASSED = #isCheckedPassed# WHERE int_id in ($upIds5$)
+		<dynamic prepend="OR ">
+			<isNotEmpty prepend="OR " property="upIds5_2">(int_id in ($upIds5_2$))</isNotEmpty>
+			<isNotEmpty prepend="OR " property="upIds5_3">(int_id in ($upIds5_3$))</isNotEmpty>
+			<isNotEmpty prepend="OR " property="upIds5_4">(int_id in ($upIds5_4$))</isNotEmpty>
+			<isNotEmpty prepend="OR " property="upIds5_5">(int_id in ($upIds5_5$))</isNotEmpty>
+		</dynamic>
+	</update>
+	<update id="upResroucePoint" parameterClass="manage.V2.hebei.mainTask.pojo.ResourceRelationBean">
+		UPDATE RES_SUPP_POINT SET IS_CHECKED_PASSED = #isCheckedPassed# WHERE int_id in ($upIds6$)
+		<dynamic prepend="OR ">
+			<isNotEmpty prepend="OR " property="upIds6_2">(int_id in ($upIds6_2$))</isNotEmpty>
+			<isNotEmpty prepend="OR " property="upIds6_3">(int_id in ($upIds6_3$))</isNotEmpty>
+			<isNotEmpty prepend="OR " property="upIds6_4">(int_id in ($upIds6_4$))</isNotEmpty>
+			<isNotEmpty prepend="OR " property="upIds6_5">(int_id in ($upIds6_5$))</isNotEmpty>
+		</dynamic>
+	</update>
+</sqlMap>

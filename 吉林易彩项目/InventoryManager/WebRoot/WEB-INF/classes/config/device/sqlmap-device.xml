@@ -1,0 +1,343 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="device">
+    
+    <!-- 设备信息 -->
+	<select id="getDeviceGrid" parameterClass="manage.device.pojo.DeviceInfoBean" resultClass="manage.device.pojo.DeviceInfoBean">
+	    select
+	    id,deviceName,deviceModel,deviceVender,deviceType,
+	    posX,posY,eid,roomId,creationDate,lastUpdateDate,
+	    (select ENAME from job_equtinfo where eid = t.eid) as ename,
+	    (select generatorName from job_generator where generatorId = t.roomId) as roomName,
+	    deleteFlag,operator,resNum,alias,stateFlag
+	     from job_device t where t.deleteFlag ='0'
+	    <dynamic prepend="">
+	        <isNotEmpty prepend=" AND " property="alias">t.alias like '%$alias$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="deviceName">t.deviceName like '%$deviceName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="deviceModel">t.deviceModel=#deviceModel#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="deviceVender">t.deviceVender=#deviceVender#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="deviceType">t.deviceType=#deviceType#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="posX">t.posX=#posX#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="posY">t.posY=#posY#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="eid">t.eid=#eid#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="roomId">t.roomId=#roomId#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="creationDate">t.creationDate=#creationDate#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="lastUpdateDate">t.lastUpdateDate=#lastUpdateDate#</isNotEmpty> 
+            <isNotEmpty prepend=" AND " property="operator">t.operator=#operator#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="resNum">t.resNum=#resNum#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="eid">t.eid=#eid#</isNotEmpty>
+        </dynamic>
+	   <dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic> 
+	</select>
+	
+	<!-- 得到数据信息 -->
+	<select id="getDeviceCount" parameterClass="manage.device.pojo.DeviceInfoBean" resultClass ="Integer">
+	    select
+	    count(*)
+	     from job_device t where t.deleteFlag ='0'
+	    <dynamic prepend="">
+	        <isNotEmpty prepend=" AND " property="alias">t.alias like '%$alias$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="deviceName">t.deviceName like '%$deviceName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="deviceModel">t.deviceModel=#deviceModel#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="deviceVender">t.deviceVender=#deviceVender#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="deviceType">t.deviceType=#deviceType#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="posX">t.posX=#posX#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="posY">t.posY=#posY#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="eid">t.eid=#eid#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="roomId">t.roomId=#roomId#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="creationDate">t.creationDate=#creationDate#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="lastUpdateDate">t.lastUpdateDate=#lastUpdateDate#</isNotEmpty> 
+            <isNotEmpty prepend=" AND " property="operator">t.operator=#operator#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="resNum">t.resNum=#resNum#</isNotEmpty>
+            <isNull prepend =" AND " property ="eid"><![CDATA[ t.eid is null ]]></isNull>
+        </dynamic>
+	</select>
+	
+	<!-- 得到对象 -->
+	<select id="getDevice" parameterClass="manage.device.pojo.DeviceInfoBean" resultClass="manage.device.pojo.DeviceInfoBean">
+	    select
+	    id,deviceName,deviceModel,deviceVender,deviceType,
+	    posX,posY,eid,roomId,creationDate,lastUpdateDate,
+	    deleteFlag,operator,resNum,alias,stateFlag
+	     from job_device t where t.deleteFlag ='0'
+	    <dynamic prepend="">
+	        <isNotNull prepend=" AND " property="id">t.id = #id#</isNotNull>
+            <isNotEmpty prepend=" AND " property="deviceName">t.deviceName = #deviceName#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="eid">t.eid = #eid#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="roomId">t.roomId = #roomId#</isNotEmpty>
+        </dynamic>
+	</select>
+
+	<!-- 修改设备信息 -->
+	<update id="updateDevice" parameterClass="manage.device.pojo.DeviceInfoBean">
+	    update job_device t set t.lastUpdateDate = now()
+	    <dynamic prepend=" ">
+            <isNotEmpty prepend=" , " property="deviceModel">t.deviceModel=#deviceModel#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="deviceVender">t.deviceVender=#deviceVender#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="deviceType">t.deviceType=#deviceType#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="posX">t.posX=#posX#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="posY">t.posY=#posY#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="eid">t.eid=#eid#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="roomId">t.roomId=#roomId#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="operator">t.operator=#operator#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="deviceName">t.deviceName=#deviceName#</isNotEmpty>
+        </dynamic>
+	    <dynamic prepend=" where ">
+            <isNotEmpty prepend=" AND" property="id"> t.id = #id#</isNotEmpty>
+        </dynamic>
+	</update>
+	
+	<!-- 增加设备信息 -->
+	<insert id="insertDevice" parameterClass="manage.device.pojo.DeviceInfoBean">
+	    insert into job_device(
+	    	deviceName,deviceModel,deviceVender,deviceType,
+	    	posX,posY,eid,roomId,creationDate,
+	    	deleteFlag,operator
+	    )
+	    values(
+	    	#deviceName#,#deviceModel#,#deviceVender#,#deviceType#,
+	    	#posX#,#posY#,#eid#,#roomId#,now(),
+	    	'0',#operator#
+	    )
+	    <selectKey resultClass="int" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+	</insert>
+	
+	
+	<!-- 得到所有的板卡数据 -->
+	<select id="getCardGrid" parameterClass="manage.device.pojo.CardInfoBean" resultClass="manage.device.pojo.CardInfoBean">
+	    select 
+	    t.id,t.version,t.model,t.cardType,
+	    t.cardName,t.deviceId,t.eID,t.creationDate,
+	    t.lastUpdateDate,t.deletedFlag,t.dataQualityPrincipal,
+	    t.resNum
+	    from job_card t where t.deletedFlag ='0'
+	    <dynamic prepend="">
+	        <isNotEmpty prepend=" AND " property="cardName">t.cardName like '%$cardName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="version">t.version=#version#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="model">t.model=#model#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="cardType">t.cardType=#cardType#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="deviceId">t.deviceId=#deviceId#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="eID">t.eID=#eID#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="creationDate">t.creationDate=#creationDate#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="deletedFlag">t.deletedFlag=#deletedFlag#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dataQualityPrincipal">t.dataQualityPrincipal=#dataQualityPrincipal#</isNotEmpty>
+	    </dynamic>
+	    	order by CAST(substring_index(substring_index(cardName,'/',-1),'-',1) as SIGNED) 
+	    <dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic> 
+	</select>
+	
+	
+	<!-- 板卡数据 -->
+	<select id="getCardCount" parameterClass="manage.device.pojo.CardInfoBean" resultClass="Integer">
+	     select
+	    count(*)
+	     from job_card t where t.deleteFlag ='0'
+	    <dynamic prepend="">
+	        <isNotEmpty prepend=" AND " property="cardName">t.cardName like '%$cardName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="version">t.version=#version#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="model">t.model=#model#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="cardType">t.cardType=#cardType#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="deviceId">t.deviceId=#deviceId#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="eID">t.eID=#eID#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="creationDate">t.creationDate=#creationDate#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="deletedFlag">t.deletedFlag=#deletedFlag#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dataQualityPrincipal">t.dataQualityPrincipal=#dataQualityPrincipal#</isNotEmpty>
+	    </dynamic>
+	</select>
+	
+	<!-- 得到板卡数据 -->
+	<select id="getCardObj" parameterClass="manage.device.pojo.CardInfoBean" resultClass="manage.device.pojo.CardInfoBean">
+	     select 
+	    t.id,t.version,t.model,t.cardType,
+	    t.cardName,t.deviceId,t.eID,t.creationDate,
+	    t.lastUpdateDate,t.deletedFlag,t.dataQualityPrincipal,
+	    t.resNum
+	    from job_card t where t.deletedFlag ='0'
+	    <dynamic prepend="">
+	        <isNotNull prepend=" AND " property="id">t.id = #id#</isNotNull>
+	        <isNotEmpty prepend=" AND " property="cardName">t.cardName like '%$cardName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="deviceId">t.deviceId=#deviceId#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="eID">t.eID=#eID#</isNotEmpty>
+	    </dynamic>
+	</select>
+	<!-- 修改板卡 -->
+	<update id="updateCard" parameterClass="manage.device.pojo.CardInfoBean">
+	    update job_card t set t.lastUpdateDate = now()
+	    <dynamic prepend=" ">
+	        <isNotEmpty prepend=" , " property="cardName">t.cardName =#cardName#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="version">t.version=#version#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="model">t.model=#model#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="cardType">t.cardType=#cardType#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="deviceId">t.deviceId=#deviceId#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="eID">t.eID=#eID#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="creationDate">t.creationDate=#creationDate#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="deletedFlag">t.deletedFlag=#deletedFlag#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="dataQualityPrincipal">t.dataQualityPrincipal=#dataQualityPrincipal#</isNotEmpty>
+	    </dynamic>
+	    <dynamic prepend=" where ">
+            <isNotEmpty prepend=" AND" property="id"> t.id = #id#</isNotEmpty>
+        </dynamic>
+	</update>
+	
+	<!-- 增加板卡 -->
+	<insert id="insertCard" parameterClass="manage.device.pojo.CardInfoBean">
+	    insert into job_card(
+	    	version,model,cardType,
+	    	cardName,deviceId,eID,creationDate,
+	    	deletedFlag,dataQualityPrincipal
+	    )
+	    values(
+	    	#version#,#model#,#cardType#,
+	    	#cardName#,#deviceId#,#eID#,now(),
+	    	'0',#dataQualityPrincipal#
+	    )
+	    <selectKey resultClass="int" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+    </insert>
+    
+	<!-- 得到端子数据 -->
+	<select id="getPointGrid" parameterClass="manage.device.pojo.PointBean" resultClass="manage.device.pojo.PointBean">
+	    select 
+	     t.id,t.pointName,t.pointRate,t.liveCycle,t.cardId,
+	     t.deviceId,t.ipAddress,t.interfaceType,t.dnsAddr,
+	     t.directionality,t.currentwavenum,t.waveLength,t.pointNum,
+	     t.pointState,t.pointType,t.mask,t.creationDate,t.lastUpdateDate,
+	     t.deleteFlag,t.operator,t.resNum
+	     from job_point t where t.deleteFlag ='0'
+	     <dynamic prepend="">
+	     	 <isNotEmpty prepend=" AND " property="pointName">t.pointName like '%$pointName$%'</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="pointRate">t.pointRate=#pointRate#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="liveCycle">t.liveCycle=#liveCycle#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="cardId">t.cardId=#cardId#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="deviceId">t.deviceId=#deviceId#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="ipAddress">t.ipAddress like '%$ipAddress$%'</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="interfaceType">t.interfaceType=#interfaceType#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="waveLength">t.waveLength=#waveLength#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="pointNum">t.pointNum=#pointNum#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="pointState">t.pointState=#pointState#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="pointType">t.pointType=#pointType#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="pointType">t.creationDate like '%$creationDate$%'</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="pointType">t.lastUpdateDate like '%$lastUpdateDate$%'</isNotEmpty>
+	     	 <isNotEmpty prepend=" AND " property="deleteFlag">t.deleteFlag=#deleteFlag#</isNotEmpty>
+	     	 <isNotEmpty prepend=" AND " property="resCard">t.resCard=#resCard#</isNotEmpty>
+	     	 <isNotEmpty prepend=" AND " property="resNe">t.resNe=#resNe#</isNotEmpty>
+	     </dynamic>
+	     order by CAST(pointNum as SIGNED)
+	    <dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic> 
+	</select>
+	
+	
+	<!-- 获取端口数 -->
+	<select id="getPointCount" parameterClass="manage.device.pojo.PointBean" resultClass="Integer">
+	    select 
+		    count(*)
+	     from job_point t where t.deleteFlag ='0'
+	     <dynamic prepend="">
+	     	 <isNotEmpty prepend=" AND " property="pointName">t.pointName like '%$pointName$%'</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="pointRate">t.pointRate=#pointRate#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="liveCycle">t.liveCycle=#liveCycle#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="cardId">t.cardId=#cardId#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="deviceId">t.deviceId=#deviceId#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="ipAddress">t.ipAddress like '%$ipAddress$%'</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="interfaceType">t.interfaceType=#interfaceType#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="waveLength">t.waveLength=#waveLength#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="pointNum">t.pointNum=#pointNum#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="pointState">t.pointState=#pointState#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="pointType">t.pointType=#pointType#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="pointType">t.creationDate like '%$creationDate$%'</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="pointType">t.lastUpdateDate like '%$lastUpdateDate$%'</isNotEmpty>
+	     	 <isNotEmpty prepend=" AND " property="deleteFlag">t.deleteFlag=#deleteFlag#</isNotEmpty>
+	     </dynamic>
+	    <dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic> 
+	</select>
+	
+	<!-- 得到所有的端口数据 -->
+	<select id="getPointObj" parameterClass="manage.device.pojo.PointBean" resultClass="manage.device.pojo.PointBean">
+	    select 
+	     t.id,t.pointName,t.pointRate,t.liveCycle,t.cardId,
+	     t.deviceId,t.ipAddress,t.interfaceType,t.dnsAddr,
+	     t.directionality,t.currentwavenum,t.waveLength,t.pointNum,
+	     t.pointState,t.pointType,t.mask,t.creationDate,t.lastUpdateDate,
+	     t.deleteFlag,t.operator,t.resNum,t.eID
+	     from job_point t where t.deleteFlag ='0'
+	     <dynamic prepend="">
+	         <isNotNull prepend=" AND " property="id">t.id = #id#</isNotNull>
+	     	 <isNotEmpty prepend=" AND " property="pointName">t.pointName like '%$pointName$%'</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="pointRate">t.pointRate=#pointRate#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="liveCycle">t.liveCycle=#liveCycle#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="cardId">t.cardId=#cardId#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="deviceId">t.deviceId=#deviceId#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="ipAddress">t.ipAddress like '%$ipAddress$%'</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="interfaceType">t.interfaceType=#interfaceType#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="waveLength">t.waveLength=#waveLength#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="pointNum">t.pointNum=#pointNum#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="pointState">t.pointState=#pointState#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="pointType">t.pointType=#pointType#</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="pointType">t.creationDate like '%$creationDate$%'</isNotEmpty>
+             <isNotEmpty prepend=" AND " property="pointType">t.lastUpdateDate like '%$lastUpdateDate$%'</isNotEmpty>
+	     	 <isNotEmpty prepend=" AND " property="deleteFlag">t.deleteFlag=#deleteFlag#</isNotEmpty>
+	     	 <isNotEmpty prepend=" AND " property="eID">t.eID = #eID#</isNotEmpty>
+	     </dynamic>
+	</select>
+	
+	<!-- 更新端口 -->
+	<update id="updatePoint" parameterClass="manage.device.pojo.PointBean">
+	    update job_point t set t.lastUpdateDate = now()
+	    <dynamic prepend=" ">
+	     	 <isNotEmpty prepend=" , " property="pointName">t.pointName =#pointName#</isNotEmpty>
+             <isNotEmpty prepend=" , " property="pointRate">t.pointRate=#pointRate#</isNotEmpty>
+             <isNotEmpty prepend=" , " property="liveCycle">t.liveCycle=#liveCycle#</isNotEmpty>
+             <isNotEmpty prepend=" , " property="cardId">t.cardId=#cardId#</isNotEmpty>
+             <isNotEmpty prepend=" , " property="deviceId">t.deviceId=#deviceId#</isNotEmpty>
+             <isNotEmpty prepend=" , " property="ipAddress">t.ipAddress =#ipAddress#</isNotEmpty>
+             <isNotEmpty prepend=" , " property="interfaceType">t.interfaceType=#interfaceType#</isNotEmpty>
+             <isNotEmpty prepend=" , " property="waveLength">t.waveLength=#waveLength#</isNotEmpty>
+             <isNotEmpty prepend=" , " property="pointNum">t.pointNum=#pointNum#</isNotEmpty>
+             <isNotEmpty prepend=" , " property="pointState">t.pointState=#pointState#</isNotEmpty>
+             <isNotEmpty prepend=" , " property="pointType">t.pointType=#pointType#</isNotEmpty>
+	     	 <isNotEmpty prepend=" , " property="deleteFlag">t.deleteFlag=#deleteFlag#</isNotEmpty>
+	     </dynamic>
+	    <dynamic prepend=" where ">
+            <isNotEmpty prepend=" AND" property="id"> t.id = #id#</isNotEmpty>
+        </dynamic>
+	</update>
+	
+	<!-- 增加端口 -->
+	<insert id="insertPoint" parameterClass="manage.device.pojo.PointBean">
+	    insert into job_point(
+	    	pointName,pointRate,liveCycle,cardId,
+	     	deviceId,ipAddress,interfaceType,dnsAddr,
+	    	directionality,currentwavenum,waveLength,pointNum,
+	     	pointState,pointType,mask,creationDate,lastUpdateDate,
+	     	deleteFlag,operator,resNum
+	    )
+	    values(
+	    	#pointName#,#pointRate#,#liveCycle#,#cardId#,
+	     	#deviceId#,#ipAddress#,#interfaceType#,#dnsAddr#,
+	    	#directionality#,#currentwavenum#,#waveLength#,#pointNum#,
+	     	#pointState#,#pointType#,#mask#,now(),#lastUpdateDate#,
+	     	'0',#operator#
+	    )
+	    <selectKey resultClass="int" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+	</insert>
+</sqlMap>

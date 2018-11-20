@@ -1,0 +1,632 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="pdapoleline">
+	<!-- 获取杆路信息 -->
+	<select id="getPoleline" parameterClass="manage.poleline.pojo.PolelineInfoBean" resultClass="manage.poleline.pojo.PolelineInfoBean">
+		select *
+		from polelineinfo where deletedFlag='0'
+      <dynamic prepend=" AND ">
+	    <isNotEmpty prepend="AND" property="poleLineId">(poleLineId=#poleLineId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="poleLineName">(poleLineName like '%$poleLineName$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="poleLineCode">(poleLineCode like '%$poleLineCode$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="maintenanceAreaId">(maintenanceAreaId=#maintenanceAreaId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="poleLineLevel">(poleLineLevel=#poleLineLevel#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="poleLineLength">(poleLineLength=#poleLineLength#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="startDeviceId">(startDeviceId=#startDeviceId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="endDeviceId">(endDeviceId=#endDeviceId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="startDeviceName">(startDeviceName like '%$startDeviceName$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="endDeviceName">(endDeviceName like '%$endDeviceName$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="maintenanceModeEnumId">(maintenanceModeEnumId=#maintenanceModeEnumId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="maintenanceOrgId">(maintenanceOrgId=#maintenanceOrgId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="maintainerId">(maintainerId=#maintainerId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="thirdPartyMaintenanceOrg">(thirdPartyMaintenanceOrg like '%$thirdPartyMaintenanceOrg$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="renewalExpirationDate">(renewalExpirationDate=#renewalExpirationDate#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="maintenanceTypeEnumId">(maintenanceTypeEnumId=#maintenanceTypeEnumId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="purchasedMaintenanceTime">(purchasedMaintenanceTime=#purchasedMaintenanceTime#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="projectCode">(projectCode like '%$projectCode$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="projectName">(projectName like '%$projectName$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="projectWarrantyExpireDate">(projectWarrantyExpireDate=#projectWarrantyExpireDate#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="resourceLifePeriodEnumId">(resourceLifePeriodEnumId=#resourceLifePeriodEnumId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="creationDate">(creationDate=#creationDate#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="lastUpdateDate">(lastUpdateDate=#lastUpdateDate#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="deletedFlag">(deletedFlag=#deletedFlag#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="deletionDate">(deletionDate=#deletionDate#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="provinceId">(provinceId=#provinceId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="cuser">(cuser=#cuser#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="cstate">(cstate in ($cstate$))</isNotEmpty>
+		<isNotEmpty prepend="AND" property="areaname">(areaname like '%$areaname$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="maintenanceAreaName">(maintenanceAreaName=#maintenanceAreaName#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="dataQualityPrincipal">(dataQualityPrincipal=#dataQualityPrincipal#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="parties">(parties=#parties#)</isNotEmpty>
+	 </dynamic>
+	 <dynamic prepend="">
+	    <isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    <isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	</dynamic>
+	</select>
+	
+	<select id="getPoleObj" parameterClass="manage.poleline.pojo.PoleInfoBean" resultClass="manage.poleline.pojo.PoleInfoBean">
+		select * from poleinfo where deletedFlag='0'
+		<dynamic prepend=" AND ">
+		 <isNotEmpty prepend="AND" property="poleId">(poleId=#poleId#)</isNotEmpty>
+		 <isNotEmpty prepend="AND" property="poleLineId">(poleLineId=#poleLineId#)</isNotEmpty>
+		 <isNotEmpty prepend="AND" property="poleNo">(poleNo=#poleNo#)</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	
+	<select id="getPoleIds" parameterClass="java.lang.String" resultClass="manage.poleline.pojo.PoleInfoBean">
+		select * from poleinfo where deletedFlag='0' and poleId in ($ids:String$)
+	</select>
+	<!-- 获取杆信息 -->
+	<select id="getPole" parameterClass="manage.poleline.pojo.PoleInfoBean" resultClass="manage.poleline.pojo.PoleInfoBean">
+		select poleId,poleName,poleNo,direction,maintenanceAreaId,poleLineId,poleTypeEnumId,
+		poleMaterial,poleLength,buriedDepth,maintenanceModeEnumId,creationDate,lastUpdateDate,
+		deletedFlag,provinceId,region,poleLatitude,poleLongitude,propertyNature,dataQualityPrincipal,
+		parties,previousPoleID,previousPoleName,chengzaidian_type,areano,areaname,resNum,maintenanceOrgId,remark
+		 from poleinfo where deletedFlag='0'
+		<dynamic prepend=" AND ">
+		 <isNotEmpty prepend="AND" property="poleId">(poleId=#poleId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="poleName"><![CDATA[ poleName like #poleName#]]> </isNotEmpty>
+		<isNotEmpty prepend="AND" property="poleNo">(poleNo=#poleNo#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="direction">(direction=#direction#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="poleLineId">(poleLineId=#poleLineId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="poleLength">(poleLength=#poleLength#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="buriedDepth">(buriedDepth=#buriedDepth#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="poleAddress">(poleAddress like '%$poleAddress$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="creationDate">(creationDate=#creationDate#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="lastUpdateDate">(lastUpdateDate=#lastUpdateDate#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="deletedFlag">(deletedFlag=#deletedFlag#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="provinceId">(provinceId=#provinceId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="cuser">(cuser=#cuser#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="region"> region like '%$region$%' </isNotEmpty>
+		<isNotEmpty prepend="AND" property="cstate">(cstate in ($cstate$))</isNotEmpty>
+		<isNotEmpty prepend="AND" property="areaname">(areaname like '%$areaname$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="lats"><![CDATA[ poleLatitude >= #lats# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="late"><![CDATA[ poleLatitude <= #late# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="lons"><![CDATA[ poleLongitude >= #lons# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="lone"><![CDATA[ poleLongitude <= #lone# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="propertyNature">(propertyNature=#propertyNature#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="dataQualityPrincipal">(dataQualityPrincipal=#dataQualityPrincipal#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="parties">(parties=#parties#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="previousPoleID">(previousPoleID=#previousPoleID#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="previousPoleName">(previousPoleName=#previousPoleName#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="chengzaidian_type">(chengzaidian_type=#chengzaidian_type#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="resNum">(resNum=#resNum#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="extendsSql">($extendsSql$)</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 获取杆路段信息 -->
+	<select id="getPolelineSegment" parameterClass="manage.poleline.pojo.PolelineSegmentInfoBean" resultClass="manage.poleline.pojo.PolelineSegmentInfoBean">
+		select t.maintain_company maintenanceOrg,t.maintain_manager maintenanceLeader,t.maintain_manager_phone  ,t.remark,
+		 t.poleLineSegmentId,t.poleLineSegmentName,t.poleLineSegmentCode,t.maintenanceAreaId,t.poleLineId,t.poleLineSegmentLength,t.status,
+		 t.startDeviceId,t.endDeviceId,t.constructionSharingEnumId,t.sharingTypeEnumId,t.constructionSharingOrg,t.resourceLifePeriodEnumId,
+		 t.sharingTypeEnumId,t.constructionSharingOrg,t.resourceLifePeriodEnumId,t.creationDate,t.lastUpdateDate,t.deletedFlag,t.deletionDate,
+		 t.provinceId,t.cuser,t.cstate,t.areaname,t.maintenanceAreaName,t.dataQualityPrincipal,t.parties,resNum,poleLineId,
+		(select poleName from  poleinfo where deletedFlag =0 and  poleId = t.startDeviceId) as startDeviceName,
+		(select poleName from  poleinfo where deletedFlag =0 and  poleId = t.endDeviceId) as endDeviceName,
+		t.maintainLength
+		 from polelinesegmentinfo t where t.deletedFlag='0'
+		<dynamic prepend=" AND ">
+		<isNotEmpty prepend="AND" property="poleLineSegmentId">(t.poleLineSegmentId=#poleLineSegmentId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="poleLineSegmentName"><![CDATA[ poleLineSegmentName like #poleLineSegmentName#]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="poleLineSegmentCode">(t.poleLineSegmentCode like '%$poleLineSegmentCode$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="maintenanceAreaId">(t.maintenanceAreaId=#maintenanceAreaId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="poleLineId">(t.poleLineId=#poleLineId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="poleLineSegmentLength">(t.poleLineSegmentLength=#poleLineSegmentLength#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="status">(t.status like '%$status$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="startDeviceId">(t.startDeviceId=#startDeviceId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="endDeviceId">(t.endDeviceId=#endDeviceId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="constructionSharingEnumId">(t.constructionSharingEnumId=#constructionSharingEnumId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="sharingTypeEnumId">(t.sharingTypeEnumId=#sharingTypeEnumId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="constructionSharingOrg">(t.constructionSharingOrg like '%$constructionSharingOrg$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="resourceLifePeriodEnumId">(t.resourceLifePeriodEnumId=#resourceLifePeriodEnumId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="creationDate">(t.creationDate=#creationDate#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="lastUpdateDate">(t.lastUpdateDate=#lastUpdateDate#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="deletedFlag">(t.deletedFlag=#deletedFlag#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="deletionDate">(t.deletionDate=#deletionDate#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="provinceId">(t.provinceId=#provinceId#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="cuser">(t.cuser=#cuser#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="cstate">(t.cstate in ($cstate$))</isNotEmpty>
+		<isNotEmpty prepend="AND" property="areaname">(t.areaname like '%$areaname$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="maintenanceAreaName">(t.maintenanceAreaName like '%$maintenanceAreaName$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="dataQualityPrincipal">(t.dataQualityPrincipal=#dataQualityPrincipal#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="parties">(t.parties=#parties#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="extendsSql">($extendsSql$)</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+		</dynamic>
+	</select>
+	
+	
+	<select id="checkPoleLineSeg" parameterClass="manage.poleline.pojo.PolelineSegmentInfoBean" resultClass="manage.poleline.pojo.PolelineSegmentInfoBean">
+		select t.maintain_company  maintenanceOrg,t.maintain_manager  maintenanceLeader,t.maintain_manager_phone  leaderPhone,t.remark,
+		 t.poleLineSegmentId,t.poleLineSegmentName,t.poleLineSegmentCode,t.maintenanceAreaId,t.poleLineId,t.poleLineSegmentLength,t.status,
+		 t.startDeviceId,t.endDeviceId,t.constructionSharingEnumId,t.sharingTypeEnumId,t.constructionSharingOrg,t.resourceLifePeriodEnumId,
+		 t.sharingTypeEnumId,t.constructionSharingOrg,t.resourceLifePeriodEnumId,t.creationDate,t.lastUpdateDate,t.deletedFlag,t.deletionDate,
+		 t.provinceId,t.cuser,t.cstate,t.areaname,t.maintenanceAreaName,t.dataQualityPrincipal,t.parties,resNum,t.poleLineId,
+		(select poleName from  poleinfo where deletedFlag =0 and  poleId = t.startDeviceId) as startDeviceName,
+		(select poleName from  poleinfo where deletedFlag =0 and  poleId = t.endDeviceId) as endDeviceName,t.maintainLength
+		 from polelinesegmentinfo t where t.deletedFlag='0'
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend="AND" property="poleLineSegmentId">(t.poleLineSegmentId=#poleLineSegmentId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="poleLineSegmentName">(t.poleLineSegmentName like '%$poleLineSegmentName$%')</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<update id="updatePoleline" parameterClass="manage.poleline.pojo.PolelineInfoBean">
+		update polelineinfo set lastUpdateDate=now()
+	<dynamic prepend=", ">
+		<isNotNull prepend="," property="poleLineName">poleLineName=#poleLineName#</isNotNull>
+		<isNotNull prepend="," property="poleLineCode">poleLineCode=#poleLineCode#</isNotNull>
+		<isNotNull prepend="," property="maintenanceAreaId">maintenanceAreaId=#maintenanceAreaId#</isNotNull>
+		<isNotNull prepend="," property="poleLineLevel">poleLineLevel=#poleLineLevel#</isNotNull>
+		<isNotNull prepend="," property="poleLineLength">poleLineLength=#poleLineLength#</isNotNull>
+		<isNotNull prepend="," property="startDeviceId">startDeviceId=#startDeviceId#</isNotNull>
+		<isNotNull prepend="," property="endDeviceId">endDeviceId=#endDeviceId#</isNotNull>
+		<isNotNull prepend="," property="startDeviceName">startDeviceName=#startDeviceName#</isNotNull>
+		<isNotNull prepend="," property="endDeviceName">endDeviceName=#endDeviceName#</isNotNull>
+		<isNotNull prepend="," property="maintenanceModeEnumId">maintenanceModeEnumId=#maintenanceModeEnumId#</isNotNull>
+		<isNotNull prepend="," property="maintenanceOrgId">maintenanceOrgId=#maintenanceOrgId#</isNotNull>
+		<isNotNull prepend="," property="maintainerId">maintainerId=#maintainerId#</isNotNull>
+		<isNotNull prepend="," property="thirdPartyMaintenanceOrg">thirdPartyMaintenanceOrg=#thirdPartyMaintenanceOrg#</isNotNull>
+		<isNotNull prepend="," property="renewalExpirationDate">renewalExpirationDate=#renewalExpirationDate#</isNotNull>
+		<isNotNull prepend="," property="maintenanceTypeEnumId">maintenanceTypeEnumId=#maintenanceTypeEnumId#</isNotNull>
+		<isNotNull prepend="," property="purchasedMaintenanceTime">purchasedMaintenanceTime=#purchasedMaintenanceTime#</isNotNull>
+		<isNotNull prepend="," property="projectCode">projectCode=#projectCode#</isNotNull>
+		<isNotNull prepend="," property="projectName">projectName=#projectName#</isNotNull>
+		<isNotNull prepend="," property="projectWarrantyExpireDate">projectWarrantyExpireDate=#projectWarrantyExpireDate#</isNotNull>
+		<isNotNull prepend="," property="resourceLifePeriodEnumId">resourceLifePeriodEnumId=#resourceLifePeriodEnumId#</isNotNull>
+		<isNotNull prepend="," property="creationDate">creationDate=#creationDate#</isNotNull>
+		<isNotNull prepend="," property="deletedFlag">deletedFlag=#deletedFlag#</isNotNull>
+		<isNotNull prepend="," property="deletionDate">deletionDate=#deletionDate#</isNotNull>
+		<isNotNull prepend="," property="provinceId">provinceId=#provinceId#</isNotNull>
+		<isNotNull prepend="," property="cuser">cuser=#cuser#</isNotNull>
+		<isNotNull prepend="," property="cstate">cstate=#cstate#</isNotNull>
+		<isNotNull prepend="," property="areano">areano=#areano#</isNotNull>
+		<isNotNull prepend="," property="areaname">areaname=#areaname#</isNotNull>
+		<isNotNull prepend="," property="maintenanceAreaName">maintenanceAreaName=#maintenanceAreaName#</isNotNull>
+		<isNotNull prepend="," property="dataQualityPrincipal">dataQualityPrincipal=#dataQualityPrincipal#</isNotNull>
+		<isNotNull prepend="," property="parties">parties=#parties#</isNotNull>
+	</dynamic>
+		where poleLineId=#poleLineId#
+	</update>
+	
+	<!-- 保存杆路 -->
+	<insert id="insertPoleline" parameterClass="manage.poleline.pojo.PolelineInfoBean">
+		insert into polelineinfo (
+			poleLineName,poleLineCode,maintenanceAreaId,poleLineLevel,poleLineLength,startDeviceName,endDeviceName,
+			maintenanceModeEnumId,maintenanceOrgId,maintainerId,thirdPartyMaintenanceOrg,purchasedMaintenanceTime,
+			projectCode,projectName,projectWarrantyExpireDate,resourceLifePeriodEnumId,creationDate,lastUpdateDate,
+			deletedFlag,provinceId,cuser,cstate,areano,areaname,startDeviceId,endDeviceId,maintenanceTypeEnumId,
+			renewalExpirationDate,maintenanceAreaName,dataQualityPrincipal,parties
+		) values (
+			#poleLineName#,#poleLineCode#,#maintenanceAreaId#,#poleLineLevel#,#poleLineLength#,#startDeviceName#,
+			#endDeviceName#,#maintenanceModeEnumId#,#maintenanceOrgId#,#maintainerId#,#thirdPartyMaintenanceOrg#,
+			#purchasedMaintenanceTime#,#projectCode#,#projectName#,#projectWarrantyExpireDate#,#resourceLifePeriodEnumId#,
+			now(),#lastUpdateDate#,'0',#provinceId#,#cuser#,'2',#areano#,#areaname#,#startDeviceId#,#endDeviceId#,
+			#maintenanceTypeEnumId#,#renewalExpirationDate#,#maintenanceAreaName#,#dataQualityPrincipal#,#parties#
+		)
+			<selectKey resultClass="int" keyProperty="poleLineId" > 
+				SELECT LAST_INSERT_ID() AS poleLineId
+			</selectKey>
+	</insert>
+	
+	<!-- 修改杆路段 -->
+	<update id="updatePolelineSegment" parameterClass="manage.poleline.pojo.PolelineSegmentInfoBean" >
+		update polelinesegmentinfo set lastUpdateDate=now()
+		<dynamic prepend=", ">
+			<isNotNull prepend="," property="poleLineSegmentName">poleLineSegmentName=#poleLineSegmentName#</isNotNull>
+			<isNotNull prepend="," property="poleLineSegmentCode">poleLineSegmentCode=#poleLineSegmentCode#</isNotNull>
+			<isNotNull prepend="," property="maintenanceAreaId">maintenanceAreaId=#maintenanceAreaId#</isNotNull>
+			<isNotNull prepend="," property="poleLineId">poleLineId=#poleLineId#</isNotNull>
+			<isNotNull prepend="," property="poleLineSegmentLength">poleLineSegmentLength=#poleLineSegmentLength#</isNotNull>
+			<isNotNull prepend="," property="status">status=#status#</isNotNull>
+			<isNotNull prepend="," property="startDeviceId">startDeviceId=#startDeviceId#</isNotNull>
+			<isNotNull prepend="," property="endDeviceId">endDeviceId=#endDeviceId#</isNotNull>
+			<isNotNull prepend="," property="constructionSharingEnumId">constructionSharingEnumId=#constructionSharingEnumId#</isNotNull>
+			<isNotNull prepend="," property="sharingTypeEnumId">sharingTypeEnumId=#sharingTypeEnumId#</isNotNull>
+			<isNotNull prepend="," property="constructionSharingOrg">constructionSharingOrg=#constructionSharingOrg#</isNotNull>
+			<isNotNull prepend="," property="resourceLifePeriodEnumId">resourceLifePeriodEnumId=#resourceLifePeriodEnumId#</isNotNull>
+			<isNotNull prepend="," property="creationDate">creationDate=#creationDate#</isNotNull>
+			<isNotNull prepend="," property="lastUpdateDate">lastUpdateDate=#lastUpdateDate#</isNotNull>
+			<isNotNull prepend="," property="deletedFlag">deletedFlag=#deletedFlag#</isNotNull>
+			<isNotNull prepend="," property="deletionDate">deletionDate = #deletionDate#</isNotNull>
+			<isNotNull prepend="," property="provinceId">provinceId=#provinceId#</isNotNull>
+			<isNotNull prepend="," property="cuser">cuser=#cuser#</isNotNull>
+			<isNotNull prepend="," property="cstate">cstate=#cstate#</isNotNull>
+			<isNotNull prepend="," property="areano">areano=#areano#</isNotNull>
+			<isNotNull prepend="," property="areaname">areaname=#areaname#</isNotNull>
+			<isNotNull prepend="," property="maintenanceAreaName">maintenanceAreaName=#maintenanceAreaName#</isNotNull>
+			<isNotNull prepend="," property="redunBearCableSegmentId">redunBearCableSegmentId=#redunBearCableSegmentId#</isNotNull>
+			<isNotNull prepend="," property="bearCableSegmentId">bearCableSegmentId=#bearCableSegmentId#</isNotNull>
+			<isNotNull prepend="," property="dataQualityPrincipal">dataQualityPrincipal=#dataQualityPrincipal#</isNotNull>
+			<isNotNull prepend="," property="parties">parties=#parties#</isNotNull>
+			<isNotNull prepend="," property="maintainLength">maintainLength=#maintainLength#</isNotNull>
+			<isNotNull prepend="," property="maintenanceOrg">maintain_company=#maintenanceOrg#</isNotNull>
+			<isNotNull prepend="," property="maintenanceLeader">maintain_manager=#maintenanceLeader#</isNotNull>
+			<isNotNull prepend="," property="leaderPhone">maintain_manager_phone=#leaderPhone#</isNotNull>
+			<isNotNull prepend="," property="remark">remark=#remark#</isNotNull>
+		</dynamic>
+		where poleLineSegmentId=#poleLineSegmentId#
+	</update>
+	
+	<!-- 保存杆路段 -->
+	<insert id="insertPolelineSegment" parameterClass="manage.poleline.pojo.PolelineSegmentInfoBean">
+		insert into polelinesegmentinfo 
+		(poleLineSegmentName,poleLineSegmentCode,maintenanceAreaId,poleLineId,poleLineSegmentLength,status,
+		startDeviceId,endDeviceId,constructionSharingEnumId,sharingTypeEnumId,constructionSharingOrg,
+		resourceLifePeriodEnumId,creationDate,lastUpdateDate,deletedFlag,provinceId,cuser,cstate,areano,areaname,
+		maintenanceAreaName,redunBearCableSegmentId,bearCableSegmentId,
+		dataQualityPrincipal,parties,maintainLength
+		,maintain_company,maintain_manager,maintain_manager_phone,remark)
+		values(#poleLineSegmentName#,#poleLineSegmentCode#,#maintenanceAreaId#,#poleLineId#,#poleLineSegmentLength#,
+		#status#,#startDeviceId#,#endDeviceId#,#constructionSharingEnumId#,#sharingTypeEnumId#,#constructionSharingOrg#,
+		#resourceLifePeriodEnumId#,now(),#lastUpdateDate#,'0',#provinceId#,#cuser#,'2',#areano#,#areaname#,
+		#maintenanceAreaName#,#redunBearCableSegmentId#,#bearCableSegmentId#,#dataQualityPrincipal#,#parties#,#maintainLength#
+		,#maintenanceOrg#,#maintenanceLeader#,#leaderPhone#,#remark#)
+			<selectKey resultClass="int" keyProperty="poleLineSegmentId" > 
+				SELECT LAST_INSERT_ID() AS poleLineSegmentId
+			</selectKey>
+	</insert>
+	
+	<!-- 修改电杆 -->
+	<update id="updatePole" parameterClass="manage.poleline.pojo.PoleInfoBean">
+		update poleinfo set lastUpdateDate=now(),resMotion =null
+		<dynamic prepend=", ">
+			<isNotNull prepend="," property="poleName">poleName=#poleName#</isNotNull>
+			<isNotNull prepend="," property="poleCode">poleCode=#poleCode#</isNotNull>
+			<isNotNull prepend="," property="poleNo">poleNo=#poleNo#</isNotNull>
+			<isNotNull prepend="," property="direction">direction=#direction#</isNotNull>
+			<isNotNull prepend="," property="poleSubNo">poleSubNo=#poleSubNo#</isNotNull>
+			<isNotNull prepend="," property="poleNameSub">poleNameSub=#poleNameSub#</isNotNull>
+			<isNotNull prepend="," property="maintenanceAreaId">maintenanceAreaId=#maintenanceAreaId#</isNotNull>
+			<isNotNull prepend="," property="poleLineId">poleLineId=#poleLineId#</isNotNull>
+			<isNotNull prepend="," property="poleTypeEnumId">poleTypeEnumId=#poleTypeEnumId#</isNotNull>
+			<isNotNull prepend="," property="poleMaterial">poleMaterial=#poleMaterial#</isNotNull>
+			<isNotNull prepend="," property="poleLength">poleLength=#poleLength#</isNotNull>
+			<isNotNull prepend="," property="buriedDepth">buriedDepth=#buriedDepth#</isNotNull>
+			<isNotNull prepend="," property="poleRadius">poleRadius=#poleRadius#</isNotNull>
+			<isNotNull prepend="," property="poleAddress">poleAddress=#poleAddress#</isNotNull>
+			<isNotNull prepend="," property="poleLongitude">poleLongitude=#poleLongitude#</isNotNull>
+			<isNotNull prepend="," property="poleLatitude">poleLatitude=#poleLatitude#</isNotNull>
+			<isNotNull prepend="," property="maintenanceModeEnumId">maintenanceModeEnumId=#maintenanceModeEnumId#</isNotNull>
+			<isNotNull prepend="," property="maintenanceOrgId">maintenanceOrgId=#maintenanceOrgId#</isNotNull>
+			<isNotNull prepend="," property="maintainerId">maintainerId=#maintainerId#</isNotNull>
+			<isNotNull prepend="," property="thirdPartyMaintenanceOrg">thirdPartyMaintenanceOrg=#thirdPartyMaintenanceOrg#</isNotNull>
+			<isNotNull prepend="," property="renewalExpirationDate">renewalExpirationDate=#renewalExpirationDate#</isNotNull>
+			<isNotNull prepend="," property="maintenanceTypeEnumId">maintenanceTypeEnumId=#maintenanceTypeEnumId#</isNotNull>
+			<isNotNull prepend="," property="purchasedMaintenanceTime">purchasedMaintenanceTime=#purchasedMaintenanceTime#</isNotNull>
+			<isNotNull prepend="," property="creationDate">creationDate=#creationDate#</isNotNull>
+			<isNotNull prepend="," property="lastUpdateDate">lastUpdateDate=#lastUpdateDate#</isNotNull>
+			<isNotNull prepend="," property="deletedFlag">deletedFlag=#deletedFlag#</isNotNull>
+			<isNotNull prepend="," property="deletionDate">deletionDate=#deletionDate#</isNotNull>
+			<isNotNull prepend="," property="provinceId">provinceId=#provinceId#</isNotNull>
+			<isNotNull prepend="," property="cuser">cuser=#cuser#</isNotNull>
+			<isNotNull prepend="," property="cstate">cstate=#cstate#</isNotNull>
+			<isNotNull prepend="," property="areano">areano=#areano#</isNotNull>
+			<isNotNull prepend="," property="areaname">areaname=#areaname#</isNotNull>
+			<isNotNull prepend="," property="region">region=#region#</isNotNull>
+			<isNotNull prepend="," property="maintenanceAreaName">maintenanceAreaName=#maintenanceAreaName#</isNotNull>
+			<isNotNull prepend="," property="subordinateUnits">subordinateUnits=#subordinateUnits#</isNotNull>
+			<isNotNull prepend="," property="poleWireForm">poleWireForm=#poleWireForm#</isNotNull>
+			<isNotNull prepend="," property="poleStd">poleStd=#poleStd#</isNotNull>
+			<isNotNull prepend="," property="status">status=#status#</isNotNull>
+			<isNotNull prepend="," property="overhaulRecord">overhaulRecord=#overhaulRecord#</isNotNull>
+			<isNotNull prepend="," property="note">note=#note#</isNotNull>
+			<isNotNull prepend="," property="propertyNature">propertyNature=#propertyNature#</isNotNull>
+			<isNotNull prepend="," property="dataQualityPrincipal">dataQualityPrincipal=#dataQualityPrincipal#</isNotNull>
+			<isNotNull prepend="," property="parties">parties=#parties#</isNotNull>
+			<isNotNull prepend=" , " property="previousPoleID">previousPoleID=#previousPoleID#</isNotNull>
+			<isNotNull prepend=" , " property="previousPoleName">previousPoleName=#previousPoleName#</isNotNull>
+			<isNotNull prepend=" , " property="chengzaidian_type">chengzaidian_type=#chengzaidian_type#</isNotNull>
+			<isNotNull prepend=" , " property="remark">remark=#remark#</isNotNull>
+		</dynamic>
+		where poleId=#poleId#
+	</update>
+	
+	<!-- 保存电杆 -->
+	<insert id="insertPole" parameterClass="manage.poleline.pojo.PoleInfoBean">
+		insert into poleinfo (
+			poleName,poleNo,poleSubNo,direction,poleNameSub,poleCode,maintenanceAreaId,poleLineId,poleTypeEnumId,poleMaterial,poleLength,buriedDepth,
+			poleRadius,poleAddress,poleLongitude,poleLatitude,maintenanceModeEnumId,maintenanceOrgId,thirdPartyMaintenanceOrg,
+			renewalExpirationDate,maintenanceTypeEnumId,purchasedMaintenanceTime,creationDate,lastUpdateDate,deletedFlag,provinceId,
+			cuser,cstate,areano,areaname,region, maintenanceAreaName, subordinateUnits, poleWireForm, poleStd, status, overhaulRecord, 
+			note,propertyNature,dataQualityPrincipal,parties,previousPoleID,previousPoleName,chengzaidian_type,remark
+		) values (
+			#poleName#,#poleNo#,#poleSubNo#,#direction#,#poleNameSub#,#poleCode#,#maintenanceAreaId#,#poleLineId#,#poleTypeEnumId#,#poleMaterial#,#poleLength#,#buriedDepth#,
+			#poleRadius#,#poleAddress#,#poleLongitude#,#poleLatitude#,#maintenanceModeEnumId#,#maintenanceOrgId#,#thirdPartyMaintenanceOrg#,
+			#renewalExpirationDate#,#maintenanceTypeEnumId#,#purchasedMaintenanceTime#,now(),#lastUpdateDate#,'0',#provinceId#,
+			#cuser#,'2',#areano#,#areaname#,#region#, #maintenanceAreaName#, #subordinateUnits#, #poleWireForm#, #poleStd#, #status#, #overhaulRecord#, 
+			#note#,#propertyNature#,#dataQualityPrincipal#,#parties#,#previousPoleID#,#previousPoleName#,#chengzaidian_type#,#remark#
+		)
+			<selectKey resultClass="int" keyProperty="poleId" > 
+				SELECT LAST_INSERT_ID() AS poleId
+			</selectKey>
+	</insert>
+	
+	<update id="deletePole" parameterClass="manage.poleline.pojo.PoleInfoBean">
+		update poleinfo set deletedFlag='1',deletionDate=now() where poleId=#poleId#
+	</update>
+	
+	<update id="deletePoleline" parameterClass="manage.poleline.pojo.PolelineInfoBean">
+		update polelineinfo set deletedFlag='1',deletionDate=now() where poleLineId=#poleLineId#
+	</update>
+	
+	<select id="checkPoleName" parameterClass="manage.poleline.pojo.PoleInfoBean" resultClass="manage.poleline.pojo.PoleInfoBean">
+		select * from poleinfo where deletedFlag='0' and poleNameSub = #poleNameSub#
+	</select>
+	
+	<!-- 根据点得到段数据 -->
+	<select id="getPoleSegBypole" parameterClass="java.lang.String" resultClass="manage.poleline.pojo.PolelineSegmentInfoBean">
+	    select distinct poleLineSegmentId,poleLineSegmentName,poleLineId,poleLIneSegmentLength,
+	    	(select lineName from line_system where id =a.poleLineId ) as poleLineName,
+			startDeviceId,endDeviceId,constructionSharingEnumId,creationDate,deletedFlag,lastUpdateDate,
+			maintenanceAreaName,dataQualityPrincipal,parties,resNum,maintainLength from (
+		select poleLineSegmentId,poleLineSegmentName,poleLineId,poleLIneSegmentLength,
+			startDeviceId,endDeviceId,constructionSharingEnumId,creationDate,deletedFlag,lastUpdateDate,
+			maintenanceAreaName,dataQualityPrincipal,parties,resNum,maintainLength
+ 		from polelinesegmentinfo  
+		where startDeviceId in ($ids:String$)
+		union all 
+		select poleLineSegmentId,poleLineSegmentName,poleLineId,poleLIneSegmentLength,
+			startDeviceId,endDeviceId,constructionSharingEnumId,creationDate,deletedFlag,lastUpdateDate,
+			maintenanceAreaName,dataQualityPrincipal,parties,resNum,maintainLength from polelinesegmentinfo  
+		where endDeviceId in ($ids:String$)
+		) a
+	</select>
+	
+	<update id="deletePolelineSeg" parameterClass="manage.poleline.pojo.PolelineSegmentInfoBean">
+		update polelinesegmentinfo set deletedFlag='1',deletionDate=now() where poleLineSegmentId=#poleLineSegmentId#
+	</update>
+	
+	<select id="getSupport" parameterClass="manage.poleline.pojo.SupportInfoBean" resultClass="manage.poleline.pojo.SupportInfoBean">
+		select * from job_support where deletedFlag='0'
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend="AND" property="supportId">supportId=#supportId#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="supportName">(supportName like '%$supportName$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="lats"><![CDATA[ lat >= #lats# ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="late"><![CDATA[ lat <= #late# ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="lons"><![CDATA[ lon >= #lons# ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="lone"><![CDATA[ lon <= #lone# ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="dataQualityPrincipal">(dataQualityPrincipal=#dataQualityPrincipal#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="parties">(parties=#parties#)</isNotEmpty>
+		</dynamic>
+	</select>
+	<insert id="insertSupport" parameterClass="manage.poleline.pojo.SupportInfoBean">
+		insert into job_support (supportName,supportBieName,region,address,supportType,lat,lon,supportJZ,hight,
+		lifecycle,lifecycleTime,note,creationDate,deletedFlag,dataQualityPrincipal,parties,dataQualityPrincipal,parties)
+		values (#supportName#,#supportBieName#,#region#,#address#,#supportType#,#lat#,#lon#,#supportJZ#,
+		#hight#,#lifecycle#,#lifecycleTime#,#note#,now(),'0',#dataQualityPrincipal#,#parties#,#dataQualityPrincipal#,#parties#)
+		<selectKey resultClass="int" keyProperty="supportId" > 
+				SELECT LAST_INSERT_ID() AS supportId
+			</selectKey>
+	</insert>
+	<update id="updateSupport" parameterClass="manage.poleline.pojo.SupportInfoBean">
+		update job_support set lastUpdateDate=now()
+		<dynamic prepend=", ">
+			<isNotNull prepend="," property="supportName">supportName=#supportName#</isNotNull>
+			<isNotNull prepend="," property="supportBieName">supportBieName=#supportBieName#</isNotNull>
+			<isNotNull prepend="," property="region">region=#region#</isNotNull>
+			<isNotNull prepend="," property="address">address=#address#</isNotNull>
+			<isNotNull prepend="," property="supportType">supportType=#supportType#</isNotNull>
+			<isNotNull prepend="," property="lat">lat=#lat#</isNotNull>
+			<isNotNull prepend="," property="lon">lon=#lon#</isNotNull>
+			<isNotNull prepend="," property="supportJZ">supportJZ=#supportJZ#</isNotNull>
+			<isNotNull prepend="," property="hight">hight=#hight#</isNotNull>
+			<isNotNull prepend="," property="lifecycle">lifecycle=#lifecycle#</isNotNull>
+			<isNotNull prepend="," property="lifecycleTime">lifecycleTime=#lifecycleTime#</isNotNull>
+			<isNotNull prepend="," property="note">note=#note#</isNotNull>
+			<isNotNull prepend="," property="dataQualityPrincipal">dataQualityPrincipal=#dataQualityPrincipal#</isNotNull>
+			<isNotNull prepend="," property="parties">parties=#parties#</isNotNull>
+		</dynamic>
+		where supportId=#supportId#
+	</update>
+	<update id="deleteSupport" parameterClass="manage.poleline.pojo.SupportInfoBean">
+		update job_support set deletedFlag='1',deletionDate=now() where supportId=#supportId#
+	</update>
+	
+	<select id="getSuspension" parameterClass="manage.poleline.pojo.SuspensionWireInfoBean" resultClass="manage.poleline.pojo.SuspensionWireInfoBean">
+		select * from job_suspension where deletedFlag='0'
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend="AND" property="suspensionWireName">(suspensionWireName like '%$suspensionWireName$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="suspensionWireId">(suspensionWireId = #suspensionWireId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="poleLineId">poleLineId=#poleLineId#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="dataQualityPrincipal">(dataQualityPrincipal=#dataQualityPrincipal#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="parties">(parties=#parties#)</isNotEmpty>
+		</dynamic>
+	</select>
+	<insert id="insertSuspension" parameterClass="manage.poleline.pojo.SuspensionWireInfoBean">
+		insert into job_suspension (suspensionWireName,suspensionWireCode,region,poleLineName,poleLineId,length,
+		resourceLifePeriodEnumId,lifecycleTime,isAuthorizationManagement,authorizationManagementUnit,designPurposes,
+		note,creationDate,deletedFlag,dataQualityPrincipal,parties)
+		values (#suspensionWireName#,#suspensionWireCode#,#region#,#poleLineName#,#poleLineId#,#length#,
+		#resourceLifePeriodEnumId#,#lifecycleTime#,#isAuthorizationManagement#,#authorizationManagementUnit#,
+		#designPurposes#,#note#,now(),'0',#dataQualityPrincipal#,#parties#)
+		<selectKey resultClass="int" keyProperty="suspensionWireId" > 
+				SELECT LAST_INSERT_ID() AS suspensionWireId
+			</selectKey>
+	</insert>
+	<update id="updateSuspension" parameterClass="manage.poleline.pojo.SuspensionWireInfoBean">
+		update job_suspension set lastUpdateDate=now()
+		<dynamic prepend=", ">
+			<isNotNull prepend="," property="suspensionWireName">suspensionWireName=#suspensionWireName#</isNotNull>
+			<isNotNull prepend="," property="suspensionWireCode">suspensionWireCode=#suspensionWireCode#</isNotNull>
+			<isNotNull prepend="," property="region">region=#region#</isNotNull>
+			<isNotNull prepend="," property="poleLineName">poleLineName=#poleLineName#</isNotNull>
+			<isNotNull prepend="," property="poleLineId">poleLineId=#poleLineId#</isNotNull>
+			<isNotNull prepend="," property="length">length=#length#</isNotNull>
+			<isNotNull prepend="," property="resourceLifePeriodEnumId">resourceLifePeriodEnumId=#resourceLifePeriodEnumId#</isNotNull>
+			<isNotNull prepend="," property="lifecycleTime">lifecycleTime=#lifecycleTime#</isNotNull>
+			<isNotNull prepend="," property="isAuthorizationManagement">isAuthorizationManagement=#isAuthorizationManagement#</isNotNull>
+			<isNotNull prepend="," property="authorizationManagementUnit">authorizationManagementUnit=#authorizationManagementUnit#</isNotNull>
+			<isNotNull prepend="," property="designPurposes">designPurposes=#designPurposes#</isNotNull>
+			<isNotNull prepend="," property="note">note=#note#</isNotNull>
+			<isNotNull prepend="," property="dataQualityPrincipal">dataQualityPrincipal=#dataQualityPrincipal#</isNotNull>
+			<isNotNull prepend="," property="parties">parties=#parties#</isNotNull>
+		</dynamic>
+		where suspensionWireId=#suspensionWireId#
+	</update>
+	<update id="deleteSuspension" parameterClass="manage.poleline.pojo.SuspensionWireInfoBean">
+		update job_suspension set deletedFlag='1',deletionDate=now() where suspensionWireId=#suspensionWireId#
+	</update>
+	
+	<select id="getSuspensionseg" parameterClass="manage.poleline.pojo.SuspensionWireSegInfoBean" resultClass="manage.poleline.pojo.SuspensionWireSegInfoBean">
+		select * from job_suspensionseg where deletedFlag='0'
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend="AND" property="suspensionWireSegName">(suspensionWireSegName like '%$suspensionWireSegName$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="suspensionWireId">(suspensionWireId=#suspensionWireId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="dataQualityPrincipal">(dataQualityPrincipal=#dataQualityPrincipal#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="parties">(parties=#parties#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="startType">(startType=#startType#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="startId">(startId=#startId#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="endType">(endType=#endType#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="endId">(endId=#endId#)</isNotEmpty>
+		</dynamic>
+	</select>
+	<insert id="insertSuspensionseg" parameterClass="manage.poleline.pojo.SuspensionWireSegInfoBean">
+		insert into job_suspensionseg (suspensionWireSegName,suspensionWireSegCode,region,suspensionWireId,startId,endId,
+		startType,endType,caizhi,guige,tiaoshu,length,resourceLifePeriodEnumId,lifecycleTime,isAuthorizationManagement,
+		authorizationManagementUnit,designPurposes,note,creationDate,deletedFlag,bearCableSegmentId,redunBearCableSegmentId,
+		dataQualityPrincipal,parties)
+		values (#suspensionWireSegName#,#suspensionWireSegCode#,#region#,#suspensionWireId#,#startId#,#endId#,#startType#,
+		#endType#,#caizhi#,#guige#,#tiaoshu#,#length#,#resourceLifePeriodEnumId#,#lifecycleTime#,#isAuthorizationManagement#,
+		#authorizationManagementUnit#,#designPurposes#,#note#,now(),'0',#bearCableSegmentId#,#redunBearCableSegmentId#,
+		#dataQualityPrincipal#,#parties#)
+			<selectKey resultClass="int" keyProperty="suspensionWireSegId" > 
+				SELECT LAST_INSERT_ID() AS suspensionWireSegId
+			</selectKey>
+	</insert>
+	<update id="updateSuspensionseg"  parameterClass="manage.poleline.pojo.SuspensionWireSegInfoBean">
+		update job_suspensionseg set lastUpdateDate=now()
+		<dynamic prepend=", ">
+			<isNotNull prepend="," property="suspensionWireSegName">suspensionWireSegName=#suspensionWireSegName#</isNotNull>
+			<isNotNull prepend="," property="suspensionWireSegCode">suspensionWireSegCode=#suspensionWireSegCode#</isNotNull>
+			<isNotNull prepend="," property="region">region=#region#</isNotNull>
+			<isNotNull prepend="," property="suspensionWireId">suspensionWireId=#suspensionWireId#</isNotNull>
+			<isNotNull prepend="," property="startId">startId=#startId#</isNotNull>
+			<isNotNull prepend="," property="endId">endId=#endId#</isNotNull>
+			<isNotNull prepend="," property="startType">startType=#startType#</isNotNull>
+			<isNotNull prepend="," property="endType">endType=#endType#</isNotNull>
+			<isNotNull prepend="," property="caizhi">caizhi=#caizhi#</isNotNull>
+			<isNotNull prepend="," property="guige">guige=#guige#</isNotNull>
+			<isNotNull prepend="," property="tiaoshu">tiaoshu=#tiaoshu#</isNotNull>
+			<isNotNull prepend="," property="length">length=#length#</isNotNull>
+			<isNotNull prepend="," property="resourceLifePeriodEnumId">resourceLifePeriodEnumId=#resourceLifePeriodEnumId#</isNotNull>
+			<isNotNull prepend="," property="lifecycleTime">lifecycleTime=#lifecycleTime#</isNotNull>
+			<isNotNull prepend="," property="isAuthorizationManagement">isAuthorizationManagement=#isAuthorizationManagement#</isNotNull>
+			<isNotNull prepend="," property="authorizationManagementUnit">authorizationManagementUnit=#authorizationManagementUnit#</isNotNull>
+			<isNotNull prepend="," property="designPurposes">designPurposes=#designPurposes#</isNotNull>
+			<isNotNull prepend="," property="note">note=#note#</isNotNull>
+			<isNotNull prepend="," property="redunBearCableSegmentId">redunBearCableSegmentId=#redunBearCableSegmentId#</isNotNull>
+			<isNotNull prepend="," property="bearCableSegmentId">bearCableSegmentId=#bearCableSegmentId#</isNotNull>
+			<isNotNull prepend="," property="dataQualityPrincipal">dataQualityPrincipal=#dataQualityPrincipal#</isNotNull>
+			<isNotNull prepend="," property="parties">parties=#parties#</isNotNull>
+		</dynamic>
+		where suspensionWireSegId=#suspensionWireSegId#
+	</update>
+	<update id="deleteSuspensionseg" parameterClass="manage.poleline.pojo.SuspensionWireSegInfoBean">
+		update job_suspensionseg set deletedFlag='1',deletionDate=now() where suspensionWireSegId=#suspensionWireSegId#
+	</update>
+	<!-- 获取光缆段信息 -->
+	<select id="getCable" parameterClass="manage.route.pojo.CableInfoBean" resultClass="manage.route.pojo.CableInfoBean">
+		select * from job_cable where deletedFlag='0' and cableid=#cableid#
+	</select>
+	
+	<select id="getPoleCustom" parameterClass="manage.poleline.pojo.PoleCustomInfoBean" resultClass="manage.poleline.pojo.PoleCustomInfoBean">
+		select zh_label,city_id,county_id,pole_height,ownership,longitude,latitude,
+		maintain_company,maintain_area,maintain_manager,maintain_manager_phone,remark,	
+		change_reason,time_stamp,stateflag,int_id,creator,creat_time,modifier,
+		modify_time,transfer_level,purpose
+		from rms_pole where 1 = 1
+		<dynamic prepend=" AND ">
+		<isNotEmpty prepend=" AND " property="zh_label"> <![CDATA[ zh_label like #zh_label#]]> </isNotEmpty>
+		<isNotEmpty prepend=" AND " property="city_id">(city_id=#city_id#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="county_id">(county_id=#county_id#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="pole_height">(pole_height=#pole_height#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="ownership">(ownership=#ownership#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="longitude">(longitude=#longitude#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="latitude">(latitude=#latitude#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="maintain_company">(maintain_company=#maintain_company#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="maintain_area">(maintain_area=#maintain_area#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="maintain_manager">(maintain_manager=#maintain_manager#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="maintain_manager_phone">(maintain_manager_phone=#maintain_manager_phone#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="remark">(remark=#remark#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="change_reason"> change_reason like '%$change_reason$%' </isNotEmpty>
+		<isNotEmpty prepend=" AND " property="time_stamp">(time_stamp=#time_stamp#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="stateflag">(stateflag=#stateflag#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="int_id">(int_id=#int_id#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="creator">(creator=#creator#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="creat_time">(creat_time=#creat_time#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="modifier">(modifier=#modifier#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="modify_time">(modify_time=#modify_time#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="transfer_level">(transfer_level=#transfer_level#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="purpose">(purpose=#purpose#)</isNotEmpty>
+		<isNotEmpty prepend=" AND " property="extendSql">($extendSql$)</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="sort"> ORDER BY #sort# </isNotEmpty>
+	    	<isNotEmpty prepend=" " property="dir">  #dir# </isNotEmpty>
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+	</select>
+	
+	<insert id="insertPoleCustom" parameterClass="manage.poleline.pojo.PoleCustomInfoBean">
+		insert into rms_pole (
+			zh_label,city_id,county_id,pole_height,ownership,longitude,latitude,
+			maintain_company,maintain_area,maintain_manager,maintain_manager_phone,remark,	
+			change_reason,time_stamp,stateflag,creator,creat_time,modifier,
+			modify_time,transfer_level,purpose
+		) values (
+			#zh_label#,#city_id#,#county_id#,#pole_height#,#ownership#,#longitude#,#latitude#,
+			#maintain_company#,#maintain_area#,#maintain_manager#,#maintain_manager_phone#,#remark#,	
+			#change_reason#,now(),'0',#creator#,now(),#modifier#,
+			#modify_time#,#transfer_level#,#purpose#
+		)
+		<selectKey resultClass="int" keyProperty="int_id" > 
+				SELECT LAST_INSERT_ID() AS int_id
+		</selectKey>
+	</insert>
+	
+	<update id="updatePoleCustom" parameterClass="manage.poleline.pojo.PoleCustomInfoBean">
+		update rms_pole set time_stamp=now(),modify_time=now()
+		<dynamic prepend=" , ">
+			<isNotEmpty prepend=" , " property="zh_label"> zh_label=#zh_label# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="city_id"> city_id=#city_id# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="county_id"> county_id=#county_id# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="pole_height"> pole_height=#pole_height# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="ownership"> ownership=#ownership# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="longitude"> longitude=#longitude# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="latitude"> latitude=#latitude# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_company"> maintain_company=#maintain_company# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_area"> maintain_area=#maintain_area# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_manager"> maintain_manager=#maintain_manager# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_manager_phone"> maintain_manager_phone=#maintain_manager_phone# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="remark"> remark=#remark# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="change_reason"> change_reason=#change_reason# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="stateflag"> stateflag=#stateflag# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="creator"> creator=#creator# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="creat_time"> creat_time=#creat_time# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="modifier"> modifier=#modifier# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="transfer_level"> transfer_level=#transfer_level# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="purpose"> purpose=#purpose# </isNotEmpty>
+		</dynamic>
+		where int_id=#int_id#
+	</update>
+	<update id="deletePoleCustom" parameterClass="manage.poleline.pojo.PoleCustomInfoBean">
+		update rms_pole set stateflag='1',modify_time=now(),time_stamp=now() where int_id=#int_id#
+	</update>
+	
+</sqlMap>
+    

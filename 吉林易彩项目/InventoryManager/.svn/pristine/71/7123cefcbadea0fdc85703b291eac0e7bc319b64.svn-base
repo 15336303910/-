@@ -1,0 +1,30 @@
+.username {
+	background-image: url(../../imgs/user.png) !important;
+	background-repeat: no-repeat;
+	background-position: left;
+}
+
+.password {
+	background-image: url(../../imgs/userCk.png) !important;
+	background-repeat: no-repeat;
+	background-position: left;
+}
+
+.vcode {
+	background-image: url(../../imgs/attention.png) !important;
+	background-repeat: no-repeat;
+	background-position: left;
+}
+.i-script{
+	background-image: url(../../imgs/lt_logo.png) !important;
+	background-repeat: no-repeat;
+	background-position: left;
+	margin-right:20xp;
+}
+.mainIcon{
+	background-image: url(../../imgs/lt_logo.png) !important;
+	background-repeat: no-repeat;
+	background-position: left;
+	width: 23px;
+	height: 16px;
+}

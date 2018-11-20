@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>管道段</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../../../css/mui.min.css">
+		<link href="../../../css/mui.picker.css" rel="stylesheet" />
+		<link href="../../../css/mui.poppicker.css" rel="stylesheet" />
+		<script src="../../../js/mui.min.js"></script>
+		<script src="../../../js/jquery-1.12.3.js"></script>
+		<script src="../../../js/mui.picker.js"></script>
+		<script src="../../../js/mui.poppicker.js"></script>
+		<script src="../../../js/city.data.js"></script>
+		<script src="../../../js/city.data-3.js"></script>
+		<script src="js/pipeSegDetail.js"></script>
+		<script src="../../../js/changeCity.js"></script>
+		<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.2&amp;key=f256f09cbe5b5303b39bf4c43bf72c0b"></script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">管道段</h1>
+		</header>
+		<footer id="foot_btn" class="mui-bar mui-bar-footer" style="position: fixed; bottom: 0; left: 0;right: 0;">
+			<table class="mui-button-row" style="width: 100%;margin-top: 2px;">
+				<th><button id="submit_btn" onclick="updatePipeSeg()"class="mui-btn mui-btn-primary " >更新</button></th>
+				<th><button id="delete_btn" onclick="deletePipeSeg()"class="mui-btn mui-btn-primary " >删除</button></th>
+			</table>
+		</footer>
+		<form class="mui-content mui-input-group" >
+			<div id="iCenter"></div>
+			<div class="mui-input-row " style="width: 100%; ">
+				<label style="width: 30%; float: left;">管道段名称:</label>
+				<input type="text" class="mui-input-clear"  id="zh_label" name="zh_label" value="" style="width: 70%; float: left;" placeholder="管道段名称"/>
+				<input type="hidden" id="int_id" value="" />
+			</div>
+			<div class="mui-input-row">
+				<label>所属地市:</label>
+				<select id="city_id" class="mui-btn-block" onchange="changeCity(this)">
+					<option value="0">--请选择城市--</option>
+					<option value="431">长春市</option>
+					<option value="432">吉林市</option>
+					<option value="433">延边州</option>
+					<option value="434">四平市</option>
+					<option value="435">通化市</option>
+					<option value="436">白城市</option>
+					<option value="437">辽源市</option>
+					<option value="438">松原市</option>
+					<option value="439">白山市</option>
+				</select>
+			</div>			
+			<div class="mui-input-row">
+				<label>所属区县:</label>
+				<select id="county_id" class="mui-btn-block" >
+					<option value="0">--请选择区县--</option>
+				</select>
+			</div>
+			<div class="mui-input-row">
+				<label style="width: 30%; float: left;">起始管井:</label>
+				<input type="hidden" id="dest_point_name" name="dest_point_name" value="" />
+				<input type="hidden" id="startLon" name="startLon" value="" />
+				<input type="hidden" id="startLat" name="startLat" value="" />
+				<input type="text" class="mui-input-clear" readonly="true" id="startDeviceName" name="startDeviceName" value="" style="width: 60%; float: left;" readonly="true" />
+				<img style="width: 10%;" src="../../../image/map/current.png"  onclick="checkWell('start')"/>
+			</div>
+			<div class="mui-input-row">
+				<label style="width: 30%; float: left;">终止管井:</label>
+				<input type="hidden" id="orig_point_name" name="orig_point_name" value="" />
+				<input type="hidden" id="endLon" name="endLon" value="" />
+				<input type="hidden" id="endLat" name="endLat" value="" />
+				<input type="text" class="mui-input-clear" readonly="true" id="endDeviceName" name="endDeviceName" value="" style="width: 60%; float: left;" readonly="true" />
+				<img style="width: 10%;" src="../../../image/map/current.png"  onclick="checkWell('end')"/>
+			</div>
+			<div class="mui-input-row">
+				<label>产权性质:</label>
+				<select id="ownership" class="mui-btn-block">
+					<option value="0">自建</option>
+					<option value="1">合建</option>
+					<option value="2">共建</option>
+					<option value="3">租用</option>
+					<option value="4">购买</option>
+					<option value="5">置换</option>
+					<option value="6">其他</option>
+				</select>
+			</div>
+			<div class="mui-input-row">
+				<label style="width: 30%; float: left;">管道长度:</label>
+				<input type="text" class="mui-input-clear" id="length" name="length" value="" style="width: 55%; float: left;" />
+				<label style="width: 15%; float: right;">(米)</label>
+			</div>
+			<div class="mui-input-row">
+				<label>维护单位:</label>
+				<select id="maintain_company" class="mui-btn-block">
+					<option value="0">通建</option>
+					<option value="1">国脉</option>
+					<option value="2">二局</option>
+					<option value="3">润建</option>
+					<option value="4">浙邮</option>
+					<option value="5">中兴</option>
+					<option value="6">中邮建</option>
+					<option value="7">京信</option>
+					<option value="8">虹信</option>
+				</select>
+			</div>
+			<div class="mui-input-row">
+				<label style="width: 30%; float: left;">维护区域:</label>
+				<input type="text" class="mui-input-clear"  readonly="true" id="maintain_area" name="maintain_area" value="" style="width: 50%; float: left;" placeholder="维护区县"/>
+				<button id='showCityPicker3' style="width: 20%; float: right;"  type='button'>地市</button>
+			</div>
+			
+			<div class="mui-input-row">
+				<label style="width: 30%; float: left;">组长:</label>
+				<input type="text" class="mui-input-clear" id="maintain_manager" name="maintain_manager" value="" style="width: 70%; float: left;" />
+			</div>
+			<div class="mui-input-row">
+				<label style="width: 30%; float: left;">组长电话:</label>
+				<input type="text" class="mui-input-clear" id="maintain_manager_phone" name="maintain_manager_phone" value="" style="width: 70%; float: left;" />
+			</div>
+			<div class="mui-input-row">
+				<label style="width: 30%; float: left;">备注:</label>
+				<textarea style="width: 70%; float: left;" id="remark" name="remark" rows="3">
+				</textarea>
+			</div>
+		</form>
+		<script>
+			var wellId;
+			var EARTH_RADIUS = 6378137.0;
+			var PI = Math.PI; 
+			(function($, doc) {
+				$.ready(function() {
+					var _getParam = function(obj, param) {
+						return obj[param] || '';
+					};
+					var cityPicker3 = new $.PopPicker({
+						layer: 3
+					});
+					cityPicker3.setData(cityData3);
+					var showCityPickerButton = doc.getElementById('showCityPicker3');
+					showCityPickerButton.addEventListener('tap', function(event) {
+						var address = "";
+						cityPicker3.show(function(items) {
+							if(_getParam(items[0], 'text') == _getParam(items[1], 'text')){
+								address =_getParam(items[1], 'text') + "_" + _getParam(items[2], 'text')+"_";
+							}else{
+								address =_getParam(items[0], 'text') + "_" + _getParam(items[1], 'text') + "_" + _getParam(items[2], 'text');
+							}
+							document.getElementById("maintenanceAreaName").value =address;
+						});
+					}, false);
+				});
+			})(mui, document);
+			
+			var mapObj;
+			//初始化一个隐藏的页面信息
+			function mapInit(){
+				mapObj = new AMap.Map('iCenter');
+				getAddByLonLat('117.1297700852','36.6634662002');
+			}
+			var LocString = String(window.document.location.href); 
+			mui.plusReady(function(){
+				initPipeSeg();
+				mui.preload({
+					url:'pipeSegDetail.html',
+					id:"pipeSegDetail.html",
+					styles:{},
+					extras:{}
+				});
+				var cv = plus.webview.currentWebview();
+				document.getElementById("int_id").value= cv.int_id;
+				initPipeSeg(cv.int_id);
+			})
+			
+			
+		</script>
+		<script>
+			document.addEventListener('pipeSegDetail', function(ee) {
+				if(ee.detail.operate =='start'){
+					$("#dest_point_name").val(ee.detail.int_id);
+					$("#startDeviceName").val(ee.detail.zh_label);
+					$("#startLon").val(ee.detail.lon);
+					$("#startLat").val(ee.detail.lat);
+				}
+				if(ee.detail.operate == 'end'){
+					$("#orig_point_name").val(ee.detail.int_id);
+					$("#endDeviceName").val(ee.detail.zh_label);
+					$("#endLon").val(ee.detail.lon);
+					$("#endLat").val(ee.detail.lat);
+				}
+				if($("#startLon").val() != null && $("#startLon").val()  != '' && $("#endLon").val() !=null &&  $("#endLon").val() != ''){
+					var length = getFlatternDistance($("#startLat").val(),$("#startLon").val(),$("#endLat").val(),$("#endLon").val());
+					$("#length").val(toDecimal(length));
+					$("#zh_label").val($("#startDeviceName").val()+"-"+$("#endDeviceName").val()+"管道段")
+				}
+        	})
+		</script>
+	</body>
+</html>

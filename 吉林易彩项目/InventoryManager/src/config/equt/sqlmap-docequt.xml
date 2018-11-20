@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="docequt">	
+
+	<!-- 获取设备信息 -->
+	<select id="getDocEqut" parameterClass="service.pojo.DocumentEqutInfoBean" resultClass="service.pojo.DocumentEqutInfoBean">
+	select * from documentequtinfo 
+	<dynamic prepend="WHERE">
+	    <isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="eid">(eid=#eid#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="estat">(estat=#estat#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="ecode">(ecode like '%$ecode$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="etype">(etype=#etype#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="ename">(ename like '%$ename$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="eaddr">(eaddr like '%$eaddr$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="note">(note like #note#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="station">(station like '%$station$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="lon">(lon = #lon#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="lat">(lat = #lat#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="latl"><![CDATA[ lat >= #latl# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="lath"><![CDATA[ lat <= #lath# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="lonl"><![CDATA[ lon >= #lonl# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="lonh"><![CDATA[ lon <= #lonh# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="note">(note like #note#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="mp">(mp=#mp#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="mbtime"><![CDATA[ DATE_FORMAT(mtime,'%Y-%m-%d')>=DATE_FORMAT(#mbtime#,'%Y-%m-%d') ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="metime"><![CDATA[ DATE_FORMAT(mtime,'%Y-%m-%d')<=DATE_FORMAT(#metime#,'%Y-%m-%d') ]]></isNotEmpty>
+		<isNotNull prepend="AND" property="areano">(areano = #areano#)</isNotNull>
+		<isNotEmpty prepend="AND" property="did">(did = #did#)</isNotEmpty>
+	</dynamic>
+	</select>
+	
+	<!-- 获取全部设备信息 -->
+	<select id="getDocEqutList" parameterClass="service.pojo.DocumentEqutInfoBean" resultClass="service.pojo.DocumentEqutInfoBean">
+		select *
+		from documentequtinfo 
+      <dynamic prepend="WHERE">
+	    <isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="eid">(eid=#eid#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="estat">(estat=#estat#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="ecode">(ecode like '%$ecode$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="etype">(etype=#etype#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="ename">(ename like '%$ename$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="eaddr">(eaddr like '%$eaddr$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="note">(note like #note#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="lon">(lon = #lon#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="lat">(lat = #lat#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="latl"><![CDATA[ lat >= #latl# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="lath"><![CDATA[ lat <= #lath# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="lonl"><![CDATA[ lon >= #lonl# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="lonh"><![CDATA[ lon <= #lonh# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="note">(note like #note#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="mp">(mp=#mp#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="mbtime"><![CDATA[ DATE_FORMAT(mtime,'%Y-%m-%d')>=DATE_FORMAT(#mbtime#,'%Y-%m-%d') ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="metime"><![CDATA[ DATE_FORMAT(mtime,'%Y-%m-%d')<=DATE_FORMAT(#metime#,'%Y-%m-%d') ]]></isNotEmpty>
+		<isNotNull prepend="AND" property="areano">(areano = #areano#)</isNotNull>
+		<isNotEmpty prepend="AND" property="did">(did = #did#)</isNotEmpty>
+	 </dynamic>
+	</select>
+	
+	<!-- 插入设备 -->
+	<insert id="insertDocEqut" parameterClass="service.pojo.DocumentEqutInfoBean">
+		insert into documentequtinfo
+		(eid,estat,ecode,etype,lon,lat,ename,eaddr,note,mtime,mp,mflag,areano,devmap,did,nomap,station,emodel) 
+		values
+		(#eid#,#estat#,#ecode#,#etype#,#lon#,#lat#,#ename#,#eaddr#,#note#,#mtime#,#mp#,#mflag#,#areano#,#devmap#,#did#,#nomap#,#station#,#emodel#)
+	</insert>
+	
+
+
+	<!-- 修改设备 -->
+	<update id="updateDocEqut" parameterClass="service.pojo.DocumentEqutInfoBean">
+		update documentequtinfo set 
+		<dynamic prepend=" ">
+		<isNotNull prepend="," property="ecode">ecode=#ecode#</isNotNull>
+		<isNotNull prepend="," property="estat">estat=#estat#</isNotNull>
+		<isNotNull prepend="," property="etype">etype=#etype#</isNotNull>
+		<isNotNull prepend="," property="ename">ename=#ename#</isNotNull>
+		<isNotNull prepend="," property="eaddr">eaddr=#eaddr#</isNotNull>
+		<isNotNull prepend="," property="station">station=#station#</isNotNull>
+		<isNotEmpty prepend="," property="lon">lon=#lon#</isNotEmpty>
+		<isNotEmpty prepend="," property="lat">lat=#lat#</isNotEmpty>
+		<isNotNull prepend="," property="note">note=#note#</isNotNull>
+		<isNotNull prepend="," property="mtime">mtime=#mtime#</isNotNull>		
+		<isNotNull prepend="," property="mp">mp=#mp#</isNotNull>
+		<isNotNull prepend="," property="mp">mflag=#mflag#</isNotNull>
+		<isNotNull prepend="," property="devmap">devmap=#devmap#</isNotNull>		
+		<isNotNull prepend="," property="hasallow">hasallow=#hasallow#</isNotNull>
+		<isNotNull prepend="," property="station">station=#station#</isNotNull>			
+		</dynamic>
+		<dynamic prepend="WHERE">
+	    <isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+	    <isNotEmpty prepend="AND" property="eid">(eid=#eid#)</isNotEmpty>
+	    <isNotEmpty prepend="AND" property="areano">(areano = #areano#)</isNotEmpty>
+	    </dynamic>
+	</update>
+	
+	<!-- 删除设备 -->
+	<delete id="deleteDocEqut" parameterClass="service.pojo.DocumentEqutInfoBean">
+		delete from documentequtinfo where did = #did# and areano = #areano#
+	</delete>
+	
+	<!-- 查询设备总数 -->
+	<select id="getEqutCount" parameterClass="service.pojo.DocumentEqutInfoBean" resultClass="Integer">
+		select count(*)
+		from documentequtinfo 
+		<dynamic prepend="WHERE">
+	    <isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="eid">(eid=#eid#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="estat">(estat=#estat#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="ecode">(ecode like '%$ecode$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="etype">(etype=#etype#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="ename">(ename like '%$ename$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="eaddr">(eaddr like '%$eaddr$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="note">(note like #note#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="lon">(lon = #lon#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="lat">(lat = #lat#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="latl"><![CDATA[ lat >= #latl# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="lath"><![CDATA[ lat <= #lath# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="lonl"><![CDATA[ lon >= #lonl# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="lonh"><![CDATA[ lon <= #lonh# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="note">(note like #note#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="mp">(mp=#mp#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="mbtime"><![CDATA[ DATE_FORMAT(mtime,'%Y-%m-%d')>=DATE_FORMAT(#mbtime#,'%Y-%m-%d') ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="metime"><![CDATA[ DATE_FORMAT(mtime,'%Y-%m-%d')<=DATE_FORMAT(#metime#,'%Y-%m-%d') ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="areano">(areano = #areano#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="did">(did = #did#)</isNotEmpty>
+	 </dynamic>
+	</select>
+	
+	
+</sqlMap>

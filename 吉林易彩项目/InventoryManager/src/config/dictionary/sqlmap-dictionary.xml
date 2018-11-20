@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="dict">
+    
+    <!-- 得到字典列表分组数据 -->
+    <select id="dictGrid" parameterClass="manage.dictionary.pojo.DicType" resultClass="manage.dictionary.pojo.DicType">
+        select id,enName,cnName,createTime
+        from dic_type where 1=1
+        <dynamic prepend="">
+            <isNotEmpty prepend=" AND " property="enName">enName=#enName#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="cnName">cnName like '%$cnName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="createTime">createTime=#createTime#</isNotEmpty>
+        </dynamic>    
+        <dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+    </select>
+    
+    <!-- 得到字典数据 -->
+    <select id="dictCount" parameterClass="manage.dictionary.pojo.DicType" resultClass="Integer">
+        select count(*) from dic_type where 1=1
+        <dynamic prepend="">
+            <isNotEmpty prepend=" AND " property="enName">enName=#enName#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="cnName">cnName like '%$cnName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="createTime">createTime=#createTime#</isNotEmpty>
+        </dynamic> 
+    </select>
+    
+    
+    <!-- 保存字典 -->
+    <insert id="saveDicType" parameterClass="manage.dictionary.pojo.DicType">
+		insert into dic_type
+		(enName,cnName,createTime)
+		values
+		(#enName#,#cnName#,#createTime#)
+        <selectKey resultClass="int" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+    </insert>
+    
+    
+    <!-- 保存字典属性 -->
+    <insert id="saveDicTable" parameterClass="manage.dictionary.pojo.DicTable">
+        insert into dic_table
+        (value,text,dicId,createTime,orderValue)
+        values
+        (#value#,#text#,#dicId#,#createTime#,#orderValue#)
+        <selectKey resultClass="int" keyProperty="id">
+			SELECT LAST_INSERT_ID() AS id
+		</selectKey>
+    </insert>
+    
+    <!-- 根据英文标识查询数据 -->
+    <select id="getDicValues" parameterClass="manage.dictionary.pojo.DicType" resultClass="manage.dictionary.pojo.DicTable">
+        select t.value,t.text,t.dicId,t.createTime,t.orderValue
+        from dic_table t ,dic_type p 
+        where t.dicId = p.id
+        and p.enName =#enName#
+    </select>
+    <!-- 得到具体数据列表 -->
+    <select id="dictTableGrid" parameterClass="manage.dictionary.pojo.DicTable" resultClass="manage.dictionary.pojo.DicTable">
+        select id,value,text,dicId,createTime,orderValue
+        from dic_table where 1=1
+        <dynamic prepend="">
+            <isNotEmpty prepend=" AND " property="value">value=#value#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="text">text like '%$text$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dicId">dicId=#dicId#</isNotEmpty>
+        </dynamic>    
+        <dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+    </select>
+    
+    <!-- 得到具体数据 -->
+    <select id="dictTableCount" parameterClass="manage.dictionary.pojo.DicTable" resultClass="Integer">
+        select count(*) from dic_table where 1=1
+        <dynamic prepend="">
+             <isNotEmpty prepend=" AND " property="value">value=#value#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="text">text like '%$text$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dicId">dicId=#dicId#</isNotEmpty>
+        </dynamic> 
+    </select>
+    
+    <delete id="delDicTable" parameterClass="java.lang.String">
+        delete from dic_table where id in ($ids:String$)
+    </delete>
+    
+</sqlMap>

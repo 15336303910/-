@@ -1,0 +1,59 @@
+<style>
+	.mui-plus .plus{
+		display: inline;
+	}
+	.plus{
+		display: none;
+	}
+	#topPopover {
+		position: fixed;
+		top: 16px;
+		right: 6px;
+	}
+	#topPopover .mui-popover-arrow {
+		left: auto;
+		right: 6px;
+	}
+	.mui-popover {
+		height: 200px;
+	}
+	.mui-content {
+		padding: 10px;
+	}
+</style>		
+<header class="mui-bar mui-bar-nav">
+	<a id="menu" class="mui-pull-left" href="#topPopover">
+		<img src="../../image/user/user.png" />
+	</a>
+	<a class="mui-action-back mui-btn mui-btn-link mui-pull-right">关闭</a>
+	<h1 class="mui-title">便利的资源采集体验</h1>
+</header>
+		
+<div id="topPopover" class="mui-popover">
+	<div class="mui-popover-arrow"></div>
+	<div class="mui-scroll-wrapper">
+	<div class="mui-scroll">
+		<ul class="mui-table-view">
+		<li class="mui-table-view-cell"><a  href="javascript:void(0)" onclick="sendTask()">工单列表</a>
+		</li>
+		<li class="mui-table-view-cell"><a href="#">用户权限</a>
+		</li>
+		<li class="mui-table-view-cell"><a href="javascript:void(0)" onclick="getPipe()">管线资源</a>
+		</li>
+		<li class="mui-table-view-cell"><a href="#">内线资源</a>
+		</li>
+		</ul>
+	</div>
+</div>
+</div>
+
+<script>
+	function getPipe(){
+		mui.openWindow("/pages/pipe/pipeList.html?resType='pipe'");
+			setTimeout(function() {
+				plus.webview.currentWebview().close();
+			},
+		1000);
+	}
+	
+</script>

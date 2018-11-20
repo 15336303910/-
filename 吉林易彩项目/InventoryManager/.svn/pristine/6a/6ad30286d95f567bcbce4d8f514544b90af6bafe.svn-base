@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="resourceConfig">
+	<select id="getResConfigs" parameterClass="manage.gd.checkConfig.pojo.RmsResource" resultClass="manage.gd.checkConfig.pojo.RmsResource">
+		select 
+			id as id,
+			resource_en_name as resourceEnName,
+			resource_cn_name as resourceCnName,
+			rms_table_name as rmsTableName,
+			is_using as isUsing,
+			code_column as codeColumn,
+			value_column as valueColumn,
+			region_column as regionColumn,
+			relate_key as relateColumn,
+			parent_type as parentType,
+			res_table_name as resTableName,
+			res_code_column as resCodeColumn,
+			res_value_column as resValueColumn,
+			res_relate_column as resRelateColumn,		
+			resource_level as resourceLevel 	
+		from config_resource_table where resource_en_name != ''
+		<dynamic prepend=" AND ">
+	    	<isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+	 	</dynamic>
+	 	<dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getResourcesCount" parameterClass="manage.gd.checkConfig.pojo.RmsResource" resultClass="Integer">
+		select count(*) from config_resource_table where resource_en_name != ''
+      	<dynamic prepend=" AND ">
+	    	<isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+	 	</dynamic>	
+	</select>
+	
+	<update id="updateItem" parameterClass="manage.gd.checkConfig.pojo.RmsResource">
+		update config_resource_table 
+		set 
+			resource_en_name = #resourceEnName#,
+			resource_cn_name = #resourceCnName#,
+			rms_table_name = #rmsTableName#,
+			is_using = #isUsing#,
+			code_column = #codeColumn#,
+			value_column = #valueColumn#,
+			region_column = #regionColumn#,
+			relate_key = #relateColumn#,
+			parent_type = #parentType#,
+			res_table_name = #resTableName#,
+			res_code_column = #resCodeColumn#,
+			res_value_column = #resValueColumn#,
+			res_relate_column = #resRelateColumn#,	
+			resource_level = #resourceLevel# 
+		where id = #id#
+	</update>
+	
+	<insert id="insertItem" parameterClass="manage.gd.checkConfig.pojo.RmsResource">
+		insert into config_resource_table(
+			resource_en_name,resource_cn_name,rms_table_name,is_using,code_column,value_column,region_column,relate_key,parent_type,resource_level,res_table_name,res_code_column,res_value_column,res_relate_column
+		)values(
+			#resourceEnName#,#resourceCnName#,#rmsTableName#,#isUsing#,#codeColumn#,#valueColumn#,#regionColumn#,#relateColumn#,#parentType#,#resourceLevel#,#resTableName#,#resCodeColumn#,#resValueColumn#,#resRelateColumn#
+		)
+		<selectKey resultClass="int" keyProperty="id" > 
+			select last_insert_id() as id
+		</selectKey>
+	</insert>
+	
+	<update id="deleteItem" parameterClass="manage.gd.checkConfig.pojo.RmsResource">
+		delete from config_resource_table where id = #id#
+	</update>
+</sqlMap>

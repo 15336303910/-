@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans>
+
+	<!--此bean告诉Spring去哪找数据库的配置信息,因为有此Bean才出现下面用${}标记来取变量的语句-->
+   <bean id="propertyConfig" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:dbconfig.properties</value>
+				<value>classpath:irmsconfig.properties</value>
+			</list>
+	    </property>
+	</bean>
+	<!--配置c3p0数据库连接池-->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="${jdbc.driver}" />
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<property name="user" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<property name="minPoolSize" value="${jdbc.miniPoolSize}" />
+		<property name="maxPoolSize" value="${jdbc.maxPoolSize}"/>  
+		<property name="initialPoolSize" value="${jdbc.initialPoolSize}"/>
+		<property name="maxIdleTime" value="${jdbc.maxIdleTime}"/>
+		<property name="acquireIncrement" value="${jdbc.acquireIncrement}"/>
+  
+		<property name="acquireRetryAttempts" value="${jdbc.acquireRetryAttempts}"/>
+		<property name="acquireRetryDelay" value="${jdbc.acquireRetryDelay}"/>
+		<property name="testConnectionOnCheckin" value="${jdbc.testConnectionOnCheckin}"/>
+		<property name="automaticTestTable" value="${jdbc.automaticTestTable}"/>
+		<property name="idleConnectionTestPeriod" value="${jdbc.idleConnectionTestPeriod}"/>
+		<property name="checkoutTimeout" value="${jdbc.checkoutTimeout}"/>
+	</bean>
+	
+	
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate"> 
+		<property name="dataSource">
+			<ref bean="dataSource"></ref>
+		</property>
+	</bean>
+	
+	<!-- 字典的静态类 -->
+	<bean id="dictUtil" class="base.util.DictUtil">
+	   <property name="jdbcTemplate"><ref bean="jdbcTemplate"></ref></property>
+	</bean>
+	
+	<!-- 为物理分页添加的bean -->
+	<!-- for mySql -->
+	<bean id="sqlExecutor" class="base.database.impl.LimitSqlExecutor">
+		<property name="dialect">
+			<bean class="base.database.impl.SqlDialect" />
+		</property>
+	</bean>
+
+	<!--<bean id="baseDao" abstract="true" class="base.database.DataBase" init-method="initialize">-->
+	<bean id="baseDao" abstract="true" class="base.database.impl.BaseDaoiBatis" init-method="initialize">
+		<property name="dataSource">
+			<ref bean="dataSource" />
+		</property>
+		<property name="sqlMapClient">
+			<ref bean="sqlMapClient" />
+		</property>
+		<property name="sqlExecutor">
+			<ref bean="sqlExecutor" />
+		</property>   
+	</bean>  
+
+	<!--根据dataSource和configLocation创建一个SqlMapClient-->
+    <bean id="sqlMapClient" class="org.springframework.orm.ibatis.SqlMapClientFactoryBean">
+        <property name="configLocation">
+            <value>classpath:SqlMapConfig.xml</value>
+        </property>
+          <property name="dataSource" ref="dataSource" />  
+    </bean> 
+    
+    <!-- 为物理分页添加的bean结束-->
+	<bean id="dataBaseService" class="base.database.DataBase" parent="baseDao"></bean>
+	
+    <!-- 事务配置 -->
+    <!-- Transaction manager for a single JDBC DataSource -->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    
+    <!-- 事务拦截器 -->
+	<bean id="transactionInterceptor" class="org.springframework.transaction.interceptor.TransactionInterceptor">
+		<property name="transactionManager" ref="transactionManager" />
+		<property name="transactionAttributes">
+			<props>
+		    <prop key="insert*">PROPAGATION_REQUIRED</prop>
+		    <prop key="find*">PROPAGATION_REQUIRED,readOnly</prop>
+		    <prop key="get*">PROPAGATION_REQUIRED</prop>
+		    <prop key="load*">PROPAGATION_REQUIRED,readOnly</prop>
+		    <prop key="create*">PROPAGATION_REQUIRED</prop>
+		    <prop key="delete*">PROPAGATION_REQUIRED</prop>
+		    <prop key="del*">PROPAGATION_REQUIRED</prop>
+		    <prop key="update*">PROPAGATION_REQUIRED</prop>
+		    <prop key="start*">PROPAGATION_REQUIRED</prop>
+		    <prop key="cancel*">PROPAGATION_REQUIRED</prop>
+		    <prop key="stop*">PROPAGATION_REQUIRED</prop>
+		    <prop key="save*">PROPAGATION_REQUIRED</prop>
+		    <prop key="add*">PROPAGATION_REQUIRED</prop>
+		    <prop key="update*">PROPAGATION_REQUIRED</prop>
+		    <prop key="remove*">PROPAGATION_REQUIRED</prop>
+		    <prop key="pay*">PROPAGATION_REQUIRED</prop>
+		    <prop key="verify*">PROPAGATION_REQUIRED</prop>
+		   </props>
+		</property>
+	</bean>
+	
+	<!--  -->
+	<!-- 
+		1.对定义的beanname为*Service类进行切面，在该类的方法中凡是以insert、create、save…开头的方法，都加了事物
+		2.在业务模块的spring配置文件（spring-login.xml）中
+		 <bean id="loginService" class="business.login.service.impl.LoginServiceImpl"/>
+		 
+		 因为其beanname为loginService，符合spring配置事物的切面条件，所以对LoginServiceImpl类中insert、create、save…开头的方法都自动添加了事物处理。
+	 -->
+	<bean class="org.springframework.aop.framework.autoproxy.BeanNameAutoProxyCreator">
+		<property name="beanNames">
+			<list>
+				<value>*Service</value>
+			</list>
+		</property>
+		<property name="interceptorNames">
+			<list>
+				<value>transactionInterceptor</value>
+			</list>
+		</property>
+	</bean>
+</beans>
+
+
+

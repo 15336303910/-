@@ -1,0 +1,152 @@
+/**
+ * 提交新增基站
+ */
+function submitSiteBase(){
+	var UID = plus.storage.getItem("uid");//获取缓存记录
+	var logingUser = plus.storage.getItem("logingUser");//当前登录用户
+	var areaName = plus.storage.getItem("areaName");//得到权限控制地市
+	var e_nodeb_id = $("#e_nodeb_id").val();
+	var jsonStr = "{";
+	if(e_nodeb_id != null && e_nodeb_id !=''){
+		jsonStr +="'e_nodeb_id':"+e_nodeb_id+",";
+	}
+	var city_id = $("#city_id").val();
+	if(city_id != null && city_id !=''){
+		jsonStr +="'city_id':"+city_id+",";
+	}
+	var county_id = $("#county_id").val();
+	if(county_id != null && county_id !=''){
+		jsonStr +="'county_id':"+county_id+",";
+	}
+	var cell_num = $("#cell_num").val();
+	if(cell_num != null && cell_num !=''){
+		jsonStr +="'cell_num':"+cell_num+",";
+	}
+	var ant_azimuth = $("#ant_azimuth").val();
+	if(ant_azimuth != null && ant_azimuth !=''){
+		jsonStr +="'ant_azimuth':"+ant_azimuth+",";
+	}
+	var an_advanceangle = $("#an_advanceangle").val();
+	if(an_advanceangle != null && an_advanceangle !=''){
+		jsonStr +="'an_advanceangle':"+an_advanceangle+",";
+	}
+	jsonStr = jsonStr +"'related_site_addr':'"+$("#related_site_addr").val()+"',"
+			+"'related_site_addr_id':'"+$("#related_site_addr_id").val()+"',"
+			+"'tower_site_addr_code':'"+$("#tower_site_addr_code").val()+"',"
+			+"'tower_site_addr_id':'"+$("#tower_site_addr_id").val()+"',"
+			+"'province':'"+$("#province").val()+"',"
+			+"'countryside':'"+$("#countryside").val()+"',"
+			+"'unit':'"+$("#unit").val()+"',"
+			+"'dept_area':'"+$("#dept_area").val()+"',"
+			+"'district':'"+$("#district").val()+"',"			
+			+"'reseau':'"+$("#reseau").val()+"',"
+			+"'zh_label':'"+$("#zh_label").val()+"',"
+			+"'enodeb_gap_name':'"+$("#enodeb_gap_name").val()+"',"
+			+"'equipment_vendor':'"+$("#equipment_vendor").val()+"',"
+			+"'equipment_type':'"+$("#equipment_type").val()+"',"
+			+"'ipv4_addr':'"+$("#ipv4_addr").val()+"',"
+			+"'subnet_mask':'"+$("#subnet_mask").val()+"',"
+			+"'gateway':'"+$("#gateway").val()+"',"
+			+"'bandwidth':'"+$("#bandwidth").val()+"',"
+			+"'mme1':'"+$("#mme1").val()+"',"
+			+"'mme2':'"+$("#mme2").val()+"',"
+			+"'enodeb_version':'"+$("#enodeb_version").val()+"',"
+			+"'duplex_mode':'"+$("#duplex_mode").val()+"',"
+			+"'omc_site_status':'"+$("#omc_site_status").val()+"',"
+			+"'site_esn':'"+$("#site_esn").val()+"',"
+			+"'site_type':'"+$("#site_type").val()+"',"
+			+"'site_level':'"+$("#site_level").val()+"',"
+			+"'site_longitude':'"+$("#site_longitude").val()+"',"
+			+"'site_latitude':'"+$("#site_latitude").val()+"',"
+			+"'project_no':'"+$("#project_no").val()+"',"
+			+"'is_site_shared':'"+$("#is_site_shared").val()+"',"
+			+"'omcid':'"+$("#omcid").val()+"',"
+			+"'net_date':'"+$("#net_date").val()+"',"
+			+"'remark':'"+$("#remark").val()+"',"
+			+"'update_time':'"+$("#update_time").val()+"',"
+			+"'update_person':'"+$("#update_person").val()+"',"
+			+"'maintain_company':'"+$("#maintain_company").val()+"',"
+			+"'maintain_area':'"+$("#maintain_area").val()+"',"
+			+"'maintain_manager':'"+$("#maintain_manager").val()+"',"
+			+"'maintain_manager_phone':'"+$("#maintain_manager_phone").val()+"',"
+			+"'maintain_area_zy':'"+$("#maintain_area_zy").val()+"'"
+	jsonStr +="}";
+	var url = plus.storage.getItem("url")+"/pdaSiteBase!insertSiteBase.interface";
+		mui.ajax(url, {
+		type: 'post',
+		dataType: 'json',
+		timeout: 10000 * 60,
+		data: {
+			jsonRequest:jsonStr,
+			UID:UID,
+			longiner:logingUser,
+			areaName:areaName
+		},
+		success: function(response) {
+			plus.nativeUI.closeWaiting();
+			var result = JSON.stringify(response);
+			var data = JSON.parse(result);
+			var result = data.result;
+			if(result =='0'){
+				var btnArray = ['继续', '返回'];
+				mui.confirm('增加成功，是否返回基站列表?', '成功', btnArray, function(e) {
+					if (e.index == 1) {
+						var infos = JSON.parse(data.info);
+						mui.openWindow("basestationList.html");
+					}
+				});
+				
+			}else{
+				mui.alert("获取数据失败！");
+			}
+		},
+		error: function(xhr, type, errorThrown) {
+			plus.nativeUI.closeWaiting();
+		}
+
+	});
+}
+
+//得到传递参数
+function getQueryStr(str){
+	var rs = new RegExp("(^|)" + str + "=([^&]*)(&|$)", "gi").exec(LocString), tmp; 
+	if (tmp = rs) { 
+		return tmp[2]; 
+	} 
+	return ""; 
+}
+
+function setLonLat(detail){
+	$("#site_longitude").val(detail.lon);
+	$("#site_latitude").val(detail.lat);
+}
+//根据当前经纬度获取地址信息
+function getAddByLonLat(lon,lat) {
+	var lnglatXY = new AMap.LngLat(lon,lat);
+	mapObj.plugin(["AMap.Geocoder"], function() {       
+		MGeocoder = new AMap.Geocoder({
+			radius: 1000,
+			extensions: "all"
+		});
+	AMap.event.addListener(MGeocoder, "complete", geocoder_CallBack2);
+	MGeocoder.getAddress(lnglatXY);
+	});
+}
+function geocoder_CallBack2(data){
+	var address;
+	address = data.regeocode.formattedAddress;
+}
+
+/**
+ * 得到经纬度数据
+ */
+function getLonLat(){
+	mui.openWindow({
+		url: "../../main/getLatLon.html",
+		id: "getLonLat",
+		extras: {
+			resType:"siteBase",
+			operate:"add"
+		}
+	});
+}

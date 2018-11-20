@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="buried">
+    <!-- 得到表格目录 -->
+    <select id="getBuriedGrid" parameterClass="manage.buried.pojo.BuriedInfoObj" resultClass="manage.buried.pojo.BuriedInfoObj">
+        select t.buriedId,t.buriedName,t.buriedArea,t.buriedModel,
+        (select text from dicview where enName='buriedModel' and value= t.buriedModel) as buriedModelStr,
+        t.buriedDept,t.buriedLength,
+        t.dataQualitier,t.maintainer,t.deleteflag,t.createTime,t.creater,t.remark,t.serviceLevel
+        from buriedinfo t where t.deleteflag ='0'
+        <dynamic prepend="">
+            <isNotEmpty prepend=" AND " property="buriedName">t.buriedName like '%$buriedName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedArea">t.buriedArea like '%$buriedArea$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedModel">t.buriedModel=#buriedModel#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedDept">t.buriedDept=#buriedDept#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedLength">t.buriedLength=#buriedLength#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dataQualitier">t.dataQualitier=#dataQualitier#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintainer">t.maintainer=#maintainer#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="createTime">t.createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="creater">t.creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="remark">t.remark like '%$remark$%'</isNotEmpty>
+        </dynamic>
+        <dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+    </select>
+    
+    <!-- 得到总数 -->
+    <select id="getBuriedCount" parameterClass="manage.buried.pojo.BuriedInfoObj" resultClass="Integer">
+        select count(*) from buriedinfo where deleteflag ='0'
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="buriedId">buriedId = #buriedId#</isNotNull>
+            <isNotEmpty prepend=" AND " property="buriedName">buriedName like '%$buriedName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedArea">buriedArea like '%$buriedArea$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedModel">buriedModel=#buriedModel#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedDept">buriedDept=#buriedDept#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedLength">buriedLength=#buriedLength#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dataQualitier">dataQualitier=#dataQualitier#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintainer">maintainer=#maintainer#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="createTime">createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="creater">creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="remark">remark like '%$remark$%'</isNotEmpty>
+        </dynamic>
+    </select>
+    
+    <!-- 得到所有的直埋 -->
+    <select id="getBuried" parameterClass="manage.buried.pojo.BuriedInfoObj" resultClass="manage.buried.pojo.BuriedInfoObj">
+         select t.buriedId,t.buriedName,t.buriedArea,t.buriedModel,
+        (select text from dicview where enName='buriedModel' and value= t.buriedModel) as buriedModelStr,
+        t.buriedDept,t.buriedLength,
+        t.dataQualitier,t.maintainer,t.deleteflag,t.createTime,t.creater,t.remark,t.serviceLevel
+        from buriedinfo t where t.deleteflag ='0'
+        <dynamic prepend="">
+            <isNotEmpty prepend=" AND " property="buriedId">t.buriedId = #buriedId#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedName">t.buriedName like '%$buriedName$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedArea">t.buriedArea like '%$buriedArea$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedModel">t.buriedModel=#buriedModel#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedDept">t.buriedDept=#buriedDept#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="buriedLength">t.buriedLength=#buriedLength#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="dataQualitier">t.dataQualitier=#dataQualitier#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="maintainer">t.maintainer=#maintainer#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="createTime">t.createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="creater">t.creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="remark">t.remark like '%$remark$%'</isNotEmpty>
+        </dynamic>
+    </select>
+    
+    <!-- 更改直埋 -->
+    <update id="updateBuried" parameterClass="manage.buried.pojo.BuriedInfoObj" >
+        update buriedinfo t set 
+        <dynamic prepend=" ">
+            <isNotEmpty prepend=" , " property="buriedName">t.buriedName=#buriedName#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="buriedArea">t.buriedArea =#buriedArea#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="buriedModel">t.buriedModel=#buriedModel#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="buriedDept">t.buriedDept=#buriedDept#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="buriedLength">t.buriedLength=#buriedLength#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="dataQualitier">t.dataQualitier=#dataQualitier#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="maintainer">t.maintainer=#maintainer#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="deleteflag">t.deleteflag=#deleteflag#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="createTime">t.createTime=#createTime#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="creater">t.creater=#creater#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="remark">t.remark =#remark#</isNotEmpty>
+            <isNotEmpty prepend=" , " property="serviceLevel">t.serviceLevel =#serviceLevel#</isNotEmpty>
+        </dynamic>
+        <dynamic prepend=" where ">
+            <isNotEmpty prepend=" AND" property="buriedId"> t.buriedId = #buriedId#</isNotEmpty>
+        </dynamic>
+    </update>
+    
+    <!-- 添加直埋 -->
+    <insert id="insertBuried" parameterClass="manage.buried.pojo.BuriedInfoObj">
+        INSERT into buriedinfo(
+        buriedName,buriedArea,buriedModel,buriedDept,buriedLength,dataQualitier,
+        maintainer,deleteflag,createTime,creater,remark,lastUpTime,lastUpMan,serviceLevel
+        )
+        values
+        (
+         #buriedName#,#buriedArea#,#buriedModel#,#buriedDept#,#buriedLength#,#dataQualitier#,
+         #maintainer#,'0',#createTime#,#creater#,#remark#,#lastUpTime#,#lastUpMan#,#serviceLevel#
+        )
+        <selectKey resultClass="int" keyProperty="buriedId">
+			SELECT LAST_INSERT_ID() AS buriedId
+		</selectKey>
+    </insert>
+    
+    
+     <!-- 批量删除直埋数据 -->
+    <delete id="delBurieds" parameterClass="java.lang.String">
+        delete from buriedinfo where buriedId in ($ids:String$)
+    </delete>
+</sqlMap>

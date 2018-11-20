@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<!-- 
+		因为在struts配置文件中，配置下面方式
+		<constant name="struts.objectFactory.spring.autoWire" value="name" />   
+		所以在此处就不用名写注入方式了，根据（beanid=loginService）在需要注入的类，对应生成set和get方法就实现自动注入了。
+	<bean id="userInfoService" class="service.common.impl.UserInfoServiceImpl"/>
+	 -->
+	<bean id="mainTaskService" class="manage.V2.hebei.mainTask.service.impl.MainTaskServiceImpl"/>
+</beans>

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+	<package name="poleline" extends="json-default,struts-base">
+     	<action name="poleline" class="manage.poleline.web.PolelineAction">
+            <result name="error">err.jsp</result>
+            <result name="list" type="redirect">poleline!list.action</result>
+            <result name="polelinelistdw">/pages/poleline/dwPoleline.jsp</result>
+            <!-- 移植后 -->
+            <result name="poleInfoBean" type="json">
+     			<param name="root">poleInfoBean</param>
+     		</result>
+     		<!-- 添加电杆 -->
+	    	<result name="addPole" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+	    	<!--  修改电杆前加载用户信息 -->
+	    	<result name="loadPole" type="json">
+	    	    <param name="includeProperties">success,poleInfoBean.*</param>
+	    	</result>
+	    	<!--  修改电杆 -->
+	    	<result name="updatePole" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+	    	<!--  删除电杆 -->
+	    	<result name="deletePole" type="json">
+	    	     <param name="includeProperties">success,deleteMsg</param>
+	    	</result>
+	    	<!--  验证电杆名称 -->
+	    	<result name="vetifyPoleName" type="json">
+	    		<param name="includeProperties">success</param>
+	    	</result>
+	    	<!--  杆路列表 -->
+	    	<result name="polelineInfoBean" type="json">
+	    		<param name="root">polelineInfoBean</param>
+	    	</result>
+	    	<!--  验证杆路名称 -->
+	    	<result name="vetifyPoleLineName" type="json">
+	    		<param name="includeProperties">success</param>
+	    	</result>
+	    	<!-- 添加杆路 -->
+	    	<result name="addPoleLine" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+	    	<!--  修改杆路 -->
+	    	<result name="updatePoleLine" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+	    	<!--  修改杆路前加载用户信息 -->
+	    	<result name="loadPoleLine" type="json">
+	    	    <param name="includeProperties">success,polelineInfoBean.*</param>
+	    	</result>
+	    	<!--  删除杆路 -->
+	    	<result name="deletePoleLine" type="json">
+	    	     <param name="includeProperties">success,deleteMsg</param>
+	    	</result>
+	    	<!--  杆路段列表 -->
+	    	<result name="polelineSegmentInfoBean" type="json">
+	    		<param name="root">polelineSegmentInfoBean</param>
+	    	</result>
+	    	<!--  验证杆路段名称 -->
+	    	<result name="vetifyPoleLineSegmentName" type="json">
+	    		<param name="includeProperties">success</param>
+	    	</result>
+	    	<!-- 添加杆路段 -->
+	    	<result name="addPoleLineSegment" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+	    	<!--  删除杆路段 -->
+	    	<result name="deletePoleLS" type="json">
+	    	     <param name="includeProperties">success,deleteMsg</param>
+	    	</result>
+	    	<!--  修改杆路段 -->
+	    	<result name="updatePoleLS" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+	    	<!--  修改杆路段前加载用户信息 -->
+	    	<result name="loadPoleLS" type="json">
+	    	    <param name="includeProperties">success,polelineSegmentInfoBean.*</param>
+	    	</result>
+	    	<!--  删除杆路段时判断是否承载光缆 -->
+	    	<result name="vetifyCableToPoleLineSegment" type="json">
+	    	    <param name="includeProperties">success</param>
+	    	</result>
+	    	<!-- 生成杆路段 -->
+	    	<result name="addPoleLS" type="json">
+	    	    <param name="root">poleInfoBean</param>
+	    	</result>
+	    	
+	    	<result name="getSupportlist" type="json">
+	    	    <param name="root">support</param>
+	    	</result>
+	    	<result name="getSuspensionlist" type="json">
+	    	    <param name="root">suspension</param>
+	    	</result>
+	    	<result name="getSuspensionseglist" type="json">
+	    	    <param name="root">suspensionseg</param>
+	    	</result>
+	    	
+	    	
+	    	<result name="poleIdList" type="json">
+	    	    <param name="root">success</param>
+	    	</result>
+	    	<result name="exportsuccess">/export.jsp?filename=${filepath}</result>
+	    	<!-- 杆路段定位 -->
+            <result name="polelinesegmentlistdw">/pages/poleline/dwPolelineSegment.jsp</result>
+            <!-- 如果没有登录，连接拦截后，直接跳到sessionOut.jsp,每个业务模块都需要加上下面代码 -->
+            <result name="sessionOut">sessionOut.jsp</result>
+            
+            <result name="list2" type="json">
+            	<param name="contentType">text/html</param> 
+	    	    <param name="includeProperties">success,verifyMsg</param>
+	    	</result>
+        </action>
+        <action name="pdaPoleline" class="interfaces.pdainterface.poleline.action.PDAPoleline">
+        	<result name="*" type="json">
+	    	    <param name="root">jsonResponse</param>
+	    	</result>
+        </action>
+        <action name="pdaPolelineCustom" class="interfaces.pdainterface.poleline.action.PDAPolelineCustomAction">
+        	<result name="*" type="json">
+	    	    <param name="root">jsonResponse</param>
+	    	</result>
+        </action>
+    </package>
+</struts>

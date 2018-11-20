@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="point">	
+
+	<!-- 获取端子信息 -->
+	<select id="getPoint" parameterClass="manage.point.pojo.PointInfoBean" resultClass="manage.point.pojo.PointInfoBean">
+	select * from job_pointinfo where del = 0 
+	<dynamic prepend="AND ">
+		<isNotEmpty prepend="AND " property="id">(id=#id#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="eid">(eid=#eid#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="pid">(pid=#pid#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="direction">(direction=#direction#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="pstat">(pstat=#pstat#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="ptype">(ptype=#ptype#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="mflag">(mflag=#mflag#)</isNotEmpty>
+	</dynamic>
+	order by eid, pid 
+	</select>
+	
+	<select id="getPoint2" parameterClass="manage.point.pojo.PointInfoBean" resultClass="manage.point.pojo.PointInfoBean">
+	select * from job_pointinfo where del = 0 and eid=#eid#
+	
+	</select>
+	<update id="updatePoint" parameterClass="manage.point.pojo.PointInfoBean">
+	update job_pointinfo set
+	<dynamic prepend=" ">
+		<isNotNull prepend="," property="plineno">plineno=#plineno#</isNotNull>
+		<isNotNull prepend="," property="prowno">prowno=#prowno#</isNotNull>
+		<isNotNull prepend="," property="pstat">pstat=#pstat#</isNotNull>
+		<isNotNull prepend="," property="ptype">ptype=#ptype#</isNotNull>
+		<isNotNull prepend="," property="direction">direction=#direction#</isNotNull>
+		<isNotNull prepend="," property="mtime">mtime=#mtime#</isNotNull>
+		<isNotNull prepend="," property="cablename">cablename=#cablename#</isNotNull>
+		</dynamic>
+		where eid=#eid# and pid=#pid# 
+	</update>
+	
+	<update id="updatePoint2" parameterClass="manage.point.pojo.PointInfoBean">
+		update job_pointinfo set
+	<dynamic prepend=" ">
+		<isNotNull prepend="," property="plineno">plineno=#plineno#</isNotNull>
+		<isNotNull prepend="," property="prowno">prowno=#prowno#</isNotNull>
+		<isNotNull prepend="," property="pstat">pstat=#pstat#</isNotNull>
+		<isNotNull prepend="," property="ptype">ptype=#ptype#</isNotNull>
+		<isNotNull prepend="," property="direction">direction=#direction#</isNotNull>
+		<isNotNull prepend="," property="mtime">mtime=#mtime#</isNotNull>
+		<isNotNull prepend="," property="fibname">fibname=#fibname#</isNotNull>
+		<isNotNull prepend="," property="cablename">cablename=#cablename#</isNotNull>
+		</dynamic>
+		where eid=#eid# and pid=#pid# 
+	</update>
+	
+	<update id="updatePoint3" parameterClass="manage.point.pojo.PointInfoBean">
+		update job_pointinfo set mtime = now()
+	<dynamic prepend=" ,">
+		<isNotNull prepend="," property="plineno">plineno=#plineno#</isNotNull>
+		<isNotNull prepend="," property="prowno">prowno=#prowno#</isNotNull>
+		<isNotNull prepend="," property="pstat">pstat=#pstat#</isNotNull>
+		<isNotNull prepend="," property="ptype">ptype=#ptype#</isNotNull>
+		<isNotNull prepend="," property="direction">direction=#direction#</isNotNull>
+		<isNotNull prepend="," property="mflag">mflag=#mflag#</isNotNull>
+		<isNotNull prepend="," property="mtime">mtime=#mtime#</isNotNull>
+		<isNotNull prepend="," property="cablename">cablename=#cablename#</isNotNull>
+		</dynamic>
+		where eid=#eid# and pid=#pid# 
+	</update>
+	
+	<!-- 获得端子状态统计-->
+	<select id="getPointPstatCount" parameterClass="manage.point.pojo.PointInfoBean" resultClass="manage.point.pojo.PointPstatBean">
+	select count(ID) as count ,pstat from job_pointinfo 
+	where eid=#eid# and del=0
+    GROUP BY pstat
+ 	</select>
+ 	
+ 	<select id="getEvent" resultClass="manage.point.pojo.PointEventInfoBean" parameterClass="manage.point.pojo.PointEventInfoBean">
+		select * from job_pointevent 
+		<dynamic prepend="WHERE ">
+			<isNotEmpty prepend="AND " property="id">(id=#id#)</isNotEmpty>
+			<isNotEmpty prepend="AND " property="eid">(eid=#eid#)</isNotEmpty>
+			<isNotEmpty prepend="AND " property="pid">(pid=#pid#)</isNotEmpty>
+		</dynamic>
+	</select>
+	<!-- 光路由分页列表 -->
+	<select id="getOfpList" parameterClass="manage.point.pojo.PointInfoBean" resultClass="manage.point.pojo.PointInfoBean">
+		select *
+		from job_pointinfo where del=0
+		<dynamic prepend="AND">
+			<isNotEmpty prepend="AND" property="areano">(areano=#areano#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="eid">(eid=#eid#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="pid">(pid=#pid#)</isNotEmpty>
+		</dynamic>
+		group by ofpcode
+		<dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+	</select>
+	<!-- 光路编码查询光路由列表 -->
+	<select id="getOfpCodeList" parameterClass="manage.point.pojo.PointInfoBean" resultClass="manage.point.pojo.PointInfoBean">
+		select * from job_pointinfo where del=0 
+		<dynamic prepend="AND">
+			<isNotEmpty prepend="AND" property="areano">(areano=#areano#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="eid">(eid=#eid#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="pid">(pid=#pid#)</isNotEmpty>
+		</dynamic>
+		group by ofpcode
+	</select>
+	<select id="getEqutList" parameterClass="manage.equt.pojo.EqutInfoBean" resultClass="manage.equt.pojo.EqutInfoBean" >
+		select * from job_equtinfo where del=0 
+		<dynamic prepend="AND">
+			<isNotEmpty prepend="AND" property="areano">(areano=#areano#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="eaddr">(eaddr like '%$eaddr$%')</isNotEmpty>
+			<isNotEmpty prepend="AND" property="etype">(etype=#etype#)</isNotEmpty>
+		</dynamic>
+	</select>
+	<select id="getOfpUserList" parameterClass="manage.point.pojo.PointInfoBean" resultClass="manage.point.pojo.PointInfoBean">
+		select *
+		from job_pointinfo where del=0
+		<dynamic prepend="AND">
+			<isNotEmpty prepend="AND" property="areano">(areano=#areano#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="eid">(eid=#eid#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="pid">(pid=#pid#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ptype">(ptype=#ptype#)</isNotEmpty>
+		</dynamic>
+		group by ofpcode
+	</select>
+	<select id="getOfpOnu" parameterClass="manage.point.pojo.PointInfoBean" resultClass="manage.point.pojo.PointInfoBean">
+		select * from job_pointinfo where del=0 
+		<dynamic prepend="AND">
+			<isNotEmpty prepend="AND" property="eid">(eid=#eid#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="pid">(pid=#pid#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="ptype">(ptype=#ptype#)</isNotEmpty>
+		</dynamic>
+		group by ofpcode
+	</select>
+	<!-- 查找所有相同光路编码的端子 -->
+	<select id="getSameOfpList" parameterClass="manage.point.pojo.PointInfoBean" resultClass="manage.point.pojo.PointInfoBean" >
+		select * from job_pointinfo where del=0 
+	</select>
+	<!-- 根据端子id设备id查找跳纤 -->
+	<select id="getJumpFibe" parameterClass="manage.fiber.pojo.JumpFiberInfoBean" resultClass="manage.fiber.pojo.JumpFiberInfoBean">
+		select * from job_jumpfiber
+		<dynamic prepend="WHERE">
+			<isNotEmpty prepend="AND" property="eid1">(eid1=#eid1#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="eid2">(eid2=#eid2# )</isNotEmpty>
+			<isNotEmpty prepend="AND" property="pid1">(pid1=#pid1#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="pid2">(pid2=#pid2#)</isNotEmpty>
+		</dynamic>
+	</select>
+	<select id="getJumpFibe2" parameterClass="manage.fiber.pojo.JumpFiberInfoBean" resultClass="manage.fiber.pojo.JumpFiberInfoBean">
+		SELECT *,
+		(CASE  
+			WHEN (eid2=#eid1# and pid2=#pid1#) THEN '2'
+			WHEN (eid1=#eid1# and pid1=#pid1#) THEN '1' END) pos
+		FROM
+		(SELECT * FROM job_jumpfiber WHERE ((eid1 = #eid1# and pid1=#pid1#) OR (eid2 = #eid1# and pid2=#pid1#)) 
+		and fiberstate='22')j
+	</select>
+	<select id="getJumpFibe1" parameterClass="manage.fiber.pojo.JumpFiberInfoBean" resultClass="manage.fiber.pojo.JumpFiberInfoBean">
+		SELECT *,
+		(CASE  
+			WHEN (eid2=#eid1# and pid2=#pid1#) THEN '2'
+			WHEN (eid1=#eid1# and pid1=#pid1#) THEN '1' END) pos
+		FROM
+		(SELECT * FROM job_jumpfiber WHERE ((eid1 = #eid1# and pid1=#pid1#) OR (eid2 = #eid1# and pid2=#pid1#)) 
+		and fiberstate!='22')j
+	</select>
+	<select id="getAlarm" resultClass="manage.point.pojo.PointEventInfoBean" parameterClass="manage.point.pojo.PointEventInfoBean">
+		select * from job_pointalarm 
+		<dynamic prepend="WHERE ">
+			<isNotEmpty prepend="AND " property="id">(id=#id#)</isNotEmpty>
+			<isNotEmpty prepend="AND " property="eid">(eid=#eid#)</isNotEmpty>
+			<isNotEmpty prepend="AND " property="pid">(pid=#pid#)</isNotEmpty>
+			<isNotEmpty prepend="AND " property="isLatest">(isLatest=#isLatest#)</isNotEmpty>
+			<isNotEmpty prepend="AND " property="areano">(areano=#areano#)</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 插入端子 -->
+	<insert id="insertPoint" parameterClass="manage.point.pojo.PointInfoBean">
+		insert into job_pointinfo(
+			eid,pid,pstat,ptype,direction,
+			mtime,mflag
+		) values (
+			#eid#,#pid#,#pstat#,#ptype#,#direction#,
+			#mtime#,#mflag#
+		)
+	</insert>
+	
+	
+	<insert id="insertFiber" parameterClass="manage.fiber.pojo.JumpFiberInfoBean">
+		insert into job_jumpfiber(
+			fibercode1,eid1,fiberstate,creater,createtime
+		)values(
+			#fibercode1#,#eid1#,#fiberstate#,#creater#,#createtime#
+		)
+	</insert>
+	<select id="getEqutInfo" parameterClass="manage.equt.pojo.EqutInfoBean" resultClass="manage.equt.pojo.EqutInfoBean" >
+		select * from job_equtinfo where del=0 and eid=#eid#
+	</select>
+	
+	<select id="getUserInfo" parameterClass="manage.user.pojo.UserInfoBean" resultClass="manage.user.pojo.UserInfoBean" >
+		select * from sys_user where  userId=#userId#
+	</select>
+	<!-- 获取对端设备列表 -->
+	<select id="getOppoEqutList" parameterClass="manage.point.pojo.PointInfoBean" resultClass="manage.equt.pojo.EqutInfoBean" >
+		select * from job_equtinfo where eid in(select distinct oppo_eid from job_pointinfo where eid=#eid#)
+		<!--  and pstat=#pstat# -->
+	</select>
+	
+		<select id="getEqut" parameterClass="manage.equt.pojo.EqutInfoBean" resultClass="manage.equt.pojo.EqutInfoBean">
+	select * from job_equtinfo where del=0
+	<dynamic prepend="AND">
+	    <isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="eid">(eid=#eid#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="estat">(estat=#estat#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="ecode">(ecode like '%$ecode$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="etype">(etype=#etype#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="ename">(ename = #ename#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="eaddr">(eaddr like '%$eaddr$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="station">(station like '%$station$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="lon"> format(lon,6) = format(#lon#,6) </isNotEmpty>
+		<isNotEmpty prepend="AND" property="lat"> format(lat,6) = format(#lat#,6) </isNotEmpty>
+		<isNotEmpty prepend="AND" property="latl"><![CDATA[ lat >= #latl# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="lath"><![CDATA[ lat <= #lath# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="lonl"><![CDATA[ lon >= #lonl# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="lonh"><![CDATA[ lon <= #lonh# ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="note">(note like '%$note$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="mp">(mp like '%$mp$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="mbtime"><![CDATA[ DATE_FORMAT(mtime,'%Y-%m-%d')>=DATE_FORMAT(#mbtime#,'%Y-%m-%d') ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="metime"><![CDATA[ DATE_FORMAT(mtime,'%Y-%m-%d')<=DATE_FORMAT(#metime#,'%Y-%m-%d') ]]></isNotEmpty>
+		<isNotEmpty prepend="AND" property="areano">(areano like '$areano$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="station">(station like '%$station$%')</isNotEmpty>
+		<isNotEmpty prepend="AND" property="parenteid">(parenteid=#parenteid#)</isNotEmpty>
+		<isNotEmpty prepend="AND" property="ip">(ip=#ip#)</isNotEmpty>
+	</dynamic>
+	</select>
+	
+	
+	<select id="getRouteCountByName" parameterClass="manage.route.pojo.RouteInfoBean" resultClass="Integer" >
+		select count(*) from job_route where routename=#routename#
+	</select>
+	
+	<select id="getCableCountByName" parameterClass="manage.route.pojo.CableInfoBean" resultClass="Integer" >
+		select count(*) from job_cable where routename=#routename# and cablename=#cablename#
+	</select>
+
+	<insert id="insertRoute" parameterClass="manage.route.pojo.RouteInfoBean">
+		INSERT INTO job_route (routename)VALUES(#routename#) 
+	</insert>
+	<insert id="insertCable" parameterClass="manage.route.pojo.CableInfoBean">
+		INSERT INTO job_cable 
+			(cablename,routename)
+		VALUES
+			(#cablename#,#routename#) 
+	</insert>
+	<select id="getFiberCodeByCode" parameterClass="manage.fiber.pojo.JumpFiberInfoBean" resultClass="manage.fiber.pojo.JumpFiberInfoBean">
+		select fibercode fibercode1 from job_code_fiber where code=#code#
+	</select>
+	<select id="getJumpFiberList" parameterClass="manage.fiber.pojo.JumpFiberInfoBean" resultClass="manage.fiber.pojo.JumpFiberInfoBean">
+		SELECT *,
+		(CASE  
+			WHEN (eid2=#eid1# and pid2=#pid1#) THEN '2'
+			WHEN (eid1=#eid1# and pid1=#pid1#) THEN '1' END) pos
+		FROM
+		(SELECT * FROM job_jumpfiber WHERE ((eid1 = #eid1# and pid1=#pid1#) OR (eid2 = #eid1# and pid2=#pid1#)) )j
+	</select>
+</sqlMap>

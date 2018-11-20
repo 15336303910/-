@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+
+<sqlMap namespace="property">	
+	<select id="getProperty" parameterClass="manage.property.pojo.PropertyInfoBean" resultClass="manage.property.pojo.PropertyInfoBean">
+		SELECT * FROM job_property WHERE deleteFlag='0'
+		<dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="sort"> ORDER BY $sort$ </isNotEmpty>
+	    	<isNotEmpty prepend=" " property="dir">  $dir$ </isNotEmpty>
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+	</select>
+	<select id="getPropertyTotal" parameterClass="manage.property.pojo.PropertyInfoBean" resultClass="Integer">
+		SELECT count(*) FROM job_property WHERE deleteFlag='0'
+	</select>
+	
+	
+</sqlMap>

@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+		<script type="text/javascript" src="js/mui.min.js"></script>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
+		
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/font-awesome.min.css" rel="stylesheet" />
+		<link href="css/userStyle.css" rel="stylesheet" />
+		
+	</head>
+
+	<body>
+		<!--<img src="images/mainbg.jpg"></img>-->
+		<!--<header class="mui-bar mui-bar-nav">
+			<h1 class="mui-title">掌上代维</h1>
+		</header>-->
+		<img src="image/loginbg.png" width="100%" >
+		<div class="mui-content loginbox tc">
+			<i class="loginimg"></i>
+			<form id='login-form' class="">
+				<div class="user-login-input-box">
+					<i class="usericon"></i>
+					<input id='account' type="text" class="mui-input-clear mui-input" placeholder="请输入账号">
+				</div>
+				<div class="user-login-input-box">
+					<i class="lockicon"></i>
+					<input id='pwd' type="password" class="mui-input-clear mui-input" placeholder="请输入密码">
+				</div>
+				<div class="clearfix">
+					<label class="font-gary pull-left mt5">记住密码</label>
+					<div id="rememberPwd" class="mui-switch  mui-switch-mini mui-active  pull-right">
+						<div class="mui-switch-handle"></div>
+					</div>
+				</div>
+				<div class="pt20">
+					<button id='login' type="button" class="mui-btn mui-btn-block mui-btn-primary user-login-btn">登录</button>
+				</div>
+			</form>
+		</div>
+	</body>
+	<script type="text/javascript">
+		(function($, win, doc) {
+
+			/***************************1.变量定义区***************************************/
+			var loginButton = document.getElementById("login");
+			var username = document.getElementById("account");
+			var pwd = document.getElementById("pwd");
+			var rememberPwd = document.getElementById("rememberPwd");
+			var remember = true;
+			/***************************2.plus方法初始化区***************************************/
+			if(win.plus) {
+				plusReady();
+			} else {
+				doc.addEventListener('plusready', plusReady, false);
+			}
+			/***************************3.自定义方法区***************************************/
+			function plusReady() {
+				console.log("------login页面启动啦-------");
+				if(plus.networkinfo.getCurrentType() == plus.networkinfo.CONNECTION_NONE) {
+					mui.alert("请检查您是否连接网络", "系统提示");
+				} else {
+				
+					username.value = plus.storage.getItem("username");
+					pwd.value = plus.storage.getItem("pwd");
+					plus.storage.setItem("url", "http://10.18.11.21:8080/InventoryManager");
+					//plus.storage.setItem("url", "http://36.97.207.17:7002/InventoryManager");
+					plus.storage.setItem("isSecret", "false");
+
+					if(pwd.value == "") {
+						rememberPwd.classList.remove('mui-active');
+						remember = false;
+					}
+					setTimeout(function() {
+						initDocEventListener();
+					}, 200);
+				}
+			}
+			
+
+			function initDocEventListener() {
+				//TODO  登录按钮 start
+				loginButton.addEventListener("click", function() {
+					username = document.getElementById('account').value.trim();
+					pwd = document.getElementById('pwd').value;
+					login(username, pwd);
+				});
+				//记住密码按钮
+				rememberPwd.addEventListener("toggle", function(event) {
+					if(event.detail.isActive) {
+						remember = true;
+					} else {
+						remember = false;
+					}
+				});
+			}
+
+			function login(username, pwd) {
+				if(remember == true) {
+					plus.storage.setItem("username", document.getElementById('account').value);
+					plus.storage.setItem("pwd", document.getElementById('pwd').value);
+				} else {
+					plus.storage.setItem("username", "");
+					plus.storage.setItem("pwd", "");
+				}
+				var url = plus.storage.getItem("url") + "/pdaLogin!login.interface";
+				var param = "{username:'" + username + "',authCode:'" + pwd + "','versionCode':101}";
+				if("" == username || "" == pwd) {
+					mui.alert("用户名或者密码不能为空", "系统提示");
+					return;
+				}
+				mui.ajax({
+					url: url,
+					type: 'post',
+					dataType: 'json',
+					data: {
+						jsonRequest: param
+					},
+					timeout: 6*10000, //5秒超时
+					success: function(response) {
+						var jsonstring = JSON.stringify(response);
+						var data = JSON.parse(jsonstring);
+						var result = data.result;
+						if(result =='0'){
+								var info = data.info.split(",");
+								plus.storage.setItem("uid",info[0]);
+								plus.storage.setItem("areaName",info[1]);
+								plus.storage.setItem("logingUser",username);	
+								mui.openWindow("/pages/menu/menu.html");
+						}else{
+							mui.alert("账号或验证码错误，登录系统失败！");
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						mui.alert("您的网络不通畅", "系统提示");
+						    console.log("返回的error:" + xhr.responseText);
+							console.log("返回的error:" + type.toString());
+							console.log("返回的error:" + xhr.status);
+							console.log("返回的error:" + xhr.readyState);
+					}
+
+				});
+			}
+			//去除用户名前后空格
+			String.prototype.trim = function() {
+				return this.replace(/(^\s*)|(\s*$)/g, "");
+			}
+
+		}(mui, window, document));
+	</script>
+
+</html>

@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="pdapoint">	
+
+	<!-- 获取端子信息 -->
+	<select id="getPoint" parameterClass="manage.point.pojo.PointInfoBean" resultClass="manage.point.pojo.PointInfoBean">
+	select * from job_pointinfo 
+	<dynamic prepend="WHERE ">
+		<isNotEmpty prepend="AND " property="id">(id=#id#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="eid">(eid=#eid#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="pid">(pid=#pid#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="direction">(direction=#direction#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="pstat">(pstat=#pstat#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="ptype">(ptype=#ptype#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="areano">(areano like '$areano$%')</isNotEmpty>
+		<isNotEmpty prepend="AND " property="note"> note like '%$note$%' </isNotEmpty>
+		<isNotEmpty prepend="AND " property="cablename"> cablename like '%$cablename$%' </isNotEmpty>
+	</dynamic>
+	and del = 0 
+	order by eid, pid 
+	</select>
+	
+	<update id="updatePoint" parameterClass="manage.point.pojo.PointInfoBean">
+	update job_pointinfo set
+	<dynamic prepend=" ">
+		<isNotNull prepend="," property="plineno">plineno=#plineno#</isNotNull>
+		<isNotNull prepend="," property="prowno">prowno=#prowno#</isNotNull>
+		<isNotNull prepend="," property="pstat">pstat=#pstat#</isNotNull>
+		<isNotNull prepend="," property="ptype">ptype=#ptype#</isNotNull>
+		<isNotNull prepend="," property="direction">direction=#direction#</isNotNull>
+		<isNotNull prepend="," property="cablename">cablename=#cablename#</isNotNull>
+	</dynamic>
+		where eid=#eid# and pid=#pid#
+	</update>
+	
+	<select id="getPointWithEqut" parameterClass="manage.point.pojo.PointInfoBean" resultClass="manage.point.pojo.PointInfoBean">
+	select * from job_pointinfo p, job_equtinfo e
+	<dynamic prepend="WHERE ">
+		<isNotEmpty prepend="AND " property="id">(p.id=#id#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="eid">(p.eid=#eid#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="eaddr">(e.eaddr like '%$eaddr$%')</isNotEmpty>
+		<isNotEmpty prepend="AND " property="pid">(pid=#pid#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="direction">(direction=#direction#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="pstat">(pstat=#pstat#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="ptype">(ptype=#ptype#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="mflag">(p.mflag=#mflag#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="cablename"> cablename like '%$cablename$%' </isNotEmpty>
+	</dynamic>
+	and p.eid = e.eid 
+	and e.areano = p.areano 
+	and p.del = 0 
+	and e.del = 0
+	</select>
+	
+	
+	
+	<select id="getPointListCount" parameterClass="manage.point.pojo.PointInfoBean" resultClass="Integer">
+	select count(*) from job_pointinfo p, job_equtinfo e
+	<dynamic prepend="WHERE ">
+		<isNotEmpty prepend="AND " property="id">(p.id=#id#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="eid">(p.eid=#eid#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="ecode">(p.ecode like '%$ecode$%')</isNotEmpty>
+		<isNotEmpty prepend="AND " property="ename">(p.ename like '%$ename$%')</isNotEmpty>
+		<isNotEmpty prepend="AND " property="eaddr">(e.eaddr like '%$eaddr$%')</isNotEmpty>
+		<isNotEmpty prepend="AND " property="pid">(pid=#pid#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="direction">(direction=#direction#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="pstat">(pstat=#pstat#)</isNotEmpty>
+		<isNotEmpty prepend="AND " property="ptype">(ptype=#ptype#)</isNotEmpty>
+	</dynamic>
+	and p.eid = e.eid 
+	and e.areano = p.areano 
+	and p.del = 0 
+	and e.del = 0
+	</select>
+	
+	<select id="getJumpFiberUseEvent" parameterClass="manage.point.pojo.PointEventInfoBean" resultClass="manage.fiber.pojo.JumpFiberInfoBean">
+		SELECT *,
+		(CASE  
+			WHEN (eid2=#eid# and pid2=#pid#) THEN '2'
+			WHEN (eid1=#eid# and pid1=#pid#) THEN '1' END) pos
+		FROM
+		(SELECT * FROM job_jumpfiber WHERE ((eid1 = #eid# and pid1=#pid#) OR (eid2 = #eid# and pid2=#pid#)))j
+	</select>
+	
+	<select id="getJumpFiberUsePoint" parameterClass="manage.point.pojo.PointInfoBean" resultClass="manage.fiber.pojo.JumpFiberInfoBean">
+		SELECT *,
+		(CASE  
+			WHEN (eid2=#eid# and pid2=#pid#) THEN '2'
+			WHEN (eid1=#eid# and pid1=#pid#) THEN '1' END) pos
+		FROM
+		(SELECT * FROM job_jumpfiber WHERE ((eid1 = #eid# and pid1=#pid#) OR (eid2 = #eid# and pid2=#pid#)) AND fiberstate='2')j
+	</select>
+	
+	<insert id="insertPointEvent" parameterClass="manage.point.pojo.PointEventInfoBean">
+		INSERT INTO job_pointevent (
+			alarmTime,eid,pid,fibercode,state,userId,realname,isLatest,alarmText,areano,type
+		) values (
+			now(),#eid#,#pid#,#fibercode#,#state#,#userId#,#realname#,'1',#alarmText#,#areano#,#type#
+		)
+	</insert>
+	
+	<select id="getEvent" resultClass="manage.point.pojo.PointEventInfoBean" parameterClass="manage.point.pojo.PointEventInfoBean">
+		select * from job_pointevent 
+		<dynamic prepend="WHERE ">
+			<isNotEmpty prepend="AND " property="id">(id=#id#)</isNotEmpty>
+			<isNotEmpty prepend="AND " property="eid">(eid=#eid#)</isNotEmpty>
+			<isNotEmpty prepend="AND " property="pid">(pid=#pid#)</isNotEmpty>
+			<isNotEmpty prepend="AND " property="isLatest">(isLatest=#isLatest#)</isNotEmpty>
+			<isNotEmpty prepend="AND " property="areano">(areano=#areano#)</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<insert id="insertPointAlarm" parameterClass="manage.point.pojo.PointEventInfoBean">
+		INSERT INTO job_pointalarm (
+			alarmTime,eid,pid,fibercode,state,userId,realname,isLatest,alarmText,areano,type
+		) values (
+			now(),#eid#,#pid#,#fibercode#,#state#,#userId#,#realname#,'1',#alarmText#,#areano#,#type#
+		)
+	</insert>
+	
+	<delete id="deleteAlarm" parameterClass="manage.point.pojo.PointEventInfoBean">
+		DELETE FROM job_pointalarm WHERE eid=#eid# and pid=#pid#
+	</delete>
+	
+	<update id="updatePointEventState" parameterClass="manage.point.pojo.PointEventInfoBean">
+		update job_pointinfo set eventstate=#state# where eid=#eid# and pid=#pid#
+	</update>
+	
+	<insert id="insertIsoluteAlarm" parameterClass="manage.point.pojo.PointEventInfoBean">
+		INSERT INTO job_pointalarm (
+			alarmTime,eid,pid,fibercode,state,userId,realname,isLatest,alarmText,areano
+		) values (
+			now(),#eid#,#pid#,#fibercode#,#state#,#userId#,#realname#,'1',#alarmText#,#areano#
+		)
+	</insert>
+	
+	<update id="savePointSync" parameterClass="manage.point.pojo.PointInfoBean">
+		update job_pointinfo set mflag=1 where eid=#eid# and pid in ($pid$)
+	</update>
+	
+	<select id="getEqut" parameterClass="manage.point.pojo.PointInfoBean" resultClass="manage.equt.pojo.EqutInfoBean">
+		select * from job_equtinfo where del=0
+		<dynamic prepend="AND">
+		    <isNotEmpty prepend="AND" property="id">(id=#id#)</isNotEmpty>
+			<isNotEmpty prepend="AND" property="eid">(eid=#eid#)</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<update id="updateEventToOld" parameterClass="manage.point.pojo.PointEventInfoBean">
+		update job_pointevent set isLatest="0" where eid=#eid# and pid=#pid# and isLatest="1"
+	</update>
+	
+	<update id="setPointDel" parameterClass="manage.point.pojo.PointInfoBean">
+		update job_pointinfo set del=#del#,mflag=#mflag# where eid=#eid# and pid like '$pid$%'
+	</update>
+	
+	<select id="getPointInOdm" parameterClass="manage.point.pojo.PointInfoBean" resultClass="manage.point.pojo.PointInfoBean">
+		select * from job_pointinfo where eid=#eid# and pid like '$pid$%'
+	</select>
+	
+	<update id="updateEqut" parameterClass="manage.equt.pojo.EqutInfoBean">
+		update job_equtinfo set mflag='2' where eid=#eid# and del='0'
+	</update>
+	
+	<select id="getFiberUseFibercode" parameterClass="manage.fiber.pojo.JumpFiberInfoBean" resultClass="manage.fiber.pojo.JumpFiberInfoBean">
+		SELECT *,
+		(CASE  
+			WHEN (fibercode2 = #fibercode1#) THEN '2'
+			WHEN (fibercode1 = #fibercode1#) THEN '1' END) pos
+		FROM
+		(SELECT * FROM job_jumpfiber WHERE ((fibercode1 = #fibercode1#) OR (fibercode2 = #fibercode1#)))j
+	</select>
+	
+	<delete id="delJumpFiberByPoint" parameterClass="manage.fiber.pojo.JumpFiberInfoBean">
+		DELETE FROM job_jumpfiber WHERE 
+		(eid1 = #eid1# AND pid1 = #pid1#)
+		OR
+		(eid2 = #eid2# AND pid2 = #pid2#)
+	</delete>
+	
+	<insert id="insertJumpFiberInfo" parameterClass="manage.fiber.pojo.JumpFiberInfoBean">
+		INSERT INTO job_jumpfiber 
+			(fibercode1,eid1,pid1,fibercode2,eid2,pid2,fiberstate,creater,createtime)
+		VALUES
+			(#fibercode1#,#eid1#,#pid1#,#fibercode2#,#eid2#,#pid2#,#fiberstate#,#creater#,now())
+	</insert>
+</sqlMap>

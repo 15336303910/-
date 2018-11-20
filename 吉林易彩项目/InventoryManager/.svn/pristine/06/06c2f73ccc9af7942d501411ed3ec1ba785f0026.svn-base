@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="pdaSupportingRing">	
+	<insert id="insertSupportingRing" parameterClass="interfaces.pdainterface.supportingRing.pojo.SupportingRingInfoBean">
+		INSERT INTO rms_power ( 		
+    	city_id,county_id,res_id,related_equiproom,zh_label,
+	    equipment_type,equipment_model,vendor,
+        maintain_company,maintain_area,maintain_manager,maintain_manager_phone,
+        remark,longitude,latitude,change_reason,time_stamp,stateflag,
+        creator,creat_time,modifier,modify_time
+		) VALUES (
+			 #city_id#,#county_id#,#res_id#,#related_equiproom#,#zh_label#,
+			 #equipment_type#,#equipment_model#,#vendor#,
+			 #maintain_company#,#maintain_area#,#maintain_manager#,#maintain_manager_phone#,
+			 #remark#,#longitude#,#latitude#,#change_reason#,now(),'0',
+			 #creator#,now(),#modifier#,#modify_time#
+		)
+		<selectKey resultClass="int" keyProperty="int_id">
+			SELECT LAST_INSERT_ID() AS int_id
+		</selectKey>
+	</insert>
+    
+    <select id="getSupportingRing" parameterClass="interfaces.pdainterface.supportingRing.pojo.SupportingRingInfoBean" resultClass="interfaces.pdainterface.supportingRing.pojo.SupportingRingInfoBean">
+    	SELECT 
+		city_id,county_id,res_id,related_equiproom,zh_label,
+	    equipment_type,equipment_model,vendor,
+        maintain_company,maintain_area,maintain_manager,maintain_manager_phone,
+        remark,longitude,latitude,change_reason,time_stamp,stateflag,
+        int_id,creator,creat_time,modifier,modify_time
+		FROM rms_power WHERE 1 = 1
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend=" AND " property="city_id"> city_id=#city_id# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="county_id"> county_id=#county_id# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="res_id"> res_id=#res_id# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="related_equiproom"> related_equiproom=#related_equiproom# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="zh_label"> <![CDATA[ zh_label like #zh_label#]]> </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="equipment_type"> equipment_type=#equipment_type# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="equipment_model"> equipment_model=#equipment_model# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="vendor"> vendor=#vendor# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="maintain_company"> maintain_company=#maintain_company# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="maintain_area"> maintain_area like '%$maintain_area$%' </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="maintain_manager"> maintain_manager=#maintain_manager# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="maintain_manager_phone"> maintain_manager_phone=#maintain_manager_phone# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="remark"> remark like '%$remark$%' </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="longitude"> longitude=#longitude# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="latitude"> latitude=#latitude# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="change_reason"> change_reason=#change_reason# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="time_stamp"> time_stamp=#time_stamp# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="stateflag"> stateflag=#stateflag# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="int_id"> int_id=#int_id# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="creator"> creator=#creator# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="creat_time"> creat_time=#creat_time# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="modifier"> modifier=#modifier# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="modify_time"> modify_time=#modify_time# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="extendsSql">($extendsSql$)</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="sort"> ORDER BY $sort$ </isNotEmpty>
+	    	<isNotEmpty prepend=" " property="dir">  $dir$ </isNotEmpty>
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+    </select>
+	
+	<update id="updateSupportingRing" parameterClass="interfaces.pdainterface.supportingRing.pojo.SupportingRingInfoBean">
+		UPDATE rms_power SET modify_time=now() ,time_stamp=now()
+		<dynamic prepend=" , ">
+			<isNotEmpty prepend=" , " property="city_id"> city_id=#city_id# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="county_id"> county_id=#county_id# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="res_id"> res_id=#res_id# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="related_equiproom"> related_equiproom=#related_equiproom# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="zh_label"> zh_label=#zh_label# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="equipment_type"> equipment_type=#equipment_type# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="equipment_model"> equipment_model=#equipment_model# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="vendor"> vendor=#vendor# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_company"> maintain_company=#maintain_company# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_area"> maintain_area=#maintain_area# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_manager"> maintain_manager=#maintain_manager# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_manager_phone"> maintain_manager_phone=#maintain_manager_phone# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="remark"> remark=#remark# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="longitude"> longitude=#longitude# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="latitude"> latitude=#latitude# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="change_reason"> change_reason=#change_reason# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="stateflag"> stateflag=#stateflag# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="int_id"> int_id=#int_id# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="creator"> creator=#creator# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="creat_time"> creat_time=#creat_time# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="modifier"> modifier=#modifier# </isNotEmpty>
+		</dynamic>
+		WHERE int_id=#int_id#
+	</update>
+	<update id="updateDeleteFlag" parameterClass="interfaces.pdainterface.supportingRing.pojo.SupportingRingInfoBean">
+		update rms_power set stateflag='1',modify_time=now(),time_stamp=now() where int_id=#int_id#
+	</update>
+	<delete id="deleteSupportingRing" parameterClass="interfaces.pdainterface.supportingRing.pojo.SupportingRingInfoBean">
+		delete from rms_power where int_id=#int_id#
+	</delete>
+	
+</sqlMap>
+    

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+
+	<package name="approval" extends="json-default,struts-default">
+		<action name="pdaApproval"
+			class="interfaces.pdainterface.approval.PDAApprovalTaskAction">
+			<result name="*" type="json">
+				<param name="root">jsonResponse</param>
+			</result>
+		</action>
+		<!-- 流程基类 -->
+		<action name="approvalAction" class="manage.approval.web.ApprovalTaskAction">
+		    <result name="siteApproval">/pages/approval/siteApproval.jsp</result>
+		</action>
+		<!-- 前台处理类 -->
+		<action name="approvalSendAction" class="manage.approval.web.ApprovalSendAction"></action>
+	</package>
+</struts>

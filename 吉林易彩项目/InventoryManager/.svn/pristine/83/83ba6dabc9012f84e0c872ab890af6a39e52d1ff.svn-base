@@ -1,0 +1,33 @@
+.sel-textfield-width{
+	width:80px;
+}
+.sel-textfield-width-e{
+	width:100px;
+}
+.error {  
+    color: red; 
+} 
+.textcolor{
+	color: blue;
+}
+.add {
+	background-image: url(../imgs/fiber/link_add.png) !important;
+}
+.update {
+	background-image: url(../imgs/fiber/link_break.png) !important;
+}
+.del{
+	background-image: url(../imgs/fiber/link_break.png) !important;
+}
+.fresh{
+	background-image: url(../imgs/all_refresh.png) !important;
+}
+.query{
+	background-image: url(../imgs/queryBtn.png) !important;
+}
+.exp{
+	background-image: url(../imgs/fiber/daochu_16.png) !important;
+}
+.imp{
+	background-image: url(../imgs/fiber/daoru_16.png) !important;
+}

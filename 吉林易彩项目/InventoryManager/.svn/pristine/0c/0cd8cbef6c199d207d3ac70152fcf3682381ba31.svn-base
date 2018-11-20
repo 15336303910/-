@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<title></title>
+		<script src="./doc/asset/js/jquery.js"></script>
+		<script src="./doc/asset/js/esl/esl.js"></script>		
+	</head>
+	<body>
+		<div id="main" style="height:500px;width:620px;border:solid 1px blue;border-radius:10px;margin-top:70px;margin-left:300px"></div>
+		<script type="text/javascript">
+			var mapConfig = {
+				title:{
+					text:'湖南省各地市费用概况',
+					subtext:''
+				},
+				tooltip:{
+					trigger:'item',
+					formatter:'本月已产生费用：<br/>电费：7627.5<br/>租赁费：8721.0<br/>维护费：2000.6'
+				},
+				legend:{
+					orient:'vertical',
+					x:'right',
+					data:['右上角标题']
+				},
+				dataRange:{
+					min:0,
+					max:4500,
+					selectedMode:false,
+　　				x:'left',
+　　				y:'bottom',
+　　				text:['高','低'],
+　　				calculable:true
+				},
+				series:[{
+					name:'右上角标题',
+					type:'map',
+					mapType:'湖南',
+					selectedMode:'single',
+					itemStyle:{
+						normal:{
+							label:{
+								show:true
+							}
+						},
+						emphasis:{
+							label:{
+								show:true
+							}
+						}
+					},
+					data:[{
+						name:'长沙市',
+						value:Math.round(Math.random()*2500)
+					},{
+						name:'株洲市',
+						value:Math.round(Math.random()*3500)
+					},{
+						name:'湘潭市',
+						value:Math.round(Math.random()*4500)
+					},{
+						name:'衡阳市',
+						value:Math.round(Math.random()*1500)
+					},{
+						name:'邵阳市',
+						value:Math.round(Math.random()*2500)
+					},{
+						name:'岳阳市',
+						value:Math.round(Math.random()*3500)
+					},{
+						name:'常德市',
+						value:Math.round(Math.random()*2000)
+					},{
+						name:'张家界市',
+						value:Math.round(Math.random()*2500)
+					},{
+						name:'益阳市',
+						value:Math.round(Math.random()*3500)
+					},{
+						name:'郴州市',
+						value:Math.round(Math.random()*1000)
+					},{
+						name:'永州市',
+						value:Math.round(Math.random()*3000)
+					},{
+						name:'怀化市',
+						value:Math.round(Math.random()*2200)
+					},{
+						name:'娄底市',
+						value:Math.round(Math.random()*2500)
+					},{
+						name:'湘西土家族苗族自治州',
+						value:Math.round(Math.random()*1500)
+					}]
+				}]
+			};
+			require.config({
+				paths:{
+					'echarts':'./build/echarts-map',          
+					'echarts/chart/map':'./build/echarts-map'
+				}
+			});
+			var myChart;
+			require(['echarts','echarts/chart/map'],function(ec){				
+				myChart = ec.init(document.getElementById('main'));
+				myChart.setOption(mapConfig);	
+				/*绑定选择事件*/
+				var ecConfig = require('echarts/config');
+				myChart.on(ecConfig.EVENT.MAP_SELECTED,function(param){
+					mapConfig.tooltip.formatter = 'DDDDD33<br/>'+param.name+'值'+param.value;
+					mapConfig.series[0].mapType = "湖南";
+					myChart.setOption(mapConfig, true);
+				}); 
+			});
+		</script>
+	</body>
+</html>

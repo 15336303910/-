@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="statistics">	
+
+	
+	<!-- 模糊获取地区信息 -->
+	<select id="getDomain" parameterClass="manage.domain.pojo.DomainBean" resultClass="manage.domain.pojo.DomainBean">
+		SELECT * FROM sys_domain  
+		<dynamic prepend="WHERE">
+		    <isNotEmpty prepend="AND" property="domainCode"> domainCode like '$domainCode$%'</isNotEmpty>
+		    <isNotEmpty prepend="AND" property="domainId"> parentId = #domainId#</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 精确获取地区信息 -->
+	<select id="getDomainOnly" parameterClass="manage.domain.pojo.DomainBean" resultClass="manage.domain.pojo.DomainBean">
+		SELECT * FROM sys_domain  
+		<dynamic prepend="WHERE">
+		    <isNotEmpty prepend="AND" property="domainCode"> domainCode = #domainCode#</isNotEmpty>
+		    <isNotEmpty prepend="AND" property="domainId"> parentId = #domainId#</isNotEmpty>
+		</dynamic>
+	</select>
+	<!-- 获取自身 -->
+	<select id="getDomainOwn" parameterClass="manage.domain.pojo.DomainBean" resultClass="manage.domain.pojo.DomainBean">
+		SELECT * FROM sys_domain  
+		<dynamic prepend="WHERE">
+		    <isNotEmpty prepend="AND" property="domainId"> domainId = #domainId#</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getPole" parameterClass="manage.poleline.pojo.PoleInfoBean" resultClass="Integer">
+		select count(*) from poleinfo where deletedFlag='0'
+		<dynamic prepend="AND">
+		    <isNotEmpty prepend="AND" property="areano"> areano like '$areano$%'</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 获取设备列表数量 -->
+	<select id="getEqut" parameterClass="manage.equt.pojo.EqutInfoBean" resultClass="Integer" >
+		select count(*) from job_equtinfo where del='0'
+		<dynamic prepend="AND">
+		    <isNotEmpty prepend="AND" property="areano"> areano like '$areano$%'</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 获取井列表数量 -->
+	<select id="getWell" parameterClass="manage.pipe.pojo.WellInfoBean" resultClass="Integer">
+		select count(*) from wellinfo where deletedFlag='0'
+		<dynamic prepend="AND">
+		    <isNotEmpty prepend="AND" property="areano"> areano like '$areano$%'</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 获取机房数量 -->
+	<select id="getGenerator" parameterClass="manage.generator.pojo.GeneratorInfoBean" resultClass="Integer">
+		SELECT count(*) FROM job_generator where deleteFlag='0'
+		<dynamic prepend="AND">
+		    <isNotEmpty prepend="AND" property="areano"> areano like '$areano$%'</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 获取局站数量 -->
+	<select id="getStationBase" parameterClass="manage.generator.pojo.StationBaseInfoBean" resultClass="Integer">
+		SELECT count(*) FROM job_stationbase where deleteFlag='0'
+		<dynamic prepend="AND">
+		    <isNotEmpty prepend="AND" property="areano"> areano like '$areano$%'</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<!-- 获取电源数量 -->
+	<select id="getHighFrequencySwitchingPowerSupply" parameterClass="manage.generator.pojo.HighFrequencySwitchingPowerSupplyInfoBean" resultClass="Integer">
+		SELECT count(*) FROM job_highfrequencyswitchingpowersupply where deleteFlag='0'
+		<dynamic prepend="AND">
+		    <isNotEmpty prepend="AND" property="areano"> areano like '$areano$%'</isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<select id="getUser" parameterClass="manage.domain.pojo.DomainBean" resultClass="manage.user.pojo.UserInfoBean">
+		SELECT u.*
+	   	 FROM sys_user u,sys_domain d WHERE u.areano = d.domainCode and d.domainId = #domainId#
+	</select>
+</sqlMap>

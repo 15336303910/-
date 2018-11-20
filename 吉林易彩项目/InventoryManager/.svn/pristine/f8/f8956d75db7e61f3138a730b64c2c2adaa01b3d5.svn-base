@@ -1,0 +1,3 @@
+struts.ui.theme=simple
+struts.format.date ={0,date,yyyy-MM-dd}
+struts.multipart.maxSize=5097152 

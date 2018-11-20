@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>动环配套添加</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../../../css/mui.min.css">
+		<link rel="stylesheet" href="../../../css/media_components.css" />
+		<link rel="stylesheet" href="../../../css/imageviewer.css" />
+		<link href="../../../css/mui.picker.css" rel="stylesheet" />
+		<link href="../../../css/mui.poppicker.css" rel="stylesheet" />
+		<script src="../../../js/mui.min.js"></script>
+		<script src="../../../js/mui.zoom.js"></script>
+		<script src="../../../js/md5.min.js"></script>
+		<script src="../../../js/mui.previewimage.js"></script>
+		<script type="text/javascript" src="../../../js/media_components.js"></script>
+		
+		<script src="../../../js/jquery-1.12.3.js"></script>
+		<script src="../../../js/mui.picker.js"></script>
+		<script src="../../../js/mui.poppicker.js"></script>
+		<script src="../../../js/city.data.js"></script>
+		<script src="../../../js/city.data-3.js"></script>
+		<script src="js/supportingRingAdd.js"></script>
+		<script src="../../../js/changeCity.js"></script>
+		<script src="../../../js/loadData.js"></script>
+		<script type="text/javascript" src="http://webapi.amap.com/maps?v=1.4.2&amp;key=f256f09cbe5b5303b39bf4c43bf72c0b"></script>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+		    <h1 class="mui-title">动环配套添加</h1>
+		</header>
+		<footer id="foot_btn" class="mui-bar mui-bar-footer" style="position: fixed; bottom: 0; left: 0;right: 0;">
+			<table class="mui-button-row" style="width: 100%;margin-top: 2px;">
+				<th><button id="submit_btn" class="btn-primary" onclick="submitRing()">提交</button></th>
+			</table>
+		</footer>
+		<div class="mui-content">
+		<form class="mui-content mui-input-group" >
+			<div id="iCenter"></div>
+			<div class="mui-input-row">
+				<label>所属城市:</label>
+				<select id="city_id" class="mui-btn-block" onchange="changeCity(this)">
+					<option value="0">--请选择城市--</option>
+					<option value="431">长春市</option>
+					<option value="432">吉林市</option>
+					<option value="433">延边州</option>
+					<option value="434">四平市</option>
+					<option value="435">通化市</option>
+					<option value="436">白城市</option>
+					<option value="437">辽源市</option>
+					<option value="438">松原市</option>
+					<option value="439">白山市</option>
+				</select>
+			</div>
+			
+			<div class="mui-input-row">
+				<label>所属区县:</label>
+				<select id="county_id" class="mui-btn-block" >
+					<option value="0">--请选择区县--</option>
+				</select>
+			</div>
+			<div class="mui-input-row">
+				<label>机房类别:</label>
+				<select id="res_id" class="mui-btn-block">
+					<option value="0">A</option>
+					<option value="1">B</option>
+					<option value="2">C</option>
+					<option value="3">D</option>
+				</select>
+			</div>
+			<div class="mui-input-row " style="width: 100%; ">
+				<label style="width: 30%; float: left;">所属机房:</label>
+				<input type="text" class="mui-input-clear"  id="related_equiproom" value="" style="width: 70%; float: left;" placeholder="所属机房"/>
+			</div>
+			<div class="mui-input-row">
+				<label>动力设备类型:</label>
+				<select id="equipment_model" class="mui-btn-block">
+					<option value="0">交流配电箱</option>
+					<option value="1">浪涌</option>
+					<option value="2">空调</option>
+					<option value="3">开关电源</option>
+					<option value="4">列头柜</option>
+					<option value="5">变压器及低压</option>
+					<option value="6">小型UPS</option>
+					<option value="7">油机</option>
+				</select>
+			</div>
+			<div class="mui-input-row " style="width: 100%; ">
+				<label style="width: 30%; float: left;">动力设备名称:</label>
+				<input type="text" class="mui-input-clear"  id="zh_label" value="" style="width: 70%; float: left;" placeholder="动力设备名称"/>
+			</div>
+			<div class="mui-input-row " style="width: 100%; ">
+				<label style="width: 30%; float: left;">设备编号:</label>
+				<input type="text" class="mui-input-clear"  id="equipment_type" value="" style="width: 70%; float: left;" placeholder="设备编号"/>
+			</div>
+			<div class="mui-input-row">
+				<label>厂家:</label>
+				<select id="vendor" class="mui-btn-block">
+					<option value="0">华为</option>
+					<option value="1">朗讯</option>
+					<option value="2">中兴</option>
+					<option value="3">西门子</option>
+					<option value="4">烽火通信</option>
+					<option value="5">诺基亚</option>
+					<option value="6">富士通</option>
+					<option value="7">大唐电讯</option>
+				</select>
+			</div>
+			<div class="mui-input-row" style="height: auto;">
+				<label style="width: 30%; float: left;">机房经纬度:</label>
+				<input type="text" class="mui-input-clear" id="longitude" name="longitude" value="" style="width: 30%; float: left;" />
+				<input type="text" class="mui-input-clear" id="latitude" name="latitude" value="" style="width: 30%; float: left;" />
+				<img style="width: 10%;" src="../../../image/map/current.png"  onclick="getLonLat()"/>
+			</div>
+			<!--<div class="mui-input-row " style="width: 100%; ">
+				<label style="width: 30%; float: left;">使用状态:</label>
+				<input type="text" class="mui-input-clear"  id="usageState" value="" style="width: 70%; float: left;" placeholder="动力设备名称"/>
+			</div>-->
+			<div class="mui-input-row">
+				<label>维护单位:</label>
+				<select id="maintain_company" class="mui-btn-block">
+					<option value="0">请选择</option>
+				</select>
+			</div>
+			<div class="mui-input-row">
+				<label>综合维护区域:</label>
+				<select id="maintain_area" class="mui-btn-block">
+					<option value="0">请选择</option>
+				</select>
+			</div>
+			<div class="mui-input-row" style="height: auto;">
+				<label style="width: 30%; float: left;">综合维护区域组长:</label>
+				<input type="text" class="mui-input-clear" id="maintain_manager"  value="" placeholder="请输入" />
+			</div>
+			<div class="mui-input-row" style="height: auto;">
+				<label style="width: 30%; float: left;">维护组长电话:</label>
+				<input type="text" class="mui-input-clear" id="maintain_manager_phone"  value="" placeholder="请输入" />
+			</div>
+			<div class="mui-input-row">
+				<label style="width: 30%; float: left;">备注:</label>
+				<textarea style="width: 70%; float: left;" id="remark" name="remark" rows="3">
+				</textarea>
+			</div>
+			
+		</form>
+		<div id="div_photo" ></div>
+		</div>
+		<script>		
+			var mapObj;
+			//初始化一个隐藏的页面信息
+			function mapInit(){
+				mapObj = new AMap.Map('iCenter');
+				getAddByLonLat('117.1297700852','36.6634662002');
+			}
+			var LocString = String(window.document.location.href); 
+			mui.plusReady(function(){
+				getMaintainCompanyData();
+				getMaintainAreaData();
+				mui('#div_photo').cameraListInit({
+					size: 4,
+					resName:'动环配套',
+					fun:getFun
+				});
+				mui.preload({
+					url:'supportingRingAdd.html',
+					id:'supportingRingAdd.html',
+					styles:{},
+					extras:{}
+				});
+				
+			})
+			//照片回调
+			function getFun(imageList){
+				
+			}
+		</script>
+		<script>
+			document.addEventListener('ringAdd', function(ee) {
+				setLonLat(ee.detail);
+        	})
+		</script>
+	</body>
+</html>

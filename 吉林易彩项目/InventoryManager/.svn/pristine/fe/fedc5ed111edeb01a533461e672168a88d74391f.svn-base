@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="interIrms">
+    <!-- 得到所有的交互数据 -->
+    <select id="getInterIrms" parameterClass="interfaces.irmsInterface.interfaces.pojo.IrmsPojo" resultClass="interfaces.irmsInterface.interfaces.pojo.IrmsPojo">
+        select t.id,t.inStr,t.outStr,t.faceType,
+        t.faceTime,t.faceResult,t.creater,t.faceCnType,
+        t.imId,t.imEnType,t.imCnType,t.imName,t.resId,t.city,
+        t.county,t.taskId
+        from irms_interface t where 1=1
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="id">t.id = #id#</isNotNull>
+            <isNotNull prepend=" AND " property="faceType">t.faceType = #faceType#</isNotNull>
+            <isNotEmpty prepend=" AND " property="inStr">t.inStr like '%$inStr$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="outStr">t.outStr like '%$outStr$%'</isNotEmpty>
+            <isNotNull prepend=" AND " property="faceTime">t.faceTime = #faceTime#</isNotNull>
+            <isNotNull prepend=" AND " property="faceResult">t.faceResult = #faceResult#</isNotNull>
+            <isNotNull prepend=" AND " property="creater">t.creater = #creater#</isNotNull>
+            <isNotNull prepend=" AND " property="faceCnType">t.faceCnType = #faceCnType#</isNotNull>
+            <isNotNull prepend=" AND " property="imId">t.imId = #imId#</isNotNull>
+            <isNotNull prepend=" AND " property="imEnType">t.imEnType = #imEnType#</isNotNull>
+            <isNotNull prepend=" AND " property="imCnType">t.imCnType = #imCnType#</isNotNull>
+            <isNotEmpty prepend=" AND " property="imName">t.imName like '%$imName$%'</isNotEmpty>
+            <isNotNull prepend=" AND " property="resId">t.resId = #resId#</isNotNull>
+            <isNotNull prepend=" AND " property="county">t.county = #county#</isNotNull>
+            <isNotNull prepend=" AND " property="city">t.city = #city#</isNotNull>
+            <isNotNull prepend=" AND " property="taskId">t.taskId = #taskId#</isNotNull>
+        </dynamic>
+        <dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+    </select>
+    
+    
+    <!-- 得到数量 -->
+    <select id="getInterCount" parameterClass="interfaces.irmsInterface.interfaces.pojo.IrmsPojo" resultClass="Integer">
+        select count(*)
+        from irms_interface t where 1=1
+        <dynamic prepend="">
+            <isNotNull prepend=" AND " property="id">t.id = #id#</isNotNull>
+            <isNotNull prepend=" AND " property="faceType">t.faceType = #faceType#</isNotNull>
+            <isNotEmpty prepend=" AND " property="inStr">t.inStr like '%$inStr$%'</isNotEmpty>
+            <isNotEmpty prepend=" AND " property="outStr">t.outStr like '%$outStr$%'</isNotEmpty>
+            <isNotNull prepend=" AND " property="faceTime">t.faceTime = #faceTime#</isNotNull>
+            <isNotNull prepend=" AND " property="faceResult">t.faceResult = #faceResult#</isNotNull>
+            <isNotNull prepend=" AND " property="creater">t.creater = #creater#</isNotNull>
+            <isNotNull prepend=" AND " property="faceCnType">t.faceCnType = #faceCnType#</isNotNull>
+            <isNotNull prepend=" AND " property="imId">t.imId = #imId#</isNotNull>
+            <isNotNull prepend=" AND " property="imEnType">t.imEnType = #imEnType#</isNotNull>
+            <isNotNull prepend=" AND " property="imCnType">t.imCnType = #imCnType#</isNotNull>
+            <isNotEmpty prepend=" AND " property="imName">t.imName like '%$imName$%'</isNotEmpty>
+            <isNotNull prepend=" AND " property="resId">t.resId = #resId#</isNotNull>
+            <isNotNull prepend=" AND " property="county">t.county = #county#</isNotNull>
+            <isNotNull prepend=" AND " property="city">t.city = #city#</isNotNull>
+            <isNotNull prepend=" AND " property="taskId">t.taskId = #taskId#</isNotNull>
+        </dynamic>
+    </select>
+</sqlMap>

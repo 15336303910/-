@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE beans PUBLIC "-//SPRING//DTD BEAN//EN" "http://www.springframework.org/dtd/spring-beans.dtd">
+<beans default-autowire="byName">
+	<bean id="gisService" class="interfaces.pdainterface.GIS.service.PDAGisService">
+		<property name="jdbcTemplate"><ref bean="jdbcTemplate"></ref></property>
+	</bean>
+	<bean id="pipeLineService" class="manage.resInspect.service.PipeLineService">
+	    <property name="pipeInfoService"><ref bean="pipeInfoService"></ref></property>
+	    <property name="polelineInfoService"><ref bean="polelineInfoService"></ref></property>
+		<property name="jdbcTemplate"><ref bean="jdbcTemplate"></ref></property>
+	</bean>
+	<bean id="gisServiceCustom" class="interfaces.pdainterface.GIS.service.PDAGisCustomService">
+		<property name="jdbcTemplate"><ref bean="jdbcTemplate"></ref></property>
+	</bean>
+</beans>

@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE sqlMap PUBLIC "-//ibatis.apache.org//DTD SQL Map 2.0//EN"
+    "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+    
+<sqlMap namespace="pdagenerator">	
+    
+    <select id="getGenerators" parameterClass="manage.generator.pojo.GeneratorInfoBean" resultClass="manage.generator.pojo.GeneratorInfoBean">
+    	SELECT 
+		generatorId,generatorName,region,station,lon,lat,generatorAddr,creationDate,lastUpdateDate,deleteFlag,
+		areano,jflx,ywjb,szlc,dataQualityPrincipal,parties,genPartOptical,genPartOpticalId,
+		resNum,synthBusiness,synthBusinessName
+		 FROM job_generator WHERE 1=1
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend=" AND " property="generatorId"> generatorId=#generatorId# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="generatorName"> <![CDATA[ generatorName like #generatorName#]]>  </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="region"> region like '%$region$%' </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="station"> station=#station# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="generatorAddr"> generatorAddr like '%$generatorAddr$%' </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="creationDate"> creationDate=#creationDate# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="lastUpdateDate"> lastUpdateDate=#lastUpdateDate# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="areano"> areano=#areano# </isNotEmpty>
+			<isNotEmpty prepend=" AND" property="jflx"> jflx=#jflx#</isNotEmpty>
+			<isNotEmpty prepend=" AND" property="ywjb"> ywjb=#ywjb#</isNotEmpty>
+			<isNotEmpty prepend=" AND" property="szlc"> szlc=#szlc#</isNotEmpty>
+			<isNotEmpty prepend=" AND" property="dataQualityPrincipal"> dataQualityPrincipal=#dataQualityPrincipal#</isNotEmpty>
+			<isNotEmpty prepend=" AND" property="parties"> parties=#parties#</isNotEmpty>
+			<isNotEmpty prepend=" AND " property="genPartOptical"> genPartOptical = #genPartOptical#</isNotEmpty>
+			<isNotEmpty prepend=" AND " property="genPartOpticalId">genPartOpticalId = #genPartOpticalId#</isNotEmpty>
+			<isNotEmpty prepend=" AND" property="synthBusiness"> synthBusiness=#synthBusiness#</isNotEmpty>
+			<isNotEmpty prepend=" AND" property="synthBusinessName"> synthBusinessName=#synthBusinessName#</isNotEmpty>
+			<isNotEmpty prepend=" AND" property="deleteFlag"> deleteFlag=#deleteFlag#</isNotEmpty>
+			<isNotEmpty prepend=" AND " property="resNum"> resNum=#resNum#</isNotEmpty>
+			<isNotEmpty prepend=" AND " property="extendSql">($extendSql$)</isNotEmpty>
+		</dynamic>
+    </select>
+	<select id="getGenerator" parameterClass="manage.generator.pojo.GeneratorInfoBean" resultClass="manage.generator.pojo.GeneratorInfoBean">
+		SELECT 
+		generatorId,generatorName,region,station,lon,lat,generatorAddr,creationDate,lastUpdateDate,deleteFlag,
+		areano,jflx,ywjb,szlc,dataQualityPrincipal,parties,genPartOptical,genPartOpticalId,
+		resNum,synthBusiness,synthBusinessName
+		 FROM job_generator WHERE deleteFlag='0'
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend=" AND " property="generatorId"> generatorId=#generatorId# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="generatorName"> <![CDATA[ generatorName like #generatorName#]]>  </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="region"> region like '%$region$%' </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="station"> station=#station# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="generatorAddr"> generatorAddr like '%$generatorAddr$%' </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="creationDate"> creationDate=#creationDate# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="lastUpdateDate"> lastUpdateDate=#lastUpdateDate# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="areano"> areano=#areano# </isNotEmpty>
+			<isNotEmpty prepend=" AND" property="jflx"> jflx=#jflx#</isNotEmpty>
+			<isNotEmpty prepend=" AND" property="ywjb"> ywjb=#ywjb#</isNotEmpty>
+			<isNotEmpty prepend=" AND" property="szlc"> szlc=#szlc#</isNotEmpty>
+			<isNotEmpty prepend=" AND" property="dataQualityPrincipal"> dataQualityPrincipal=#dataQualityPrincipal#</isNotEmpty>
+			<isNotEmpty prepend=" AND" property="parties"> parties=#parties#</isNotEmpty>
+			<isNotEmpty prepend=" AND " property="genPartOptical"> genPartOptical = #genPartOptical#</isNotEmpty>
+			<isNotEmpty prepend=" AND " property="genPartOpticalId">genPartOpticalId = #genPartOpticalId#</isNotEmpty>
+			<isNotEmpty prepend=" AND" property="synthBusiness"> synthBusiness=#synthBusiness#</isNotEmpty>
+			<isNotEmpty prepend=" AND" property="synthBusinessName"> synthBusinessName=#synthBusinessName#</isNotEmpty>
+			<isNotEmpty prepend=" AND " property="resNum"> resNum=#resNum#</isNotEmpty>
+			<isNotEmpty prepend=" AND " property="extendSql">($extendSql$)</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+	</select>
+	
+	<update id="updateGenerator" parameterClass="manage.generator.pojo.GeneratorInfoBean">
+		UPDATE job_generator SET lastUpdateDate=now() 
+		<dynamic prepend=" , ">
+			<isNotEmpty prepend=" , " property="generatorName"> generatorName=#generatorName# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="region"> region=#region# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="station"> station=#station# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="lon"> lon=#lon# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="lat"> lat=#lat# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="generatorAddr"> generatorAddr=#generatorAddr# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="creationDate"> creationDate=#creationDate# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="deleteFlag"> deleteFlag=#deleteFlag# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="jflx"> jflx=#jflx# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="ywjb"> ywjb=#ywjb# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="szlc"> szlc=#szlc# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="dataQualityPrincipal"> dataQualityPrincipal=#dataQualityPrincipal# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="parties"> parties=#parties# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="genPartOptical"> genPartOptical = #genPartOptical#</isNotEmpty>
+			<isNotEmpty prepend=" , " property="genPartOpticalId">genPartOpticalId = #genPartOpticalId#</isNotEmpty>
+			<isNotEmpty prepend=" ," property="synthBusiness"> synthBusiness=#synthBusiness#</isNotEmpty>
+			<isNotEmpty prepend=" ," property="synthBusinessName"> synthBusinessName=#synthBusinessName#</isNotEmpty>
+		</dynamic>
+		WHERE generatorId=#generatorId#
+	</update>
+	
+	<insert id="insertGenerator" parameterClass="manage.generator.pojo.GeneratorInfoBean">
+		INSERT INTO job_generator ( 
+			 generatorName,region,station,lon,lat,generatorAddr,
+			 lastUpdateDate,creationDate, deleteFlag,
+			 areano,jflx,ywjb,szlc,dataQualityPrincipal,parties,genPartOptical,genPartOpticalId,
+			 synthBusiness,synthBusinessName
+		) VALUES (
+			 #generatorName#,#region#,#station#,#lon#,#lat#,#generatorAddr#,
+			 #lastUpdateDate#,now(),'0',
+			 #areano#,#jflx#,#ywjb#,#szlc#,#dataQualityPrincipal#,#parties#,#genPartOptical#,#genPartOpticalId#,
+			 #synthBusiness#,#synthBusinessName#
+		)
+		<selectKey resultClass="int" keyProperty="generatorId">
+			SELECT LAST_INSERT_ID() AS generatorId
+		</selectKey>
+	</insert>
+	
+	<select id="getStationBase" parameterClass="manage.generator.pojo.StationBaseInfoBean" resultClass="manage.generator.pojo.StationBaseInfoBean">
+		SELECT
+		 stationBaseId,stationName,region,lat,lon,
+		stationAddr,stationType,stationLevel,dataQualityPrincipal,parties,deleteFlag,
+		creationDate,lastUpdateDate,resNum,devideFiberRank,building
+		 FROM job_stationbase WHERE deleteFlag='0'
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend=" AND " property="stationBaseId"> stationBaseId=#stationBaseId# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="stationName"><![CDATA[ stationName like #stationName#]]> </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="region"> region like '%$region$%' </isNotEmpty>
+			<isNotEmpty prepend="AND" property="lats"><![CDATA[ lat >= #lats# ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="late"><![CDATA[ lat <= #late# ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="lons"><![CDATA[ lon >= #lons# ]]></isNotEmpty>
+			<isNotEmpty prepend="AND" property="lone"><![CDATA[ lon <= #lone# ]]></isNotEmpty>
+			<isNotEmpty prepend=" AND " property="stationAddr"> stationAddr like '%$stationAddr$%' </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="stationType"> stationType=#stationType# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="stationLevel"> stationLevel=#stationLevel# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="dataQualityPrincipal"> dataQualityPrincipal=#dataQualityPrincipal# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="parties"> parties=#parties# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="devideFiberRank"> devideFiberRank=#devideFiberRank# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="resNum"> resNum=#resNum#</isNotEmpty>
+			<isNotEmpty prepend="AND" property="extendsSql">($extendsSql$)</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+	</select>
+	
+	<update id="updateStationBase" parameterClass="manage.generator.pojo.StationBaseInfoBean">
+		UPDATE job_stationbase SET lastUpdateDate=now() 
+		<dynamic prepend=" , ">
+			<isNotNull prepend=" , " property="stationName"> stationName=#stationName# </isNotNull>
+			<isNotNull prepend=" , " property="region"> region=#region# </isNotNull>
+			<isNotNull prepend=" , " property="lon"> lon=#lon# </isNotNull>
+			<isNotNull prepend=" , " property="lat"> lat=#lat# </isNotNull>
+			<isNotNull prepend=" , " property="stationAddr"> stationAddr=#stationAddr# </isNotNull>
+			<isNotNull prepend=" , " property="stationType"> stationType=#stationType# </isNotNull>
+			<isNotNull prepend=" , " property="stationLevel"> stationLevel=#stationLevel# </isNotNull>
+			<isNotNull prepend=" , " property="deleteFlag"> deleteFlag=#deleteFlag# </isNotNull>
+			<isNotNull prepend=" , " property="building"> building=#building# </isNotNull>
+			<isNotNull prepend=" , " property="dataQualityPrincipal"> dataQualityPrincipal=#dataQualityPrincipal# </isNotNull>
+			<isNotNull prepend=" , " property="parties"> parties=#parties# </isNotNull>
+			<isNotNull prepend=" , " property="devideFiberRank"> devideFiberRank=#devideFiberRank# </isNotNull>
+		</dynamic>
+		WHERE stationBaseId=#stationBaseId#
+	</update>
+	
+	<insert id="insertStationBase" parameterClass="manage.generator.pojo.StationBaseInfoBean">
+		INSERT INTO job_stationbase ( 
+			 stationName, region, lon, lat, stationAddr, stationType,building,
+			 stationLevel,  creationDate, deleteFlag,dataQualityPrincipal,parties,devideFiberRank
+		) VALUES (
+			 #stationName#, #region#, #lon#, #lat#, #stationAddr#, #stationType#,#building#,
+			 #stationLevel#, now(), '0',#dataQualityPrincipal#,#parties#,#devideFiberRank#
+		)
+		<selectKey resultClass="int" keyProperty="stationBaseId">
+			SELECT LAST_INSERT_ID() AS stationBaseId
+		</selectKey>
+	</insert>
+	
+	<select id="getHighFrequencySwitchingPowerSupply" parameterClass="manage.generator.pojo.HighFrequencySwitchingPowerSupplyInfoBean" resultClass="manage.generator.pojo.HighFrequencySwitchingPowerSupplyInfoBean">
+		SELECT * FROM job_highfrequencyswitchingpowersupply WHERE deleteFlag='0'
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend=" AND " property="switchingId"> switchingId=#switchingId# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="deviceName"> deviceName like '%$deviceName$%' </isNotEmpty>
+		</dynamic>
+	</select>
+	
+	<update id="updateHighFrequencySwitchingPowerSupply" parameterClass="manage.generator.pojo.HighFrequencySwitchingPowerSupplyInfoBean">
+		UPDATE job_highfrequencyswitchingpowersupply SET lastUpdateDate=now() 
+		<dynamic prepend=" , ">
+			<isNotNull prepend=" , " property="deviceName"> deviceName=#deviceName# </isNotNull>
+			<isNotNull prepend=" , " property="deviceAlias"> deviceAlias=#deviceAlias# </isNotNull>
+			<isNotNull prepend=" , " property="deleteFlag"> deleteFlag=#deleteFlag# </isNotNull>
+		</dynamic>
+		WHERE switchingId=#switchingId#
+	</update>
+	
+	<insert id="insertHighFrequencySwitchingPowerSupply" parameterClass="manage.generator.pojo.HighFrequencySwitchingPowerSupplyInfoBean">
+		INSERT INTO job_highfrequencyswitchingpowersupply ( 
+			 switchingId,
+			 deviceName, deviceAlias
+		) VALUES (
+			 #switchingId#,
+			 #deviceName#, #deviceAlias#
+		)
+		<selectKey resultClass="int" keyProperty="switchingId">
+			SELECT LAST_INSERT_ID() AS switchingId
+		</selectKey>
+	</insert>
+	
+	<insert id="insertMachineRoom" parameterClass="manage.generator.pojo.MachineRoomInfoBean">
+		INSERT INTO rms_equiproom ( 
+			 city_id,county_id,equiproom_type,longitude,latitude,
+			 address,maintain_company, maintain_area,maintain_manager,maintain_manager_phone,
+			 remark,zh_label,change_reason,time_stamp,stateflag,creator,creat_time,
+			 modifier,modify_time
+		) VALUES (
+			 #city_id#,#county_id#,#equiproom_type#,#longitude#,#latitude#,
+			 #address#,#maintain_company#,#maintain_area#,#maintain_manager#,#maintain_manager_phone#,
+			 #remark#,#zh_label#,#change_reason#,now(),'0',#creator#,now(),
+			 #modifier#,#modify_time#
+		)
+		<selectKey resultClass="int" keyProperty="int_id">
+			SELECT LAST_INSERT_ID() AS int_id
+		</selectKey>
+	</insert>
+	
+	<select id="getMachineRoom" parameterClass="manage.generator.pojo.MachineRoomInfoBean" resultClass="manage.generator.pojo.MachineRoomInfoBean">
+    	 SELECT 
+    	 city_id,county_id,equiproom_type,longitude,latitude,
+		 address,maintain_company, maintain_area,maintain_manager,maintain_manager_phone,
+		 remark,zh_label,change_reason,time_stamp,stateflag,int_id,creator,creat_time,
+		 modifier,modify_time
+		 FROM rms_equiproom WHERE 1 = 1
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend=" AND " property="city_id"> city_id=#city_id# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="county_id"> county_id=#county_id# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="equiproom_type"> equiproom_type=#equiproom_type# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="longitude"> longitude=#longitude# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="latitude"> latitude=#latitude# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="address"> address=#address# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="maintain_company"> maintain_company=#maintain_company# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="maintain_area"> maintain_area=#maintain_area# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="maintain_manager"> maintain_manager=#maintain_manager# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="maintain_manager_phone"> maintain_manager_phone=#maintain_manager_phone# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="remark"> remark like '%$remark$%' </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="zh_label"> <![CDATA[ zh_label like #zh_label#]]> </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="change_reason"> change_reason=#change_reason# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="time_stamp"> time_stamp=#time_stamp# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="stateflag"> stateflag=#stateflag# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="int_id"> int_id=#int_id# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="creator"> creator=#creator# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="creat_time"> creat_time=#creat_time# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="modifier"> modifier=#modifier# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="modify_time"> modify_time=#modify_time# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="extendSql">($extendSql$)</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="sort"> ORDER BY $sort$ </isNotEmpty>
+	    	<isNotEmpty prepend=" " property="dir">  $dir$ </isNotEmpty>
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+    </select>
+	
+	<update id="updateMachineRoom" parameterClass="manage.generator.pojo.MachineRoomInfoBean">
+		UPDATE rms_equiproom SET modify_time=now() ,time_stamp=now()
+		<dynamic prepend=" , ">
+			<isNotEmpty prepend=" , " property="city_id"> city_id=#city_id# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="county_id"> county_id=#county_id# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="equiproom_type"> equiproom_type=#equiproom_type# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="longitude"> longitude=#longitude# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="latitude"> latitude=#latitude# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="address"> address=#address# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_company"> maintain_company=#maintain_company# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_area"> maintain_area=#maintain_area# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_manager"> maintain_manager=#maintain_manager# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_manager_phone"> maintain_manager_phone=#maintain_manager_phone# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="remark"> remark=#remark# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="zh_label"> zh_label=#zh_label# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="change_reason"> change_reason=#change_reason# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="stateflag"> stateflag=#stateflag# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="creator"> creator=#creator# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="creat_time"> creat_time=#creat_time# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="modifier"> modifier=#modifier# </isNotEmpty>
+		</dynamic>
+		WHERE int_id=#int_id#
+	</update>
+	
+	<update id="deleteMachineRoom" parameterClass="manage.generator.pojo.MachineRoomInfoBean">
+		update rms_equiproom set stateflag='1',modify_time=now(),time_stamp=now() where int_id=#int_id#
+	</update>
+	
+	<insert id="insertSiteBase" parameterClass="manage.generator.pojo.SiteBaseInfoBean">
+		INSERT INTO rms_bts ( 
+			 e_nodeb_id,related_site_addr,related_site_addr_id,tower_site_addr_code,province,
+			 city_id,countryside,unit,dept_area,district,clusters,reseau,zh_label,enodeb_gap_name,
+			 equipment_vendor,equipment_type,ipv4_addr,subnet_mask,gateway,bandwidth,mme1,mme2,
+			 enodeb_version,duplex_mode,cell_num,omc_site_status,site_esn,site_type,site_level,
+			 site_longitude,site_latitude,ant_azimuth,an_advanceangle,project_no,is_site_shared,
+			 omcid,net_date,remark,update_time,update_person,maintain_company,maintain_area,
+			 maintain_manager,maintain_manager_phone,maintain_area_zy,time_stamp,stateflag,
+			 creator,creat_time,modifier,modify_time,wrong_info,is_wrong
+		) VALUES (
+			 #e_nodeb_id#,#related_site_addr#,#related_site_addr_id#,#tower_site_addr_code#,#province#,
+			 #city_id#,#countryside#,#unit#,#dept_area#,#district#,#clusters#,#reseau#,#zh_label#,#enodeb_gap_name#,
+			 #equipment_vendor#,#equipment_type#,#ipv4_addr#,#subnet_mask#,#gateway#,#bandwidth#,#mme1#,#mme2#,
+			 #enodeb_version#,#duplex_mode#,#cell_num#,#omc_site_status#,#site_esn#,#site_type#,#site_level#,
+			 #site_longitude#,#site_latitude#,#ant_azimuth#,#an_advanceangle#,#project_no#,#is_site_shared#,
+			 #omcid#,#net_date#,#remark#,#update_time#,#update_person#,#maintain_company#,#maintain_area#,
+			 #maintain_manager#,#maintain_manager_phone#,#maintain_area_zy#,now(),'0',
+			 #creator#,now(),#modifier#,#modify_time#,#wrong_info#,#is_wrong#
+		)
+		<selectKey resultClass="int" keyProperty="int_id">
+			SELECT LAST_INSERT_ID() AS int_id
+		</selectKey>
+	</insert>
+	
+	<select id="getSiteBase" parameterClass="manage.generator.pojo.SiteBaseInfoBean" resultClass="manage.generator.pojo.SiteBaseInfoBean">
+    	 SELECT 
+    		 int_id,e_nodeb_id,related_site_addr,related_site_addr_id,tower_site_addr_code,province,
+			 city_id,countryside,unit,dept_area,district,clusters,reseau,zh_label,enodeb_gap_name,
+			 equipment_vendor,equipment_type,ipv4_addr,subnet_mask,gateway,bandwidth,mme1,mme2,
+			 enodeb_version,duplex_mode,cell_num,omc_site_status,site_esn,site_type,site_level,
+			 site_longitude,site_latitude,ant_azimuth,an_advanceangle,project_no,is_site_shared,
+			 omcid,net_date,remark,update_time,update_person,maintain_company,maintain_area,
+			 maintain_manager,maintain_manager_phone,maintain_area_zy,time_stamp,stateflag,
+			 creator,creat_time,modifier,modify_time,wrong_info,is_wrong
+		 FROM rms_bts WHERE 1 = 1
+		<dynamic prepend=" AND ">
+			<isNotEmpty prepend=" AND " property="int_id"> int_id=#int_id# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="e_nodeb_id"> e_nodeb_id=#e_nodeb_id# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="county_id"> county_id=#county_id# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="related_site_addr_id"> related_site_addr_id=#related_site_addr_id# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="related_site_addr"> related_site_addr=#related_site_addr# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="tower_site_addr_code"> tower_site_addr_code=#tower_site_addr_code# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="province"> province=#province# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="city_id"> city_id=#city_id# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="countryside"> countryside=#countryside# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="unit"> unit=#unit# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="dept_area"> dept_area=#dept_area# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="district"> district=#district# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="clusters"> clusters=#clusters# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="reseau"> reseau=#reseau# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="zh_label"> <![CDATA[ zh_label like #zh_label#]]> </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="enodeb_gap_name"> enodeb_gap_name=#enodeb_gap_name# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="equipment_vendor"> equipment_vendor=#equipment_vendor# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="equipment_type"> equipment_type=#equipment_type# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="ipv4_addr"> ipv4_addr=#ipv4_addr# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="subnet_mask"> subnet_mask=#subnet_mask# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="gateway"> gateway=#gateway# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="bandwidth"> bandwidth=#bandwidth# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="mme1"> mme1=#mme1# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="mme2"> mme2=#mme2# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="enodeb_version"> enodeb_version=#enodeb_version# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="duplex_mode"> duplex_mode=#duplex_mode# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="cell_num"> cell_num=#cell_num# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="omc_site_status"> omc_site_status=#omc_site_status# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="site_esn"> site_esn=#site_esn# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="site_type"> site_type=#site_type# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="site_level"> site_level=#site_level# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="site_longitude"> site_longitude=#site_longitude# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="site_latitude"> site_latitude=#site_latitude# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="ant_azimuth"> ant_azimuth=#ant_azimuth# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="an_advanceangle"> an_advanceangle=#an_advanceangle# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="project_no"> project_no=#project_no# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="is_site_shared"> is_site_shared=#is_site_shared# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="omcid"> omcid=#omcid# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="net_date"> net_date=#net_date# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="remark"> remark like '%$remark$%' </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="update_time"> update_time=#update_time# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="update_person"> update_person=#update_person# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="maintain_company"> maintain_company=#maintain_company# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="maintain_area"> maintain_area=#maintain_area# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="maintain_manager"> maintain_manager=#maintain_manager# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="maintain_manager_phone"> maintain_manager_phone=#maintain_manager_phone# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="maintain_area_zy"> maintain_area_zy=#maintain_area_zy# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="time_stamp"> time_stamp=#time_stamp# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="stateflag"> stateflag=#stateflag# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="creator"> creator=#creator# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="creat_time"> creat_time=#creat_time# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="modifier"> modifier=#modifier# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="modify_time"> modify_time=#modify_time# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="wrong_info"> wrong_info like '%$wrong_info$%' </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="is_wrong"> is_wrong=#is_wrong# </isNotEmpty>
+			<isNotEmpty prepend=" AND " property="extendSql">($extendSql$)</isNotEmpty>
+		</dynamic>
+		<dynamic prepend="">
+	    	<isNotEmpty prepend=" " property="sort"> ORDER BY $sort$ </isNotEmpty>
+	    	<isNotEmpty prepend=" " property="dir">  $dir$ </isNotEmpty>
+	    	<isNotEmpty prepend=" " property="start"> LIMIT #start# </isNotEmpty>
+	    	<isNotEmpty prepend="," property="limit"> #limit# </isNotEmpty>
+	    </dynamic>
+    </select>
+	
+	<update id="updateSiteBase" parameterClass="manage.generator.pojo.SiteBaseInfoBean">
+		UPDATE rms_bts SET modify_time=now(), time_stamp=now()
+		<dynamic prepend=" , ">
+			<isNotEmpty prepend=" , " property="e_nodeb_id"> e_nodeb_id=#e_nodeb_id# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="county_id"> county_id=#county_id# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="related_site_addr_id"> related_site_addr_id=#related_site_addr_id# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="related_site_addr"> related_site_addr=#related_site_addr# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="tower_site_addr_code"> tower_site_addr_code=#tower_site_addr_code# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="province"> province=#province# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="city_id"> city_id=#city_id# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="countryside"> countryside=#countryside# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="unit"> unit=#unit# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="dept_area"> dept_area=#dept_area# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="district"> district=#district# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="clusters"> clusters=#clusters# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="reseau"> reseau=#reseau# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="zh_label"> zh_label=#zh_label# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="enodeb_gap_name"> enodeb_gap_name=#enodeb_gap_name# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="equipment_vendor"> equipment_vendor=#equipment_vendor# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="equipment_type"> equipment_type=#equipment_type# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="ipv4_addr"> ipv4_addr=#ipv4_addr# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="subnet_mask"> subnet_mask=#subnet_mask# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="gateway"> gateway=#gateway# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="bandwidth"> bandwidth=#bandwidth# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="mme1"> mme1=#mme1# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="mme2"> mme2=#mme2# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="enodeb_version"> enodeb_version=#enodeb_version# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="duplex_mode"> duplex_mode=#duplex_mode# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="cell_num"> cell_num=#cell_num# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="omc_site_status"> omc_site_status=#omc_site_status# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="site_esn"> site_esn=#site_esn# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="site_type"> site_type=#site_type# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="site_level"> site_level=#site_level# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="site_longitude"> site_longitude=#site_longitude# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="site_latitude"> site_latitude=#site_latitude# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="ant_azimuth"> ant_azimuth=#ant_azimuth# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="an_advanceangle"> an_advanceangle=#an_advanceangle# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="project_no"> project_no=#project_no# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="is_site_shared"> is_site_shared=#is_site_shared# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="omcid"> omcid=#omcid# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="net_date"> net_date=#net_date# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="remark"> remark=#remark# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="update_time"> update_time=#update_time# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="update_person"> update_person=#update_person# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_company"> maintain_company=#maintain_company# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_area"> maintain_area=#maintain_area# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_manager"> maintain_manager=#maintain_manager# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_manager_phone"> maintain_manager_phone=#maintain_manager_phone# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="maintain_area_zy"> maintain_area_zy=#maintain_area_zy# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="stateflag"> stateflag=#stateflag# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="creator"> creator=#creator# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="creat_time"> creat_time=#creat_time# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="modifier"> modifier=#modifier# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="wrong_info"> wrong_info=#wrong_info# </isNotEmpty>
+			<isNotEmpty prepend=" , " property="is_wrong"> is_wrong=#is_wrong# </isNotEmpty>
+		</dynamic>
+		WHERE int_id=#int_id#
+	</update>
+	
+	<update id="deleteSiteBase" parameterClass="manage.generator.pojo.SiteBaseInfoBean">
+		update rms_bts set stateflag='1',modify_time=now(),time_stamp=now() where int_id=#int_id#
+	</update>
+	
+</sqlMap>
+    
