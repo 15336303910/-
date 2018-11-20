@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.function.dbmanage.model.BasicColumn" table="BASIC_DB_COLUMN">
+        <id name="ID" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="increment" />
+        </id>
+        <property name="BELONG_TABLE" type="java.lang.Integer">
+            <column name="BELONG_TABLE"/>
+        </property>
+        <property name="COLUMN_ALIAS" type="java.lang.String">
+            <column name="COLUMN_ALIAS" length="50"/>
+        </property> 
+        <property name="COLUMN_NAME" type="java.lang.String">
+            <column name="COLUMN_NAME" length="50"/>
+        </property>
+        <property name="DATA_TYPE" type="java.lang.String">
+            <column name="DATA_TYPE" length="30"/>
+        </property>
+        <property name="IS_EXPORT" type="java.lang.String">
+            <column name="IS_EXPORT" length="5"/>
+        </property>
+        <property name="IS_PRIMARY_KEY" type="java.lang.String">
+            <column name="IS_PRIMARY_KEY" length="5"/>
+        </property>
+        <property name="IS_NULL_ABLE" type="java.lang.String">
+            <column name="IS_NULL_ABLE" length="5"/>
+        </property>  
+    </class>
+</hibernate-mapping>

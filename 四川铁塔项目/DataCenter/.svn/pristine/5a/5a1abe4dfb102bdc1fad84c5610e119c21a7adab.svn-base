@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.function.rules.model.RuleItemConnect" table="RULE_ITEMS_CONNECT">
+        <id name="ID" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="increment" />
+        </id>
+        <property name="BELONG_ITEM" type="java.lang.Integer">
+        	<column name="BELONG_ITEM"/>
+        </property>
+        <property name="CHECK_COLUMN_ID" type="java.lang.Integer">
+        	<column name="CHECK_COLUMN_ID"/>
+        </property>
+        <property name="GLASS_COLUMN_ID" type="java.lang.Integer">
+        	<column name="GLASS_COLUMN_ID"/>
+        </property>      
+        <property name="BACK_COLOR" type="java.lang.String">
+            <column name="BACK_COLOR" length="20"/>
+        </property>
+    </class>
+</hibernate-mapping>

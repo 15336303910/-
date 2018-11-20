@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.function.index.model.UserScore" table="USER_SCORE">
+        <id name="ID" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="increment"/>
+        </id>
+        <property name="USER_ID" type="java.lang.Integer">
+            <column name="USER_ID"/>
+        </property>
+        <property name="LAST_AUDIT_DATE" type="java.util.Date">
+            <column name="LAST_AUDIT_DATE"/>
+        </property>
+        <property name="IS_OK" type="java.lang.String">
+            <column name="IS_OK" length="5"/>
+        </property>
+        <property name="ACTION_DESCRIBE" type="java.lang.String">
+            <column name="ACTION_DESCRIBE" length="200"/>
+        </property>
+        <property name="FINAL_SCORE" type="java.lang.Double">
+            <column name="FINAL_SCORE"/>
+        </property>
+        <property name="OH_MY_GOD" type="java.lang.Integer">
+            <column name="OH_MY_GOD"/>
+        </property>
+    </class>
+</hibernate-mapping>

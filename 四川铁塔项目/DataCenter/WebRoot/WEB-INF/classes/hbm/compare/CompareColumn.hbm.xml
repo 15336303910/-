@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.function.compare.model.CompareColumn" table="COMPARE_COLUMN">
+        <id name="ID" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="increment"/>
+        </id>
+        <property name="BELONG_COMPARE_RULE" type="java.lang.Integer">
+            <column name="BELONG_COMPARE_RULE"/>
+        </property>
+        <property name="IS_CONNECT_COLUMN" type="java.lang.String">
+            <column name="IS_CONNECT_COLUMN" length="5"/>
+        </property>
+        <property name="A_COLUMN_ID" type="java.lang.Integer">
+            <column name="A_COLUMN_ID"/>
+        </property>
+        <property name="A_COLUMN_NAME" type="java.lang.String">
+            <column name="A_COLUMN_NAME" length="50"/>
+        </property>
+        <property name="Z_COLUMN_ID" type="java.lang.Integer">
+            <column name="Z_COLUMN_ID"/>
+        </property>
+        <property name="Z_COLUMN_NAME" type="java.lang.String">
+            <column name="Z_COLUMN_NAME" length="50"/>
+        </property>
+    </class>
+</hibernate-mapping>

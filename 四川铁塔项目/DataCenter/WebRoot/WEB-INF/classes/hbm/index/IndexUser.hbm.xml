@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.function.index.model.IndexUser" table="INDEX_USER">
+        <id name="ID" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="increment"/>
+        </id>
+        <property name="USER_ID" type="java.lang.Integer">
+            <column name="USER_ID"/>
+        </property>
+        <property name="INDEX_ID" type="java.lang.Integer">
+            <column name="INDEX_ID"/>
+        </property>
+        <property name="COUNT_RATIO" type="java.lang.Integer">
+            <column name="COUNT_RATIO"/>
+        </property> 
+        <property name="MAINTAIN_DATE" type="java.util.Date">
+            <column name="MAINTAIN_DATE"/>
+        </property>
+    </class>
+</hibernate-mapping>

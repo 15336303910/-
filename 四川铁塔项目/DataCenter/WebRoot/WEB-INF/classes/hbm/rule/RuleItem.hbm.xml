@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.function.rules.model.RuleItem" table="RULE_ITEMS">
+        <id name="ID" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="increment" />
+        </id>
+        <property name="BELONG_RULE" type="java.lang.Integer">
+        	<column name="BELONG_RULE"/>
+        </property>
+        <property name="AUDIT_TYPE" type="java.lang.String">
+            <column name="AUDIT_TYPE" length="30"/>
+        </property>       
+        <property name="COLUMN_ID" type="java.lang.Integer">
+        	<column name="COLUMN_ID"/>
+        </property>
+        <property name="IS_FILTER" type="java.lang.String">
+            <column name="IS_FILTER" length="5"/>
+        </property>
+        <property name="EXPRESSION" type="java.lang.String">
+            <column name="EXPRESSION" length="1000"/>
+        </property>
+        <property name="VALUE_TABLE" type="java.lang.Integer">
+        	<column name="VALUE_TABLE"/>
+        </property>
+        <property name="VALUE_COLUMN" type="java.lang.Integer">
+        	<column name="VALUE_COLUMN"/>
+        </property>
+        <property name="MIN_NUMBER" type="java.lang.Integer">
+        	<column name="MIN_NUMBER"/>
+        </property>
+        <property name="MAX_NUMBER" type="java.lang.Integer">
+        	<column name="MAX_NUMBER"/>
+        </property>
+        <property name="COLUMN_IDS" type="java.lang.String">
+            <column name="COLUMN_IDS" length="100"/>
+        </property>
+        <property name="MATCH_TYPE" type="java.lang.String">
+            <column name="MATCH_TYPE" length="20"/>
+        </property>
+        <property name="DIMENSION_TYPE" type="java.lang.String">
+            <column name="DIMENSION_TYPE" length="20"/>
+        </property>
+        <property name="EXPORT_COLUMNS" type="java.lang.String">
+            <column name="EXPORT_COLUMNS" length="100"/>
+        </property>
+        <property name="AUDIT_SQL" type="java.lang.String">
+            <column name="AUDIT_SQL" length="4000"/>
+        </property>
+    </class>
+</hibernate-mapping>

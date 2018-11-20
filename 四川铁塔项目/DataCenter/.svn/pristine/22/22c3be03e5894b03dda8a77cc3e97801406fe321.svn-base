@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>无标题文档</title>
+<script src="../jquery/jquery.js" type="text/javascript"></script>
+<script type="text/javascript" src="jquery-ui.js"></script>
+<link rel="stylesheet" href="css/jquery-ui.css" type="text/css"></link>
+</head>
+<body>
+<button id="create-user">Create new user</button>
+</body>
+<div id="dialog-form" title="创建用户">
+  <p class="validateTips">All form fields are required.</p>
+ 
+  <form>
+  <fieldset>
+    <label for="name">Name</label>
+    <input type="text" name="name" id="name" />
+    <label for="email">Email</label>
+    <input type="text" name="email" id="email" value=""/>
+    <label for="password">Password</label>
+    <input type="password" name="password" id="password" value="" />
+  </fieldset>
+  </form>
+</div>
+</html>
+<script type="text/javascript">
+ $(function() {
+    $( "#dialog-form" ).dialog({
+      autoOpen: false,
+      height: 300,
+      width: 600,
+      modal: true,
+      buttons: {
+        "创建用户": function() {
+         alert('创建成功');
+        },
+        "自定义按钮": function() {
+         alert('自定义事件');
+        },
+        "取消": function() {
+          $( this ).dialog( "close" );
+        }
+      },
+      close: function() {
+        
+      }
+    });
+ 
+    $( "#create-user" )
+      .button()
+      .click(function() {
+        $( "#dialog-form" ).dialog( "open" );
+      });
+  });
+</script>

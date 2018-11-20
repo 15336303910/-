@@ -1,0 +1,31 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+path+"/";
+	String frameHeight = request.getParameter("frameHeight");
+%>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/extensions/layui/css/layui.css" media="all">
+	<script type="text/javascript" src="${pageContext.request.contextPath}/extensions/layui/layui.js" charset="utf-8"></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/jquery.js"></script>
+</head>
+<body style="width:100%;height:100%;border:solid 0px red;" id="bodyHeight">
+  	<div class="container" style="width:100%;height:100%;margin-top:0px;">
+		<div class="panel panel-primary"  id="mainPanel">
+			<div id="panelHeading" style="width:100%;height:50px;background-color:#337ab7;display:table;padding-left:10px">
+				<div style="background-color:#337ab7;display:table-cell;vertical-align:middle;padding-left:10px">
+					<font id="title" color="white" size="5">灰名单申请编辑</font>
+				</div>
+			</div>
+			<div class="panel-body" style="text-align:center;">
+				hello word!
+			</div>
+		</div>
+	</div>	
+</body>
+</html>

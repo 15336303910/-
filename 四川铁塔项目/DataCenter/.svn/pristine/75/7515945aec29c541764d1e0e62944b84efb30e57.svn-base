@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.function.compare.model.CompareMonitor" table="COMPARE_MONITOR">
+        <id name="ID" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="increment"/>
+        </id>
+        <property name="BELONG_COMPARE" type="java.lang.Integer">
+            <column name="BELONG_COMPARE"/>
+        </property>
+        <property name="START_DATE" type="java.util.Date">
+            <column name="START_DATE"/>
+        </property>
+        <property name="IS_FINISHED" type="java.lang.String">
+            <column name="IS_FINISHED" length="5"/>
+        </property>
+        <property name="FINISH_DATE" type="java.util.Date">
+            <column name="FINISH_DATE"/>
+        </property>
+        <property name="A_ONLY" type="java.lang.Integer">
+            <column name="A_ONLY"/>
+        </property>
+        <property name="Z_ONLY" type="java.lang.Integer">
+            <column name="Z_ONLY"/>
+        </property>
+        <property name="NOT_UNIFORM" type="java.lang.Integer">
+            <column name="NOT_UNIFORM"/>
+        </property>
+        <property name="A_FATUAL" type="java.lang.Integer">
+            <column name="A_FATUAL"/>
+        </property>
+        <property name="Z_FATUAL" type="java.lang.Integer">
+            <column name="Z_FATUAL"/>
+        </property>
+        <property name="IS_FATAL" type="java.lang.String">
+            <column name="IS_FATAL" length="5"/>
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.function.compare.model.CompareData" table="COMPARE_DATA">
+        <id name="ID" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="increment"/>
+        </id>
+        <property name="BELONG_MONITOR" type="java.lang.Integer">
+            <column name="BELONG_MONITOR"/>
+        </property>
+        <property name="PRIMARY_VALUE" type="java.lang.String">
+            <column name="PRIMARY_VALUE" length="100"/>
+        </property>
+        <property name="RESOURCE_NAME" type="java.lang.String">
+            <column name="RESOURCE_NAME" length="1000"/>
+        </property>
+        <property name="PROBLEM_TYPE" type="java.lang.String">
+            <column name="PROBLEM_TYPE" length="30"/>
+        </property>
+        <property name="PROBLEM_DESC" type="java.lang.String">
+            <column name="PROBLEM_DESC" length="4000"/>
+        </property>
+        <property name="DATA_CITY" type="java.lang.String">
+            <column name="DATA_CITY" length="70"/>
+        </property>
+    </class>
+</hibernate-mapping>

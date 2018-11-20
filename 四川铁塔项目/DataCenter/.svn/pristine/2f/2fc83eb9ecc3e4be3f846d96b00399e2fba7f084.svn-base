@@ -1,0 +1,25 @@
+package com.function.index.greyList.service;
+
+import java.util.List;
+
+import com.function.index.greyList.model.GreyList;
+
+/**
+ * 灰名单数据处理
+ */
+public interface IGreyListService {
+	// 新增灰名单数据
+	public void insertGreyOrder(GreyList record);
+
+	// 数据修改
+	public void updateGreyOrder(GreyList record);
+
+	// 获取分页列表
+	public List<GreyList> getGreyListPage(final String hql, final Integer pageNum, final Integer pageSize);
+
+	// 数据列表查询，非分页
+	public List<GreyList> getGreyList(final String hql);
+
+	// 根据ID查询
+	public List<GreyList> getGreyListById(final String hql, final Long id);
+}

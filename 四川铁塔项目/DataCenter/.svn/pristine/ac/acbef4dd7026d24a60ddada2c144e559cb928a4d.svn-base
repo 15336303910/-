@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.function.dbmanage.model.BasicDb" table="BASIC_DB">
+        <id name="ID" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="increment" />
+        </id>
+        <property name="DB_NAME" type="java.lang.String">
+            <column name="DB_NAME" length="70"/>
+        </property>
+        <property name="DB_TYPE" type="java.lang.String">
+            <column name="DB_TYPE" length="30"/>
+        </property>
+        <property name="IP_ADDRESS" type="java.lang.String">
+            <column name="IP_ADDRESS" length="50"/>
+        </property>
+        <property name="PORT" type="java.lang.String">
+            <column name="PORT" length="50"/>
+        </property>
+        <property name="SID" type="java.lang.String">
+            <column name="SID" length="50"/>
+        </property>
+        <property name="USER_NAME" type="java.lang.String">
+            <column name="USER_NAME" length="70"/>
+        </property>
+        <property name="USER_PASS" type="java.lang.String">
+            <column name="USER_PASS" length="70"/>
+        </property>
+        <property name="USE_STATE" type="java.lang.String">
+            <column name="USE_STATE" length="20"/>
+        </property>        
+    </class>
+</hibernate-mapping>

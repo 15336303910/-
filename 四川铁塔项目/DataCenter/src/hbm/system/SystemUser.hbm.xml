@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.systemConfig.model.SystemUser" table="S_SYSTEM_USER">
+        <id name="ID" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="increment" />
+        </id>
+        <property name="USER_NAME" type="java.lang.String">
+            <column name="USER_NAME" length="70"/>
+        </property>
+        <property name="USER_PASS" type="java.lang.String">
+            <column name="USER_PASS" length="70"/>
+        </property>
+        <property name="IS_LENGTHY_USE" type="java.lang.String">
+            <column name="IS_LENGTHY_USE" length="70"/>
+        </property>
+        <property name="START_DATE" type="java.util.Date">
+            <column name="START_DATE"/>
+        </property>
+        <property name="LIMIT_DATE" type="java.util.Date">
+            <column name="LIMIT_DATE"/>
+        </property>
+        <property name="IS_LOCKED" type="java.lang.String">
+            <column name="IS_LOCKED" length="5"/>
+        </property>
+        <property name="IS_HAVE_INVITE_ABLE" type="java.lang.String">
+            <column name="IS_HAVE_INVITE_ABLE" length="5"/>
+        </property>
+        <property name="LAST_LOGIN_DATETIME" type="java.util.Date">
+            <column name="LAST_LOGIN_DATETIME"/>
+        </property>        
+        <property name="EMPLOYEE_NAME" type="java.lang.String">
+            <column name="EMPLOYEE_NAME" length="100"/>
+        </property>
+        <property name="EMPLOYEE_SEX" type="java.lang.String">
+            <column name="EMPLOYEE_SEX" length="5"/>
+        </property>
+        <property name="EMPLOYEE_ID_CARD" type="java.lang.String">
+            <column name="EMPLOYEE_ID_CARD" length="30"/>
+        </property>
+        <property name="EMPLOYEE_COMPANY" type="java.lang.String">
+            <column name="EMPLOYEE_COMPANY" length="50"/>
+        </property>
+        <property name="EMPLOYEE_DEPARTNAME" type="java.lang.String">
+            <column name="EMPLOYEE_DEPARTNAME" length="50"/>
+        </property>
+        <property name="EMPLOYEE_PHONE" type="java.lang.String">
+            <column name="EMPLOYEE_PHONE" length="20"/>
+        </property>
+        <property name="BELONG_AREA" type="java.lang.String">
+            <column name="BELONG_AREA" length="70"/>
+        </property>
+        <property name="ROLE_CODE" type="java.lang.Integer">
+            <column name="ROLE_CODE"/>
+        </property>
+        <property name="EMPLOYEE_COMPANY_CODE" type="java.lang.Integer">
+            <column name="EMPLOYEE_COMPANY_CODE"/>
+        </property>
+        <property name="EMPLOYEE_DEPART_CODE" type="java.lang.Integer">
+            <column name="EMPLOYEE_DEPART_CODE"/>
+        </property>
+        <property name="USER_ICON" type="java.lang.String">
+            <column name="USER_ICON" length="50"/>
+        </property>
+    </class>
+</hibernate-mapping>

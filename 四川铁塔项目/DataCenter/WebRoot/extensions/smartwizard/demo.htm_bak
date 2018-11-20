@@ -1,0 +1,123 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+			<title>Smart Wizard 2 - Basic Example - a javascript jQuery
+				wizard control plugin</title>
+
+			<link href="css/smart_wizard.css" rel="stylesheet" type="text/css">
+				<script src="../jquery/jquery.js" type="text/javascript">
+</script>
+				<script type="text/javascript" src="jquery.smartWizard.js">
+</script>
+
+				<script type="text/javascript">
+$(document).ready(function() {
+	//向导控件初始化
+		$('#wizard').smartWizard( {
+			onLeaveStep : leaveAStepCallback,
+			onFinish : onFinishCallback
+		});
+
+		//每个步骤的验证
+		function leaveAStepCallback(obj) {
+			var step_num = obj.attr('rel');
+			//如果验证成功则返回true
+			return validateSteps(step_num);
+		}
+
+		//点击完成进行的操作
+		function onFinishCallback() {
+			alert('做完成操作');
+		}
+
+		//验证各步骤，通过step分别进行验证
+		function validateSteps(step) {
+			var isSuccess = true;
+			alert('验证第N步' + step);
+
+			// 如果验证失败
+			//isSuccess=false;
+			//在控件左下方显示信息
+			//$('#wizard').smartWizard('showMessage','右下角显示信息');
+			//标识步骤是否有错
+			//$('#wizard').smartWizard('setError',{stepnum:step,iserror:true});         
+
+			//如果验证成功
+			isSuccess = true;
+			//标识步骤是否有错
+			$('#wizard').smartWizard('setError', {
+				stepnum : step,
+				iserror : false
+			});
+
+			return isSuccess;
+		}
+
+	});
+</script>
+	</head>
+	<body>
+
+		<!-- 向导控件 开始-->
+		<div id="wizard" class="swMain" style="width: 100%">
+			<ul>
+				<li style="width: 200px;">
+					<a href="#step-1"> <span class="stepNumber">1</span> <span
+						class="stepDesc"> 第一步<br /> <small>描述信息</small> </span> </a>
+				</li>
+				<li>
+					<a href="#step-2"> <span class="stepNumber">2</span> <span
+						class="stepDesc"> Step 2<br /> <small>Step 2
+								description</small> </span> </a>
+				</li>
+				<li>
+					<a href="#step-3"> <span class="stepNumber">3</span> <span
+						class="stepDesc"> Step 3<br /> <small>Step 3
+								description</small> </span> </a>
+				</li>
+				<li>
+					<a href="#step-4"> <span class="stepNumber">4</span> <span
+						class="stepDesc"> Step 4<br /> <small>Step 4
+								description</small> </span> </a>
+				</li>
+				<li>
+					<a href="#step-5"> <span class="stepNumber">5</span> <span
+						class="stepDesc"> Step 4<br /> <small>Step 4
+								description</small> </span> </a>
+				</li>
+			</ul>
+			<div id="step-1">
+				<h2 class="StepTitle">
+					Step 1 Content
+				</h2>
+				第一步信息内容
+			</div>
+			<div id="step-2">
+				<h2 class="StepTitle">
+					Step 2 Content
+				</h2>
+				第二步信息内容
+			</div>
+			<div id="step-3">
+				<h2 class="StepTitle">
+					Step 3 Content
+				</h2>
+				第三步信息内容
+			</div>
+			<div id="step-4">
+				<h2 class="StepTitle">
+					Step 4 Content
+				</h2>
+				第四步信息内容
+			</div>
+			<div id="step-5">
+				<h2 class="StepTitle">
+					Step 4 Content
+				</h2>
+				第五步信息内容
+			</div>
+		</div>
+		<!-- 向导控件完成 -->
+	</body>
+</html>

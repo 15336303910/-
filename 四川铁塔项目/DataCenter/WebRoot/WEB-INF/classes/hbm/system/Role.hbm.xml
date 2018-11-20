@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.systemConfig.model.Role" table="S_SYSTEM_ROLE">
+        <id name="ID" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="increment" />
+        </id>
+        <property name="ROLE_NAME" type="java.lang.String">
+            <column name="ROLE_NAME" length="50"/>
+        </property>
+        <property name="IS_USING" type="java.lang.String">
+            <column name="IS_USING" length="5" />
+        </property>
+    </class>
+</hibernate-mapping>

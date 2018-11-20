@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.function.dbmanage.model.BasicDbTable" table="BASIC_DB_TABLE">
+        <id name="ID" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="increment" />
+        </id>
+        <property name="BELONG_DB" type="java.lang.Integer">
+            <column name="BELONG_DB"/>
+        </property>
+        <property name="BELONG_MAJOR" type="java.lang.String">
+            <column name="BELONG_MAJOR" length="30"/>
+        </property> 
+        <property name="TABLE_ALIAS" type="java.lang.String">
+            <column name="TABLE_ALIAS" length="70"/>
+        </property>
+        <property name="TABLE_NAME" type="java.lang.String">
+            <column name="TABLE_NAME" length="70"/>
+        </property>
+        <property name="USE_STATE" type="java.lang.String">
+            <column name="USE_STATE" length="10"/>
+        </property>    
+    </class>
+</hibernate-mapping>

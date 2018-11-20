@@ -1,0 +1,45 @@
+body, html,#allmap{
+    width:100%;
+    height:98%;
+    overflow:hidden;
+    margin:0;
+    font-family:"微软雅黑";
+}
+.MAIN_PANEL{
+    box-shadow:0 0 5px #58BFDD;
+    position:absolute;
+    background:#FFF;
+    border:solid 1px #DADADA;
+    z-index:2;
+}
+.PANEL_HEADING{
+    width:100%;
+    height:40px;
+    border-bottom:solid 1px #DADADA;
+    box-shadow:0 0 5px #DADADA;
+
+}
+.PANEL_BODY{
+    width:100%;
+    overflow:auto;
+}
+.PANEL_FOOT{
+    width:100%;
+    height:45px;
+    border-top:solid 1px #DADADA;
+    box-shadow:0 0 10px #DADADA;
+    position:absolute;
+    left:0;
+    bottom:0;
+}
+
+#r-buttom {
+    width: 240px;
+    bottom: 0px;
+    right: 0px;
+    position: absolute;
+    z-index: 2;
+    background: #fff;
+    filter: alpha(opacity=90);
+    opacity: 0.9
+}

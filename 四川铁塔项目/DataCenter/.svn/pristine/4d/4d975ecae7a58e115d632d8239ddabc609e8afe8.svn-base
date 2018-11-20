@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.function.rules.model.RuleHistory" table="RULE_HISTORY">
+        <id name="ID" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="increment" />
+        </id>
+        <property name="RULE_ID" type="java.lang.Integer">
+            <column name="RULE_ID"/>
+        </property>
+        <property name="DATE_TOKEN" type="java.lang.String">
+            <column name="DATE_TOKEN" length="20"/>
+        </property>
+        <property name="EXEC_DATE" type="java.util.Date">
+            <column name="EXEC_DATE"/>
+        </property>
+        <property name="PROBLEM_COUNT" type="java.lang.Integer">
+            <column name="PROBLEM_COUNT"/>
+        </property>
+        <property name="DAY_ORDER" type="java.lang.Integer">
+            <column name="DAY_ORDER"/>
+        </property>
+    </class>
+</hibernate-mapping>

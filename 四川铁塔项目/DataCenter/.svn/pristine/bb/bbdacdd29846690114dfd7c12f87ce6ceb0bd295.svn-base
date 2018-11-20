@@ -1,0 +1,142 @@
+package com.function.index.risk;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.systemConfig.model.DataTableResult;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+@Controller("com.function.index.risk.RiskQuestionDataList")
+@RequestMapping(value="/riskQuestionDataListAction")
+public class RiskQuestionDataList {
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
+	
+	private static String resUserName = "TOWERCRNOP";
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/findRiskDataListFirst.ilf")
+	public void findRiskDataListFirst(HttpServletRequest request,HttpServletResponse response,String qu_id) throws Exception{
+		JSONObject jsonObject=JSONObject.fromObject("{success:true}");
+		String tablename=RiskControlTable.getValueByKey(qu_id);
+		String sql="";
+		sql+="select ID,QU_TYPE from "+resUserName+".ORC_QU_TYPE_DETAIL where RISK_NAME='"+qu_id+"' order by ID";
+		List<Map<String, Object>> list=jdbcTemplate.queryForList(sql);
+		sql="select RISK_NAME from "+resUserName+".ORC_RISK_NAME_DETAIL where ID='"+qu_id+"'";
+		String risk_name=(String)jdbcTemplate.queryForList(sql).get(0).get("RISK_NAME");
+		jsonObject.put("th_info",list);
+		jsonObject.put("RISK_NAME", risk_name);
+		response.setContentType("application/json; charset=UTF-8");
+		response.getWriter().print(jsonObject.toString());
+	}
+	
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/findRiskDataListTable.ilf")
+	public void findRiskDataListTable(@RequestParam String qu_id,@RequestParam String tableparam,@RequestParam String conditions,HttpServletRequest request,HttpServletResponse response) throws Exception{
+		Long sEcho = 0L;
+		Integer displayStart = 0;
+		Integer iDisplayLength = 0;
+		JSONArray jsons = JSONArray.fromObject(tableparam);
+		HashMap<String,Object> conditionMap = new HashMap<String,Object>();
+		if(jsons!=null && jsons.size()!=0){
+			for(int i=0;i<jsons.size();i++){
+				JSONObject json = JSONObject.fromObject(jsons.get(i));
+				String key = json.getString("name");
+				if(key.equals("sEcho")){
+					sEcho = Long.parseLong(json.getString("value"));
+				}else if(key.equals("iDisplayStart")){
+					displayStart = Integer.parseInt(json.getString("value"));
+					conditionMap.put("iDisplayStart",displayStart);
+				}else if(key.equals("iDisplayLength")){
+					iDisplayLength = Integer.parseInt(json.getString("value"));
+					conditionMap.put("iDisplayLength",iDisplayLength);
+				}
+			}
+		}
+		JSONArray condition = JSONArray.fromObject(conditions);
+		if(conditions!=null && condition.size()!=0){
+			for(int i=0;i<condition.size();i++){
+				JSONObject jsonObject = JSONObject.fromObject(condition.get(i));
+				if(jsonObject.get("value")!=null && !"".equals(jsonObject.getString("value"))){
+					conditionMap.put(jsonObject.getString("name"),jsonObject.getString("value"));
+				}
+			}
+		}
+		/*检索搜索参数*/
+		String searchCity="";
+		String searchDate="";
+		if(conditionMap.containsKey("CITY") && !"".equals(conditionMap.get("CITY").toString()) 
+				&& !"--".equals(conditionMap.get("CITY").toString()) 
+				&& !"--请选择--".equals(conditionMap.get("CITY").toString())
+				&& !"四川".equals(conditionMap.get("CITY").toString())
+				&& !"全省".equals(conditionMap.get("CITY").toString())) {
+			searchCity=conditionMap.get("CITY").toString();
+		}
+		if(conditionMap.containsKey("DATE") && !"".equals(conditionMap.get("DATE").toString())) {
+			searchDate=conditionMap.get("DATE").toString();
+		}
+		/*获取风险点问题的集合*/
+		Boolean isProvince=false;
+		String belongArea="";
+		isProvince=(Boolean)request.getSession().getAttribute("IS_PROVINCE");
+		belongArea=(String)request.getSession().getAttribute("BELONG_AREA");
+		String tablename=RiskControlTable.getValueByKey(qu_id);
+		String sql="";
+		sql+="select ID,QU_TYPE from "+resUserName+".ORC_QU_TYPE_DETAIL where RISK_NAME='"+qu_id+"' order by ID";
+		List<Map<String, Object>> first_list=jdbcTemplate.queryForList(sql);
+		sql="select ROWNUM as ID,e.* from(";
+		sql+="select to_char(a.MOUTH,'yyyy-MM') as MOUTH,a.CITY,";
+		for(int i=0;i<first_list.size();i++) {
+			Map<String, Object> map=first_list.get(i);
+			if(i==(first_list.size()-1)) {
+				sql+="'"+map.get("ID")+"'||'~'||(select count(*) from "+resUserName+"."+RiskControlTable.getValueByKey(qu_id)+" where CITY=a.CITY and to_char(MOUTH,'yyyy-MM')=to_char(a.MOUTH,'yyyy-MM') and QU_TYPE='"+map.get("ID")+"' and (trim(REASON) is null or trim(FEE_TIME) is null or trim(FEE_PEOPLE) is null)) as A"+map.get("ID");
+			}else {
+				sql+="'"+map.get("ID")+"'||'~'||(select count(*) from "+resUserName+"."+RiskControlTable.getValueByKey(qu_id)+" where CITY=a.CITY and to_char(MOUTH,'yyyy-MM')=to_char(a.MOUTH,'yyyy-MM') and QU_TYPE='"+map.get("ID")+"' and (trim(REASON) is null or trim(FEE_TIME) is null or trim(FEE_PEOPLE) is null)) as A"+map.get("ID")+",";
+			}
+		}
+		sql+=" FROM "+resUserName+"."+RiskControlTable.getValueByKey(qu_id)+" a group by to_char(a.MOUTH,'yyyy-MM'),a.CITY ) e";
+		if(!isProvince) {
+			sql+="where CITY='"+belongArea+"'";
+			if(!searchDate.equals("")) {
+				sql+=" and MOUTH='"+searchDate+"'";
+			}
+		}else {
+			if(!searchCity.equals("") && !searchDate.equals("")) {
+				sql+=" where CITY='"+searchCity+"' and MOUTH='"+searchDate+"'";
+			}else if(searchCity.equals("") && !searchDate.equals("")) {
+				sql+=" where MOUTH='"+searchDate+"'";
+			}else if(!searchCity.equals("") && searchDate.equals("")) {
+				sql+=" where CITY='"+searchCity+"'";
+			}
+		}
+		
+		Integer count = jdbcTemplate.queryForInt("SELECT COUNT(1) FROM("+sql+")");
+		Integer lastIndex = displayStart+iDisplayLength;
+		String pageSql = "";
+		pageSql+="SELECT B.* FROM(";
+		pageSql+="	SELECT A.*,ROWNUM AS RN FROM("+sql+") A WHERE ROWNUM <= "+lastIndex;
+		pageSql+=") B WHERE B.RN > "+displayStart;
+		List<Map<String,Object>> objectList = jdbcTemplate.queryForList(pageSql);
+		DataTableResult<Map<String,Object>> tableData = new DataTableResult<Map<String,Object>>();
+		tableData.setsEcho(sEcho);
+		tableData.setAaData(objectList);
+		tableData.setiTotalRecords(count);
+		tableData.setiTotalDisplayRecords(count);
+		response.setContentType("application/json; charset=UTF-8");
+		response.getWriter().print(JSONObject.fromObject(tableData).toString());
+
+		
+	}
+}

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.function.index.greyList.model.GreyHistory" table="GL_HISTORY">
+        <id name="id" type="java.lang.Long">
+            <column name="ID" /> 
+            <generator class="assigned" />         
+        </id>
+        <property name="city" type="java.lang.String">
+            <column name="CITY" length="256"/>
+	    </property>
+	     <property name="county" type="java.lang.String">
+            <column name="COUNTY" length="256"/>
+	    </property>
+		<property name="saName" type="java.lang.String">
+	            <column name="SA_NAME" length="256"/>
+       	</property>
+		<property name="saCode" type="java.lang.String">
+	            <column name="SA_CODE" length="256"/>
+        </property>
+		<property name="attribution" type="java.lang.String">
+	            <column name="ATTRIBUTION" length="256"/>
+        </property>
+		<property name="dataSource" type="java.lang.String">
+	            <column name="DATA_SOURCE" length="256"/>
+        </property>
+		<property name="tableSource" type="java.lang.String">
+	            <column name="TABLE_SOURCE" length="256"/>
+        </property>
+		<property name="glType" type="java.lang.String">
+	            <column name="GL_TYPE" length="256"/>
+        </property>
+		<property name="glDescribe" type="java.lang.String">
+	            <column name="GL_DESCRIBE" length="256"/>
+        </property>
+		<property name="originator" type="java.lang.String">
+	            <column name="ORIGINATOR" length="256"/>
+        </property>
+		<property name="launchTime" type="java.util.Date">
+	            <column name="LAUNCH_TIME"/>
+        </property>
+		<property name="glRule" type="java.lang.String">
+	            <column name="GL_RULE" length="512"/>
+        </property>
+		<property name="cityApprover" type="java.lang.String">
+	            <column name="CITY_APPROVER" length="256"/>
+        </property>
+		<property name="caTime" type="java.util.Date">
+	            <column name="C_A_TIME"/>
+       	</property>
+		<property name="provinceApprover" type="java.lang.String">
+	            <column name="PROVINCE_APPROVER" length="256"/>
+        </property>
+		<property name="paTime" type="java.util.Date">
+	            <column name="PA_TIME"/>
+       	</property>
+		<property name="rejectReason" type="java.lang.String">
+	            <column name="REJECT_REASON" length="256"/>
+        </property>
+		<property name="glsTime" type="java.util.Date">
+	            <column name="GLS_TIME"/>
+        </property>
+		<property name="validTime" type="java.lang.Integer">
+	            <column name="VALID_TIME"/>
+        </property>
+		<property name="expireTime" type="java.util.Date">
+	            <column name="EXPIRE_TIME"/>
+        </property>
+		<property name="glExitTime" type="java.util.Date">
+	            <column name="GL_EXIT_TIME"/>
+        </property>
+		<property name="expireStatus" type="java.lang.Integer">
+	            <column name="EXPIRE_STATUS"/>
+        </property>
+		<property name="procedureStatus" type="java.lang.String">
+	            <column name="PROCEDURE_STATUS" length="256"/>
+        </property>
+		<property name="procedureSegment" type="java.lang.String">
+	            <column name="PROCEDURE_SEGMENT" length="256"/>
+        </property>
+		<property name="remarks" type="java.lang.String">
+	            <column name="REMARKS" length="256"/>
+        </property>
+        <property name="lastId" type="java.lang.Long">
+	            <column name="LAST_ID"/>
+        </property>
+    </class>
+</hibernate-mapping>

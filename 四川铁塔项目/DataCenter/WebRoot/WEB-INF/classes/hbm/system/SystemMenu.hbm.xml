@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.systemConfig.model.SystemMenu" table="S_SYSTEM_MENU">
+        <id name="ID" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="increment" />
+        </id>
+        <property name="MENU_NAME" type="java.lang.String">
+            <column name="MENU_NAME" length="50"/>
+        </property>
+        <property name="IS_LEAF" type="java.lang.String">
+            <column name="IS_LEAF" length="5" />
+        </property>
+        <property name="MENU_URL" type="java.lang.String">
+            <column name="MENU_URL" length="100"/>
+        </property>
+        <property name="IS_USING" type="java.lang.String">
+            <column name="IS_USING" length="5" />
+        </property>
+        <property name="MENU_PARENT" type="java.lang.Integer">
+            <column name="MENU_PARENT"/>
+        </property>
+        <property name="MENU_SORT" type="java.lang.Integer">
+            <column name="MENU_SORT"/>
+        </property>
+        <property name="ICON_NAME" type="java.lang.String">
+            <column name="ICON_NAME" length="50" />
+        </property>
+        <property name="MENU_TOKEN" type="java.lang.String">
+            <column name="MENU_TOKEN" length="50" />
+        </property>
+        <property name="IS_EXPORT" type="java.lang.String">
+            <column name="IS_EXPORT" length="5" />
+        </property>
+    </class>
+</hibernate-mapping>

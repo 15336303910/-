@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.function.rules.model.RuleDetail" table="RULE_DETAIL">
+        <id name="ID" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="increment" />
+        </id>
+        <property name="BIND_TABLE" type="java.lang.Integer">
+            <column name="BIND_TABLE"/>
+        </property>
+        <property name="RULE_NAME" type="java.lang.String">
+            <column name="RULE_NAME" length="100"/>
+        </property>
+        <property name="RULE_DESC" type="java.lang.String">
+            <column name="RULE_DESC" length="200"/>
+        </property>
+        <property name="RESOLVE_METHOD" type="java.lang.String">
+            <column name="RESOLVE_METHOD" length="200"/>
+        </property>
+        <property name="CON_EXPRESSION" type="java.lang.String">
+            <column name="CON_EXPRESSION" length="50"/>
+        </property>
+        <property name="RULE_STATE" type="java.lang.String">
+            <column name="RULE_STATE" length="5"/>
+        </property>
+        <property name="FILE_REPORT" type="java.lang.String">
+            <column name="FILE_REPORT" length="100"/>
+        </property>
+        <property name="CREATE_USER" type="java.lang.Integer">
+            <column name="CREATE_USER"/>
+        </property>
+        <property name="CREATE_TIME" type="java.util.Date">
+            <column name="CREATE_TIME"/>
+        </property>
+        <property name="LAST_ACTION_TIME" type="java.util.Date">
+            <column name="LAST_ACTION_TIME"/>
+        </property>
+        <property name="CLASS_NAME" type="java.lang.String">
+            <column name="CLASS_NAME" length="100"/>
+        </property>
+        <property name="RULE_TYPE" type="java.lang.String">
+            <column name="RULE_TYPE" length="20"/>
+        </property>
+        <property name="RULE_GRADE" type="java.lang.Integer">
+            <column name="RULE_GRADE"/>
+        </property>
+        <property name="RULE_VERSION" type="java.lang.String">
+            <column name="RULE_VERSION" length="50"/>
+        </property>
+    </class>
+</hibernate-mapping>

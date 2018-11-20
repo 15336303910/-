@@ -1,0 +1,62 @@
+package com.function.index.greyList.service;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import org.hibernate.HibernateException;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.orm.hibernate3.HibernateCallback;
+import org.springframework.orm.hibernate3.HibernateTemplate;
+import org.springframework.stereotype.Repository;
+
+import com.function.index.greyList.model.GreyList;
+
+/**
+ * 灰名单数据处理实现类
+ */
+@Repository("greyListService")
+public class GreyListService implements IGreyListService {
+	@Autowired
+	private HibernateTemplate ht;
+
+	@Override
+	public void insertGreyOrder(GreyList record) {
+		ht.save(record);
+	}
+
+	@Override
+	public void updateGreyOrder(GreyList record) {
+		ht.update(record);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<GreyList> getGreyListPage(final String hql, final Integer pageNum, final Integer pageSize) {
+		@SuppressWarnings("rawtypes")
+		List<GreyList> list = ht.executeFind(new HibernateCallback() {
+			public Object doInHibernate(Session session) throws HibernateException, SQLException {
+				Query query = session.createQuery(hql);
+				query.setFirstResult(pageNum);
+				query.setMaxResults(pageSize);
+				List<GreyList> list = query.list();
+				return list;
+			}
+		});
+
+		return list;
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<GreyList> getGreyList(String hql) {
+		return ht.find(hql);
+	}
+
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<GreyList> getGreyListById(String hql, Long id) {
+		return ht.find(hql, id);
+	}
+}

@@ -1,0 +1,85 @@
+.left{
+	margin:0;
+	width:192px;
+	height:100%;
+	border-right:1px solid #CCCCCC;#FFFFFF;
+	color:#000000;
+	font-size:14px;
+	text-align:center;
+}
+.menuContainer{
+	text-align:center;
+	width:192px;
+	padding-top:10px;
+}
+.mainMenu{
+	height:40px;
+	line-height:40px;
+	cursor:pointer;
+	font-size:13px;
+	position:relative;
+	border-bottom:#ccc 1px dotted;
+}
+.menu0{
+	position:absolute;
+	height:20px;
+	width:20px;
+	left:40px;
+	top:10px;
+	background:url(images/1.png);
+}
+.menu1{
+	position:absolute;
+	height:20px;
+	width:20px;
+	left:40px;
+	top:10px;
+	background:url(images/2.png);
+}
+.menu2{
+	position:absolute;
+	height:20px;
+	width:20px;
+	left:40px;
+	top:10px;
+	background:url(images/3.png);
+}
+.menu3{
+	position:absolute;
+	height:20px;
+	width:20px;
+	left:40px;
+	top:10px;
+	background:url(images/5.png);
+}
+.menu4{
+	position:absolute;
+	height:20px;
+	width:20px;
+	left:40px;
+	top:10px;
+	background:url(images/4.png);
+}
+.menu5{
+	position:absolute;
+	height:20px;
+	width:20px;
+	left:40px;
+	top:10px;
+	background:url(images/6.png);
+}
+.subMenu{
+	display:none;
+	cursor:pointer;
+	font-size:13px;
+}
+.subMenu ul{
+	margin:0;padding:0;
+}
+.subMenu li{
+	height:35px;
+	line-height:35px;
+	list-style:none;
+	border-bottom:#ccc 1px dotted;
+	text-align:center;
+}

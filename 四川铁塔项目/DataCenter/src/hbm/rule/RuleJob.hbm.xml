@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.function.rules.model.RuleJob" table="RULE_JOB">
+        <id name="ID" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="increment" />
+        </id>
+        <property name="RULE_ID" type="java.lang.Integer">
+            <column name="RULE_ID"/>
+        </property>
+        <property name="START_TIME" type="java.util.Date">
+            <column name="START_TIME"/>
+        </property>
+        <property name="END_TIME" type="java.util.Date">
+            <column name="END_TIME"/>
+        </property>
+        <property name="IS_FINISHED" type="java.lang.String">
+            <column name="IS_FINISHED" length="5"/>
+        </property>
+        <property name="TOKEN" type="java.lang.String">
+            <column name="TOKEN" length="50"/>
+        </property>
+        <property name="RECORD_TOTAL" type="java.lang.Integer">
+            <column name="RECORD_TOTAL"/>
+        </property>
+        <property name="FATUAL_TOTAL" type="java.lang.Integer">
+            <column name="FATUAL_TOTAL"/>
+        </property>
+        <property name="FATUAL_RATIO" type="java.lang.Double">
+            <column name="FATUAL_RATIO"/>
+        </property>
+        <property name="NORMAL_RATIO" type="java.lang.Double">
+            <column name="NORMAL_RATIO"/>
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>jstree basic demos</title>
+		<style>
+			html{
+				font-size:62.5%;
+			}
+			body{
+				font-size:14px;
+				font-size:1.4em;
+			}
+			.demo{
+				overflow:auto;
+				border:1px solid silver;
+				min-height:100px;
+			}
+		</style>
+		<link rel="stylesheet" href="./../../dist/themes/default/style.min.css" />
+	</head>
+	<body>
+		<div id="frmt" class="demo"></div>
+		<script src="http://www.jq22.com/jquery/1.11.1/jquery.min.js"></script>
+		<script src="./../../dist/jstree.min.js"></script>
+		<script>
+			$('#frmt').jstree({
+				'core':{
+					'data':[{
+						"text":"Root node",
+						"state":{
+							"opened":true
+						},
+						"children":[{
+							"text":"Child node 1",
+							"state":{
+								"selected":true
+							},
+							"icon":"jstree-file"
+						},{
+							"text":"Child node 2",
+							"state":{
+								"disabled":true
+							}
+						}]
+					}]
+				}
+			});
+		</script>
+	</body>
+</html>

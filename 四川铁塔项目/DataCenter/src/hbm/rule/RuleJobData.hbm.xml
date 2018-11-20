@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.function.rules.model.RuleJobData" table="RULE_JOB_DATA">
+        <id name="ID" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="increment" />
+        </id>
+        <property name="JOB_ITEM_ID" type="java.lang.Integer">
+        	<column name="JOB_ITEM_ID"/>
+        </property>
+        <property name="PRIMARY_VALUE" type="java.lang.String">
+            <column name="PRIMARY_VALUE" length="100"/>
+        </property>
+        <property name="NAME_VALUE" type="java.lang.String">
+            <column name="NAME_VALUE" length="2000"/>
+        </property>
+        <property name="COLUMN_VALUE" type="java.lang.String">
+            <column name="COLUMN_VALUE" length="200"/>
+        </property>
+        <property name="PROBLEM_DESC" type="java.lang.String">
+            <column name="PROBLEM_DESC" length="200"/>
+        </property>        
+    </class>
+</hibernate-mapping>

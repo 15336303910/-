@@ -1,0 +1,10 @@
+.txtBox{
+	border:0px;
+}
+thead th{
+	text-align:center;
+	font-weight:normal;
+}
+.dataTables_wrapper{
+	border:0px;
+}

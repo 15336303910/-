@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.systemConfig.model.SystemOrganization" table="S_SYSTEM_ORGANIZATION">
+        <id name="ID" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="increment" />
+        </id>
+        <property name="ORGANIZATION_NAME" type="java.lang.String">
+            <column name="ORGANIZATION_NAME" length="50"/>
+        </property>
+        <property name="ORGANIZATION_DESC" type="java.lang.String">
+            <column name="ORGANIZATION_DESC" length="200" />
+        </property>
+        <property name="ORGANIZATION_LEVEL" type="java.lang.String">
+            <column name="ORGANIZATION_LEVEL" length="50"/>
+        </property>
+        <property name="PARENT_CODE" type="java.lang.Integer">
+            <column name="PARENT_CODE"/>
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.function.compare.model.CompareDetail" table="COMPARE_DETAIL">
+        <id name="ID" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="increment"/>
+        </id>
+        <property name="RULE_CODE" type="java.lang.String">
+            <column name="RULE_CODE" length="50"/>
+        </property>
+        <property name="RULE_NAME" type="java.lang.String">
+            <column name="RULE_NAME" length="100"/>
+        </property>
+        <property name="RULE_DESC" type="java.lang.String">
+            <column name="RULE_DESC" length="300"/>
+        </property>
+        <property name="CREATE_DATE" type="java.util.Date">
+            <column name="CREATE_DATE"/>
+        </property>
+        <property name="LAST_ACTION_DATE" type="java.util.Date">
+            <column name="LAST_ACTION_DATE"/>
+        </property>
+        <property name="A_TABLE_ID" type="java.lang.Integer">
+            <column name="A_TABLE_ID"/>
+        </property>
+        <property name="Z_TABLE_ID" type="java.lang.Integer">
+            <column name="Z_TABLE_ID"/>
+        </property>
+        <property name="IS_A_ONLY" type="java.lang.String">
+            <column name="IS_A_ONLY" length="5"/>
+        </property>
+        <property name="IS_Z_ONLY" type="java.lang.String">
+            <column name="IS_Z_ONLY" length="5"/>
+        </property>
+        <property name="IS_UNIFORM" type="java.lang.String">
+            <column name="IS_UNIFORM" length="5"/>
+        </property>
+        <property name="IS_A_FATUAL" type="java.lang.String">
+            <column name="IS_A_FATUAL" length="5"/>
+        </property>
+        <property name="IS_Z_FATUAL" type="java.lang.String">
+            <column name="IS_Z_FATUAL" length="5"/>
+        </property>
+        <property name="IS_QUARTZ" type="java.lang.String">
+            <column name="IS_QUARTZ" length="5"/>
+        </property>
+        <property name="QUARTZ_EXPRESS" type="java.lang.String">
+            <column name="QUARTZ_EXPRESS" length="50"/>
+        </property>
+        <property name="IS_USING" type="java.lang.String">
+            <column name="IS_USING" length="5"/>
+        </property>
+        <property name="IS_INCREASE" type="java.lang.String">
+            <column name="IS_INCREASE" length="5"/>
+        </property>
+    </class>
+</hibernate-mapping>

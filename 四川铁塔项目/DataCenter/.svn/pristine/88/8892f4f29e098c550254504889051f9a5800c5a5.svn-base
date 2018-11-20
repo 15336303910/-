@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.function.rules.model.RuleQuartz" table="RULE_EXEC_QUARTZ">
+        <id name="ID" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="increment" />
+        </id>
+        <property name="BELONG_RULE" type="java.lang.Integer">
+            <column name="BELONG_RULE"/>
+        </property>        
+        <property name="CIRCLE_TYPE" type="java.lang.String">
+            <column name="CIRCLE_TYPE" length="10"/>
+        </property>
+        <property name="DAY_OF_WEEK" type="java.lang.String">
+            <column name="DAY_OF_WEEK" length="10"/>
+        </property>
+        <property name="DAY_OF_MONTH" type="java.lang.String">
+            <column name="DAY_OF_MONTH" length="10"/>
+        </property>
+        <property name="HOUR_VAR" type="java.lang.String">
+            <column name="HOUR_VAR" length="10"/>
+        </property>
+        <property name="MINUTE_VAR" type="java.lang.String">
+            <column name="MINUTE_VAR" length="10"/>
+        </property>
+        <property name="SECOND_VAR" type="java.lang.String">
+            <column name="SECOND_VAR" length="10"/>
+        </property>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+	"-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="com.function.nettool.model.NetToolDetail" table="NET_TOOL_DETAIL">
+        <id name="ID" type="java.lang.Integer">
+            <column name="ID" />
+            <generator class="increment"/>
+        </id>
+        <property name="APP_ICON" type="java.lang.String">
+            <column name="APP_ICON" length="100"/>
+        </property>
+        <property name="APP_NAME" type="java.lang.String">
+            <column name="APP_NAME" length="100"/>
+        </property>
+        <property name="APP_URL" type="java.lang.String">
+            <column name="APP_URL" length="200"/>
+        </property>
+        <property name="PUBLISH_USER_CODE" type="java.lang.Integer">
+            <column name="PUBLISH_USER_CODE"/>
+        </property>
+        <property name="PUBLISH_DATE" type="java.util.Date">
+            <column name="PUBLISH_DATE"/>
+        </property>
+        <property name="APP_VERSION" type="java.lang.String">
+            <column name="APP_VERSION" length="50"/>
+        </property>
+        <property name="APP_DESC" type="java.lang.String">
+            <column name="APP_DESC" length="1000"/>
+        </property>
+        <property name="APP_LANGUAGE" type="java.lang.String">
+            <column name="APP_LANGUAGE" length="20"/>
+        </property>
+        <property name="SEARCH_KEY" type="java.lang.String">
+            <column name="SEARCH_KEY" length="200"/>
+        </property>
+        <property name="OTHER_DESC" type="java.lang.String">
+            <column name="OTHER_DESC" length="1000"/>
+        </property>
+        <property name="APP_DESC_IMAGE" type="java.lang.String">
+            <column name="APP_DESC_IMAGE" length="100"/>
+        </property>
+        <property name="IS_EXPORT" type="java.lang.String">
+            <column name="IS_EXPORT" length="10"/>
+        </property>
+        <property name="IS_DOWNLOAD" type="java.lang.String">
+            <column name="IS_DOWNLOAD" length="5"/>
+        </property>
+        <property name="TOOL_NAME" type="java.lang.String">
+            <column name="TOOL_NAME" length="100"/>
+        </property>
+    </class>
+</hibernate-mapping>
